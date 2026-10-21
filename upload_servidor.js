@@ -1,4 +1,4 @@
-/* Camada de dados da Torre v2: o HISTÓRICO fica no servidor (PostgreSQL), não no navegador. */
+/* Camada de dados da Torre v2 */
 (function () {
   "use strict";
   const $$ = (i) => document.getElementById(i); const on = (id, ev, fn) => { const el = $$(id); if (el) el.addEventListener(ev, fn); };
@@ -7,7 +7,8 @@
   const VAZIO_QA = clone(window.META ? META.qa : {}), HOL_BASE = clone(window.HOL || []);
   const trocar = (o, n) => { if (!o) return; Object.keys(o).forEach((k) => delete o[k]); Object.assign(o, n); };
   const trocarLista = (l, n) => { if (!l) return; l.length = 0; (n || []).forEach((x) => l.push(x)); };
-  const api = () => ((($$("fsv") && $$("fsv").value) || "").trim() || localStorage.getItem("torreApi") || window.TORRE_API || "").replace(/\/+$/, ""); const token = () => ((($$("ftk") && $$("ftk").value) \vert{}\vert{} sessionStorage.getItem("torreToken") \vert{}\vert{} "")).trim(); const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); const mb = (b) => (b / 1048576).toLocaleString("pt-BR", { maximumFractionDigits: 1 }); let ESTADO = null, EM = null, SNAPS = [];    function msg(html, tipo) { const e = $$("fs");
+  
+  const api = () => ((($$("fsv") && $$("fsv").value) || "").trim() || localStorage.getItem("torreApi") || window.TORRE_API || "").replace(/\/+$/, ""); const token = () => ((($$("ftk") && $$("ftk").value) \vert{}\vert{} sessionStorage.getItem("torreToken") \vert{}\vert{} "")).trim(); const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); const mb = (b) => (b / 1048576).toLocaleString("pt-BR", { maximumFractionDigits: 1 });  let ESTADO = null, EM = null, SNAPS = [];    function msg(html, tipo) { const e = $$("fs");
     if (!e) return;
     e.className = "note " + (tipo || "");
     e.innerHTML = html;
@@ -46,6 +47,7 @@
     trocar(SN, {}); SNX.clear(); trocar(AG, {}); trocar(REM, {}); trocarLista(Z65, []); trocarLista(HOL, clone(HOL_BASE));
     META.qa = clone(VAZIO_QA); META.val = {}; META.fr1 = {}; META.fr2 = {};
   }
+  
   async function recarregar(em) {
     EM = em || null; window.TORRE_HISTORICO = !!EM;
     const q = EM ? "?em=" + encodeURIComponent(EM) : "";
@@ -59,6 +61,7 @@
     trocar(AG, a.AG || {}); trocarLista(Z65, a.Z65 || []); trocar(REM, a.REM || {});
     const rec = [...SNX].sort().slice(-MAXMEM); await window.torreCarregar(rec, rec.slice(-2));
   }
+  
   function situacao() {
     if ($$("fp")) $$("fp").disabled = !!EM;
     if ($$("fx")) $$("fx").disabled = !!EM;
@@ -76,7 +79,7 @@
         (ar && ar.bytes != null ? `banco: ${mb(ar.bytes)} MB (${ar.percentual}%) · ` : "") +
         (u ? `última atualização: ${u.ok ? "✅" : "❌"} ${esc(u.em.replace("T", " ").slice(0, 16))} UTC` : "");
     }
-    const s = $$("fsvn"); if (s) s.textContent = (api() ? "Servidor: " + api() : "Servidor: não informado."); } const dthm = (iso) => new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); async function carregarSnaps() { try { SNAPS = (await req("/api/v2/snapshots?limite=200")).snapshots; const o = $$("fem"); if (!o) return;
+    const s = $$("fsvn"); if (s) s.textContent = (api() ? "Servidor: " + api() : "Servidor: não informado."); }  const dthm = (iso) => new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); async function carregarSnaps() { try { SNAPS = (await req("/api/v2/snapshots?limite=200")).snapshots; const o = $$("fem"); if (!o) return;
       o.innerHTML = '<option value="">Estado atual</option>' + SNAPS.map((s) => `<option value="${esc(s.criado_em)}"${EM === s.criado_em ? " selected" : ""}>${esc(dthm(s.criado_em))}</option>`).join("");
     } catch (e) {}
   }
@@ -141,7 +144,7 @@
     if (btn) btn.disabled = true;
     msg("⏳ Enviando e validando…");
     try {
-      const j = await req("/api/v2/atualizar", { method: "POST", body: fd, timeout: 180000 });
+      await req("/api/v2/atualizar", { method: "POST", body: fd, timeout: 180000 });
       await recarregar(); if (window.torreBoot) torreBoot(); situacao();
       msg("✅ Atualizado com sucesso!", "ok");
       ["fc", "fa"].forEach((i) => { if ($$(i))$$(i).value = ""; });
