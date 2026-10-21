@@ -8,88 +8,20 @@
    - Armazenamento local: apenas CONFIGURAÇÃO (endereço do servidor) e a chave de acesso da SESSÃO (some ao fechar a aba). Nenhum dado operacional. */
 (function () {
   "use strict";
-  const $$ = (i) => document.getElementById(i);
-  const MAXMEM = Math.max(2, +window.TORRE_CORTES_EM_MEMORIA || 10);
-  const clone = (x) => JSON.parse(JSON.stringify(x));
-  const VAZIO_QA = clone(META.qa), HOL_BASE = clone(HOL);
-  const trocar = (o, n) => { Object.keys(o).forEach((k) => delete o[k]); Object.assign(o, n); };
-  const trocarLista = (l, n) => { l.length = 0; n.forEach((x) => l.push(x)); };
-  const api = () => (($$("fsv").value || "").trim() || localStorage.getItem("torreApi") || window.TORRE_API || "").replace(/\/+$/, "");
-  const token = () => ($$("ftk").value || sessionStorage.getItem("torreToken") || "").trim();
+  const $$ = (i) => document.getElementById(i); const MAXMEM = Math.max(2, +window.TORRE_CORTES_EM_MEMORIA \vert{}\vert{} 10); const clone = (x) => JSON.parse(JSON.stringify(x)); const VAZIO_QA = clone(META.qa), HOL_BASE = clone(HOL); const trocar = (o, n) => { Object.keys(o).forEach((k) => delete o[k]); Object.assign(o, n); }; const trocarLista = (l, n) => { l.length = 0; n.forEach((x) => l.push(x)); }; const api = () => (($$("fsv").value || "").trim() || localStorage.getItem("torreApi") || window.TORRE_API || "").replace(/\/+$/, ""); const token = () => ($$("ftk").value || sessionStorage.getItem("torreToken") || "").trim();
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const mb = (b) => (b / 1048576).toLocaleString("pt-BR", { maximumFractionDigits: 1 });
   let ESTADO = null, EM = null, SNAPS = [];
 
-  function msg(html, tipo) { const e = $$("fs"); e.className = "note " + (tipo || ""); e.innerHTML = html; }
-
-  /* ---------- requisições ---------- */
-  class ErroApi extends Error { constructor(m, status, corpo) { super(m); this.status = status; this.corpo = corpo; } }
-  async function req(caminho, opc) {
-    opc = opc || {};
-    if (!api()) throw new ErroApi("Informe o endereço do servidor (Render).", 0);
-    if (!token()) throw new ErroApi("Informe a chave de acesso.", 401);
-    const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), opc.timeout || 90000);   // o plano gratuito pode levar ~1 min para acordar
-    try {
-      const r = await fetch(api() + caminho, { method: opc.method || "GET", body: opc.body, signal: ctl.signal, headers: { "X-Torre-Token": token(), ...(opc.headers || {}) } });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok) throw new ErroApi(j.erro || j.error || "Erro HTTP " + r.status, r.status, j);
-      return j;
-    } catch (e) {
-      if (e instanceof ErroApi) throw e;
-      throw new ErroApi(e.name === "AbortError" ? "O servidor demorou demais para responder (pode estar acordando; tente novamente em 1 minuto)." : "Não consegui falar com o servidor (endereço errado, servidor iniciando ou bloqueio de CORS).", 0);
-    } finally { clearTimeout(tm); }
-  }
-
-  /* ---------- memória enxuta: só alguns cortes ficam carregados; os demais vêm do servidor sob demanda ---------- */
-  const USO = {};
-  function evict(keep) {
-    const ks = Object.keys(SN); if (ks.length <= MAXMEM) return;
-    const prot = new Set((keep || []).filter(Boolean)); if (snk) prot.add(snk);
-    ks.filter((k) => !prot.has(k)).sort((a, b) => (USO[a] || 0) - (USO[b] || 0)).slice(0, ks.length - MAXMEM).forEach((k) => delete SN[k]);
-  }
-  window.torreCarregar = async (need, keep) => {
-    for (const k of need) { if (SN[k] || !SNX.has(k)) continue; SN[k] = await req("/api/v2/corte/" + encodeURIComponent(k)); USO[k] = Date.now(); }
-    (keep || []).forEach((k) => { if (k) USO[k] = Date.now(); });
-    evict(keep);
-  };
-
-  /* ---------- carregar o estado do servidor ---------- */
-  function aplicarVazio() {
-    trocar(SN, {}); SNX.clear(); trocar(AG, {}); trocar(REM, {}); trocarLista(Z65, []); trocarLista(HOL, clone(HOL_BASE));
-    META.qa = clone(VAZIO_QA); META.val = {}; META.fr1 = {}; META.fr2 = {};
-  }
-  async function recarregar(em) {
-    EM = em || null; window.TORRE_HISTORICO = !!EM;
-    const q = EM ? "?em=" + encodeURIComponent(EM) : "";
-    const ix = await req("/api/v2/estado" + q); ESTADO = ix;
-    const a = ix.cortes.length || ix.agenda_dias.length ? await req("/api/v2/agenda" + q) : { AG: {}, Z65: [], REM: {} };
-    if (!EM) await carregarAlertas();
-    aplicarVazio();
-    ix.cortes.forEach((c) => SNX.add(c.chave));
-    META.val = ix.meta.val || {}; META.fr1 = ix.meta.fr1 || {}; META.fr2 = ix.meta.fr2 || {}; META.qa = ix.qa || clone(VAZIO_QA);
-    if (ix.hol && ix.hol.length) trocarLista(HOL, ix.hol);
-    trocar(AG, a.AG || {}); trocarLista(Z65, a.Z65 || []); trocar(REM, a.REM || {});
-    const rec = [...SNX].sort().slice(-MAXMEM); await window.torreCarregar(rec, rec.slice(-2));
-  }
-  function situacao() {
-    $$("fp").disabled = !!EM; $$("fx").disabled = !!EM;
-    const ix = ESTADO; if (!ix) { $$("fe").textContent = "Sem conexão com o servidor."; $$("fst").textContent = ""; return; }
-    const ks = ix.cortes.map((c) => c.chave).sort(), ds = ix.agenda_dias;
-    $$("fe").textContent = (ks.length || ds.length)
+  function msg(html, tipo) { const e = $$("fs"); e.className = "note " + (tipo \vert{}\vert{} ""); e.innerHTML = html; }    /* ---------- requisições ---------- */ class ErroApi extends Error { constructor(m, status, corpo) { super(m); this.status = status; this.corpo = corpo; } } async function req(caminho, opc) { opc = opc \vert{}\vert{} {}; if (!api()) throw new ErroApi("Informe o endereço do servidor (Render).", 0); if (!token()) throw new ErroApi("Informe a chave de acesso.", 401); const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), opc.timeout \vert{}\vert{} 90000);   // o plano gratuito pode levar ~1 min para acordar try { const r = await fetch(api() + caminho, { method: opc.method \vert{}\vert{} "GET", body: opc.body, signal: ctl.signal, headers: { "X-Torre-Token": token(), ...(opc.headers \vert{}\vert{} {}) } }); const j = await r.json().catch(() => ({})); if (!r.ok) throw new ErroApi(j.erro \vert{}\vert{} j.error \vert{}\vert{} "Erro HTTP " + r.status, r.status, j); return j; } catch (e) { if (e instanceof ErroApi) throw e; throw new ErroApi(e.name === "AbortError" ? "O servidor demorou demais para responder (pode estar acordando; tente novamente em 1 minuto)." : "Não consegui falar com o servidor (endereço errado, servidor iniciando ou bloqueio de CORS).", 0); } finally { clearTimeout(tm); } }    /* ---------- memória enxuta: só alguns cortes ficam carregados; os demais vêm do servidor sob demanda ---------- */ const USO = {}; function evict(keep) { const ks = Object.keys(SN); if (ks.length <= MAXMEM) return; const prot = new Set((keep \vert{}\vert{} []).filter(Boolean)); if (snk) prot.add(snk); ks.filter((k) => !prot.has(k)).sort((a, b) => (USO[a] \vert{}\vert{} 0) - (USO[b] \vert{}\vert{} 0)).slice(0, ks.length - MAXMEM).forEach((k) => delete SN[k]); } window.torreCarregar = async (need, keep) => { for (const k of need) { if (SN[k] \vert{}\vert{} !SNX.has(k)) continue; SN[k] = await req("/api/v2/corte/" + encodeURIComponent(k)); USO[k] = Date.now(); } (keep \vert{}\vert{} []).forEach((k) => { if (k) USO[k] = Date.now(); }); evict(keep); };    /* ---------- carregar o estado do servidor ---------- */ function aplicarVazio() { trocar(SN, {}); SNX.clear(); trocar(AG, {}); trocar(REM, {}); trocarLista(Z65, []); trocarLista(HOL, clone(HOL_BASE)); META.qa = clone(VAZIO_QA); META.val = {}; META.fr1 = {}; META.fr2 = {}; } async function recarregar(em) { EM = em \vert{}\vert{} null; window.TORRE_HISTORICO = !!EM; const q = EM ? "?em=" + encodeURIComponent(EM) : ""; const ix = await req("/api/v2/estado" + q); ESTADO = ix; const a = ix.cortes.length \vert{}\vert{} ix.agenda_dias.length ? await req("/api/v2/agenda" + q) : { AG: {}, Z65: [], REM: {} }; if (!EM) await carregarAlertas(); aplicarVazio(); ix.cortes.forEach((c) => SNX.add(c.chave)); META.val = ix.meta.val \vert{}\vert{} {}; META.fr1 = ix.meta.fr1 \vert{}\vert{} {}; META.fr2 = ix.meta.fr2 \vert{}\vert{} {}; META.qa = ix.qa \vert{}\vert{} clone(VAZIO_QA); if (ix.hol && ix.hol.length) trocarLista(HOL, ix.hol); trocar(AG, a.AG \vert{}\vert{} {}); trocarLista(Z65, a.Z65 \vert{}\vert{} []); trocar(REM, a.REM \vert{}\vert{} {}); const rec = [...SNX].sort().slice(-MAXMEM); await window.torreCarregar(rec, rec.slice(-2)); } function situacao() { $$("fp").disabled = !!EM; $$("fx").disabled = !!EM; const ix = ESTADO; if (!ix) { $$("fe").textContent = "Sem conexão com o servidor."; $$("fst").textContent = ""; return; } const ks = ix.cortes.map((c) => c.chave).sort(), ds = ix.agenda_dias; $$("fe").textContent = (ks.length || ds.length)
       ? `Histórico no servidor: ${ks.length} corte(s)${ks.length ? " (" + fdy(ks[0].slice(0, 10)) + " a " + fdy(ks[ks.length - 1].slice(0, 10)) + ")" : ""}; agenda ${ds.length ? fdy(ds[0]) + " a " + fdy(ds[ds.length - 1]) : "não carregada"}.`
       : "O servidor ainda não tem dados.";
-    const ar = ix.armazenamento, u = ix.ultimas_atualizacoes && ix.ultimas_atualizacoes[0], f = ix.frete;
+    const ar = ix.armazenamento, u = ix.ultimas_atualizacoes && ix.ultimas_atualizacoes[0];
     $$("fst").innerHTML = `Memória: ${Object.keys(SN).length} de ${SNX.size} corte(s) abertos (máx. ${MAXMEM}) · ` +
       (ar && ar.bytes != null ? `banco: ${mb(ar.bytes)} MB de ${ar.limite_mb} MB (${ar.percentual}%)${ar.alerta ? ' <b style="color:#fb923c">⚠️ perto do limite do plano gratuito</b>' : ""} · ` : "") +
-      `retenção do histórico: ${ix.config.retencao_dias} dias (cortes com mais de ${ix.config.arquivar_apos_dias} dias ficam compactados e sem nome de cliente) · ` +
-      (f ? `tabela de frete: ${esc(f.arquivo || "")}` : "sem tabela de frete") + (u ? ` · última atualização: ${u.ok ? "✅" : "❌ falhou"} ${esc(u.em.replace("T", " ").slice(0, 16))} UTC` : "");
-    const s = $$("fsvn"); if (s) s.textContent = (api() ? "Servidor: " + api() : "Servidor: não informado.") + (ix.config && ix.config.regras_versao ? " · regras de cálculo v" + ix.config.regras_versao : "");
-  }
-  const dthm = (iso) => new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
-  async function carregarSnaps() {
-    try {
-      SNAPS = (await req("/api/v2/snapshots?limite=200")).snapshots;
-      const o = $$("fem"); if (!o) return;
+      `retenção do histórico: ${ix.config.retencao_dias} dias (cortes com mais de ${ix.config.arquivar_apos_dias} dias ficam compactados e sem nome de cliente)` +
+      (u ? ` · última atualização: ${u.ok ? "✅" : "❌ falhou"} ${esc(u.em.replace("T", " ").slice(0, 16))} UTC` : "");
+    const s = $$("fsvn"); if (s) s.textContent = (api() ? "Servidor: " + api() : "Servidor: não informado.") + (ix.config && ix.config.regras_versao ? " · regras de cálculo v" + ix.config.regras_versao : ""); } const dthm = (iso) => new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }); async function carregarSnaps() { try { SNAPS = (await req("/api/v2/snapshots?limite=200")).snapshots; const o = $$("fem"); if (!o) return;
       o.innerHTML = '<option value="">Estado atual (último snapshot válido)</option>' + SNAPS.map((s) => `<option value="${esc(s.criado_em)}"${EM === s.criado_em ? " selected" : ""}>${esc(dthm(s.criado_em))} · ${esc(s.tipo)}${s.corte ? " · corte " + esc(s.corte.replace("|", " ")) : ""}</option>`).join("");
     } catch (e) { /* sem snapshots ainda */ }
   }
@@ -110,7 +42,6 @@
     return mudou;
   }
   async function carregarAlertas() {
-    // migração única: o histórico que este navegador já tinha (validado) vai para o servidor e a cópia local deixa de ser a fonte
     const locais = Object.values(LOG).filter((e) => e && e.k);
     if (locais.length && !sessionStorage.getItem("torreLogMigrado")) {
       await req("/api/v2/alertas", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ entradas: locais.map((e) => ({ k: e.k, t: e.t, l: e.l, c: e.c, inc: e.inc, ctx: e.ctx, det: e.det, ack: e.ack, res: e.res })) }) }).catch(() => {});
@@ -123,7 +54,7 @@
     if (window.TORRE_HISTORICO) return;
     const lat = ctxLatest(), ent = [];
     for (const e of Object.values(LOG)) {
-      if (e.ctx !== lat && !SRVK.has(e.k)) continue;       // consulta a um dia antigo não cria ocorrência nova no histórico compartilhado
+      if (e.ctx !== lat && !SRVK.has(e.k)) continue;
       const s = assin(e); if (ENV[e.k] === s) continue;
       ent.push({ k: e.k, t: e.t, l: e.l, c: e.c, inc: e.inc, ctx: e.ctx, det: e.det, ack: e.ack, res: e.res, ausente: !!e.ns && !e.res }); ENV[e.k] = s;
     }
@@ -152,59 +83,31 @@
 
   /* ---------- campos ---------- */
   $$("fsv").value = localStorage.getItem("torreApi") || window.TORRE_API || "";
-  $$("ftk").value = sessionStorage.getItem("torreToken") || "";
-  $$("fsv").addEventListener("change", () => { localStorage.setItem("torreApi", $$("fsv").value.trim()); });
-  let TOKEN_OK = null;   // evita recarregar tudo de novo quando o campo dispara "change" ao perder o foco com a mesma chave já validada
-  $$("ftk").addEventListener("change", () => { const v = $$("ftk").value.trim(); sessionStorage.setItem("torreToken", v); if (ESTADO && v === TOKEN_OK) return; entrar(false); });
-  function inferirCorte(nome) {
-    const m = nome.match(/(\d{2})-(\d{2})[_ -]?(AM|PM)/i) || nome.match(/(\d{2})(\d{2})[_ -]?(AM|PM)/i);
-    if (m) { $$("fcd").value = `${new Date().getFullYear()}-${m[2]}-${m[1]}`; $$("fct").value = m[3].toUpperCase(); }
-  }
-  $$("fc").addEventListener("change", () => { const f = $$("fc").files[0]; if (f) inferirCorte(f.name); });
-
-  $$("ft").addEventListener("click", async () => {
+  $$("ftk").value = sessionStorage.getItem("torreToken") \vert{}\vert{} ""; $$
+("fsv").addEventListener("change", () => { localStorage.setItem("torreApi", $$("fsv").value.trim()); }); let TOKEN_OK = null; $$("ftk").addEventListener("change", () => { const v = $$("ftk").value.trim(); sessionStorage.setItem("torreToken", v); if (ESTADO && v === TOKEN_OK) return; entrar(false); }); function inferirCorte(nome) { const m = nome.match(/(\d{2})-(\d{2})[_ -]?(AM\vert{}PM)/i) \vert{}\vert{} nome.match(/(\d{2})(\d{2})[_ -]?(AM\vert{}PM)/i); if (m) { $$("fcd").value = `${new Date().getFullYear()}-${m[2]}-${m[1]}`; $$("fct").value = m[3].toUpperCase(); } } $$("fc").addEventListener("change", () => { const f = $$("fc").files[0]; if (f) inferirCorte(f.name); });    $$("ft").addEventListener("click", async () => {
     msg("⏳ Testando a conexão…");
     try {
       const r = await fetch(api() + "/api/v2/saude"); const j = await r.json();
       msg(`${j.banco === "ok" ? "✅" : "⚠️"} Servidor ativo (${esc(j.versao)}) · banco: ${esc(j.banco)} · acesso ${j.acesso_configurado ? "configurado" : "NÃO configurado"} · administração ${j.admin_configurado ? "configurada" : "NÃO configurada"}.`, j.banco === "ok" ? "ok" : "err");
     } catch (e) { msg("❌ Sem resposta: o servidor pode estar iniciando (~1 min), o endereço pode estar errado ou o CORS bloqueou.", "err"); }
   });
-  $$("fr").addEventListener("click", () => entrar(false, null));
-  $$("fem").addEventListener("change", () => entrar(false, $$("fem").value || null));
-  $$("ffv").addEventListener("click", async () => {
-    try {
-      const f = (await req("/api/v2/frete")).frete;
-      if (!f) { msg("Nenhuma tabela de frete foi carregada ainda.", ""); return; }
-      const sv = { alta: [], "média": [], baixa: [] }; (f.achados || []).forEach((a) => (sv[a.severidade] || sv.baixa).push(a));
-      const li = (arr) => arr.slice(0, 10).map((a) => `<li>${esc(a.mensagem)}</li>`).join("");
-      msg(`📋 <b>Validação da tabela de frete</b> — ${esc(f.arquivo || "")} (${esc(dthm(f.em))}): ${f.resumo.outbound_linhas} linhas no Outbound · <b>${f.resumo.tarifas_ativas_confirmadas}</b> tarifas ativas confirmadas · ${f.sem_status_nao_ativas} linhas sem status (NÃO tratadas como ativas) · ${f.resumo.capacidades_inferidas || 0} capacidade(s) inferida(s) e rotulada(s).` +
-        `<ul><li><b>Atenção alta (${sv.alta.length}):</b><ul>${li(sv.alta)}</ul></li><li><b>Média (${sv["média"].length}):</b><ul>${li(sv["média"])}</ul></li><li>Baixa: ${sv.baixa.length} ponto(s)</li></ul>` +
-        `<small>${esc(f.aviso)} A aba FRETE mostra só o que está registrado na ZS65; a tabela contratual não é usada nos números porque não comprova status, vigência e unidade para todas as linhas.</small>`, "");
-    } catch (e) { msg("❌ " + esc(e.message), "err"); }
-  });
-
-  /* ---------- atualizar ---------- */
-  $$("fp").addEventListener("click", async () => {
-    const fc = $$("fc").files[0], fa = $$("fa").files[0], ff = $$("ff").files[0], btn = $$("fp");
-    if (!fc && !fa && !ff) { msg("Escolha ao menos uma planilha (carteira, agendamento e/ou tabela de frete).", "err"); return; }
-    if (fc && !$$("fcd").value) { msg("Informe a data do corte da carteira.", "err"); return; }
+  $$("fr").addEventListener("click", () => entrar(false, null)); $$
+("fem").addEventListener("change", () => entrar(false, $$("fem").value \vert{}\vert{} null));    /* ---------- atualizar ---------- */ $$("fp").addEventListener("click", async () => {
+    const fc = $$("fc").files[0], fa = $$("fa").files[0], btn = $$("fp"); if (!fc && !fa) { msg("Escolha ao menos uma planilha (carteira ou agendamento).", "err"); return; } if (fc && !$$("fcd").value) { msg("Informe a data do corte da carteira.", "err"); return; }
     const fd = new FormData();
     if (fc) { fd.append("carteira", fc); fd.append("corte", $$("fcd").value); fd.append("turno", $$("fct").value); }
     if (fa) fd.append("agendamento", fa);
-    if (ff) fd.append("frete", ff);
     btn.disabled = true; msg("⏳ Enviando e validando… se algo falhar, o último estado válido do servidor é mantido.");
     try {
       const j = await req("/api/v2/atualizar", { method: "POST", body: fd, timeout: 180000 });
       const r = j.resumo || {}, partes = [];
       if (r.carteira) partes.push(`carteira ${fdy(r.carteira.chave.slice(0, 10))} ${r.carteira.chave.endsWith("AM") ? "manhã" : "tarde"}: ${r.carteira.remessas.toLocaleString("pt-BR")} remessas`);
       if (r.agenda) partes.push(`agendamento: ${r.agenda.dias.length} dia(s), ${r.agenda.cargas.toLocaleString("pt-BR")} cargas`);
-      if (r.frete) partes.push(`tabela de frete: ${r.frete.outbound_linhas} linhas, ${r.frete.tarifas_ativas_confirmadas} tarifas ativas confirmadas, ${r.frete.achados} ponto(s) de atenção`);
       const av = [...(j.avisos || [])];
       if (r.retencao && (r.retencao.cortes || r.retencao.agenda_dias)) av.push(`Retenção: ${r.retencao.cortes} corte(s) e ${r.retencao.agenda_dias} dia(s) de agenda antigos removidos.`);
-      if (j.achados_frete) { const alta = j.achados_frete.filter((a) => a.severidade === "alta"); if (alta.length) av.push("Tabela de frete — atenção alta: " + alta.map((a) => esc(a.mensagem)).join(" · ")); }
       await recarregar(); torreBoot(); situacao();
       msg("✅ Atualizado — " + partes.join(" · ") + (av.length ? "<ul>" + av.map((a) => "<li>" + (a.startsWith("<") ? a : esc(a)) + "</li>").join("") + "</ul>" : ""), "ok");
-      ["fc", "fa", "ff"].forEach((i) => ($$(i).value = ""));
+      ["fc", "fa"].forEach((i) => ($$(i).value = ""));
     } catch (e) {
       msg("❌ " + esc(e.message) + (e.status === 422 || e.status === 500 ? " <b>Nenhum dado foi alterado: o último estado válido foi preservado.</b>" : ""), "err");
     } finally { btn.disabled = false; }
@@ -220,11 +123,11 @@
       <div class="note" id="aprev">Calculando o que seria apagado…</div>
       <label>Senha de administrador<input type="password" id="asn" autocomplete="off"></label>
       <label>Para confirmar, digite exatamente: <b id="afr"></b><input id="acf" autocomplete="off"></label>
-      <div class="note">A senha é conferida no servidor. Esta ação não pode ser desfeita. A tabela de frete, o histórico de atualizações e a auditoria são preservados.</div>
+      <div class="note">A senha é conferida no servidor. Esta ação não pode ser desfeita. O histórico de atualizações e a auditoria são preservados.</div>
       <div class="admbt"><button type="submit" id="aok" disabled>Apagar definitivamente</button><button type="button" data-x>Cancelar</button></div></form>`;
     document.body.appendChild(d);
     const q = (s) => d.querySelector(s), escopo = () => (q("#aesc").value === "corte" ? "corte:" + q("#ac").value : q("#aesc").value);
-    let seqPrevia = 0;     // respostas fora de ordem NUNCA podem mostrar a prévia de outra seleção (a operação é irreversível)
+    let seqPrevia = 0;
     const atualizar = async () => {
       q("#acw").style.display = q("#aesc").value === "corte" ? "" : "none";
       const e = escopo(), meu = ++seqPrevia; q("#afr").textContent = "APAGAR " + e; q("#acf").value = ""; q("#aok").disabled = true; q("#aprev").textContent = "Calculando o que seria apagado em " + e + "…";
