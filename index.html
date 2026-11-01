@@ -1,7 +1,7 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Torre de Controle Logística</title>
 <link rel="stylesheet" href="styles.css"></head><body>
 <header class="hd2">
-<!-- Botão de 3 traços ocultado com segurança para não quebrar o app.js -->
+<!-- Botão de 3 traços ocultado com segurança -->
 <button id="mnu" class="ico" aria-label="Menu" title="Menu" style="display:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
 <div class="brand">Torre de Controle</div>
 <form class="srch" id="gsf" role="search"><input id="gq" type="search" placeholder="Buscar pedido, cliente, município ou transporte" autocomplete="off" aria-label="Buscar"><button type="submit" id="gb" aria-label="Buscar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
@@ -16,10 +16,10 @@
 <!-- 3. Botão de Carregar Planilhas (Upload na Nuvem Minimalista) -->
 <button class="ico" id="icUp" title="Carregar planilhas"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><i class="dot g" id="dotUp" hidden></i></button>
 
-<!-- 4. Botão Modo TV / Apresentação (Monitor Minimalista) -->
-<button class="ico" id="icTv" title="Modo Apresentação (Bolsa de Valores / TV)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+<!-- 4. Botão Modo TV / Bolsa de Valores -->
+<button class="ico" id="icTv" title="Modo Apresentação TV (Bolsa de Valores)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
 
-<!-- 5. Botão Mobile (Novo Ícone Smartphone Minimalista no mesmo padrão) -->
+<!-- 5. Botão Mobile (Smartphone Minimalista) -->
 <button class="ico" id="mb" title="Alternar layout mobile / desktop"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
 </div></header>
 
@@ -34,61 +34,13 @@
 <main class="main"><div class="crumb" id="crumb"></div>
 <details class="cd up" id="up" open><summary>☁️ ATUALIZAR DADOS · HISTÓRICO NO SERVIDOR</summary>
 <div class="fg" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><label>Servidor (endereço do Render)<input type="url" id="fsv" placeholder="https://seu-servico.onrender.com" autocomplete="off"></label><label>Chave de acesso<input type="password" id="ftk" placeholder="informada pelo administrador" autocomplete="off"></label><label>Carteira (.xlsm / .xlsx)<input type="file" id="fc" accept=".xlsm,.xlsx"></label><label>Data do corte da carteira<input type="date" id="fcd"></label><label>Turno do corte<select id="fct"><option value="AM">AM (manhã)</option><option value="PM">PM (tarde)</option></select></label><label>Agendamento acumulado (.xlsx)<input type="file" id="fa" accept=".xlsx,.xlsm"></label>
-<!-- Campo Tabela de Frete ocultado com segurança -->
 <label style="display:none">Tabela de frete (.xlsx, opcional)<input type="file" id="ff" accept=".xlsx"></label></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button id="fp" class="on">☁️ Atualizar dados</button><button id="ft">🔌 Testar conexão</button><button id="fr">🔄 Recarregar do servidor</button>
-<!-- Botão Validação de Frete ocultado com segurança -->
 <button id="ffv" style="display:none">📋 Validação da tabela de frete</button>
 <label style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--mu)">🕓 Ver o estado em<select id="fem" style="max-width:290px"><option value="">Estado atual (último snapshot válido)</option></select></label></div><div id="fe" class="note"></div>
 <div class="h4b">HISTÓRICO NO SERVIDOR (só valores normalizados; as planilhas são descartadas após o processamento)</div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button id="fx">🛡️ Administração: limpar dados…</button></div>
 <div id="fst" class="note"></div><div id="fsvn" class="note"></div><div id="fs" class="note" role="status"></div></details>
-
-<style>
-.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:#22d3ee;font-weight:800}
-.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:#130c34;border:1px solid #33236f;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:#22d3ee;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
-
-/* ==========================================================================
-   MODO TV · ESTILO BOLSA DE VALORES (APENAS GRÁFICOS, KPIS E LEGENDAS)
-   ========================================================================== */
-body.tv-mode .shell { grid-template-columns: 1fr !important; }
-body.tv-mode .side, 
-body.tv-mode #up, 
-body.tv-mode #fpan, 
-body.tv-mode #gsf, 
-body.tv-mode #sh { display: none !important; }
-
-body.tv-mode .main { padding: 12px 28px 85px !important; }
-
-/* Oculta todas as listas, tabelas, blocos de atenção, atividades e filtros internos */
-body.tv-mode .gx-top,
-body.tv-mode .cd:has(.tb),
-body.tv-mode .cd:has(.ac),
-body.tv-mode .cd.fkc,
-body.tv-mode .cd:has(.cfg),
-body.tv-mode .cd:has(> .al),
-body.tv-mode #v > .q,
-body.tv-mode .qi,
-body.tv-mode .hb2,
-body.tv-mode #v > .note { display: none !important; }
-
-/* Expande a linha do Fluxo Operacional para largura total com destaque */
-body.tv-mode .gx-r3 { grid-template-columns: 1fr !important; }
-
-/* Valoriza os títulos, gráficos e legendas para leitura à distância em TVs */
-body.tv-mode .crumb { font-size: 14px !important; color: #22d3ee !important; margin-bottom: 10px !important; }
-body.tv-mode .sec { font-size: 15px !important; color: #22d3ee !important; border-left: 4px solid #7c3aed; padding-left: 10px; margin: 22px 0 10px !important; }
-body.tv-mode .lgd { font-size: 12px !important; color: #ece8ff !important; font-weight: 600; margin-bottom: 10px !important; }
-body.tv-mode .cap { font-size: 12px !important; color: #a79bd6 !important; }
-body.tv-mode .cd h4, body.tv-mode .ct2 { font-size: 13px !important; letter-spacing: .16em !important; }
-
-/* Barra flutuante de controle do Modo TV */
-#tv-bar { display: none; position: fixed; bottom: 16px; right: 24px; z-index: 9999; background: rgba(13, 8, 39, 0.96); border: 1px solid #22d3ee; border-radius: 99px; padding: 8px 18px; gap: 10px; align-items: center; box-shadow: 0 10px 35px #000e; backdrop-filter: blur(10px); }
-body.tv-mode #tv-bar { display: flex; }
-#tv-bar b { color: #22d3ee; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-right: 4px; display: flex; align-items: center; gap: 6px; }
-#tv-bar b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; animation: plz 1.8s infinite; }
-#tv-bar button { padding: 5px 12px; font-size: 11px; font-weight: 700; }
-</style>
 
 <details class="cd fpan" id="fpan"><summary>🔎 FILTROS E PRAZOS <span id="sel" class="note"></span></summary>
 <h4 style="margin-top:10px">🎯 Data de entrega (carteira) · filtro por prazo</h4><div class="q"><button data-q2="atr">🔴 Atrasado (≤ corte)</button><button data-q2="ven">🟠 Vencimento (D+1)</button><button data-q2="ant">🟡 Antecipação (5 dias úteis)</button><button data-q2="a">📦 Tudo</button></div>
@@ -96,23 +48,117 @@ body.tv-mode #tv-bar { display: flex; }
 <h4>🔎 Filtros</h4><div class="fg" id="fl"></div><button id="clr">🔄 LIMPAR FILTROS</button></details>
 <div id="v"></div></main></div>
 
-<!-- Barra flutuante de controle do Modo TV -->
-<div id="tv-bar">
-  <b>LIVE TV</b>
-  <button class="tv-tab on" data-tv="ov">1. Painel Geral</button>
-  <button class="tv-tab" data-tv="ct">2. Carteira &amp; Prazos</button>
-  <button class="tv-tab" data-tv="ex">3. Operação (ZW14)</button>
-  <button class="tv-tab" data-tv="ob">4. Outbound &amp; Faturamento</button>
-  <button id="tv-pause" title="Pausar/Retomar rotação automática">⏸️ 25s</button>
-  <button id="tv-exit" style="background:#dc2626;border-color:#dc2626;color:#fff">✕ Sair</button>
+<!-- ==========================================================================
+     STAGE EXCLUSIVO DO MODO TV · BOLSA DE VALORES LOGÍSTICA
+     ========================================================================== -->
+<div id="tv-stage" aria-hidden="true">
+  <div class="tv-top">
+    <div class="tv-brand">
+      <span class="tv-live-dot"></span>
+      <b>TORRE DE CONTROLE</b>
+      <small id="tv-sub">TERMINAL OPERACIONAL AO VIVO</small>
+    </div>
+    <div class="tv-ticker-wrap"><div class="tv-ticker" id="tv-ticker"></div></div>
+    <div class="tv-clock" id="tv-clock">--:--:--</div>
+  </div>
+  <div id="tv-canvas"></div>
+  <div id="tv-bar">
+    <b>PREGÃO LOGÍSTICO</b>
+    <button class="tv-tab on" data-tv="0">1. Visão Geral</button>
+    <button class="tv-tab" data-tv="1">2. Carteira</button>
+    <button class="tv-tab" data-tv="2">3. Agendamento</button>
+    <button class="tv-tab" data-tv="3">4. Status Operacional</button>
+    <button class="tv-tab" data-tv="4">5. Outbound (Candles)</button>
+    <button id="tv-pause" title="Pausar/Retomar rotação">⏸️ 22s</button>
+    <button id="tv-exit" class="tv-btn-exit">✕ Sair da TV</button>
+  </div>
 </div>
+
+<style>
+.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:#22d3ee;font-weight:800}
+.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:#130c34;border:1px solid #33236f;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:#22d3ee;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+
+/* ESTILOS E ANIMAÇÕES LUMINOSAS DO MODO TV (BOLSA DE VALORES) */
+#tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #4b1d9a66, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #070419 0%, #0b0624 55%, #060314 100%); color: #ece8ff; flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+body.tv-mode { overflow: hidden !important; }
+body.tv-mode #tv-stage { display: flex; }
+
+/* Grid Cibernético de Fundo */
+#tv-stage::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(124, 58, 237, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; z-index: 0; }
+
+/* Top Bar & Stock Ticker */
+.tv-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 18px; height: 50px; padding: 0 22px; background: linear-gradient(90deg, #120936f2, #180d48f2 60%, #100830f2); border-bottom: 1px solid #33236f; box-shadow: 0 4px 25px #000c; }
+.tv-brand { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.tv-brand b { font-size: 18px; font-weight: 900; letter-spacing: .12em; color: #22d3ee; text-shadow: 0 0 16px #22d3ee99; }
+.tv-brand small { font-size: 10px; letter-spacing: .18em; color: #a79bd6; font-weight: 700; }
+.tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 12px #22c55e, 0 0 24px #22c55e; display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
+.tv-clock { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 15px; font-weight: 800; color: #facc15; text-shadow: 0 0 12px #facc1577; letter-spacing: .08em; white-space: nowrap; background: #191042; padding: 5px 12px; border-radius: 8px; border: 1px solid #3b2885; }
+
+.tv-ticker-wrap { flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 38s linear infinite; padding-left: 100%; }
+.tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #cfc8f5; }
+.tv-tick-item b { color: #fff; font-family: ui-monospace, monospace; font-size: 13px; }
+.tv-up { color: #4ade80; text-shadow: 0 0 10px #4ade8088; }
+.tv-dn { color: #fb7185; text-shadow: 0 0 10px #fb718588; }
+.tv-nt { color: #22d3ee; text-shadow: 0 0 10px #22d3ee88; }
+
+/* Área Principal dos Gráficos */
+#tv-canvas { position: relative; z-index: 1; flex: 1; padding: 14px 22px 68px; display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; animation: tvFadeIn .45s ease-out; }
+.tv-row { display: grid; gap: 12px; min-height: 0; }
+.tv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; }
+
+/* Cartões Luminosos de Indicadores */
+.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: 14px; padding: 10px 14px; box-shadow: 0 8px 28px #000a, inset 0 0 22px color-mix(in srgb, var(--c, #22d3ee) 10%, transparent); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+.tv-kpi::after { content: ""; position: absolute; top: -50%; left: -60%; width: 45%; height: 200%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); transform: rotate(25deg); animation: tvSheen 7s infinite; pointer-events: none; }
+.tv-kpi-hd { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b5abeb; }
+.tv-kpi-val { font-size: clamp(19px, 1.85vw, 29px); font-weight: 900; color: var(--c, #22d3ee); text-shadow: 0 0 18px color-mix(in srgb, var(--c, #22d3ee) 65%, transparent); line-height: 1.12; margin: 4px 0 2px; font-variant-numeric: tabular-nums; transition: transform .25s ease; }
+.tv-kpi-sub { font-size: 11px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Painéis de Gráficos */
+.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.9), rgba(11, 7, 31, 0.94)); border: 1px solid #31216e; border-radius: 14px; padding: 12px 16px; box-shadow: 0 10px 32px #000b, inset 0 1px 0 rgba(255,255,255,0.06); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: #22d3ee; margin-bottom: 8px; text-shadow: 0 0 12px #22d3ee55; flex-shrink: 0; }
+.tv-card-title span { font-size: 11px; color: #a79bd6; font-weight: 600; letter-spacing: .06em; text-transform: none; }
+.tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
+.tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible; }
+
+/* Efeitos de Luz nas Velas (Candles), Barras e Curvas */
+.tv-candle-up { filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.75)); transform-origin: center bottom; animation: tvCandleBreathe 2.6s ease-in-out infinite alternate; }
+.tv-candle-dn { filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.75)); transform-origin: center top; animation: tvCandleBreathe 3.1s ease-in-out infinite alternate-reverse; }
+.tv-bar-glow { filter: drop-shadow(0 0 7px var(--gc, #22d3ee88)); transform-origin: bottom; animation: tvBarLive 2.8s ease-in-out infinite alternate; }
+.tv-line-glow { filter: drop-shadow(0 0 9px var(--lc, #22d3ee)); }
+.tv-laser-line { stroke-dasharray: 10 180; animation: tvLaserRun 3.5s linear infinite; filter: drop-shadow(0 0 8px #fff); }
+.tv-dot-pulse { animation: tvNodePulse 1.8s ease-in-out infinite alternate; }
+.tv-seg-cell.on { animation: tvSegGlow 2.4s ease-in-out infinite alternate; }
+
+/* Legendas Luminosas */
+.tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8d2fc; font-weight: 700; }
+.tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; box-shadow: 0 0 8px currentColor; }
+
+/* Barra Flutuante de Controle Inferior */
+#tv-bar { position: fixed; bottom: 12px; right: 22px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.94); border: 1px solid #22d3ee; border-radius: 99px; padding: 6px 14px; gap: 8px; align-items: center; box-shadow: 0 8px 32px #000e, 0 0 20px #22d3ee33; backdrop-filter: blur(12px); }
+#tv-bar b { color: #22d3ee; font-size: 11px; letter-spacing: .14em; margin-right: 4px; display: flex; align-items: center; gap: 6px; }
+#tv-bar button { padding: 5px 11px; font-size: 11px; font-weight: 700; border-radius: 99px; cursor: pointer; }
+.tv-btn-exit { background: linear-gradient(135deg, #dc2626, #991b1b) !important; border-color: #ef4444 !important; color: #fff !important; }
+
+@keyframes tvTickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+@keyframes tvPulseDot { 0% { transform: scale(0.85); opacity: 0.7; } 100% { transform: scale(1.2); opacity: 1; } }
+@keyframes tvCandleBreathe { 0% { transform: scaleY(0.96); filter: brightness(0.95) drop-shadow(0 0 5px currentColor); } 100% { transform: scaleY(1.04); filter: brightness(1.22) drop-shadow(0 0 12px currentColor); } }
+@keyframes tvBarLive { 0% { opacity: 0.88; filter: brightness(0.95); } 100% { opacity: 1; filter: brightness(1.2) drop-shadow(0 0 10px rgba(34,211,238,0.45)); } }
+@keyframes tvLaserRun { 0% { stroke-dashoffset: 190; } 100% { stroke-dashoffset: 0; } }
+@keyframes tvNodePulse { 0% { r: 4; stroke-width: 2; } 100% { r: 6.5; stroke-width: 3.5; } }
+@keyframes tvSegGlow { 0% { filter: brightness(0.9); } 100% { filter: brightness(1.3) drop-shadow(0 0 6px currentColor); } }
+@keyframes tvSheen { 0%, 75% { left: -60%; } 100% { left: 140%; } }
+@keyframes tvFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
-<!-- Script de Controle do Ícone Mobile e Modo TV Bolsa de Valores -->
+<!-- ==========================================================================
+     MOTOR DE RENDERIZAÇÃO DO TERMINAL DE BOLSA DE VALORES (TV)
+     ========================================================================== -->
 <script>
 (function(){
-  /* 1. Mantém o botão Mobile sempre com ícone minimalista SVG (sobrepondo o texto do app.js) */
+  /* 1. Ícone Minimalista Consistente no Botão Mobile */
   const mbBtn = document.getElementById('mb');
   const svgPhone = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
   const svgDesktop = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
@@ -126,97 +172,576 @@ body.tv-mode #tv-bar { display: flex; }
     };
   }
 
-  /* 2. Limpeza dinâmica de títulos órfãos e blocos sem gráfico no Modo TV */
-  function cleanTvView() {
-    if (!document.body.classList.contains('tv-mode')) return;
-    const v = document.getElementById('v');
-    if (!v) return;
-    /* Esconde cartões na aba Carteira que são apenas texto informativo */
-    v.querySelectorAll('.cd').forEach(cd => {
-      if (!cd.querySelector('svg, .chx, .fun, .tl, .sg, .rsv') && !cd.classList.contains('rc') && !cd.classList.contains('stc') && !cd.classList.contains('gbc')) {
-        cd.style.display = 'none';
+  /* 2. Utilitários de Desenho SVG Neon para a TV */
+  const tvCanvas = document.getElementById('tv-canvas');
+  const tvTicker = document.getElementById('tv-ticker');
+  const tvSub = document.getElementById('tv-sub');
+  const tvClock = document.getElementById('tv-clock');
+  let tvSlide = 0, tvTimer = null, tvPulseTimer = null, tvClockTimer = null, tvPaused = false;
+
+  const kpiCard = (title, val, sub, color, icon, sparkPts) => {
+    let spk = '';
+    if (sparkPts && sparkPts.length >= 2) {
+      const mx = Math.max(...sparkPts), mn = Math.min(...sparkPts), r = mx - mn || 1;
+      const pts = sparkPts.map((v, i) => `${(i * (110 / (sparkPts.length - 1)) + 2).toFixed(1)},${(24 - ((v - mn) / r) * 20).toFixed(1)}`).join(' ');
+      spk = `<svg width="114" height="26" viewBox="0 0 114 26" style="margin-top:4px"><polyline fill="none" stroke="${color}" stroke-width="2.2" class="tv-line-glow" style="--lc:${color}" points="${pts}"/></svg>`;
+    }
+    return `<div class="tv-kpi" style="--c:${color}">
+      <div class="tv-kpi-hd"><span>${title}</span><span>${icon||''}</span></div>
+      <div class="tv-kpi-val" data-live="1">${val}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:6px">
+        <div class="tv-kpi-sub">${sub||''}</div>${spk}
+      </div>
+    </div>`;
+  };
+
+  /* Anel Neon Estilo Velocímetro */
+  const neonRing = (pctVal, colors, mainTxt, label, sub) => {
+    const N = 48, on = pctVal == null ? 0 : Math.round(Math.min(100, Math.max(0, pctVal)) / 100 * N);
+    let lines = '';
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * 2 * Math.PI - Math.PI / 2, c = Math.cos(a), d = Math.sin(a);
+      const isOn = i < on;
+      const col = isOn ? lerpC(colors, i / (N - 1)) : '#221652';
+      lines += `<line x1="${(50 + c * 35).toFixed(2)}" y1="${(50 + d * 35).toFixed(2)}" x2="${(50 + c * 45).toFixed(2)}" y2="${(50 + d * 45).toFixed(2)}" stroke="${col}" stroke-width="3" stroke-linecap="round" ${isOn ? `style="filter:drop-shadow(0 0 4px ${col})"` : ''}/>`;
+    }
+    return `<div class="tv-card" style="align-items:center;justify-content:center;text-align:center;padding:10px">
+      <svg viewBox="0 0 100 100" style="width:115px;height:115px;overflow:visible">${lines}
+        <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="19" font-weight="900" style="filter:drop-shadow(0 0 10px ${colors[1]||colors[0]})">${mainTxt}</text>
+      </svg>
+      <div style="font-size:11px;font-weight:800;letter-spacing:.14em;color:#22d3ee;text-transform:uppercase;margin-top:4px">${label}</div>
+      <div style="font-size:11px;color:#9c90d4;margin-top:2px">${sub}</div>
+    </div>`;
+  };
+
+  /* Barra Segmentada de Luzes LED */
+  const ledBar = (label, count, total, colors, extraRight) => {
+    const p = total ? (count / total) * 100 : 0, N = 36, on = Math.max(count > 0 ? 1 : 0, Math.round(Math.min(100, p) / 100 * N));
+    let segs = '';
+    for (let i = 0; i < N; i++) {
+      const col = lerpC(colors, i / (N - 1));
+      segs += i < on ? `<i class="tv-seg-cell on" style="background:${col};box-shadow:0 0 8px ${col}88;color:${col}"></i>` : `<i style="background:#1f144d"></i>`;
+    }
+    return `<div class="sgr" style="margin:8px 0">
+      <div class="sgh" style="font-size:12px"><span style="color:#d8d2fc;font-weight:700">${label}</span><b style="color:#22d3ee;font-size:13px">${extraRight || (n0(count) + ' · ' + pfx(p) + '%')}</b></div>
+      <div class="sg" style="gap:3px">${segs}</div>
+    </div>`;
+  };
+
+  /* Gráfico de Velas da Bolsa de Valores (Candlestick + Volume + Média Móvel) */
+  const svgCandlestick = (daysList, mode) => {
+    const valid = daysList.filter(x => x.n > 0 || x.etq > 0).slice(-24);
+    if (valid.length < 2) return '<div class="note">Histórico insuficiente para velas.</div>';
+    const W = 920, H = 270, L = 58, R = 58, T = 20, B = 32, pw = W - L - R, ph = H - T - B;
+    const vals = valid.map(x => mode === 'val' ? x.val / 1000 : x.etq);
+    const nfVals = valid.map(x => mode === 'val' ? x.nf / 1000 : x.ent);
+    const maxV = Math.max(...vals, ...nfVals, 1) * 1.12;
+    const Y = v => T + ph * (1 - Math.max(0, v) / maxV);
+    const X = i => L + pw * (i + 0.5) / valid.length;
+    const cw = Math.max(8, Math.min(26, (pw / valid.length) * 0.58));
+
+    let grid = '';
+    for (let k = 0; k <= 4; k++) {
+      const v = (maxV / 4) * k, yy = Y(v);
+      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#291b60" stroke-dasharray="3 4"/>
+               <text x="${L - 8}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#9c90d4" font-size="10">${mode === 'val' ? 'R$ ' + n0(v) + 'k' : n0(v)}</text>`;
+    }
+
+    let candles = '', maPts = [], labels = '';
+    valid.forEach((d, i) => {
+      const open = i === 0 ? vals[0] * 0.92 : vals[i - 1];
+      const close = vals[i];
+      const bull = close >= open;
+      const high = Math.max(open, close, nfVals[i]) * 1.05;
+      const low = Math.min(open, close, nfVals[i] > 0 ? nfVals[i] : open) * 0.94;
+      const col = bull ? '#22c55e' : '#f43f5e';
+      const x = X(i), yTop = Y(Math.max(open, close)), yBot = Y(Math.min(open, close));
+      const bodyH = Math.max(5, yBot - yTop);
+
+      /* Pavio Luminoso + Corpo da Vela */
+      candles += `<g class="${bull ? 'tv-candle-up' : 'tv-candle-dn'}" style="color:${col};animation-delay:${(i * 0.12).toFixed(2)}s">
+        <line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${Y(high).toFixed(1)}" y2="${Y(low).toFixed(1)}" stroke="${col}" stroke-width="2"/>
+        <rect x="${(x - cw / 2).toFixed(1)}" y="${yTop.toFixed(1)}" width="${cw.toFixed(1)}" height="${bodyH.toFixed(1)}" rx="3" fill="${col}" fill-opacity="0.88" stroke="${bull ? '#86efac' : '#fda4af'}" stroke-width="1"/>
+      </g>`;
+
+      /* Média Móvel / Curva de Faturamento Real */
+      maPts.push([x, Y(nfVals[i])]);
+      if (valid.length <= 16 || i % 2 === 0 || i === valid.length - 1) {
+        labels += `<text x="${x.toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${d.d === dia ? '#facc15' : '#9c90d4'}" font-weight="${d.d === dia ? '800' : '400'}" font-size="10">${fd(d.d)}</text>`;
       }
     });
-    /* Esconde cabeçalhos de seção (.sec) cujo conteúdo abaixo era apenas uma tabela ocultada */
-    v.querySelectorAll('.sec').forEach(sec => {
-      let next = sec.nextElementSibling;
-      let hasVisible = false;
-      while (next && !next.classList.contains('sec')) {
-        if (window.getComputedStyle(next).display !== 'none') {
-          hasVisible = true;
-          break;
+
+    const pathD = smooth(maPts);
+    const maLine = `<path d="${pathD}" fill="none" stroke="#22d3ee" stroke-width="2.6" class="tv-line-glow" style="--lc:#22d3ee"/>
+                    <path d="${pathD}" fill="none" stroke="#ffffff" stroke-width="3" class="tv-laser-line"/>` +
+                    maPts.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.5" fill="#0b0624" stroke="#22d3ee" stroke-width="2"/>`).join('');
+
+    return `<svg viewBox="0 0 ${W} ${H}">${grid}${candles}${maLine}${labels}</svg>`;
+  };
+
+  /* Gráfico de Barras LED de Alta Densidade + Linha Laser */
+  const svgNeonCombo = (labelsArr, barData, barColors, lineData, lineColor, yFmt) => {
+    if (!labelsArr.length) return '<div class="note">Sem dados para o gráfico.</div>';
+    const W = 560, H = 225, L = 48, R = lineData ? 44 : 16, T = 18, B = 28, pw = W - L - R, ph = H - T - B, n = labelsArr.length;
+    const maxB = Math.max(...barData, 1) * 1.08, maxL = lineData ? Math.max(...lineData, 1) * 1.08 : 1;
+    const X = i => L + pw * (i + 0.5) / n, Yb = v => T + ph * (1 - v / maxB), Yl = v => T + ph * (1 - v / maxL);
+    const bw = Math.max(6, Math.min(28, (pw / n) * 0.62));
+
+    let g = '';
+    for (let k = 0; k <= 4; k++) {
+      const yy = T + ph * (1 - k / 4);
+      g += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#281a5e" stroke-dasharray="3 4"/>
+            <text x="${L - 6}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#8f84c9" font-size="9.5">${yFmt ? yFmt((maxB / 4) * k) : fv((maxB / 4) * k)}</text>` +
+            (lineData ? `<text x="${W - R + 6}" y="${(yy + 3).toFixed(1)}" fill="${lineColor}" font-size="9.5">${fv((maxL / 4) * k)}</text>` : '');
+    }
+
+    let bars = '', SB = 6, SG = 2, STP = SB + SG, KM = Math.max(1, Math.floor(ph / STP));
+    barData.forEach((v, i) => {
+      const col = Array.isArray(barColors) ? barColors[i % barColors.length] : barColors;
+      const x = X(i) - bw / 2, k1 = Math.min(KM, Math.max(v > 0 ? 1 : 0, Math.round((v / maxB) * KM)));
+      for (let k = 0; k < KM; k++) {
+        bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="#1e1348" fill-opacity="0.55"/>`;
+      }
+      bars += `<g class="tv-bar-glow" style="--gc:${col}66;animation-delay:${(i * 0.08).toFixed(2)}s">`;
+      for (let k = 0; k < k1; k++) {
+        const segCol = lerpC([shd(col, 0.3), col, lit(col, 0.35)], k1 > 1 ? k / (k1 - 1) : 1);
+        bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="${segCol}"/>`;
+      }
+      bars += `</g>`;
+      if (n <= 12 || i % 2 === 0) {
+        bars += `<text x="${X(i).toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="#a79bd6" font-size="9.5">${trunc(labelsArr[i], 10)}</text>`;
+      }
+    });
+
+    let ln = '';
+    if (lineData && lineData.length >= 2) {
+      const P = lineData.map((v, i) => [X(i), Yl(v)]), d = smooth(P);
+      ln = `<path d="${d}" fill="none" stroke="${lineColor}" stroke-width="2.8" class="tv-line-glow" style="--lc:${lineColor}"/>
+            <path d="${d}" fill="none" stroke="#fff" stroke-width="3" class="tv-laser-line"/>` +
+            P.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="#0b0624" stroke="${lineColor}" stroke-width="2.2"/>`).join('');
+    }
+    return `<svg viewBox="0 0 ${W} ${H}">${g}${bars}${ln}</svg>`;
+  };
+
+  /* Gráfico Horizontal de Barras Segmentadas Neon */
+  const svgHorizNeon = (entries, colors) => {
+    if (!entries.length) return '<div class="note">Sem dados para exibir.</div>';
+    const maxV = Math.max(...entries.map(e => e[1]), 1);
+    return `<div style="width:100%;display:flex;flex-direction:column;gap:7px;justify-content:center">` +
+      entries.map(([lbl, val, rightTxt], idx) => {
+        const col = Array.isArray(colors) ? colors[idx % colors.length] : colors;
+        const p = Math.min(100, (val / maxV) * 100), N = 28, on = Math.max(val > 0 ? 1 : 0, Math.round((p / 100) * N));
+        let segs = '';
+        for (let i = 0; i < N; i++) {
+          segs += i < on ? `<i class="tv-seg-cell on" style="background:${col};box-shadow:0 0 6px ${col}88;height:14px"></i>` : `<i style="background:#1e1348;height:14px"></i>`;
         }
-        next = next.nextElementSibling;
+        return `<div style="display:grid;grid-template-columns:150px 1fr 90px;align-items:center;gap:10px;font-size:11px">
+          <span style="color:#ece8ff;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(lbl)}</span>
+          <div class="sg" style="gap:2.5px">${segs}</div>
+          <b style="text-align:right;color:${col};font-family:ui-monospace,monospace;font-size:12px">${rightTxt || fv(val)}</b>
+        </div>`;
+      }).join('') + `</div>`;
+  };
+
+  /* Gráfico Donut Neon */
+  const svgDonutNeon = (mapObj, colors) => {
+    const entries = Object.entries(mapObj).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+    const tot = entries.reduce((a, b) => a + b[1], 0) || 1, N = 64;
+    let cum = 0, lines = '';
+    const bounds = entries.map(e => (cum += e[1]) / tot);
+    for (let i = 0; i < N; i++) {
+      const t = (i + 0.5) / N, k = Math.max(0, bounds.findIndex(b => t <= b + 1e-9));
+      const col = colors[k % colors.length], a = (i / N) * 2 * Math.PI - Math.PI / 2, c = Math.cos(a), s = Math.sin(a);
+      lines += `<line x1="${(50 + c * 35).toFixed(2)}" y1="${(50 + s * 35).toFixed(2)}" x2="${(50 + c * 46).toFixed(2)}" y2="${(50 + s * 46).toFixed(2)}" stroke="${col}" stroke-width="2.8" stroke-linecap="round" style="filter:drop-shadow(0 0 4px ${col})"/>`;
+    }
+    return `<div style="display:flex;align-items:center;gap:22px;width:100%;justify-content:center">
+      <svg viewBox="0 0 100 100" style="width:145px;height:145px;flex:none;overflow:visible">${lines}
+        <text x="50" y="51" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">${n0(tot)}</text>
+        <text x="50" y="63" text-anchor="middle" fill="#a79bd6" font-size="8" letter-spacing="1">TOTAL</text>
+      </svg>
+      <div style="flex:1;display:flex;flex-direction:column;gap:7px;max-width:300px">
+        ${entries.map(([k, v], i) => `<div style="display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #281a5e;padding-bottom:4px">
+          <i style="width:10px;height:10px;border-radius:50%;background:${colors[i % colors.length]};box-shadow:0 0 8px ${colors[i % colors.length]}"></i>
+          <span style="color:#d8d2fc;font-weight:600">${escH(trunc(k, 24))}</span>
+          <b style="margin-left:auto;color:#fff;font-family:ui-monospace,monospace">${n0(v)} · ${pfx((v / tot) * 100)}%</b>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  };
+
+  /* Atualiza a Fita de Cotações (Ticker) no Topo da TV */
+  function updateTicker(S) {
+    const days = AGK().map(dst);
+    const totFat = days.reduce((a, x) => a + x.nf, 0), totProg = days.reduce((a, x) => a + x.val, 0);
+    const sepPct = S.D.length ? pct(S.D.filter(r => r[3] >= 2).length, S.D.length) : 0;
+    const fatPct = S.P.length ? pct(S.fat, S.P.length) : 0;
+    const items = [
+      ['DIA REF.', fdy(dia), 'tv-nt', '●'],
+      ['CARTEIRA ATIVA', `${n0(S.N)} PED · ${tn(S.K)}`, 'tv-up', '▲'],
+      ['VALOR LÍQUIDO CARTEIRA', RSc(S.V), 'tv-up', '▲'],
+      ['FRETE CLIENTE', RS(sm(S.C, 10)), 'tv-nt', '◆'],
+      ['PROGRAMADO DIA (ZS34)', RS(S.val), 'tv-up', '▲'],
+      ['FATURADO DIA (ZS65)', `${RS(S.fatnf)} (${pfx(fatPct)}%)`, fatPct >= 80 ? 'tv-up' : 'tv-dn', fatPct >= 80 ? '▲' : '▼'],
+      ['ACUMULADO HISTÓRICO NF', RS(totFat), 'tv-up', '▲'],
+      ['SEPARAÇÃO ZW14', `${pfx(sepPct)}% (${n0(S.D.length)} ETQ)`, sepPct >= 85 ? 'tv-up' : 'tv-nt', '▲'],
+      ['OCUPAÇÃO CROSS', S.ocX == null ? '—' : pfx(S.ocX) + '%', 'tv-up', '▲'],
+      ['OCUPAÇÃO DIRETOS', S.ocD == null ? '—' : pfx(S.ocD) + '%', 'tv-nt', '◆']
+    ];
+    const html = items.concat(items).map(x => `<span class="tv-tick-item">${x[0]} <b>${x[1]}</b> <span class="${x[2]}">${x[3]}</span></span>`).join('');
+    if (tvTicker) tvTicker.innerHTML = html;
+  }
+
+  /* ==========================================================================
+     RENDERIZAÇÃO DAS 5 TELAS DO MODO TV
+     ========================================================================== */
+  function renderTvSlide(idx) {
+    if (!document.body.classList.contains('tv-mode')) return;
+    const S = st(), C = S.C, P = S.P, D = S.D, days = AGK().map(dst);
+    updateTicker(S);
+
+    const titles = [
+      '1/5 · VISÃO GERAL EXECUTIVA · PREGÃO OPERACIONAL',
+      '2/5 · CARTEIRA DE PEDIDOS · VOLUMETRIA & RESTRIÇÕES',
+      '3/5 · AGENDAMENTO & FROTA · OCUPAÇÃO E DOCAS',
+      '4/5 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO & COR',
+      '5/5 · OUTBOUND & FATURAMENTO · GRÁFICO DE VELAS (CANDLESTICK)'
+    ];
+    if (tvSub) tvSub.textContent = titles[idx] + ' · REF. ' + fdy(dia);
+
+    /* SLIDE 0: VISÃO GERAL */
+    if (idx === 0) {
+      const sep = D.length ? pct(D.filter(r => r[3] >= 2).length, D.length) : null;
+      const fatP = P.length ? pct(S.fat, P.length) : null;
+      const cs = [0, 1, 2, 3].map(k => C.filter(o => cat(o[7]) == k)), w = antw();
+      const st4 = [D.filter(r => r[3] == 0).length, D.filter(r => r[3] == 1).length, D.filter(r => r[3] == 2).length, D.filter(r => r[3] >= 3).length];
+      const carg = P.filter(g => String(g[21] || '').startsWith('4')).length;
+      const base = days.filter(x => x.d <= dia && x.n > 0), mks = [];
+      if (base.length >= 2) {
+        const mxd = [...base].sort((a, b) => b.etq - a.etq)[0], mnd = [...base].sort((a, b) => a.etq - b.etq)[0], ix = d => days.findIndex(x => x.d == d.d);
+        mks.push({ i: ix(mxd), lb: 'Maior ' + fd(mxd.d), c: '#22d3ee' });
+        if (mnd.d != mxd.d) mks.push({ i: ix(mnd), lb: 'Menor ' + fd(mnd.d), c: '#f472b6' });
+        const hj = days.findIndex(x => x.d == dia);
+        if (hj >= 0 && !mks.some(m => m.i == hj)) mks.push({ i: hj, lb: 'Dia ' + fd(dia), c: '#facc15' });
       }
-      if (!hasVisible) sec.style.display = 'none';
-    });
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('PEDIDOS CARTEIRA', n0(S.N), uq(C, o => o[0]) + ' clientes únicos', '#6366f1', '📦', days.slice(-10).map(x => x.ent))}
+          ${kpiCard('PESO CARTEIRA', tn(S.K), (S.N ? n0(S.K / S.N) : 0) + ' kg/pedido', '#38bdf8', '⚖️', days.slice(-10).map(x => x.peso))}
+          ${kpiCard('VALOR LÍQUIDO', RSc(S.V), 'Frete cli: ' + RS(sm(C, 10)), '#22c55e', '💰', days.slice(-10).map(x => x.val))}
+          ${kpiCard('CARGAS DO DIA', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#f59e0b', '🚛', days.slice(-10).map(x => x.n))}
+          ${kpiCard('ENTREGAS (ZS34)', n0(S.ent), fw(S.pk) + ' programados', '#ec4899', '📍')}
+          ${kpiCard('ETIQUETAS (ZW14)', n0(D.length), (sep ? pfx(sep) : 0) + '% separadas', '#a855f7', '🏷️', days.slice(-10).map(x => x.etq))}
+          ${kpiCard('FATURADO (ZS65)', RS(S.fatnf), S.fat + ' de ' + P.length + ' cargas', '#4ade80', '✅', days.slice(-10).map(x => x.nf))}
+        </div>
+        <div class="tv-row" style="grid-template-columns: repeat(4, 1fr) 1.55fr; flex: 0.95">
+          ${neonRing(sep, ['#22d3ee', '#60a5fa', '#a78bfa'], sep == null ? '—' : pfx(sep) + '%', 'Etiquetas Separadas', D.length ? D.filter(r => r[3] >= 2).length + ' de ' + n0(D.length) : 'sem ZW14')}
+          ${neonRing(fatP, ['#4ade80', '#a3e635', '#facc15'], fatP == null ? '—' : pfx(fatP) + '%', 'Cargas Faturadas', P.length ? S.fat + ' de ' + P.length + ' cargas' : 'sem agenda')}
+          ${neonRing(S.ocD, ['#a78bfa', '#f472b6', '#fb923c'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Ocupação Diretos', S.dr.length + ' veículos diretos')}
+          ${neonRing(S.ocX, ['#22d3ee', '#34d399', '#facc15'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Ocupação Cross', S.car + ' carretas · ' + fw(sm(S.cx, 16)))}
+          <div class="tv-card">
+            <div class="tv-card-title">PRAZO DA CARTEIRA · PEDIDOS <span>Distribuição de vencimentos</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${ledBar('🔴 Atrasado (≤ corte)', cs[0].length, S.N, ['#f43f5e', '#fb923c'])}
+              ${ledBar('🟠 Vencimento D+1', cs[1].length, S.N, ['#fb923c', '#facc15'])}
+              ${ledBar('🟡 Antecipação (' + fd(w.first) + ' a ' + fd(w.last) + ')', cs[2].length, S.N, ['#facc15', '#4ade80'])}
+              ${ledBar('🔵 Após a janela', cs[3].length, S.N, ['#22d3ee', '#a78bfa'])}
+            </div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.55fr 1fr; flex: 1.15">
+          <div class="tv-card">
+            <div class="tv-card-title">CURVA DE EXPEDIÇÃO · ETIQUETAS POR DATA <span>Histórico e picos operacionais</span></div>
+            <div class="tv-chart-box">${areaSvg(days.map(x => ({ l: fd(x.d), v: x.etq })), mks)}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">FLUXO OPERACIONAL DO DIA <span>Pipeline de execução em tempo real</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:space-around;flex:1">
+              <div class="tl" style="padding-top:2px">
+                ${tnode(D.length ? pct(D.filter(r => r[3] >= 1).length, D.length) : null, 'Atribuída')}
+                ${tnode(sep, 'Separada')}
+                ${tnode(D.length ? pct(st4[3], D.length) : null, 'Conferida')}
+                ${tnode(P.length ? pct(carg, P.length) : null, 'Carregada')}
+                ${tnode(fatP, 'Faturada')}
+              </div>
+              <div style="border-top:1px solid #2b1d63;padding-top:8px">
+                ${ledBar('Conferidas na doca (ZW14)', st4[3], D.length || 1, ['#fb923c', '#facc15'])}
+              </div>
+            </div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    /* SLIDE 1: CARTEIRA (Pedidos, Peso, Valor Líquido, Frete Cliente, Volumetria, Noturnas, Áreas Restritas) */
+    if (idx === 1) {
+      const vol = C.filter(o => attc(o) === 'Volumetria'), not = C.filter(o => attc(o) === 'Nortuna'), peq = C.filter(o => attc(o) === 'Carro pequeno');
+      const vRst = C.filter(o => o[13] === 'Via restrita' || o[13] === 'Residência limitada');
+      const B = byD(C, 14), gByD = B.keys.map(x => C.filter(o => B.k(o) == x));
+      const rstMap = grp(C, o => o[13] || 'Não informado', o => 1);
+      const topPra = topn(grp(C, o => o[4], o => o[8]), 7).map(x => [x[0], x[1] / 1000, fw(x[1])]);
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('TOTAL DE PEDIDOS', n0(S.N), uq(C, o => o[19]) + ' clientes ativos', '#6366f1', '📦')}
+          ${kpiCard('PESO TOTAL CARTEIRA', tn(S.K), 'Média ' + (S.N ? n0(S.K / S.N) : 0) + ' kg/ped', '#38bdf8', '⚖️')}
+          ${kpiCard('VALOR LÍQUIDO (AB)', RSc(S.V), 'Carteira ativa', '#22c55e', '💰')}
+          ${kpiCard('FRETE DO CLIENTE', RS(sm(C, 10)), S.V ? pfx(pct(sm(C, 10), S.V)) + '% s/ valor líq.' : '—', '#22d3ee', '🧾')}
+          ${kpiCard('VOLUMETRIA (CALC)', n0(vol.length) + ' ped', tn(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)), '#a855f7', '📐')}
+          ${kpiCard('ENTREGA NOTURNA', n0(not.length) + ' ped', tn(sm(not, 8)) + ' · ' + RSc(sm(not, 9)), '#818cf8', '🌙')}
+          ${kpiCard('ÁREAS RESTRITAS', n0(vRst.length) + ' ped', pfx(pct(vRst.length, S.N)) + '% da carteira · ' + tn(sm(vRst, 8)), '#f97316', '🚧')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.35fr 1fr; flex: 1">
+          <div class="tv-card">
+            <div class="tv-card-title">PEDIDOS × PESO (T) POR DATA DE ENTREGA <span><i style="color:#22c55e">■</i> Barras = Pedidos (cor prazo) · <i style="color:#22d3ee">●</i> Linha Laser = Peso (t)</span></div>
+            <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#6366f1' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#22d3ee')}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">PEDIDOS POR ÁREA RESTRITA <span>Mapeamento de restrições de acesso</span></div>
+            <div class="tv-chart-box">${svgDonutNeon(rstMap, ['#f472b6', '#fb923c', '#22d3ee', '#facc15', '#a78bfa'])}</div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 0.95">
+          <div class="tv-card">
+            <div class="tv-card-title">PERFIL DE ATENÇÃO ESPECIAL · VOLUMETRIA, NOTURNA E VEÍCULO PEQUENO <span>Participação em Peso e Valor</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${ledBar('📐 Volumetria (' + vol.length + ' pedidos)', sm(vol, 8), S.K || 1, ['#a855f7', '#ec4899'], fw(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)))}
+              ${ledBar('🌙 Entrega Noturna (' + not.length + ' pedidos)', sm(not, 8), S.K || 1, ['#6366f1', '#22d3ee'], fw(sm(not, 8)) + ' · ' + RSc(sm(not, 9)))}
+              ${ledBar('🚗 Carro Pequeno (' + peq.length + ' pedidos)', sm(peq, 8), S.K || 1, ['#f97316', '#facc15'], fw(sm(peq, 8)) + ' · ' + RSc(sm(peq, 9)))}
+              ${ledBar('🚧 Via Restrita (' + C.filter(o => o[13] === 'Via restrita').length + ' pedidos)', sm(C.filter(o => o[13] === 'Via restrita'), 8), S.K || 1, ['#ef4444', '#fb923c'], fw(sm(C.filter(o => o[13] === 'Via restrita'), 8)))}
+            </div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">TOP PRAÇAS POR PESO NA CARTEIRA <span>Concentração de carga (t)</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(topPra, ['#22d3ee', '#38bdf8', '#818cf8', '#a78bfa', '#f472b6', '#fb923c', '#facc15'])}</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    /* SLIDE 2: AGENDAMENTO (Cargas, Peso Real, Entregas, Ocupação, Docas Livres, Valor Programado, Valor Faturado) */
+    if (idx === 2) {
+      const livres = Math.max(0, S.G_.length - P.length);
+      const topTr = topn(grp(P, g => g[4] || '(sem transp.)', g => g[16] || 0), 7).map(x => [x[0], x[1] / 1000, fw(x[1])]);
+      const tu = Object.entries(P.reduce((m, g) => { const a = m[g[0] || '—'] = m[g[0] || '—'] || []; a.push(g); return m; }, {})).sort();
+      const veicEntries = topn(grp(P, g => vn(g[15]), g => 1), 6).map(x => [x[0], x[1], x[1] + ' cargas']);
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('CARGAS AGENDADAS', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#f59e0b', '🚛')}
+          ${kpiCard('PESO REAL (ZS34)', tn(S.pk), S.car + ' carretas Cross estimadas', '#38bdf8', '⚖️')}
+          ${kpiCard('QTDE DE ENTREGAS', n0(S.ent), n0(S.pedA) + ' pedidos na ZS34', '#ec4899', '📍')}
+          ${kpiCard('OCUPAÇÃO DIRETOS', S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Cross: ' + (S.ocX == null ? '—' : pfx(S.ocX) + '%'), '#a855f7', '📈')}
+          ${kpiCard('DOCAS LIVRES', n0(livres), 'de ' + n0(S.G_.length) + ' janelas na grade', '#22d3ee', '🅿️')}
+          ${kpiCard('VALOR PROGRAMADO', RS(S.val), 'Total ZS34 do dia', '#10b981', '💰')}
+          ${kpiCard('VALOR FATURADO (ZS65)', RS(S.fatnf), S.fat + '/' + P.length + ' cargas (' + (P.length ? pfx(pct(S.fat, P.length)) : 0) + '%)', '#4ade80', '✅')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.2fr 1fr 1fr; flex: 1.05">
+          <div class="tv-card">
+            <div class="tv-card-title">PESO REAL POR TRANSPORTADORA (TOP 7) <span>Volume alocado no dia</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(topTr, ['#f59e0b', '#fb923c', '#facc15', '#4ade80', '#22d3ee', '#818cf8', '#f472b6'])}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">CHEGADA POR TURNO · CARGAS × PESO (T) <span>Ritmo de recebimento de frota</span></div>
+            <div class="tv-chart-box">${svgNeonCombo(tu.map(x => x[0]), tu.map(x => x[1].length), ['#0ea5e9', '#f59e0b', '#8b5cf6'], tu.map(x => Math.round(sm(x[1], 16) / 1000)), '#f43f5e')}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">MIX DE FROTA AGENDADA <span>Cargas por tipologia de veículo</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(veicEntries, ['#22d3ee', '#a78bfa', '#f472b6', '#fb923c', '#4ade80', '#facc15'])}</div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1fr 1fr 1.2fr; flex: 0.9">
+          ${neonRing(S.ocD, ['#22d3ee', '#818cf8', '#f472b6'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Taxa Ocupação Diretos', S.dr.length + ' veículos dedicados')}
+          ${neonRing(S.ocX, ['#4ade80', '#22d3ee', '#a855f7'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Taxa Ocupação Cross', S.cx.length + ' cargas em ' + S.car + ' carretas')}
+          <div class="tv-card">
+            <div class="tv-card-title">CONVERSÃO FINANCEIRA DO AGENDAMENTO <span>Programado (ZS34) × Faturado (ZS65)</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${ledBar('💰 Valor Programado (ZS34)', S.val, S.val || 1, ['#0ea5e9', '#22d3ee'], RS(S.val))}
+              ${ledBar('✅ Valor Faturado NF (ZS65)', S.fatnf, Math.max(S.val, S.fatnf, 1), ['#22c55e', '#4ade80'], RS(S.fatnf))}
+              ${ledBar('⏳ Pendente de Faturamento', S.pendv, S.val || 1, ['#f97316', '#facc15'], RS(S.pendv) + ' (' + (P.length - S.fat) + ' cargas)')}
+            </div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    /* SLIDE 3: STATUS OPERACIONAL (Etiquetas Separadas, Atribuídas, Eliminadas, Status por Prédio, Cor, Transportadora) */
+    if (idx === 3) {
+      const N = D.length, c6 = [0, 1, 2, 3, 4, 5].map(k => D.filter(r => stg(r) == k));
+      const sep = c6[3].length + c6[4].length;
+      const pf = r => GM[r[5]] ? GM[r[5]][2] : 'S/ Agend.', cf = r => GM[r[5]] ? (GM[r[5]][11] || '—') : 'S/ Agend.';
+      const predios = [...new Set(D.map(pf))].sort();
+      const cores = [...new Set(D.map(cf))].sort((a, b) => D.filter(r => cf(r) == b).length - D.filter(r => cf(r) == a).length).slice(0, 6);
+      const topTranspEtq = topn(grp(D, r => CAR[r[5]] || 'Fora da agenda', r => 1), 7).map(([trName, totalEtq]) => {
+        const sepCount = D.filter(r => (CAR[r[5]] || 'Fora da agenda') === trName && stg(r) >= 3 && stg(r) < 5).length;
+        return [trName, totalEtq, `${n0(sepCount)}/${n0(totalEtq)} (${pfx(pct(sepCount, totalEtq))}%)`];
+      });
+      const hs = [...Array(24).keys()].filter(h => D.some(r => r[9] == h || r[10] == h));
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('TOTAL ETIQUETAS (ZW14)', n0(N), uq(D, r => r[5]) + ' transportes ativos', '#6366f1', '🏷️')}
+          ${kpiCard('SEPARADAS + CONFERIDAS', n0(sep), (N ? pfx(pct(sep, N)) : 0) + '% concluído · ' + fw(sepk(D)), '#22c55e', '🟢')}
+          ${kpiCard('CONFERIDAS NA DOCA', n0(c6[4].length), (N ? pfx(pct(c6[4].length, N)) : 0) + '% das etiquetas', '#0ea5e9', '☑️')}
+          ${kpiCard('ATRIBUÍDAS (EM SEP.)', n0(c6[2].length), (N ? pfx(pct(c6[2].length, N)) : 0) + '% em andamento', '#f59e0b', '🟡')}
+          ${kpiCard('IMPRESSAS + REIMPR.', n0(c6[0].length + c6[1].length), c6[1].length + ' reimpressas', '#94a3b8', '🖨️')}
+          ${kpiCard('ATRIB. ELIMINADA', n0(c6[5].length), fw(c6[5].reduce((x, r) => x + r[7], 0)), c6[5].length ? '#ef4444' : '#64748b', '🔴')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1fr 1fr; flex: 1">
+          <div class="tv-card">
+            <div class="tv-card-title">STATUS POR PRÉDIO · PROGRESSO DE SEPARAÇÃO <span>Etiquetas separadas vs total do prédio</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${predios.length ? predios.map(p => {
+                const l = D.filter(r => pf(r) == p), sCount = l.filter(r => stg(r) >= 3 && stg(r) < 5).length;
+                return ledBar('🏢 Prédio ' + p, sCount, l.length || 1, ['#22d3ee', '#4ade80'], `${n0(sCount)} / ${n0(l.length)} (${pfx(pct(sCount, l.length))}%)`);
+              }).join('') : '<div class="note">Sem etiquetas ZW14 no dia.</div>'}
+            </div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">STATUS POR COR DA ONDA · ZW14 <span>Volume e avanço por cor de etiqueta</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${cores.length ? cores.map(c => {
+                const l = D.filter(r => cf(r) == c), sCount = l.filter(r => stg(r) >= 3 && stg(r) < 5).length;
+                const hex = OC[c] || '#a78bfa';
+                return ledBar('🎨 Onda ' + c, sCount, l.length || 1, [hex, '#22d3ee'], `${n0(sCount)} / ${n0(l.length)} (${pfx(pct(sCount, l.length))}%)`);
+              }).join('') : '<div class="note">Sem ondas registradas.</div>'}
+            </div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 1">
+          <div class="tv-card">
+            <div class="tv-card-title">TOP TRANSPORTADORAS · ETIQUETAS E SEPARAÇÃO <span>Volume de OTs e percentual separado</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(topTranspEtq, ['#4ade80', '#22d3ee', '#38bdf8', '#818cf8', '#a78bfa', '#f472b6', '#fb923c'])}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">RITMO HORÁRIO DE PRODUTIVIDADE <span><i style="color:#10b981">■</i> Separadas/h · <i style="color:#facc15">●</i> Atribuídas/h</span></div>
+            <div class="tv-chart-box">${hs.length ? svgNeonCombo(hs.map(h => h + 'h'), hs.map(h => D.filter(r => r[9] == h).length), '#10b981', hs.map(h => D.filter(r => r[10] == h).length), '#facc15') : '<div class="note">Sem horários registrados na ZW14 para hoje.</div>'}</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    /* SLIDE 4: OUTBOUND & CANDLESTICK (Bolsa de Valores Ao Vivo) */
+    if (idx === 4) {
+      const ws = wk(dia), sc = days.filter(x => wk(x.d) == ws), s = (l, k) => l.reduce((a, x) => a + x[k], 0);
+      const wks = [...new Set(days.map(x => wk(x.d)))].sort((a, b) => a - b).slice(-5);
+      const recentDays = days.slice(-16);
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('ETIQUETAS (SEMANA ' + ws + ')', n0(s(sc, 'etq')), 'Média/dia ' + n0(sc.length ? s(sc, 'etq') / sc.length : 0), '#a855f7', '🏷️', sc.map(x => x.etq))}
+          ${kpiCard('ENTREGAS (SEMANA ' + ws + ')', n0(s(sc, 'ent')), s(sc, 'n') + ' cargas em ' + sc.length + ' dia(s)', '#ec4899', '📍', sc.map(x => x.ent))}
+          ${kpiCard('PESO EXPEDIDO (SEM ' + ws + ')', kgx(s(sc, 'peso')), 'Faturado: ' + kgx(s(sc, 'pf')), '#38bdf8', '⚖️', sc.map(x => x.peso))}
+          ${kpiCard('VALOR PROGRAMADO (ZS34)', RS(s(sc, 'val')), 'Semana ' + ws, '#10b981', '💰', sc.map(x => x.val))}
+          ${kpiCard('FATURADO NF (ZS65)', RS(s(sc, 'nf')), s(sc, 'fat') + ' de ' + s(sc, 'n') + ' cargas faturadas', '#22c55e', '✅', sc.map(x => x.nf))}
+          ${kpiCard('PENDENTE FATURAMENTO', RS(Math.max(0, s(sc, 'val') - s(sc, 'vfat'))), (s(sc, 'n') - s(sc, 'fat')) + ' cargas pendentes', '#f97316', '⏳')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1fr; flex: 1.25">
+          <div class="tv-card">
+            <div class="tv-card-title">
+              📈 PREGÃO OUTBOUND · CANDLESTICK DE VALOR EXPEDIDO × LINHA DE FATURAMENTO (ZS65)
+              <div class="tv-legend">
+                <span><i style="background:#22c55e;color:#22c55e"></i>Vela de Alta (Acima do dia ant.)</span>
+                <span><i style="background:#f43f5e;color:#f43f5e"></i>Vela de Baixa (Abaixo do dia ant.)</span>
+                <span><i style="background:#22d3ee;color:#22d3ee"></i>Linha Laser = NF Faturada (ZS65)</span>
+              </div>
+            </div>
+            <div class="tv-chart-box">${svgCandlestick(days, 'val')}</div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1fr 1fr 1.15fr; flex: 0.95">
+          <div class="tv-card">
+            <div class="tv-card-title">PESO PROGRAMADO (T) × FATURADO (ZS65) <span><i style="color:#0ea5e9">■</i> Programado · <i style="color:#4ade80">●</i> Faturado</span></div>
+            <div class="tv-chart-box">${svgNeonCombo(recentDays.map(x => fd(x.d)), recentDays.map(x => Math.round(x.peso / 1000)), '#0ea5e9', recentDays.map(x => Math.round(x.pf / 1000)), '#4ade80')}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">ETIQUETAS (ZW14) × ENTREGAS (ZS34) <span><i style="color:#8b5cf6">■</i> Etiquetas · <i style="color:#f472b6">●</i> Entregas</span></div>
+            <div class="tv-chart-box">${svgNeonCombo(recentDays.map(x => fd(x.d)), recentDays.map(x => x.etq), '#8b5cf6', recentDays.map(x => x.ent), '#f472b6')}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">FECHAMENTO SEMANAL · HISTÓRICO <span>Performance financeira por semana</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${wks.map(w => {
+                const l = days.filter(x => wk(x.d) == w);
+                return ledBar(`Semana ${w} (${s(l, 'n')} cargas · ${tn(s(l, 'peso'))})`, s(l, 'nf') || s(l, 'val'), Math.max(...wks.map(wk0 => s(days.filter(x => wk(x.d) == wk0), 'val')), 1), ['#22c55e', '#22d3ee'], RS(s(l, 'val')));
+              }).join('')}
+            </div>
+          </div>
+        </div>`;
+      return;
+    }
   }
 
-  /* Observa mudanças no container #v para limpar textos sempre que o gráfico atualizar */
-  const vEl = document.getElementById('v');
-  if (vEl) {
-    new MutationObserver(() => cleanTvView()).observe(vEl, { childList: true });
-  }
-
-  /* 3. Controle do Carrossel do Modo TV */
+  /* 3. Controle do Carrossel, Relógio e Efeito "Vivo" */
   const btnTv = document.getElementById('icTv');
   const btnExit = document.getElementById('tv-exit');
   const btnPause = document.getElementById('tv-pause');
   const tvTabs = document.querySelectorAll('.tv-tab');
-  const views = ['ov', 'ct', 'ex', 'ob'];
-  let tvTimer = null, tvIdx = 0, paused = false;
 
-  function syncTvButtons(activeTab) {
-    tvTabs.forEach(b => b.classList.toggle('on', b.dataset.tv === activeTab));
+  function syncTabs() {
+    tvTabs.forEach(b => b.classList.toggle('on', +b.dataset.tv === tvSlide));
   }
 
-  function switchTvTab(t) {
-    const sideBtn = document.querySelector(`#tabs button[data-t="${t}"]`);
-    if (sideBtn) sideBtn.click();
-    syncTvButtons(t);
-    cleanTvView();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 150);
+  function goToSlide(idx) {
+    tvSlide = (idx + 5) % 5;
+    syncTabs();
+    renderTvSlide(tvSlide);
   }
 
-  function stepTv() {
-    if (paused) return;
-    tvIdx = (tvIdx + 1) % views.length;
-    switchTvTab(views[tvIdx]);
+  function startTvTimers() {
+    clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvPulseTimer);
+    const tickClock = () => {
+      if (tvClock) tvClock.textContent = new Date().toLocaleTimeString('pt-BR');
+    };
+    tickClock();
+    tvClockTimer = setInterval(tickClock, 1000);
+    tvTimer = setInterval(() => { if (!tvPaused) goToSlide(tvSlide + 1); }, 22000);
+
+    /* Pulso sutil em cartões KPI a cada 3 segundos para efeito de terminal vivo */
+    tvPulseTimer = setInterval(() => {
+      if (!document.body.classList.contains('tv-mode')) return;
+      const vals = document.querySelectorAll('.tv-kpi-val');
+      if (!vals.length) return;
+      const pick = vals[Math.floor(Math.random() * vals.length)];
+      pick.style.transform = 'scale(1.04)';
+      setTimeout(() => { if (pick) pick.style.transform = 'scale(1)'; }, 320);
+    }, 2800);
   }
 
-  function toggleTv() {
+  function toggleTvMode() {
     const active = document.body.classList.toggle('tv-mode');
     if (active) {
       if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(()=>{});
+        document.documentElement.requestFullscreen().catch(() => {});
       }
-      tvIdx = 0; paused = false;
-      btnPause.innerHTML = '⏸️ 25s';
-      switchTvTab('ov');
-      tvTimer = setInterval(stepTv, 25000);
+      tvPaused = false;
+      if (btnPause) btnPause.innerHTML = '⏸️ 22s';
+      goToSlide(0);
+      startTvTimers();
     } else {
       if (document.fullscreenElement && document.exitFullscreen) {
-        document.exitFullscreen().catch(()=>{});
+        document.exitFullscreen().catch(() => {});
       }
-      clearInterval(tvTimer);
-      tvTimer = null;
+      clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvPulseTimer);
       if (typeof draw === 'function') draw();
     }
-    setTimeout(() => window.dispatchEvent(new Event('resize')), 250);
   }
 
-  if (btnTv) btnTv.addEventListener('click', toggleTv);
-  if (btnExit) btnExit.addEventListener('click', () => { if (document.body.classList.contains('tv-mode')) toggleTv(); });
+  if (btnTv) btnTv.addEventListener('click', toggleTvMode);
+  if (btnExit) btnExit.addEventListener('click', () => { if (document.body.classList.contains('tv-mode')) toggleTvMode(); });
   if (btnPause) btnPause.addEventListener('click', () => {
-    paused = !paused;
-    btnPause.innerHTML = paused ? '▶️ Retomar' : '⏸️ 25s';
+    tvPaused = !tvPaused;
+    btnPause.innerHTML = tvPaused ? '▶️ Retomar' : '⏸️ 22s';
   });
-  tvTabs.forEach(b => b.addEventListener('click', () => {
-    const t = b.dataset.tv;
-    tvIdx = views.indexOf(t);
-    switchTvTab(t);
-  }));
+  tvTabs.forEach(b => b.addEventListener('click', () => goToSlide(+b.dataset.tv)));
+
+  /* Atualiza a TV automaticamente caso o servidor receba nova planilha em segundo plano */
+  const vEl = document.getElementById('v');
+  if (vEl) {
+    new MutationObserver(() => {
+      if (document.body.classList.contains('tv-mode')) renderTvSlide(tvSlide);
+    }).observe(vEl, { childList: true });
+  }
 })();
 </script>
 </body></html>
