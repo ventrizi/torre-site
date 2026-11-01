@@ -89,48 +89,96 @@
 .admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:#130c34;border:1px solid #33236f;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:#22d3ee;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
 /* ==========================================================================
-   ANIMAÇÕES DE PAINEL DIGITAL (LED POR LED SECO + 1 ÚNICO LED APAGADO GIRANDO)
-   Sem brilho excessivo e sem loop nos números!
+   SISTEMA DE ANIMAÇÃO AUTOMOTIVA:
+   1. Ignição LED por LED (acende sequencialmente na abertura)
+   2. Anéis Circulares: 1 único LED apagado girando
+   3. Barras e Colunas: Última barra/bloco da ponta piscando em Vermelho Luminoso (Redline)
+   4. Gráficos de Curva/Área: Cortina de ignição + Cometa Luminoso viajando na curva
    ========================================================================== */
 @keyframes ledStepOn {
   0% { opacity: 0.12; }
   100% { opacity: 1; }
 }
-@keyframes lineDrawSweep {
-  from { stroke-dashoffset: var(--plen, 1400); }
-  to { stroke-dashoffset: 0; }
-}
-@keyframes areaFadeSweep {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 .led-step-init {
   opacity: 0.12;
   animation: ledStepOn 0.08s steps(1, end) forwards;
 }
 
-/* Estado do único LED apagado que gira/caminha após o preenchimento */
-svg line.led- hole-off,
-svg rect.led-hole-off {
-  opacity: 0.12 !important;
-  transition: opacity 0.08s linear;
-}
+/* 1 Único LED apagado girando SOMENTE nos anéis circulares */
 svg line.led-hole-off {
   opacity: 0.12 !important;
 }
-.sg i.led-hole-off,
-.sgb i.led-hole-off,
-.nyse-led i.led-hole-off {
-  opacity: 0.14 !important;
+
+/* PONTA DA BARRA PISCANDO EM VERMELHO LUMINOSO (Peak Hold / Redline) */
+@keyframes redTipBlinkHtml {
+  0%, 100% {
+    background: #ff1e42 !important;
+    box-shadow: 0 0 11px #ff1e42, 0 0 4px #ff8fa3 !important;
+    transform: scaleY(1.12);
+    opacity: 1;
+  }
+  50% {
+    background: var(--orig-bg, #ef4444) !important;
+    box-shadow: none !important;
+    transform: scaleY(1);
+    opacity: 0.55;
+  }
+}
+@keyframes redTipBlinkSvg {
+  0%, 100% {
+    fill: #ff1e42 !important;
+    filter: drop-shadow(0 0 7px #ff1e42);
+    opacity: 1;
+  }
+  50% {
+    fill: var(--orig-fill, #ef4444) !important;
+    filter: none;
+    opacity: 0.55;
+  }
+}
+.sg i.bar-tip-red,
+.sgb i.bar-tip-red,
+.nyse-led i.bar-tip-red {
+  animation: ledStepOn 0.08s steps(1, end) forwards,
+             redTipBlinkHtml 1.15s ease-in-out infinite !important;
+  position: relative;
+  z-index: 2;
+}
+svg rect.bar-tip-red {
+  animation: ledStepOn 0.08s steps(1, end) forwards,
+             redTipBlinkSvg 1.15s ease-in-out infinite !important;
 }
 
-.path-draw-on {
-  stroke-dasharray: var(--plen, 1400);
-  animation: lineDrawSweep 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* ANIMAÇÃO DO GRÁFICO DE CURVA (ETIQUETAS POR DATA DE EXPEDIÇÃO E LINHAS) */
+@keyframes curveClipReveal {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0% 0 0); }
 }
-.area-fade-on {
-  animation: areaFadeSweep 1.5s ease-out forwards;
+@keyframes cometDashFlow {
+  0% { stroke-dashoffset: var(--clen, 1600); }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes markerPinPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 3px currentColor); }
+  50% { transform: scale(1.28); filter: drop-shadow(0 0 9px #ff1e42); stroke: #ff1e42; }
+}
+.curve-wipe-init {
+  animation: curveClipReveal 1.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.curve-comet-beam {
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 22 var(--clen, 1600);
+  filter: drop-shadow(0 0 8px #22d3ee) drop-shadow(0 0 14px #ff1e42);
+  animation: cometDashFlow 4.2s linear infinite;
+  pointer-events: none;
+}
+.curve-marker-live {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: markerPinPulse 1.8s ease-in-out infinite;
 }
 
 /* ESTILOS DO PALCO MODO TV (BOLSA DE VALORES NYSE / B3) */
@@ -221,7 +269,7 @@ body.tv-mode #tv-stage { display: flex; }
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
 <!-- ==========================================================================
-     MOTOR DE IGNIÇÃO LED POR LED (SEM LOOP) + 1 LED APAGADO GIRANDO + MODO TV
+     MOTOR DE IGNIÇÃO + PONTA VERMELHA NAS BARRAS + COMETA NAS CURVAS
      ========================================================================== -->
 <script>
 (function(){
@@ -240,12 +288,9 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     2. MOTOR DE CONTAGEM ÚNICA + VARREDURA DE 1 ÚNICO LED APAGADO
-     - Conta de 0 até o valor real 1 única vez por aba e TRAVA no valor final.
-     - Acende quadradinho por quadradinho mais devagar (~38ms por LED).
-     - Depois de cheio, gira exatamente 1 único LED apagado pelos estágios acesos.
+     2. MOTOR DE CONTAGEM ÚNICA + ANÉIS GIRANDO + BARRAS COM PONTA VERMELHA + CURVAS VIVAS
      ========================================================================== */
-  const activeLedGroups = [];
+  const activeRingGroups = [];
 
   function animateCounterOnce(el, duration) {
     if (!el || el.dataset.counted === '1') return;
@@ -282,32 +327,28 @@ body.tv-mode #tv-stage { display: flex; }
         formatted = String(Math.round(cur));
       }
       el.textContent = prefix + formatted + suffix;
-      if (p < 1) {
-        requestAnimationFrame(step);
-      } else {
-        /* Garante que o texto final crava 100% no valor real e nunca mais reseta */
-        el.textContent = orig;
-      }
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = orig;
     }
     requestAnimationFrame(step);
   }
 
-  function registerLedGroup(items, readyTimeMs) {
+  /* Registra APENAS os anéis circulares para girar 1 único LED apagado */
+  function registerRingGroup(items, readyTimeMs) {
     if (!items || items.length < 2) return;
-    activeLedGroups.push({
+    activeRingGroups.push({
       items: items,
       readyAt: performance.now() + readyTimeMs + 250,
       holeIdx: -1
     });
   }
 
-  /* Loop global suave (a cada 140ms) que move 1 único LED apagado em cada gráfico já carregado */
   setInterval(() => {
     const now = performance.now();
-    for (let g = activeLedGroups.length - 1; g >= 0; g--) {
-      const grp = activeLedGroups[g];
+    for (let g = activeRingGroups.length - 1; g >= 0; g--) {
+      const grp = activeRingGroups[g];
       if (!grp.items[0] || !grp.items[0].isConnected) {
-        activeLedGroups.splice(g, 1);
+        activeRingGroups.splice(g, 1);
         continue;
       }
       if (now < grp.readyAt) continue;
@@ -319,11 +360,53 @@ body.tv-mode #tv-stage { display: flex; }
     }
   }, 140);
 
+  /* Adiciona um feixe cometa + bolinha viajante ao longo de qualquer curva SVG */
+  function attachCurveComet(svg, pathEl) {
+    if (!svg || !pathEl || pathEl.dataset.cometAdded === '1') return;
+    pathEl.dataset.cometAdded = '1';
+    try {
+      const len = Math.ceil(pathEl.getTotalLength());
+      if (len < 40) return;
+      pathEl.style.setProperty('--clen', len);
+
+      /* 1. Feixe luminoso que corre sobre a linha */
+      const ns = 'http://www.w3.org/2000/svg';
+      const beam = document.createElementNS(ns, 'path');
+      beam.setAttribute('d', pathEl.getAttribute('d'));
+      beam.setAttribute('class', 'curve-comet-beam');
+      beam.style.setProperty('--clen', len);
+      pathEl.parentNode.insertBefore(beam, pathEl.nextSibling);
+
+      /* 2. Bolinha brilhante (ponto de telemetria) que viaja exatamente sobre a curva */
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('r', '4.2');
+      dot.setAttribute('fill', '#ffffff');
+      dot.setAttribute('stroke', '#ff1e42');
+      dot.setAttribute('stroke-width', '2.4');
+      dot.style.filter = 'drop-shadow(0 0 8px #ff1e42) drop-shadow(0 0 12px #22d3ee)';
+      pathEl.parentNode.appendChild(dot);
+
+      const duration = 4200;
+      const tStart = performance.now();
+      function moveDot(now) {
+        if (!dot.isConnected) return;
+        const progress = ((now - tStart) % duration) / duration;
+        try {
+          const pt = pathEl.getPointAtLength(progress * len);
+          dot.setAttribute('cx', pt.x.toFixed(1));
+          dot.setAttribute('cy', pt.y.toFixed(1));
+        } catch (e) {}
+        requestAnimationFrame(moveDot);
+      }
+      requestAnimationFrame(moveDot);
+    } catch (e) {}
+  }
+
   function igniteAutomotiveGauges(root) {
     if (!root) return;
-    const STEP_MS = 38; // Velocidade mais cadenciada para ver cada LED acendendo
+    const STEP_MS = 38;
 
-    /* A) ANÉIS CIRCULARES E DONUTS (.rsv e .tv-ring-svg) */
+    /* A) ANÉIS CIRCULARES E DONUTS (.rsv e .tv-ring-svg): mantidos perfeitos (ignição + 1 LED apagado girando) */
     root.querySelectorAll('svg.rsv, svg.tv-ring-svg').forEach(svg => {
       if (svg.dataset.ignited === '1') return;
       svg.dataset.ignited = '1';
@@ -344,10 +427,11 @@ body.tv-mode #tv-stage { display: flex; }
       if (txt && litLines.length > 0) {
         animateCounterOnce(txt, Math.max(700, totalSweepMs));
       }
-      registerLedGroup(litLines, totalSweepMs);
+      registerRingGroup(litLines, totalSweepMs);
     });
 
-    /* B) BARRAS HORIZONTAIS DE QUADRINHOS LED (.sg, .sgb, .nyse-led) */
+    /* B) BARRAS HORIZONTAIS DE QUADRINHOS LED (.sg, .sgb, .nyse-led):
+       Fazem a ignição LED por LED e o ÚLTIMO quadradinho aceso pisca em VERMELHO LUMINOSO */
     root.querySelectorAll('.sg, .sgb, .nyse-led').forEach(bar => {
       if (bar.dataset.ignited === '1') return;
       bar.dataset.ignited = '1';
@@ -357,66 +441,87 @@ body.tv-mode #tv-stage { display: flex; }
       cells.forEach(cell => {
         const inlineBg = (cell.getAttribute('style') || '').toLowerCase();
         if (inlineBg.includes('background') && !inlineBg.includes('#1f144d') && !inlineBg.includes('#1e1348') && !inlineBg.includes('#231752')) {
-          cell.style.animationDelay = `${(litCells.length * 0.042).toFixed(3)}s`;
+          cell.style.animationDelay = `${(litCells.length * 0.038).toFixed(3)}s`;
           cell.classList.add('led-step-init');
           litCells.push(cell);
         }
       });
 
-      const totalSweepMs = litCells.length * 42;
+      /* Destaca apenas a última barra/bloco aceso da ponta piscando em vermelho luminoso */
+      if (litCells.length > 0) {
+        const lastCell = litCells[litCells.length - 1];
+        const mCol = (lastCell.getAttribute('style') || '').match(/#[0-9a-f]{6}/i);
+        if (mCol) lastCell.style.setProperty('--orig-bg', mCol[0]);
+        const tipDelay = (litCells.length * 0.038).toFixed(3);
+        lastCell.style.animationDelay = `${tipDelay}s, ${tipDelay}s`;
+        lastCell.classList.add('bar-tip-red');
+      }
+
+      const totalSweepMs = litCells.length * 38;
       const sgr = bar.closest('.sgr');
       if (sgr) {
         const bEl = sgr.querySelector('.sgh b');
         if (bEl && litCells.length > 0) animateCounterOnce(bEl, Math.max(700, totalSweepMs));
       }
-      registerLedGroup(litCells, totalSweepMs);
     });
 
-    /* C) GRÁFICOS DE COLUNAS EM BLOCOS E CURVAS DE LINHA (.chx svg, svg.ars, .tv-chart-box svg) */
+    /* C) GRÁFICO DE ÁREA "ETIQUETAS POR DATA DE EXPEDIÇÃO" (svg.ars) + GRÁFICOS DE BARRAS/LINHAS */
     root.querySelectorAll('.chx svg, svg.ars, .tv-chart-box svg').forEach(svg => {
       if (svg.classList.contains('rsv') || svg.classList.contains('tv-ring-svg')) return;
       if (svg.dataset.ignited === '1') return;
       svg.dataset.ignited = '1';
 
-      const H = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.height) ? svg.viewBox.baseVal.height : 240;
-      const bricksByCol = {};
+      const isHorizontalBar = !!svg.querySelector('rect[width="8"]');
+      const bricksGroup = {};
 
       svg.querySelectorAll('rect').forEach(r => {
         const fill = (r.getAttribute('fill') || '').toLowerCase();
-        if (!fill || fill === 'transparent' || fill === '#241855' || fill === '#1e1348' || fill.startsWith('url(#nysebarg)')) return;
+        if (!fill || fill === 'transparent' || fill === '#241855' || fill === '#1e1348' || fill.startsWith('url(#nysebarg)') || fill.startsWith('#ffffff')) return;
         const w = parseFloat(r.getAttribute('width') || 0), h = parseFloat(r.getAttribute('height') || 0);
         if (h > 40 && w > 40) return;
-        const x = Math.round(parseFloat(r.getAttribute('x') || 0));
-        const y = parseFloat(r.getAttribute('y') || 0);
-        (bricksByCol[x] = bricksByCol[x] || []).push({ el: r, y: y });
+        const x = parseFloat(r.getAttribute('x') || 0), y = parseFloat(r.getAttribute('y') || 0);
+        /* Agrupa por coluna (X) se for gráfico vertical, ou por linha (Y) se for gráfico horizontal */
+        const key = isHorizontalBar ? Math.round(y) : Math.round(x);
+        (bricksGroup[key] = bricksGroup[key] || []).push({ el: r, x: x, y: y, fill: fill });
       });
 
-      Object.keys(bricksByCol).sort((a, b) => (+a) - (+b)).forEach((xKey, colIdx) => {
-        /* Ordena de baixo para cima (maior Y para menor Y) para acender degrau por degrau */
-        const colBricks = bricksByCol[xKey].sort((a, b) => b.y - a.y).map(b => b.el);
-        colBricks.forEach((brick, stepIdx) => {
-          const delaySec = (colIdx * 0.04 + stepIdx * 0.045).toFixed(3);
-          brick.style.animationDelay = `${delaySec}s`;
-          brick.classList.add('led-step-init');
+      Object.keys(bricksGroup).sort((a, b) => (+a) - (+b)).forEach((gKey, barIdx) => {
+        /* Ordena da base até a ponta da barra (de baixo p/ cima nas verticais; da esq p/ dir nas horizontais) */
+        const sorted = bricksGroup[gKey].sort((a, b) => isHorizontalBar ? (a.x - b.x) : (b.y - a.y));
+        sorted.forEach((item, stepIdx) => {
+          const delaySec = (barIdx * 0.035 + stepIdx * 0.038).toFixed(3);
+          item.el.style.animationDelay = `${delaySec}s`;
+          item.el.classList.add('led-step-init');
         });
-        const readyMs = (colIdx * 40) + (colBricks.length * 45);
-        registerLedGroup(colBricks, readyMs);
+        /* O último tijolinho (ponta superior da coluna ou ponta direita da barra) pisca em Vermelho Luminoso */
+        if (sorted.length > 0) {
+          const tip = sorted[sorted.length - 1];
+          const tipDelay = (barIdx * 0.035 + sorted.length * 0.038).toFixed(3);
+          tip.el.style.setProperty('--orig-fill', tip.fill);
+          tip.el.style.animationDelay = `${tipDelay}s, ${tipDelay}s`;
+          tip.el.classList.add('bar-tip-red');
+        }
       });
 
-      /* Linhas de gráficos desenham suavemente 1 única vez */
+      /* Animação do Gráfico de Curva / Expedição (svg.ars e linhas de gráficos):
+         1. Cortina de ignição da esquerda p/ direita
+         2. Feixe Cometa + Bolinha viajando pela curva
+         3. Círculos de pico/vale pulsando */
+      if (svg.classList.contains('ars')) {
+        svg.classList.add('curve-wipe-init');
+      }
       svg.querySelectorAll('path').forEach(p => {
-        const fill = p.getAttribute('fill') || 'none';
-        if (fill === 'none') {
-          try {
-            const len = Math.ceil(p.getTotalLength());
-            if (len > 20) {
-              p.style.setProperty('--plen', len);
-              p.classList.add('path-draw-on');
-            }
-          } catch (e) {}
-        } else {
-          p.classList.add('area-fade-on');
+        const fill = (p.getAttribute('fill') || 'none').toLowerCase();
+        const sw = parseFloat(p.getAttribute('stroke-width') || 0);
+        if (fill === 'none' && sw >= 2) {
+          p.classList.add('curve-wipe-init');
+          attachCurveComet(svg, p);
+        } else if (fill !== 'none') {
+          p.classList.add('curve-wipe-init');
         }
+      });
+      svg.querySelectorAll('circle').forEach(c => {
+        c.classList.add('curve-marker-live');
       });
     });
 
@@ -433,7 +538,6 @@ body.tv-mode #tv-stage { display: flex; }
     setTimeout(() => igniteAutomotiveGauges(vMain), 180);
   }
 
-  /* Dispara também quando o usuário ordena ou filtra uma tabela específica */
   document.addEventListener('click', (e) => {
     if (e.target.closest && e.target.closest('[data-s]')) {
       setTimeout(() => igniteAutomotiveGauges(vMain), 40);
