@@ -7,20 +7,20 @@
 <form class="srch" id="gsf" role="search"><input id="gq" type="search" placeholder="Buscar pedido, cliente, município ou transporte" autocomplete="off" aria-label="Buscar"><button type="submit" id="gb" aria-label="Buscar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
 <div class="hact"><span id="sh" class="sh">🔇 clique em qualquer lugar para liberar o som dos alertas</span>
 
-<!-- 1. Botão de Alertas (Novo ícone: Sino de Alerta) -->
+<!-- 1. Botão de Alertas (Sino Minimalista) -->
 <button class="ico" id="icAl" title="Alertas Operacionais"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><i class="dot r" id="dotAl" hidden></i></button>
 
-<!-- 2. Botão de Filtros e Prazos (Novo ícone: Funil de Filtro) -->
+<!-- 2. Botão de Filtros e Prazos (Funil Minimalista) -->
 <button class="ico" id="icSet" title="Filtros e prazos"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
 
-<!-- 3. Botão de Carregar Planilhas (Novo ícone: Upload na Nuvem) -->
+<!-- 3. Botão de Carregar Planilhas (Upload na Nuvem Minimalista) -->
 <button class="ico" id="icUp" title="Carregar planilhas"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><i class="dot g" id="dotUp" hidden></i></button>
 
-<!-- NOVO: Botão Modo TV / Apresentação -->
-<button class="ico" id="icTv" title="Modo Apresentação (TV)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+<!-- 4. Botão Modo TV / Apresentação (Monitor Minimalista) -->
+<button class="ico" id="icTv" title="Modo Apresentação (Bolsa de Valores / TV)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
 
-<!-- 4. Botão Mobile (Mantido original) -->
-<button class="ico" id="mb" title="Alternar layout mobile / desktop">📱</button>
+<!-- 5. Botão Mobile (Novo Ícone Smartphone Minimalista no mesmo padrão) -->
+<button class="ico" id="mb" title="Alternar layout mobile / desktop"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
 </div></header>
 
 <div class="shell">
@@ -48,14 +48,45 @@
 .up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:#22d3ee;font-weight:800}
 .admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:#130c34;border:1px solid #33236f;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:#22d3ee;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
-/* Estilos exclusivos do Modo Apresentação (TV) */
+/* ==========================================================================
+   MODO TV · ESTILO BOLSA DE VALORES (APENAS GRÁFICOS, KPIS E LEGENDAS)
+   ========================================================================== */
 body.tv-mode .shell { grid-template-columns: 1fr !important; }
-body.tv-mode .side, body.tv-mode #up, body.tv-mode #fpan, body.tv-mode #gsf, body.tv-mode #sh { display: none !important; }
-body.tv-mode .main { padding: 14px 28px 80px !important; }
-body.tv-mode .cd:has(.tb), body.tv-mode .qi { display: none !important; } /* Esconde tabelas longas para focar nos gráficos e KPIs na TV */
-#tv-bar { display: none; position: fixed; bottom: 16px; right: 24px; z-index: 9999; background: rgba(19, 12, 52, 0.95); border: 1px solid #22d3ee; border-radius: 99px; padding: 8px 18px; gap: 12px; align-items: center; box-shadow: 0 10px 30px #000c; backdrop-filter: blur(8px); }
+body.tv-mode .side, 
+body.tv-mode #up, 
+body.tv-mode #fpan, 
+body.tv-mode #gsf, 
+body.tv-mode #sh { display: none !important; }
+
+body.tv-mode .main { padding: 12px 28px 85px !important; }
+
+/* Oculta todas as listas, tabelas, blocos de atenção, atividades e filtros internos */
+body.tv-mode .gx-top,
+body.tv-mode .cd:has(.tb),
+body.tv-mode .cd:has(.ac),
+body.tv-mode .cd.fkc,
+body.tv-mode .cd:has(.cfg),
+body.tv-mode .cd:has(> .al),
+body.tv-mode #v > .q,
+body.tv-mode .qi,
+body.tv-mode .hb2,
+body.tv-mode #v > .note { display: none !important; }
+
+/* Expande a linha do Fluxo Operacional para largura total com destaque */
+body.tv-mode .gx-r3 { grid-template-columns: 1fr !important; }
+
+/* Valoriza os títulos, gráficos e legendas para leitura à distância em TVs */
+body.tv-mode .crumb { font-size: 14px !important; color: #22d3ee !important; margin-bottom: 10px !important; }
+body.tv-mode .sec { font-size: 15px !important; color: #22d3ee !important; border-left: 4px solid #7c3aed; padding-left: 10px; margin: 22px 0 10px !important; }
+body.tv-mode .lgd { font-size: 12px !important; color: #ece8ff !important; font-weight: 600; margin-bottom: 10px !important; }
+body.tv-mode .cap { font-size: 12px !important; color: #a79bd6 !important; }
+body.tv-mode .cd h4, body.tv-mode .ct2 { font-size: 13px !important; letter-spacing: .16em !important; }
+
+/* Barra flutuante de controle do Modo TV */
+#tv-bar { display: none; position: fixed; bottom: 16px; right: 24px; z-index: 9999; background: rgba(13, 8, 39, 0.96); border: 1px solid #22d3ee; border-radius: 99px; padding: 8px 18px; gap: 10px; align-items: center; box-shadow: 0 10px 35px #000e; backdrop-filter: blur(10px); }
 body.tv-mode #tv-bar { display: flex; }
-#tv-bar b { color: #22d3ee; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-right: 4px; }
+#tv-bar b { color: #22d3ee; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-right: 4px; display: flex; align-items: center; gap: 6px; }
+#tv-bar b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 8px #22c55e; animation: plz 1.8s infinite; }
 #tv-bar button { padding: 5px 12px; font-size: 11px; font-weight: 700; }
 </style>
 
@@ -67,38 +98,91 @@ body.tv-mode #tv-bar { display: flex; }
 
 <!-- Barra flutuante de controle do Modo TV -->
 <div id="tv-bar">
-  <b>📺 Modo TV</b>
-  <button class="tv-tab on" data-tv="ov">1. Visão Geral</button>
-  <button class="tv-tab" data-tv="ex">2. Status Operacional</button>
-  <button class="tv-tab" data-tv="ob">3. Expedição &amp; Faturamento</button>
-  <button id="tv-pause" title="Pausar/Retomar rotação automática">⏸️ Rotação (25s)</button>
+  <b>LIVE TV</b>
+  <button class="tv-tab on" data-tv="ov">1. Painel Geral</button>
+  <button class="tv-tab" data-tv="ct">2. Carteira &amp; Prazos</button>
+  <button class="tv-tab" data-tv="ex">3. Operação (ZW14)</button>
+  <button class="tv-tab" data-tv="ob">4. Outbound &amp; Faturamento</button>
+  <button id="tv-pause" title="Pausar/Retomar rotação automática">⏸️ 25s</button>
   <button id="tv-exit" style="background:#dc2626;border-color:#dc2626;color:#fff">✕ Sair</button>
 </div>
 
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
-<!-- Script independente do Modo TV (não interfere no motor original) -->
+<!-- Script de Controle do Ícone Mobile e Modo TV Bolsa de Valores -->
 <script>
 (function(){
+  /* 1. Mantém o botão Mobile sempre com ícone minimalista SVG (sobrepondo o texto do app.js) */
+  const mbBtn = document.getElementById('mb');
+  const svgPhone = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
+  const svgDesktop = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
+  if (mbBtn) {
+    mbBtn.innerHTML = svgPhone;
+    mbBtn.onclick = () => {
+      const isMob = document.body.classList.toggle('mob');
+      mbBtn.innerHTML = isMob ? svgDesktop : svgPhone;
+      mbBtn.title = isMob ? 'Voltar para layout Desktop' : 'Alternar para layout Mobile';
+      if (typeof draw === 'function') draw();
+    };
+  }
+
+  /* 2. Limpeza dinâmica de títulos órfãos e blocos sem gráfico no Modo TV */
+  function cleanTvView() {
+    if (!document.body.classList.contains('tv-mode')) return;
+    const v = document.getElementById('v');
+    if (!v) return;
+    /* Esconde cartões na aba Carteira que são apenas texto informativo */
+    v.querySelectorAll('.cd').forEach(cd => {
+      if (!cd.querySelector('svg, .chx, .fun, .tl, .sg, .rsv') && !cd.classList.contains('rc') && !cd.classList.contains('stc') && !cd.classList.contains('gbc')) {
+        cd.style.display = 'none';
+      }
+    });
+    /* Esconde cabeçalhos de seção (.sec) cujo conteúdo abaixo era apenas uma tabela ocultada */
+    v.querySelectorAll('.sec').forEach(sec => {
+      let next = sec.nextElementSibling;
+      let hasVisible = false;
+      while (next && !next.classList.contains('sec')) {
+        if (window.getComputedStyle(next).display !== 'none') {
+          hasVisible = true;
+          break;
+        }
+        next = next.nextElementSibling;
+      }
+      if (!hasVisible) sec.style.display = 'none';
+    });
+  }
+
+  /* Observa mudanças no container #v para limpar textos sempre que o gráfico atualizar */
+  const vEl = document.getElementById('v');
+  if (vEl) {
+    new MutationObserver(() => cleanTvView()).observe(vEl, { childList: true });
+  }
+
+  /* 3. Controle do Carrossel do Modo TV */
   const btnTv = document.getElementById('icTv');
   const btnExit = document.getElementById('tv-exit');
   const btnPause = document.getElementById('tv-pause');
   const tvTabs = document.querySelectorAll('.tv-tab');
-  const views = ['ov', 'ex', 'ob'];
+  const views = ['ov', 'ct', 'ex', 'ob'];
   let tvTimer = null, tvIdx = 0, paused = false;
 
   function syncTvButtons(activeTab) {
     tvTabs.forEach(b => b.classList.toggle('on', b.dataset.tv === activeTab));
   }
 
+  function switchTvTab(t) {
+    const sideBtn = document.querySelector(`#tabs button[data-t="${t}"]`);
+    if (sideBtn) sideBtn.click();
+    syncTvButtons(t);
+    cleanTvView();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 150);
+  }
+
   function stepTv() {
     if (paused) return;
     tvIdx = (tvIdx + 1) % views.length;
-    const nextTab = views[tvIdx];
-    const sideBtn = document.querySelector(`#tabs button[data-t="${nextTab}"]`);
-    if (sideBtn) sideBtn.click();
-    syncTvButtons(nextTab);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    switchTvTab(views[tvIdx]);
   }
 
   function toggleTv() {
@@ -108,10 +192,8 @@ body.tv-mode #tv-bar { display: flex; }
         document.documentElement.requestFullscreen().catch(()=>{});
       }
       tvIdx = 0; paused = false;
-      btnPause.innerHTML = '⏸️ Rotação (25s)';
-      const firstBtn = document.querySelector('#tabs button[data-t="ov"]');
-      if (firstBtn) firstBtn.click();
-      syncTvButtons('ov');
+      btnPause.innerHTML = '⏸️ 25s';
+      switchTvTab('ov');
       tvTimer = setInterval(stepTv, 25000);
     } else {
       if (document.fullscreenElement && document.exitFullscreen) {
@@ -119,6 +201,7 @@ body.tv-mode #tv-bar { display: flex; }
       }
       clearInterval(tvTimer);
       tvTimer = null;
+      if (typeof draw === 'function') draw();
     }
     setTimeout(() => window.dispatchEvent(new Event('resize')), 250);
   }
@@ -127,15 +210,12 @@ body.tv-mode #tv-bar { display: flex; }
   if (btnExit) btnExit.addEventListener('click', () => { if (document.body.classList.contains('tv-mode')) toggleTv(); });
   if (btnPause) btnPause.addEventListener('click', () => {
     paused = !paused;
-    btnPause.innerHTML = paused ? '▶️ Retomar' : '⏸️ Rotação (25s)';
+    btnPause.innerHTML = paused ? '▶️ Retomar' : '⏸️ 25s';
   });
   tvTabs.forEach(b => b.addEventListener('click', () => {
     const t = b.dataset.tv;
     tvIdx = views.indexOf(t);
-    const sideBtn = document.querySelector(`#tabs button[data-t="${t}"]`);
-    if (sideBtn) sideBtn.click();
-    syncTvButtons(t);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    switchTvTab(t);
   }));
 })();
 </script>
