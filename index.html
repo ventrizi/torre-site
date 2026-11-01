@@ -69,7 +69,17 @@
     <button class="tv-tab" data-tv="2">3. Agendamento</button>
     <button class="tv-tab" data-tv="3">4. Status Operacional</button>
     <button class="tv-tab" data-tv="4">5. Outbound (NYSE / B3)</button>
-    <button id="tv-pause" title="Pausar/Retomar rotação">⏸️ 22s</button>
+    <label class="tv-dur-lbl" title="Configurar tempo de exibição de cada tela">
+      ⏱️
+      <select id="tv-dur">
+        <option value="30000">30s / tela</option>
+        <option value="60000">1m / tela</option>
+        <option value="90000" selected>1m 30s / tela</option>
+        <option value="120000">2m / tela</option>
+        <option value="180000">3m / tela</option>
+      </select>
+    </label>
+    <button id="tv-pause" title="Pausar/Retomar rotação automática">⏸️ Pausar</button>
     <button id="tv-exit" class="tv-btn-exit">✕ Sair da TV</button>
   </div>
 </div>
@@ -79,64 +89,48 @@
 .admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:#130c34;border:1px solid #33236f;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:#22d3ee;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
 /* ==========================================================================
-   ANIMAÇÕES GLOBAIS DE PAINEL DIGITAL AUTOMOTIVO (ACELERADOR / GAUGE SWEEP)
-   Funcionam tanto no site normal quanto no Modo TV!
+   ANIMAÇÕES DE PAINEL DIGITAL (LED POR LED SECO + 1 ÚNICO LED APAGADO GIRANDO)
+   Sem brilho excessivo e sem loop nos números!
    ========================================================================== */
-@keyframes rpmTickIgnite {
-  0% { opacity: 0.08; filter: brightness(0.4); }
-  55% { opacity: 1; filter: brightness(1.9) drop-shadow(0 0 6px currentColor); }
-  100% { opacity: 1; filter: brightness(1.08); }
-}
-@keyframes rpmIdleWave {
-  0%, 72%, 100% { opacity: 1; filter: brightness(1); }
-  82% { opacity: 0.35; filter: brightness(0.6); }
-  90% { opacity: 1; filter: brightness(1.75) drop-shadow(0 0 5px currentColor); }
-}
-@keyframes segBlockSweep {
-  0% { opacity: 0.08; transform: scaleY(0.25); filter: brightness(0.4); }
-  65% { opacity: 1; transform: scaleY(1.16); filter: brightness(1.85) drop-shadow(0 0 7px currentColor); }
-  100% { opacity: 1; transform: scaleY(1); filter: brightness(1.05); }
-}
-@keyframes segIdlePulse {
-  0%, 76%, 100% { filter: brightness(1); transform: scaleY(1); }
-  88% { filter: brightness(1.65) drop-shadow(0 0 6px currentColor); transform: scaleY(1.1); }
-}
-@keyframes barBrickIgnite {
-  0% { opacity: 0; transform: scaleX(0.4); filter: brightness(0.4); }
-  70% { opacity: 1; transform: scaleX(1.06); filter: brightness(1.8); }
-  100% { opacity: 1; transform: scaleX(1); filter: brightness(1); }
+@keyframes ledStepOn {
+  0% { opacity: 0.12; }
+  100% { opacity: 1; }
 }
 @keyframes lineDrawSweep {
   from { stroke-dashoffset: var(--plen, 1400); }
   to { stroke-dashoffset: 0; }
 }
 @keyframes areaFadeSweep {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Classes aplicadas automaticamente pelo motor de ignição JS */
-.rpm-tick-on {
-  animation: rpmTickIgnite 0.42s cubic-bezier(0.16, 1, 0.3, 1) both,
-             rpmIdleWave 5.2s ease-in-out infinite;
+.led-step-init {
+  opacity: 0.12;
+  animation: ledStepOn 0.08s steps(1, end) forwards;
 }
-.seg-cell-on {
-  transform-origin: center bottom;
-  animation: segBlockSweep 0.38s cubic-bezier(0.16, 1, 0.3, 1) both,
-             segIdlePulse 4.6s ease-in-out infinite;
+
+/* Estado do único LED apagado que gira/caminha após o preenchimento */
+svg line.led- hole-off,
+svg rect.led-hole-off {
+  opacity: 0.12 !important;
+  transition: opacity 0.08s linear;
 }
-.bar-brick-on {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: barBrickIgnite 0.34s cubic-bezier(0.16, 1, 0.3, 1) both,
-             rpmIdleWave 5.8s ease-in-out infinite;
+svg line.led-hole-off {
+  opacity: 0.12 !important;
 }
+.sg i.led-hole-off,
+.sgb i.led-hole-off,
+.nyse-led i.led-hole-off {
+  opacity: 0.14 !important;
+}
+
 .path-draw-on {
   stroke-dasharray: var(--plen, 1400);
-  animation: lineDrawSweep 1.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: lineDrawSweep 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .area-fade-on {
-  animation: areaFadeSweep 1.1s ease-out both;
+  animation: areaFadeSweep 1.5s ease-out forwards;
 }
 
 /* ESTILOS DO PALCO MODO TV (BOLSA DE VALORES NYSE / B3) */
@@ -148,31 +142,30 @@ body.tv-mode #tv-stage { display: flex; }
 
 .tv-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 18px; height: 50px; padding: 0 22px; background: linear-gradient(90deg, #120936f2, #180d48f2 60%, #100830f2); border-bottom: 1px solid #33236f; box-shadow: 0 4px 25px #000c; }
 .tv-brand { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
-.tv-brand b { font-size: 18px; font-weight: 900; letter-spacing: .12em; color: #22d3ee; text-shadow: 0 0 16px #22d3ee99; }
+.tv-brand b { font-size: 18px; font-weight: 900; letter-spacing: .12em; color: #22d3ee; }
 .tv-brand small { font-size: 10px; letter-spacing: .18em; color: #a79bd6; font-weight: 700; }
-.tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 12px #22c55e, 0 0 24px #22c55e; display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
-.tv-clock { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 15px; font-weight: 800; color: #facc15; text-shadow: 0 0 12px #facc1577; letter-spacing: .08em; white-space: nowrap; background: #191042; padding: 5px 12px; border-radius: 8px; border: 1px solid #3b2885; }
+.tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
+.tv-clock { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 15px; font-weight: 800; color: #facc15; letter-spacing: .08em; white-space: nowrap; background: #191042; padding: 5px 12px; border-radius: 8px; border: 1px solid #3b2885; }
 
 .tv-ticker-wrap { flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
-.tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 38s linear infinite; padding-left: 100%; }
+.tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 42s linear infinite; padding-left: 100%; }
 .tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #cfc8f5; }
 .tv-tick-item b { color: #fff; font-family: ui-monospace, monospace; font-size: 13px; }
-.tv-up { color: #4ade80; text-shadow: 0 0 10px #4ade8088; }
-.tv-dn { color: #fb7185; text-shadow: 0 0 10px #fb718588; }
-.tv-nt { color: #22d3ee; text-shadow: 0 0 10px #22d3ee88; }
+.tv-up { color: #4ade80; }
+.tv-dn { color: #fb7185; }
+.tv-nt { color: #22d3ee; }
 
 #tv-canvas { position: relative; z-index: 1; flex: 1; padding: 12px 22px 64px; display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; animation: tvFadeIn .45s ease-out; }
 .tv-row { display: grid; gap: 10px; min-height: 0; }
 .tv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 10px; }
 
-.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: 14px; padding: 9px 13px; box-shadow: 0 8px 28px #000a, inset 0 0 22px color-mix(in srgb, var(--c, #22d3ee) 10%, transparent); overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-.tv-kpi::after { content: ""; position: absolute; top: -50%; left: -60%; width: 45%; height: 200%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent); transform: rotate(25deg); animation: tvSheen 7s infinite; pointer-events: none; }
+.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: 14px; padding: 9px 13px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
 .tv-kpi-hd { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b5abeb; }
-.tv-kpi-val { font-size: clamp(18px, 1.75vw, 27px); font-weight: 900; color: var(--c, #22d3ee); text-shadow: 0 0 18px color-mix(in srgb, var(--c, #22d3ee) 65%, transparent); line-height: 1.12; margin: 3px 0 2px; font-variant-numeric: tabular-nums; transition: transform .25s ease; }
+.tv-kpi-val { font-size: clamp(18px, 1.75vw, 27px); font-weight: 900; color: var(--c, #22d3ee); line-height: 1.12; margin: 3px 0 2px; font-variant-numeric: tabular-nums; }
 .tv-kpi-sub { font-size: 11px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: 14px; padding: 10px 14px; box-shadow: 0 10px 32px #000b, inset 0 1px 0 rgba(255,255,255,0.06); display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
-.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: #22d3ee; margin-bottom: 6px; text-shadow: 0 0 12px #22d3ee55; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
+.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: 14px; padding: 10px 14px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: #22d3ee; margin-bottom: 6px; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
 .tv-card-title span { font-size: 10.5px; color: #a79bd6; font-weight: 600; letter-spacing: .05em; text-transform: none; }
 .tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; }
 .tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible; }
@@ -181,7 +174,7 @@ body.tv-mode #tv-stage { display: flex; }
 .nyse-idx-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; flex: 1; min-height: 0; }
 .nyse-idx-box { background: linear-gradient(145deg, #160d3d, #0c0724); border: 1px solid #2d1e66; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
 .nyse-idx-box small { font-size: 9.5px; color: #a79bd6; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
-.nyse-idx-box b { font-size: clamp(14px, 1.3vw, 20px); font-weight: 900; color: var(--ic, #22d3ee); text-shadow: 0 0 12px color-mix(in srgb, var(--ic, #22d3ee) 55%, transparent); font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1.15; margin: 1px 0; }
+.nyse-idx-box b { font-size: clamp(14px, 1.3vw, 20px); font-weight: 900; color: var(--ic, #22d3ee); font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1.15; margin: 1px 0; }
 .nyse-idx-box span { font-size: 10px; color: #cfc8f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .nyse-board-wrap { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; position: relative; }
@@ -203,34 +196,32 @@ body.tv-mode #tv-stage { display: flex; }
 
 .nyse-wk-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; flex-shrink: 0; }
 .nyse-wk-card { background: linear-gradient(155deg, rgba(22, 14, 61, 0.95), rgba(11, 7, 34, 0.95)); border: 1px solid #2e1f6b; border-top: 2.5px solid #22c55e; border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
-.nyse-wk-card.active-wk { border-top-color: #22d3ee; box-shadow: 0 0 18px rgba(34, 211, 238, 0.22); background: linear-gradient(155deg, rgba(30, 19, 82, 0.96), rgba(14, 9, 44, 0.96)); }
+.nyse-wk-card.active-wk { border-top-color: #22d3ee; background: linear-gradient(155deg, rgba(30, 19, 82, 0.96), rgba(14, 9, 44, 0.96)); }
 .nyse-wk-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; letter-spacing: .12em; color: #a79bd6; text-transform: uppercase; }
-.nyse-wk-val { font-size: clamp(16px, 1.45vw, 22px); font-weight: 900; color: #4ade80; text-shadow: 0 0 14px rgba(74, 222, 128, 0.45); font-family: ui-monospace, monospace; line-height: 1.15; }
+.nyse-wk-val { font-size: clamp(16px, 1.45vw, 22px); font-weight: 900; color: #4ade80; font-family: ui-monospace, monospace; line-height: 1.15; }
 .nyse-wk-meta { font-size: 10.5px; color: #d8d2fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nyse-wk-nf { font-size: 10px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-line-glow { filter: drop-shadow(0 0 9px var(--lc, #22d3ee)); }
-.tv-laser-line { stroke-dasharray: 12 220; animation: tvLaserRun 3.8s linear infinite; filter: drop-shadow(0 0 8px #fff); }
-
 .tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8d2fc; font-weight: 700; }
-.tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; box-shadow: 0 0 8px currentColor; }
+.tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; }
 
-#tv-bar { position: fixed; bottom: 10px; right: 22px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.94); border: 1px solid #22d3ee; border-radius: 99px; padding: 5px 14px; gap: 8px; align-items: center; box-shadow: 0 8px 32px #000e, 0 0 20px #22d3ee33; backdrop-filter: blur(12px); }
+#tv-bar { position: fixed; bottom: 10px; right: 22px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.95); border: 1px solid #22d3ee; border-radius: 99px; padding: 5px 14px; gap: 8px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); }
 #tv-bar b { color: #22d3ee; font-size: 11px; letter-spacing: .14em; margin-right: 4px; display: flex; align-items: center; gap: 6px; }
 #tv-bar button { padding: 4px 11px; font-size: 11px; font-weight: 700; border-radius: 99px; cursor: pointer; }
+.tv-dur-lbl { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #22d3ee; background: #191042; border: 1px solid #3b2885; border-radius: 99px; padding: 2px 10px; font-weight: 700; }
+.tv-dur-lbl select { background: transparent; border: 0; color: #ece8ff; font-size: 11px; font-weight: 700; padding: 2px 4px; outline: none; cursor: pointer; }
+.tv-dur-lbl select option { background: #130c34; color: #ece8ff; }
 .tv-btn-exit { background: linear-gradient(135deg, #dc2626, #991b1b) !important; border-color: #ef4444 !important; color: #fff !important; }
 
 @keyframes tvTickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 @keyframes tvPulseDot { 0% { transform: scale(0.85); opacity: 0.7; } 100% { transform: scale(1.2); opacity: 1; } }
-@keyframes tvLaserRun { 0% { stroke-dashoffset: 232; } 100% { stroke-dashoffset: 0; } }
-@keyframes tvSheen { 0%, 75% { left: -60%; } 100% { left: 140%; } }
 @keyframes tvFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
 <!-- ==========================================================================
-     MOTOR DE IGNIÇÃO DIGITAL (CLUSTER AUTOMOTIVO) + MODO TV NYSE/B3
+     MOTOR DE IGNIÇÃO LED POR LED (SEM LOOP) + 1 LED APAGADO GIRANDO + MODO TV
      ========================================================================== -->
 <script>
 (function(){
@@ -249,30 +240,38 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     2. MOTOR UNIVERSAL DE VARREDURA AUTOMOTIVA (IGNIÇÃO DE PAINEL DIGITAL)
-     Anima todos os gráficos circulares, barras LED, colunas e contadores em
-     qualquer guia do sistema normal e também no Modo TV!
+     2. MOTOR DE CONTAGEM ÚNICA + VARREDURA DE 1 ÚNICO LED APAGADO
+     - Conta de 0 até o valor real 1 única vez por aba e TRAVA no valor final.
+     - Acende quadradinho por quadradinho mais devagar (~38ms por LED).
+     - Depois de cheio, gira exatamente 1 único LED apagado pelos estágios acesos.
      ========================================================================== */
-  function animateCounterText(el, duration) {
-    if (!el || el.dataset.counting === '1') return;
-    const orig = (el.textContent || '').trim();
+  const activeLedGroups = [];
+
+  function animateCounterOnce(el, duration) {
+    if (!el || el.dataset.counted === '1') return;
+    const orig = (el.getAttribute('data-orig-txt') || el.textContent || '').trim();
     if (!orig || orig === '—') return;
-    /* Captura o primeiro número principal (ex: "75%", "1.378", "849 · 62%") */
+    el.setAttribute('data-orig-txt', orig);
+    el.dataset.counted = '1';
+
     const m = orig.match(/^([+-]?\s*(?:R\$\s*)?)(\d[\d.]*(?:,\d+)?)(.*)$/);
     if (!m) return;
     const prefix = m[1], numStr = m[2], suffix = m[3];
     const hasDots = numStr.includes('.'), hasComma = numStr.includes(',');
     const clean = numStr.replace(/\./g, '').replace(',', '.');
     const target = parseFloat(clean);
-    if (isNaN(target) || target === 0) return;
+    if (isNaN(target) || target === 0) {
+      el.textContent = orig;
+      return;
+    }
 
-    el.dataset.counting = '1';
     const decimals = hasComma ? (numStr.split(',')[1] || '').length : 0;
     const t0 = performance.now();
 
     function step(now) {
+      if (!el.isConnected) return;
       const p = Math.min(1, (now - t0) / duration);
-      const ease = 1 - Math.pow(1 - p, 3); // Desaceleração suave de ponteiro automotivo
+      const ease = 1 - Math.pow(1 - p, 2.4);
       const cur = target * ease;
       let formatted;
       if (decimals > 0) {
@@ -283,128 +282,163 @@ body.tv-mode #tv-stage { display: flex; }
         formatted = String(Math.round(cur));
       }
       el.textContent = prefix + formatted + suffix;
-      if (p < 1) requestAnimationFrame(step);
-      else {
+      if (p < 1) {
+        requestAnimationFrame(step);
+      } else {
+        /* Garante que o texto final crava 100% no valor real e nunca mais reseta */
         el.textContent = orig;
-        el.dataset.counting = '0';
       }
     }
     requestAnimationFrame(step);
   }
 
+  function registerLedGroup(items, readyTimeMs) {
+    if (!items || items.length < 2) return;
+    activeLedGroups.push({
+      items: items,
+      readyAt: performance.now() + readyTimeMs + 250,
+      holeIdx: -1
+    });
+  }
+
+  /* Loop global suave (a cada 140ms) que move 1 único LED apagado em cada gráfico já carregado */
+  setInterval(() => {
+    const now = performance.now();
+    for (let g = activeLedGroups.length - 1; g >= 0; g--) {
+      const grp = activeLedGroups[g];
+      if (!grp.items[0] || !grp.items[0].isConnected) {
+        activeLedGroups.splice(g, 1);
+        continue;
+      }
+      if (now < grp.readyAt) continue;
+      if (grp.holeIdx >= 0 && grp.holeIdx < grp.items.length) {
+        grp.items[grp.holeIdx].classList.remove('led-hole-off');
+      }
+      grp.holeIdx = (grp.holeIdx + 1) % grp.items.length;
+      grp.items[grp.holeIdx].classList.add('led-hole-off');
+    }
+  }, 140);
+
   function igniteAutomotiveGauges(root) {
     if (!root) return;
+    const STEP_MS = 38; // Velocidade mais cadenciada para ver cada LED acendendo
 
-    /* A) ANÉIS CIRCULARES E DONUTS (.rsv e anéis da TV): acendem tracinho por tracinho em sentido horário */
+    /* A) ANÉIS CIRCULARES E DONUTS (.rsv e .tv-ring-svg) */
     root.querySelectorAll('svg.rsv, svg.tv-ring-svg').forEach(svg => {
+      if (svg.dataset.ignited === '1') return;
+      svg.dataset.ignited = '1';
+
       const lines = svg.querySelectorAll('line');
-      let activeIdx = 0;
+      const litLines = [];
       lines.forEach(ln => {
         const st = (ln.getAttribute('stroke') || '').toLowerCase();
-        /* Ignora os tracinhos de fundo apagados (#2a1f63 ou #221652) */
         if (st && st !== '#2a1f63' && st !== '#221652') {
-          ln.classList.remove('rpm-tick-on');
-          void ln.offsetWidth;
-          ln.style.color = st;
-          const igniteDelay = (activeIdx * 0.016).toFixed(3);
-          const waveDelay = (1.1 + activeIdx * 0.045).toFixed(3);
-          ln.style.animationDelay = `${igniteDelay}s, ${waveDelay}s`;
-          ln.classList.add('rpm-tick-on');
-          activeIdx++;
+          ln.style.animationDelay = `${(litLines.length * (STEP_MS / 1000)).toFixed(3)}s`;
+          ln.classList.add('led-step-init');
+          litLines.push(ln);
         }
       });
+
+      const totalSweepMs = litLines.length * STEP_MS;
       const txt = svg.querySelector('text');
-      if (txt && activeIdx > 0) {
-        animateCounterText(txt, Math.min(1150, Math.max(450, activeIdx * 18)));
+      if (txt && litLines.length > 0) {
+        animateCounterOnce(txt, Math.max(700, totalSweepMs));
       }
+      registerLedGroup(litLines, totalSweepMs);
     });
 
-    /* B) BARRAS SEGMENTADAS DE ESTÁGIOS (.sg, .sgb, .nyse-led): aceleram da esquerda para a direita */
+    /* B) BARRAS HORIZONTAIS DE QUADRINHOS LED (.sg, .sgb, .nyse-led) */
     root.querySelectorAll('.sg, .sgb, .nyse-led').forEach(bar => {
+      if (bar.dataset.ignited === '1') return;
+      bar.dataset.ignited = '1';
+
       const cells = bar.querySelectorAll('i');
-      let activeIdx = 0;
+      const litCells = [];
       cells.forEach(cell => {
-        const inlineBg = cell.getAttribute('style') || '';
-        /* Só anima os estágios acesos (que têm background colorido definido) */
+        const inlineBg = (cell.getAttribute('style') || '').toLowerCase();
         if (inlineBg.includes('background') && !inlineBg.includes('#1f144d') && !inlineBg.includes('#1e1348') && !inlineBg.includes('#231752')) {
-          cell.classList.remove('seg-cell-on');
-          void cell.offsetWidth;
-          const mCol = inlineBg.match(/#[0-9a-f]{6}/i);
-          if (mCol) cell.style.color = mCol[0];
-          const sweepDelay = (activeIdx * 0.022).toFixed(3);
-          const pulseDelay = (1.0 + activeIdx * 0.06).toFixed(3);
-          cell.style.animationDelay = `${sweepDelay}s, ${pulseDelay}s`;
-          cell.classList.add('seg-cell-on');
-          activeIdx++;
+          cell.style.animationDelay = `${(litCells.length * 0.042).toFixed(3)}s`;
+          cell.classList.add('led-step-init');
+          litCells.push(cell);
         }
       });
+
+      const totalSweepMs = litCells.length * 42;
       const sgr = bar.closest('.sgr');
       if (sgr) {
         const bEl = sgr.querySelector('.sgh b');
-        if (bEl && activeIdx > 0) animateCounterText(bEl, Math.min(1000, Math.max(400, activeIdx * 24)));
+        if (bEl && litCells.length > 0) animateCounterOnce(bEl, Math.max(700, totalSweepMs));
       }
+      registerLedGroup(litCells, totalSweepMs);
     });
 
-    /* C) GRÁFICOS DE BARRAS/COLUNAS EM BLOCOS E CURVAS DE LINHA (.chx svg, svg.ars, .tv-chart-box svg) */
+    /* C) GRÁFICOS DE COLUNAS EM BLOCOS E CURVAS DE LINHA (.chx svg, svg.ars, .tv-chart-box svg) */
     root.querySelectorAll('.chx svg, svg.ars, .tv-chart-box svg').forEach(svg => {
       if (svg.classList.contains('rsv') || svg.classList.contains('tv-ring-svg')) return;
-      const H = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.height) ? svg.viewBox.baseVal.height : 240;
+      if (svg.dataset.ignited === '1') return;
+      svg.dataset.ignited = '1';
 
-      /* Tijolinhos das colunas verticais e barras horizontais */
+      const H = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.height) ? svg.viewBox.baseVal.height : 240;
+      const bricksByCol = {};
+
       svg.querySelectorAll('rect').forEach(r => {
         const fill = (r.getAttribute('fill') || '').toLowerCase();
         if (!fill || fill === 'transparent' || fill === '#241855' || fill === '#1e1348' || fill.startsWith('url(#nysebarg)')) return;
         const w = parseFloat(r.getAttribute('width') || 0), h = parseFloat(r.getAttribute('height') || 0);
-        if (h > 40 && w > 40) return; // Ignora caixas grandes de fundo
-        const x = parseFloat(r.getAttribute('x') || 0), y = parseFloat(r.getAttribute('y') || 0);
-        /* Calcula o atraso de baixo para cima (colunas) e da esquerda para a direita */
-        const normUp = Math.max(0, Math.min(1, (H - y) / H));
-        const normLeft = Math.max(0, Math.min(1, x / 650));
-        const delay = (normUp * 0.55 + normLeft * 0.35).toFixed(3);
-        const waveDelay = (1.3 + normUp * 0.8 + normLeft * 0.5).toFixed(3);
-        r.classList.remove('bar-brick-on');
-        void r.offsetWidth;
-        r.style.color = fill;
-        r.style.animationDelay = `${delay}s, ${waveDelay}s`;
-        r.classList.add('bar-brick-on');
+        if (h > 40 && w > 40) return;
+        const x = Math.round(parseFloat(r.getAttribute('x') || 0));
+        const y = parseFloat(r.getAttribute('y') || 0);
+        (bricksByCol[x] = bricksByCol[x] || []).push({ el: r, y: y });
       });
 
-      /* Linhas e Curvas: efeito de varredura óptica da esquerda para a direita */
+      Object.keys(bricksByCol).sort((a, b) => (+a) - (+b)).forEach((xKey, colIdx) => {
+        /* Ordena de baixo para cima (maior Y para menor Y) para acender degrau por degrau */
+        const colBricks = bricksByCol[xKey].sort((a, b) => b.y - a.y).map(b => b.el);
+        colBricks.forEach((brick, stepIdx) => {
+          const delaySec = (colIdx * 0.04 + stepIdx * 0.045).toFixed(3);
+          brick.style.animationDelay = `${delaySec}s`;
+          brick.classList.add('led-step-init');
+        });
+        const readyMs = (colIdx * 40) + (colBricks.length * 45);
+        registerLedGroup(colBricks, readyMs);
+      });
+
+      /* Linhas de gráficos desenham suavemente 1 única vez */
       svg.querySelectorAll('path').forEach(p => {
-        if (p.classList.contains('tv-laser-line')) return;
         const fill = p.getAttribute('fill') || 'none';
         if (fill === 'none') {
           try {
             const len = Math.ceil(p.getTotalLength());
             if (len > 20) {
               p.style.setProperty('--plen', len);
-              p.classList.remove('path-draw-on');
-              void p.offsetWidth;
               p.classList.add('path-draw-on');
             }
           } catch (e) {}
         } else {
-          p.classList.remove('area-fade-on');
-          void p.offsetWidth;
           p.classList.add('area-fade-on');
         }
       });
     });
 
-    /* D) CONTADORES DE CARTÕES PRINCIPAIS (.stc .big e легенdas de rosca .dlg b) */
-    root.querySelectorAll('.stc .big, .dlg b').forEach(el => animateCounterText(el, 850));
+    /* D) CONTADORES DE CARTÕES PRINCIPAIS (.stc .big e legendas de rosca .dlg b) — 1 única vez */
+    root.querySelectorAll('.stc .big, .dlg b').forEach(el => animateCounterOnce(el, 1200));
   }
 
-  /* Observa todas as trocas de aba, filtros ou datas no sistema principal (#v) para disparar a ignição */
+  /* Observa SOMENTE a troca de tela/aba em #v (subtree: FALSE para nunca criar loop com os números!) */
   const vMain = document.getElementById('v');
-  let igTimer = null;
   if (vMain) {
     new MutationObserver(() => {
-      clearTimeout(igTimer);
-      igTimer = setTimeout(() => igniteAutomotiveGauges(vMain), 35);
-    }).observe(vMain, { childList: true, subtree: true });
+      setTimeout(() => igniteAutomotiveGauges(vMain), 40);
+    }).observe(vMain, { childList: true, subtree: false });
     setTimeout(() => igniteAutomotiveGauges(vMain), 180);
   }
+
+  /* Dispara também quando o usuário ordena ou filtra uma tabela específica */
+  document.addEventListener('click', (e) => {
+    if (e.target.closest && e.target.closest('[data-s]')) {
+      setTimeout(() => igniteAutomotiveGauges(vMain), 40);
+    }
+  });
 
   /* ==========================================================================
      3. UTILS E RENDERIZAÇÃO DO MODO TV (COM OUTBOUND NYSE/B3 INTACTO)
@@ -413,19 +447,23 @@ body.tv-mode #tv-stage { display: flex; }
   const tvTicker = document.getElementById('tv-ticker');
   const tvSub = document.getElementById('tv-sub');
   const tvClock = document.getElementById('tv-clock');
-  let tvSlide = 0, tvTimer = null, tvPulseTimer = null, tvClockTimer = null, tvScrollTimer = null, tvPaused = false;
+  const tvDurSelect = document.getElementById('tv-dur');
+  const DUR_KEY = 'torreTvDurMs_v1';
+  let tvSlide = 0, tvTimer = null, tvClockTimer = null, tvScrollTimer = null, tvPaused = false;
+  let tvDurationMs = parseInt(localStorage.getItem(DUR_KEY) || '90000', 10) || 90000;
+  if (tvDurSelect) tvDurSelect.value = String(tvDurationMs);
 
   const miniSpark = (ptsArr, color, w=72, h=20) => {
     if (!ptsArr || ptsArr.length < 2) return '';
     const mx = Math.max(...ptsArr), mn = Math.min(...ptsArr), r = mx - mn || 1;
     const pts = ptsArr.map((v, i) => `${(i * ((w - 4) / (ptsArr.length - 1)) + 2).toFixed(1)},${(h - 2 - ((v - mn) / r) * (h - 4)).toFixed(1)}`).join(' ');
-    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="overflow:visible"><polyline fill="none" stroke="${color}" stroke-width="2" class="tv-line-glow" style="--lc:${color}" points="${pts}"/></svg>`;
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="overflow:visible"><polyline fill="none" stroke="${color}" stroke-width="2" points="${pts}"/></svg>`;
   };
 
   const kpiCard = (title, val, sub, color, icon, sparkPts) => {
     return `<div class="tv-kpi" style="--c:${color}">
       <div class="tv-kpi-hd"><span>${title}</span><span>${icon||''}</span></div>
-      <div class="tv-kpi-val" data-live="1">${val}</div>
+      <div class="tv-kpi-val">${val}</div>
       <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:6px">
         <div class="tv-kpi-sub">${sub||''}</div>${miniSpark(sparkPts, color, 96, 22)}
       </div>
@@ -443,7 +481,7 @@ body.tv-mode #tv-stage { display: flex; }
     }
     return `<div class="tv-card" style="align-items:center;justify-content:center;text-align:center;padding:10px">
       <svg class="tv-ring-svg" viewBox="0 0 100 100" style="width:115px;height:115px;overflow:visible">${lines}
-        <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="19" font-weight="900" style="filter:drop-shadow(0 0 10px ${colors[1]||colors[0]})">${mainTxt}</text>
+        <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="19" font-weight="900">${mainTxt}</text>
       </svg>
       <div style="font-size:11px;font-weight:800;letter-spacing:.14em;color:#22d3ee;text-transform:uppercase;margin-top:4px">${label}</div>
       <div style="font-size:11px;color:#9c90d4;margin-top:2px">${sub}</div>
@@ -455,7 +493,7 @@ body.tv-mode #tv-stage { display: flex; }
     let segs = '';
     for (let i = 0; i < N; i++) {
       const col = lerpC(colors, i / (N - 1));
-      segs += i < on ? `<i style="background:${col};box-shadow:0 0 8px ${col}88;color:${col}"></i>` : `<i style="background:#1f144d"></i>`;
+      segs += i < on ? `<i style="background:${col}"></i>` : `<i style="background:#1f144d"></i>`;
     }
     return `<div class="sgr" style="margin:8px 0">
       <div class="sgh" style="font-size:12px"><span style="color:#d8d2fc;font-weight:700">${label}</span><b style="color:#22d3ee;font-size:13px">${extraRight || (n0(count) + ' · ' + pfx(p) + '%')}</b></div>
@@ -468,7 +506,7 @@ body.tv-mode #tv-stage { display: flex; }
     const N = 10, on = Math.round(Math.min(100, Math.max(0, pctVal)) / 100 * N);
     const col = pctVal < CFG.lo ? '#ef4444' : pctVal > CFG.hi ? '#f97316' : '#22c55e';
     let s = '';
-    for (let i = 0; i < N; i++) s += `<i style="${i < on ? `background:${col};box-shadow:0 0 4px ${col}` : 'background:#231752'}"></i>`;
+    for (let i = 0; i < N; i++) s += `<i style="${i < on ? `background:${col}` : 'background:#231752'}"></i>`;
     return `<span class="nyse-led">${s}</span><span style="color:${col};font-weight:700">${pctVal.toFixed(0)}%</span>`;
   };
 
@@ -536,20 +574,19 @@ body.tv-mode #tv-stage { display: flex; }
     return `<svg viewBox="0 0 ${W} ${H}">
       <defs>
         <linearGradient id="nyseAreaG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.52"/>
-          <stop offset="65%" stop-color="#3b82f6" stop-opacity="0.16"/>
+          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.45"/>
+          <stop offset="65%" stop-color="#3b82f6" stop-opacity="0.14"/>
           <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
         </linearGradient>
         <linearGradient id="nyseBarG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#4ade80" stop-opacity="0.8"/>
+          <stop offset="0%" stop-color="#4ade80" stop-opacity="0.75"/>
           <stop offset="100%" stop-color="#10b981" stop-opacity="0.1"/>
         </linearGradient>
       </defs>
       ${grid}${volBars}
       <path d="${areaVal}" fill="url(#nyseAreaG)"/>
-      <path d="${dPeso}" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 3" class="tv-line-glow" style="--lc:#4ade80"/>
-      <path d="${dVal}" fill="none" stroke="#22d3ee" stroke-width="3" class="tv-line-glow" style="--lc:#22d3ee"/>
-      <path d="${dVal}" fill="none" stroke="#ffffff" stroke-width="3.2" class="tv-laser-line"/>
+      <path d="${dPeso}" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 3"/>
+      <path d="${dVal}" fill="none" stroke="#22d3ee" stroke-width="3"/>
       ${badges}${xLabs}
     </svg>`;
   };
@@ -588,8 +625,7 @@ body.tv-mode #tv-stage { display: flex; }
     let ln = '';
     if (lineData && lineData.length >= 2) {
       const P = lineData.map((v, i) => [X(i), Yl(v)]), d = smooth(P);
-      ln = `<path d="${d}" fill="none" stroke="${lineColor}" stroke-width="2.8" class="tv-line-glow" style="--lc:${lineColor}"/>
-            <path d="${d}" fill="none" stroke="#fff" stroke-width="3" class="tv-laser-line"/>` +
+      ln = `<path d="${d}" fill="none" stroke="${lineColor}" stroke-width="2.8"/>` +
             P.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="#0b0624" stroke="${lineColor}" stroke-width="2.2"/>`).join('');
     }
     return `<svg viewBox="0 0 ${W} ${H}">${g}${bars}${ln}</svg>`;
@@ -604,7 +640,7 @@ body.tv-mode #tv-stage { display: flex; }
         const p = Math.min(100, (val / maxV) * 100), N = 28, on = Math.max(val > 0 ? 1 : 0, Math.round((p / 100) * N));
         let segs = '';
         for (let i = 0; i < N; i++) {
-          segs += i < on ? `<i style="background:${col};box-shadow:0 0 6px ${col}88;height:14px"></i>` : `<i style="background:#1e1348;height:14px"></i>`;
+          segs += i < on ? `<i style="background:${col};height:14px"></i>` : `<i style="background:#1e1348;height:14px"></i>`;
         }
         return `<div class="sgr" style="margin:0;display:grid;grid-template-columns:150px 1fr 95px;align-items:center;gap:10px;font-size:11px">
           <span style="color:#ece8ff;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(lbl)}</span>
@@ -631,7 +667,7 @@ body.tv-mode #tv-stage { display: flex; }
       </svg>
       <div class="dlg" style="flex:1;display:flex;flex-direction:column;gap:7px;max-width:300px">
         ${entries.map(([k, v], i) => `<div style="display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #281a5e;padding-bottom:4px">
-          <i style="width:10px;height:10px;border-radius:50%;background:${colors[i % colors.length]};box-shadow:0 0 8px ${colors[i % colors.length]}"></i>
+          <i style="width:10px;height:10px;border-radius:50%;background:${colors[i % colors.length]}"></i>
           <span style="color:#d8d2fc;font-weight:600">${escH(trunc(k, 24))}</span>
           <b style="margin-left:auto;color:#fff;font-family:ui-monospace,monospace">${n0(v)} · ${pfx((v / tot) * 100)}%</b>
         </div>`).join('')}
@@ -759,7 +795,7 @@ body.tv-mode #tv-stage { display: flex; }
         </div>
         <div class="tv-row" style="grid-template-columns: 1.35fr 1fr; flex: 1">
           <div class="tv-card">
-            <div class="tv-card-title">PEDIDOS × PESO (T) POR DATA DE ENTREGA <span><i style="color:#22c55e">■</i> Barras = Pedidos (cor prazo) · <i style="color:#22d3ee">●</i> Linha Laser = Peso (t)</span></div>
+            <div class="tv-card-title">PEDIDOS × PESO (T) POR DATA DE ENTREGA <span><i style="color:#22c55e">■</i> Barras = Pedidos (cor prazo) · <i style="color:#22d3ee">●</i> Linha = Peso (t)</span></div>
             <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#6366f1' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#22d3ee')}</div>
           </div>
           <div class="tv-card">
@@ -1005,7 +1041,7 @@ body.tv-mode #tv-stage { display: flex; }
             <div class="tv-card-title">
               📈 ÍNDICE B3 / NYSE · VALOR EXPEDIDO (R$) × PESO (T)
               <div class="tv-legend">
-                <span><i style="background:#22d3ee;color:#22d3ee"></i>Curva Luminosa = Valor (R$ mil)</span>
+                <span><i style="background:#22d3ee;color:#22d3ee"></i>Curva = Valor (R$ mil)</span>
                 <span><i style="background:#4ade80;color:#4ade80"></i>Linha/Barras = Peso Expedido (t)</span>
               </div>
             </div>
@@ -1085,7 +1121,7 @@ body.tv-mode #tv-stage { display: flex; }
     }
   }
 
-  /* 4. Controle do Carrossel, Relógio e Efeito "Vivo" */
+  /* 4. Controle do Carrossel Configurável (Padrão 1m 30s) e Relógio */
   const btnTv = document.getElementById('icTv');
   const btnExit = document.getElementById('tv-exit');
   const btnPause = document.getElementById('tv-pause');
@@ -1101,23 +1137,29 @@ body.tv-mode #tv-stage { display: flex; }
     renderTvSlide(tvSlide);
   }
 
+  function restartSlideInterval() {
+    clearInterval(tvTimer);
+    tvTimer = setInterval(() => {
+      if (!tvPaused) goToSlide(tvSlide + 1);
+    }, tvDurationMs);
+  }
+
   function startTvTimers() {
-    clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvPulseTimer);
+    clearInterval(tvClockTimer);
     const tickClock = () => {
       if (tvClock) tvClock.textContent = new Date().toLocaleTimeString('pt-BR');
     };
     tickClock();
     tvClockTimer = setInterval(tickClock, 1000);
-    tvTimer = setInterval(() => { if (!tvPaused) goToSlide(tvSlide + 1); }, 22000);
+    restartSlideInterval();
+  }
 
-    tvPulseTimer = setInterval(() => {
-      if (!document.body.classList.contains('tv-mode')) return;
-      const vals = document.querySelectorAll('.tv-kpi-val, .nyse-idx-box b');
-      if (!vals.length) return;
-      const pick = vals[Math.floor(Math.random() * vals.length)];
-      pick.style.transform = 'scale(1.035)';
-      setTimeout(() => { if (pick) pick.style.transform = 'scale(1)'; }, 320);
-    }, 2800);
+  if (tvDurSelect) {
+    tvDurSelect.addEventListener('change', () => {
+      tvDurationMs = parseInt(tvDurSelect.value, 10) || 90000;
+      try { localStorage.setItem(DUR_KEY, String(tvDurationMs)); } catch (e) {}
+      if (document.body.classList.contains('tv-mode')) restartSlideInterval();
+    });
   }
 
   function toggleTvMode() {
@@ -1127,14 +1169,14 @@ body.tv-mode #tv-stage { display: flex; }
         document.documentElement.requestFullscreen().catch(() => {});
       }
       tvPaused = false;
-      if (btnPause) btnPause.innerHTML = '⏸️ 22s';
+      if (btnPause) btnPause.innerHTML = '⏸️ Pausar';
       goToSlide(0);
       startTvTimers();
     } else {
       if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       }
-      clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvPulseTimer); clearInterval(tvScrollTimer);
+      clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvScrollTimer);
       if (typeof draw === 'function') draw();
     }
   }
@@ -1143,15 +1185,12 @@ body.tv-mode #tv-stage { display: flex; }
   if (btnExit) btnExit.addEventListener('click', () => { if (document.body.classList.contains('tv-mode')) toggleTvMode(); });
   if (btnPause) btnPause.addEventListener('click', () => {
     tvPaused = !tvPaused;
-    btnPause.innerHTML = tvPaused ? '▶️ Retomar' : '⏸️ 22s';
+    btnPause.innerHTML = tvPaused ? '▶️ Retomar' : '⏸️ Pausar';
   });
-  tvTabs.forEach(b => b.addEventListener('click', () => goToSlide(+b.dataset.tv)));
-
-  if (vMain) {
-    new MutationObserver(() => {
-      if (document.body.classList.contains('tv-mode')) renderTvSlide(tvSlide);
-    }).observe(vMain, { childList: true });
-  }
+  tvTabs.forEach(b => b.addEventListener('click', () => {
+    goToSlide(+b.dataset.tv);
+    restartSlideInterval();
+  }));
 })();
 </script>
 </body></html>
