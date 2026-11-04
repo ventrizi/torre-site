@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-title" content="Torre Controle">
 <link rel="stylesheet" href="styles.css"></head><body>
 <header class="hd2">
-<!-- Botão de 3 traços ocultado com segurança -->
+<!-- Botão de 3 traços ocultado com segurança para manter compatibilidade com app.js -->
 <button id="mnu" class="ico" aria-label="Menu" title="Menu" style="display:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
 <div class="brand">Torre de Controle</div>
 <form class="srch" id="gsf" role="search"><input id="gq" type="search" placeholder="Buscar pedido, cliente, município ou transporte" autocomplete="off" aria-label="Buscar"><button type="submit" id="gb" aria-label="Buscar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
@@ -22,8 +22,8 @@
 <!-- 3. Botão de Carregar Planilhas (Upload na Nuvem Minimalista) -->
 <button class="ico" id="icUp" title="Carregar planilhas"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><i class="dot g" id="dotUp" hidden></i></button>
 
-<!-- 4. Botão Modo TV / Bolsa de Valores -->
-<button class="ico" id="icTv" title="Modo Apresentação TV (Bolsa de Valores)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+<!-- 4. Botão Modo TV -->
+<button class="ico" id="icTv" title="Modo Apresentação TV (Monitoramento Contínuo)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
 
 <!-- 5. Botão Mobile (Smartphone Minimalista) -->
 <button class="ico" id="mb" title="Alternar layout mobile / desktop"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
@@ -52,31 +52,37 @@
 <h4 style="margin-top:10px">🎯 Data de entrega (carteira) · filtro por prazo</h4><div class="q"><button data-q2="atr">🔴 Atrasado (≤ corte)</button><button data-q2="ven">🟠 Vencimento (D+1)</button><button data-q2="ant">🟡 Antecipação (5 dias úteis)</button><button data-q2="a">📦 Tudo</button></div>
 <div style="display:flex;gap:6px;margin:6px 0 10px;align-items:end;flex-wrap:wrap"><label style="font-size:11px;color:var(--mu)">De<input type="date" id="d1"></label><label style="font-size:11px;color:var(--mu)">Até<input type="date" id="d2"></label><button id="ap">Aplicar</button></div>
 <h4>🔎 Filtros</h4><div class="fg" id="fl"></div><button id="clr">🔄 LIMPAR FILTROS</button></details>
+
+<!-- PAINEL GERENCIAL CONSOLIDADO: PENDÊNCIAS QUE EXIGEM AÇÃO (EXIBIDO NO DASH QUANDO HÁ DADOS) -->
+<div id="pend-action-mount"></div>
+
 <div id="v"></div></main></div>
 
 <!-- ==========================================================================
-     STAGE EXCLUSIVO DO MODO TV · CENTRO DE INTELIGÊNCIA & BOLSA LOGÍSTICA
+     STAGE EXCLUSIVO DO MODO TV · MONITORAMENTO EXECUTIVO CONTÍNUO 24/7
      ========================================================================== -->
 <div id="tv-stage" aria-hidden="true">
   <div class="tv-top">
     <div class="tv-brand">
       <span class="tv-live-dot" id="tv-conn-dot"></span>
       <b>TORRE DE CONTROLE</b>
-      <small id="tv-sub">CENTRO DE INTELIGÊNCIA METEOROLÓGICA E OPERACIONAL</small>
+      <small id="tv-sub">TERMINAL DE INTELIGÊNCIA LOGÍSTICA</small>
     </div>
     <div class="tv-ticker-wrap"><div class="tv-ticker" id="tv-ticker"></div></div>
     <div class="tv-clock" id="tv-clock">--:--:--</div>
   </div>
   <div id="tv-canvas"></div>
+  <!-- Barra de Calendário Inteligente 24h & Curiosidades Verificadas (Discreta no Rodapé Esquerdo da TV) -->
+  <div id="tv-smart-cal" class="tv-smart-cal"></div>
   <div id="tv-bar">
-    <b>PREGÃO LOGÍSTICO</b>
+    <b>MONITORAMENTO TV</b>
     <button class="tv-tab on" data-tv="0">1. Clima &amp; Radar</button>
     <button class="tv-tab" data-tv="1">2. Visão Geral</button>
     <button class="tv-tab" data-tv="2">3. Carteira</button>
     <button class="tv-tab" data-tv="3">4. Agendamento</button>
     <button class="tv-tab" data-tv="4">5. Status Operacional</button>
-    <button class="tv-tab" data-tv="5">6. Outbound (NYSE / B3)</button>
-    <button id="tv-snd" title="Ativar/Desativar alertas sonoros meteorológicos">🔊 Áudio</button>
+    <button class="tv-tab" data-tv="5">6. Expedição &amp; Outbound</button>
+    <button id="tv-snd" title="Ativar/Desativar alertas sonoros">🔊 Áudio</button>
     <label class="tv-dur-lbl" title="Configurar tempo de exibição de cada tela">
       ⏱️
       <select id="tv-dur">
@@ -93,15 +99,52 @@
 </div>
 
 <style>
-.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:#22d3ee;font-weight:800}
-.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:#130c34;border:1px solid #33236f;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:#22d3ee;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid #33236f;border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
-
 /* ==========================================================================
-   CORREÇÃO ANTI-CORTE DE GRÁFICOS E MARCADORES
+   DESIGN SYSTEM UNIFICADO — TOKENS E PADRONIZAÇÃO SISTÊMICA DA TORRE
    ========================================================================== */
+:root {
+  --tc-bg-deep: #070419;
+  --tc-bg-panel: #130c34;
+  --tc-bg-card: #160d3d;
+  --tc-border: #2b1d63;
+  --tc-border-hi: #3b2885;
+  --tc-cyan: #22d3ee;
+  --tc-green: #22c55e;
+  --tc-green-hi: #4ade80;
+  --tc-yellow: #facc15;
+  --tc-orange: #f97316;
+  --tc-red: #ef4444;
+  --tc-purple: #a855f7;
+  --tc-text: #ece8ff;
+  --tc-muted: #a79bd6;
+  --tc-radius-lg: 14px;
+  --tc-radius-md: 10px;
+  --tc-font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid var(--tc-border-hi);border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:var(--tc-cyan);font-weight:800}
+.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:var(--tc-bg-panel);border:1px solid var(--tc-border-hi);border-radius:var(--tc-radius-lg);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:var(--tc-cyan);letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid var(--tc-border-hi);border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+
+/* Anti-corte de gráficos e rótulos */
 .ars, .chx svg, .rsv, .tv-ring-svg { overflow: visible !important; }
 .cd, .gx > .cd { overflow: visible !important; }
 .ars { padding-right: 18px; }
+
+/* ==========================================================================
+   PAINEL GERENCIAL: PENDÊNCIAS QUE EXIGEM AÇÃO (DASH & TV)
+   ========================================================================== */
+.pa-panel { background: linear-gradient(180deg, #150c3a, #0d0827); border: 1px solid var(--tc-border-hi); border-left: 5px solid var(--tc-cyan); border-radius: var(--tc-radius-lg); padding: 12px 16px; margin-bottom: 14px; box-shadow: 0 10px 30px #0008; }
+.pa-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.pa-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--tc-cyan); }
+.pa-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.pa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 8px; }
+.pa-card { background: linear-gradient(145deg, #180f42, #0e0829); border: 1px solid var(--tc-border); border-left: 4px solid var(--pac, #f97316); border-radius: var(--tc-radius-md); padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 4px; cursor: pointer; transition: transform .15s, border-color .15s; }
+.pa-card:hover { transform: translateY(-1px); border-color: var(--pac, #22d3ee); }
+.pa-card-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.pa-card-mod { color: var(--tc-cyan); font-family: var(--tc-font-mono); }
+.pa-card-desc { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.3; }
+.pa-card-imp { font-size: 11px; font-weight: 800; color: var(--pac, #facc15); font-family: var(--tc-font-mono); }
+.pa-card-act { font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #251858; padding-top: 4px; margin-top: 2px; }
 
 /* ==========================================================================
    IGNIÇÃO DE ENTRADA (COMUM AO DASH E TV) + EFEITOS CONTÍNUOS (EXCLUSIVOS DA TV)
@@ -114,7 +157,6 @@
 }
 .curve-wipe-init { animation: curveClipReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
-/* EFEITOS CONTÍNUOS — RESTRITOS SOMENTE AO #tv-stage (MODO TV) */
 #tv-stage svg line.led-hole-off { opacity: 0.12 !important; }
 
 @keyframes redTipBlinkHtml {
@@ -163,8 +205,10 @@
   animation: radarSweepRot 5.5s linear infinite;
 }
 
-/* ESTILOS DO PALCO MODO TV (CENTRO DE INTELIGÊNCIA + NYSE / B3) */
-#tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #4b1d9a66, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #070419 0%, #0b0624 55%, #060314 100%); color: #ece8ff; flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+/* ==========================================================================
+   ESTILOS DO PALCO MODO TV (ADAPTÁVEL A 16:9, 16:10, 21:9, FULL HD, QHD E 4K)
+   ========================================================================== */
+#tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #4b1d9a66, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #070419 0%, #0b0624 55%, #060314 100%); color: var(--tc-text); flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 body.tv-mode { overflow: hidden !important; }
 body.tv-mode #tv-stage { display: flex; }
 
@@ -172,127 +216,158 @@ body.tv-mode #tv-stage { display: flex; }
 
 .tv-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 18px; height: 48px; padding: 0 22px; background: linear-gradient(90deg, #120936f2, #180d48f2 60%, #100830f2); border-bottom: 1px solid #33236f; box-shadow: 0 4px 25px #000c; flex-shrink: 0; }
 .tv-brand { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
-.tv-brand b { font-size: 18px; font-weight: 900; letter-spacing: .12em; color: #22d3ee; }
-.tv-brand small { font-size: 10px; letter-spacing: .16em; color: #a79bd6; font-weight: 700; }
-.tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
-.tv-clock { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 15px; font-weight: 800; color: #facc15; letter-spacing: .08em; white-space: nowrap; background: #191042; padding: 4px 12px; border-radius: 8px; border: 1px solid #3b2885; }
+.tv-brand b { font-size: clamp(16px, 1.3vw, 22px); font-weight: 900; letter-spacing: .12em; color: var(--tc-cyan); }
+.tv-brand small { font-size: clamp(9.5px, 0.75vw, 12px); letter-spacing: .15em; color: var(--tc-muted); font-weight: 700; }
+.tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--tc-green); display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
+.tv-clock { font-family: var(--tc-font-mono); font-size: clamp(14px, 1.1vw, 18px); font-weight: 800; color: var(--tc-yellow); letter-spacing: .08em; white-space: nowrap; background: #191042; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--tc-border-hi); }
 
 .tv-ticker-wrap { flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
-.tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 42s linear infinite; padding-left: 100%; }
-.tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: #cfc8f5; }
-.tv-tick-item b { color: #fff; font-family: ui-monospace, monospace; font-size: 13px; }
-.tv-up { color: #4ade80; }
+.tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 45s linear infinite; padding-left: 100%; }
+.tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: clamp(11px, 0.85vw, 14px); font-weight: 700; letter-spacing: .06em; color: #cfc8f5; }
+.tv-tick-item b { color: #fff; font-family: var(--tc-font-mono); font-size: clamp(12px, 0.95vw, 15px); }
+.tv-up { color: var(--tc-green-hi); }
 .tv-dn { color: #fb7185; }
-.tv-nt { color: #22d3ee; }
+.tv-nt { color: var(--tc-cyan); }
 
 #tv-canvas { position: relative; z-index: 1; flex: 1; padding: 10px 20px 56px; display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; animation: tvFadeIn .35s ease-out; }
 .tv-row { display: grid; gap: 12px; min-height: 0; }
 .tv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 9px; flex-shrink: 0; }
 
-.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: 14px; padding: 8px 12px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: var(--tc-radius-lg); padding: 8px 12px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
 .tv-kpi-hd { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b5abeb; }
-.tv-kpi-val { font-size: clamp(17px, 1.65vw, 25px); font-weight: 900; color: var(--c, #22d3ee); line-height: 1.12; margin: 2px 0; font-variant-numeric: tabular-nums; }
+.tv-kpi-val { font-size: clamp(17px, 1.65vw, 26px); font-weight: 900; color: var(--c, #22d3ee); line-height: 1.12; margin: 2px 0; font-variant-numeric: tabular-nums; }
 .tv-kpi-sub { font-size: 10.5px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: 14px; padding: 12px 16px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
-.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: #22d3ee; margin-bottom: 8px; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
-.tv-card-title span { font-size: 10.5px; color: #a79bd6; font-weight: 600; letter-spacing: .04em; text-transform: none; }
+.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: var(--tc-radius-lg); padding: 11px 15px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
+.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: clamp(10.5px, 0.8vw, 13px); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--tc-cyan); margin-bottom: 7px; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
+.tv-card-title span { font-size: 10.5px; color: var(--tc-muted); font-weight: 600; letter-spacing: .04em; text-transform: none; }
 .tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 2px 4px; }
 .tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible !important; }
 
 /* ==========================================================================
-   LAYOUT HERO DO CLIMA CDG + 4 SUB-ABAS PANORÂMICAS (ZERO APERTO)
+   METEOROLOGIA: 5 SUB-ABAS PANORÂMICAS (INCLUINDO PREVISÃO DE 7 DIAS)
    ========================================================================== */
-.wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(17, 9, 46, 0.9); border: 1px solid #2b1d63; border-radius: 10px; padding: 6px 14px; flex-shrink: 0; }
-.wx-meta-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 10px; font-family: ui-monospace, monospace; color: #a79bd6; }
-.wx-sub-tabs { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-.wx-sub-btn { padding: 4px 11px !important; font-size: 10px !important; font-weight: 800 !important; border-radius: 99px !important; background: #191042 !important; border: 1px solid #3b2885 !important; color: #cfc8f5 !important; cursor: pointer; }
+.wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(17, 9, 46, 0.92); border: 1px solid var(--tc-border); border-radius: var(--tc-radius-md); padding: 6px 14px; flex-shrink: 0; }
+.wx-meta-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 10px; font-family: var(--tc-font-mono); color: var(--tc-muted); }
+.wx-sub-tabs { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.wx-sub-btn { padding: 4px 10px !important; font-size: 10px !important; font-weight: 800 !important; border-radius: 99px !important; background: #191042 !important; border: 1px solid var(--tc-border-hi) !important; color: #cfc8f5 !important; cursor: pointer; }
 .wx-sub-btn.on { background: linear-gradient(135deg, #0ea5e9, #6366f1) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 0 14px rgba(34, 211, 238, 0.4); }
 
-.wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; }
+.wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; white-space: nowrap; }
 .wx-b-prev { background: #0284c7; }
 .wx-b-torre { background: #d97706; }
 .wx-b-gov { background: #dc2626; }
 .wx-b-ok { background: #16a34a; }
 
-/* Card Hero Temperatura CDG Guarulhos */
-.wx-hero-box { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: linear-gradient(145deg, rgba(26, 16, 72, 0.95), rgba(12, 7, 36, 0.98)); border: 1px solid #3b2885; border-left: 5px solid var(--hc, #22d3ee); border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 8px 25px #0008; }
-.wx-hero-temp { font-size: clamp(38px, 3.6vw, 54px); font-weight: 900; color: #fff; font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1; letter-spacing: -1px; text-shadow: 0 0 24px color-mix(in srgb, var(--hc, #22d3ee) 65%, transparent); }
-.wx-hero-cond { font-size: 14px; font-weight: 800; color: var(--hc, #22d3ee); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
-.wx-hero-sub { font-size: 11.5px; color: #cfc8f5; margin-top: 2px; }
+.wx-hero-box { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: linear-gradient(145deg, rgba(26, 16, 72, 0.95), rgba(12, 7, 36, 0.98)); border: 1px solid var(--tc-border-hi); border-left: 5px solid var(--hc, #22d3ee); border-radius: var(--tc-radius-lg); padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 8px 25px #0008; }
+.wx-hero-temp { font-size: clamp(36px, 3.4vw, 52px); font-weight: 900; color: #fff; font-family: var(--tc-font-mono); line-height: 1; letter-spacing: -1px; text-shadow: 0 0 24px color-mix(in srgb, var(--hc, #22d3ee) 65%, transparent); }
+.wx-hero-cond { font-size: 13.5px; font-weight: 800; color: var(--hc, #22d3ee); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
+.wx-hero-sub { font-size: 11px; color: #cfc8f5; margin-top: 2px; }
 
-/* Grade de Cartões das 8 Regiões (Vista 3 — Ampla e Sem Aperto) */
-.wx-reg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex: 1; min-height: 0; }
+/* NOVA VISTA: PREVISÃO DOS PRÓXIMOS 7 DIAS (CARTÕES VERTICAIS ELEGANTES) */
+.wx-7d-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; flex: 1; min-height: 0; }
+.wx-7d-card { background: linear-gradient(165deg, #180f42, #0b0622); border: 1px solid #2e1f6b; border-top: 3px solid var(--dc, #22d3ee); border-radius: 12px; padding: 10px 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 6px 18px #0008; }
+.wx-7d-card.is-today { border-top-color: var(--tc-yellow); background: linear-gradient(165deg, #23165c, #110934); box-shadow: 0 0 18px rgba(250, 204, 21, 0.18); }
+.wx-7d-day { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
+.wx-7d-date { font-size: 10px; color: var(--tc-muted); font-family: var(--tc-font-mono); }
+.wx-7d-ico { font-size: 28px; line-height: 1.1; margin: 4px 0 2px; }
+.wx-7d-cond { font-size: 10.5px; font-weight: 800; color: var(--dc, #22d3ee); }
+.wx-7d-temps { font-family: var(--tc-font-mono); font-size: 14px; font-weight: 900; margin: 4px 0; }
+.wx-7d-stats { width: 100%; border-top: 1px solid #26195c; padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-family: var(--tc-font-mono); color: #cfc8f5; text-align: left; }
+.wx-7d-op { width: 100%; background: #11092e; border: 1px solid #2b1d63; border-radius: 6px; padding: 4px 6px; font-size: 9.5px; font-family: var(--tc-font-mono); color: var(--tc-cyan); margin-top: 4px; }
+
+/* Grade de Cartões das 8 Regiões */
+.wx-reg-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
 .wx-reg-card { background: linear-gradient(160deg, #170e3f, #0c0724); border: 1px solid #2e1f6b; border-top: 3px solid var(--rc, #22d3ee); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
-.wx-reg-card.is-base { border-top-color: #facc15; background: linear-gradient(160deg, #211556, #100930); }
+.wx-reg-card.is-base { border-top-color: var(--tc-yellow); background: linear-gradient(160deg, #211556, #100930); }
 .wx-reg-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
 .wx-reg-name { font-size: 11.5px; font-weight: 800; color: #fff; letter-spacing: .05em; text-transform: uppercase; }
 .wx-reg-big { display: flex; align-items: baseline; justify-content: space-between; margin: 6px 0; }
-.wx-reg-temp { font-size: clamp(22px, 2vw, 30px); font-weight: 900; color: var(--rc, #22d3ee); font-family: ui-monospace, monospace; line-height: 1; }
-.wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bdb4ee; border-top: 1px solid #281a5e; padding-top: 6px; font-family: ui-monospace, monospace; }
+.wx-reg-temp { font-size: clamp(22px, 2vw, 30px); font-weight: 900; color: var(--rc, #22d3ee); font-family: var(--tc-font-mono); line-height: 1; }
+.wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bdb4ee; border-top: 1px solid #281a5e; padding-top: 6px; font-family: var(--tc-font-mono); }
 .wx-reg-cart { margin-top: 6px; padding: 5px 8px; border-radius: 8px; background: #11092e; border: 1px solid #2b1d63; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
 
-/* Alertas Defesa Civil em Tela Larga (Vista 2) */
-.wx-alert-wide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 10px; overflow-y: auto; max-height: 100%; padding-right: 4px; align-content: start; }
+/* Alertas Defesa Civil em Tela Larga */
+.wx-alert-wide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 10px; overflow-y: auto; max-height: 100%; padding-right: 4px; align-content: start; }
 .wx-alert-card { background: linear-gradient(145deg, #180d3e, #0e0729); border: 1px solid #332275; border-left: 5px solid var(--ac, #ef4444); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; box-shadow: 0 8px 24px #0009; }
 .wx-alert-card-hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.wx-alert-card-msg { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.4; }
-.wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #a79bd6; border-top: 1px solid #281a5e; padding-top: 6px; }
-.wx-ack-btn { padding: 4px 12px !important; font-size: 10.5px !important; font-weight: 700 !important; background: #241855 !important; border-color: #5b3fc4 !important; color: #ece8ff !important; border-radius: 99px !important; }
+.wx-alert-card-msg { font-size: 12.5px; font-weight: 700; color: #fff; line-height: 1.4; }
+.wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #281a5e; padding-top: 6px; }
+.wx-ack-btn { padding: 4px 12px !important; font-size: 10px !important; font-weight: 700 !important; background: #241855 !important; border-color: #5b3fc4 !important; color: #ece8ff !important; border-radius: 99px !important; }
 
-/* Grade de Corredores Rodoviários & Previsão de Atraso SLA (Nova Vista 4) */
-.wx-hw-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; flex: 1; min-height: 0; }
+/* Grade de Corredores Rodoviários & Previsão de Atraso SLA */
+.wx-hw-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
 .wx-hw-card { background: linear-gradient(155deg, #170e3f, #0b0622); border: 1px solid #2e1f6b; border-left: 4px solid var(--hwc, #22c55e); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
 .wx-hw-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.wx-hw-title { font-size: 12px; font-weight: 900; color: #fff; letter-spacing: .04em; }
-.wx-hw-sub { font-size: 10px; color: #a79bd6; margin-top: 2px; }
-.wx-hw-speed-row { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 4px; font-family: ui-monospace, monospace; }
-.wx-hw-spd { font-size: clamp(20px, 1.8vw, 26px); font-weight: 900; color: var(--hwc, #22c55e); }
-.wx-hw-eta { font-size: 11.5px; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #120936; border: 1px solid #33236f; }
-.wx-hw-meta { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: #cfc8f5; border-top: 1px solid #26195c; padding-top: 6px; margin-top: 4px; }
+.wx-hw-title { font-size: 11.5px; font-weight: 900; color: #fff; letter-spacing: .04em; }
+.wx-hw-sub { font-size: 10px; color: var(--tc-muted); margin-top: 2px; }
+.wx-hw-speed-row { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 4px; font-family: var(--tc-font-mono); }
+.wx-hw-spd { font-size: clamp(19px, 1.7vw, 25px); font-weight: 900; color: var(--hwc, #22c55e); }
+.wx-hw-eta { font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #120936; border: 1px solid #33236f; }
+.wx-hw-meta { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #cfc8f5; border-top: 1px solid #26195c; padding-top: 6px; margin-top: 4px; }
 
-/* Componentes Exclusivos do Painel Outbound NYSE / B3 */
-.nyse-idx-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; flex: 1; min-height: 0; }
+/* ==========================================================================
+   CORREÇÃO PONTUAL DO OUTBOUND (PROPORÇÃO EQUILIBRADA E ZERO COLISÃO DE TEXTO)
+   ========================================================================== */
+.nyse-idx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; flex: 1; min-height: 0; }
 .nyse-idx-box { background: linear-gradient(145deg, #160d3d, #0c0724); border: 1px solid #2d1e66; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
-.nyse-idx-box small { font-size: 9.5px; color: #a79bd6; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
-.nyse-idx-box b { font-size: clamp(14px, 1.3vw, 20px); font-weight: 900; color: var(--ic, #22d3ee); font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1.15; margin: 1px 0; }
+.nyse-idx-box small { font-size: 9.5px; color: var(--tc-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+.nyse-idx-box b { font-size: clamp(14px, 1.25vw, 19px); font-weight: 900; color: var(--ic, #22d3ee); font-family: var(--tc-font-mono); line-height: 1.15; margin: 1px 0; }
 .nyse-idx-box span { font-size: 10px; color: #cfc8f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .nyse-board-wrap { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; position: relative; }
 .nyse-board-wrap::-webkit-scrollbar { display: none; }
-.nyse-table { width: 100%; border-collapse: collapse; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; }
-.nyse-table thead th { position: sticky; top: 0; background: #140b38; color: #22d3ee !important; font-size: 9.5px !important; font-weight: 800; padding: 5px 6px; border-bottom: 1px solid #3b2885 !important; text-align: right; z-index: 2; letter-spacing: .07em; }
+.nyse-table { width: 100%; border-collapse: collapse; font-family: var(--tc-font-mono); font-size: 11px; }
+.nyse-table thead th { position: sticky; top: 0; background: #140b38; color: var(--tc-cyan) !important; font-size: 9.5px !important; font-weight: 800; padding: 5px 6px; border-bottom: 1px solid var(--tc-border-hi) !important; text-align: right; z-index: 2; letter-spacing: .07em; }
 .nyse-table thead th:first-child { text-align: left; }
 .nyse-table tbody tr { border-bottom: 1px solid #241654; transition: background .2s; }
-.nyse-table tbody tr.cur-day { background: linear-gradient(90deg, rgba(249, 115, 22, 0.22), rgba(34, 211, 238, 0.08)); border-left: 3px solid #f97316; }
-.nyse-table tbody td { padding: 5px 6px; text-align: right; color: #ece8ff; white-space: nowrap; }
+.nyse-table tbody tr.cur-day { background: linear-gradient(90deg, rgba(249, 115, 22, 0.22), rgba(34, 211, 238, 0.08)); border-left: 3px solid var(--tc-orange); }
+.nyse-table tbody td { padding: 5px 6px; text-align: right; color: var(--tc-text); white-space: nowrap; }
 .nyse-table tbody td:first-child { text-align: left; font-weight: 700; color: #fff; }
 .nyse-led { display: inline-flex; gap: 1.5px; vertical-align: middle; margin-right: 4px; }
 .nyse-led i { width: 3.5px; height: 9px; border-radius: 1px; background: #231752; display: inline-block; }
 
-.nyse-hl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid #2b1d63; flex-shrink: 0; }
-.nyse-hl-card { background: #120a33; border: 1px solid #2b1d63; border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; gap: 3px; }
-.nyse-hl-card .hl-metric { font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: #a79bd6; text-transform: uppercase; }
-.nyse-hl-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 10.5px; font-family: ui-monospace, monospace; }
+/* Correção dos 4 Cards de Recordes (Maior e Menor Expedição) — Sem texto grudado */
+.nyse-hl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--tc-border); flex-shrink: 0; }
+.nyse-hl-card { background: #120a33; border: 1px solid var(--tc-border); border-radius: 10px; padding: 6px 12px; display: flex; flex-direction: column; gap: 3px; }
+.nyse-hl-card .hl-metric { font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: var(--tc-cyan); text-transform: uppercase; margin-bottom: 1px; }
+.nyse-hl-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 11px; font-family: var(--tc-font-mono); white-space: nowrap; }
+.nyse-hl-row b { text-align: right; }
 
 .nyse-wk-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; flex-shrink: 0; }
-.nyse-wk-card { background: linear-gradient(155deg, rgba(22, 14, 61, 0.95), rgba(11, 7, 34, 0.95)); border: 1px solid #2e1f6b; border-top: 2.5px solid #22c55e; border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
-.nyse-wk-card.active-wk { border-top-color: #22d3ee; background: linear-gradient(155deg, rgba(30, 19, 82, 0.96), rgba(14, 9, 44, 0.96)); }
-.nyse-wk-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; letter-spacing: .11em; color: #a79bd6; text-transform: uppercase; }
-.nyse-wk-val { font-size: clamp(15px, 1.4vw, 20px); font-weight: 900; color: #4ade80; font-family: ui-monospace, monospace; line-height: 1.15; }
+.nyse-wk-card { background: linear-gradient(155deg, rgba(22, 14, 61, 0.95), rgba(11, 7, 34, 0.95)); border: 1px solid #2e1f6b; border-top: 2.5px solid var(--tc-green); border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
+.nyse-wk-card.active-wk { border-top-color: var(--tc-cyan); background: linear-gradient(155deg, rgba(30, 19, 82, 0.96), rgba(14, 9, 44, 0.96)); }
+.nyse-wk-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; letter-spacing: .11em; color: var(--tc-muted); text-transform: uppercase; }
+.nyse-wk-val { font-size: clamp(15px, 1.35vw, 20px); font-weight: 900; color: var(--tc-green-hi); font-family: var(--tc-font-mono); line-height: 1.15; }
 .nyse-wk-meta { font-size: 10.5px; color: #d8d2fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nyse-wk-nf { font-size: 10px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8d2fc; font-weight: 700; }
 .tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; }
 
-#tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.96); border: 1px solid #22d3ee; border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
-#tv-bar b { color: #22d3ee; font-size: 10.5px; letter-spacing: .14em; margin-right: 2px; display: flex; align-items: center; gap: 6px; }
+/* ==========================================================================
+   CALENDÁRIO INTELIGENTE 24H & CURIOSIDADES LOGÍSTICAS/HISTÓRICAS (RODAPÉ TV)
+   ========================================================================== */
+.tv-smart-cal { position: fixed; bottom: 8px; left: 20px; right: 640px; z-index: 9998; display: flex; align-items: center; gap: 10px; background: rgba(13, 8, 39, 0.94); border: 1px solid #33236f; border-left: 4px solid var(--tc-yellow); border-radius: 99px; padding: 5px 14px; font-size: 11px; color: var(--tc-text); box-shadow: 0 8px 24px #000c; backdrop-filter: blur(10px); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.tv-smart-cal b { color: var(--tc-yellow); font-weight: 800; letter-spacing: .05em; flex-shrink: 0; }
+.tv-smart-cal span { overflow: hidden; text-overflow: ellipsis; color: #d8d2fc; }
+
+#tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.96); border: 1px solid var(--tc-cyan); border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
+#tv-bar b { color: var(--tc-cyan); font-size: 10.5px; letter-spacing: .14em; margin-right: 2px; display: flex; align-items: center; gap: 6px; }
 #tv-bar button { padding: 4px 10px; font-size: 10.5px; font-weight: 700; border-radius: 99px; cursor: pointer; }
-.tv-dur-lbl { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: #22d3ee; background: #191042; border: 1px solid #3b2885; border-radius: 99px; padding: 2px 9px; font-weight: 700; }
-.tv-dur-lbl select { background: transparent; border: 0; color: #ece8ff; font-size: 10.5px; font-weight: 700; padding: 2px 3px; outline: none; cursor: pointer; }
-.tv-dur-lbl select option { background: #130c34; color: #ece8ff; }
+.tv-dur-lbl { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: var(--tc-cyan); background: #191042; border: 1px solid var(--tc-border-hi); border-radius: 99px; padding: 2px 9px; font-weight: 700; }
+.tv-dur-lbl select { background: transparent; border: 0; color: var(--tc-text); font-size: 10.5px; font-weight: 700; padding: 2px 3px; outline: none; cursor: pointer; }
+.tv-dur-lbl select option { background: #130c34; color: var(--tc-text); }
 .tv-btn-exit { background: linear-gradient(135deg, #dc2626, #991b1b) !important; border-color: #ef4444 !important; color: #fff !important; }
+
+/* Adaptação Responsiva para Diferentes Resoluções e Proporções de TV (16:9, 16:10, 21:9, 4K) */
+@media (max-width: 1480px) {
+  .tv-smart-cal { display: none; }
+}
+@media (min-width: 2200px) {
+  #tv-canvas { padding: 16px 32px 68px; gap: 16px; }
+  .tv-card { padding: 16px 22px; }
+}
 
 @keyframes tvTickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 @keyframes tvPulseDot { 0% { transform: scale(0.85); opacity: 0.7; } 100% { transform: scale(1.2); opacity: 1; } }
@@ -302,12 +377,26 @@ body.tv-mode #tv-stage { display: flex; }
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
 <!-- ==========================================================================
-     MOTOR DE INTELIGÊNCIA METEOROLÓGICA, RADAR COM GRADE TÉCNICA & SLA RODOVIÁRIO
-     + IGNIÇÃO AUTOMOTIVA (ESTÁTICA NO DASH / CONTÍNUA NA TV)
+     CAMADA DE INTELIGÊNCIA OPERACIONAL, METEOROLOGIA 15M, CALENDÁRIO 24H E TV
      ========================================================================== -->
 <script>
 (function(){
-  /* 1. Ícone Minimalista Consistente no Botão Mobile */
+  /* 1. Padronização do Onboarding (Estado Sem Dados Sincronizado com o Servidor Render) */
+  window.onboarding = function() {
+    return `<div class="cd" style="text-align:center;padding:28px;border-color:#3b2885">
+      <div style="font-size:38px">🛰️</div>
+      <h2 style="margin:6px 0;color:#22d3ee">Bem-vindo à Torre de Controle Logística</h2>
+      <p class="note" style="font-size:14px">Para carregar o estado oficial do servidor ou enviar novas planilhas, utilize o painel superior <b>☁️ ATUALIZAR DADOS · HISTÓRICO NO SERVIDOR</b>:</p>
+      <ol style="text-align:left;display:inline-block;line-height:1.8;color:#ece8ff;font-size:13px">
+        <li>Informe o endereço do <b>Servidor (Render)</b> e a <b>Chave de acesso</b> da Torre (salvos automaticamente neste navegador).</li>
+        <li>Clique em <b>🔄 Recarregar do servidor</b> para abrir o último snapshot válido imediatamente.</li>
+        <li>Para atualizar a base, selecione a <b>Carteira</b> (.xlsm/.xlsx) e/ou o <b>Agendamento acumulado</b> (.xlsx) e clique em <b>☁️ Atualizar dados</b>.</li>
+      </ol>
+      <p class="note">O motor Python valida e grava apenas os indicadores normalizados no PostgreSQL; as planilhas originais são descartadas com segurança.</p>
+    </div>`;
+  };
+
+  /* 2. Ícone Minimalista Consistente no Botão Mobile */
   const mbBtn = document.getElementById('mb');
   const svgPhone = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
   const svgDesktop = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
@@ -322,7 +411,7 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     2. CONFIGURAÇÃO DOS 8 POLOS METEOROLÓGICOS E 6 CORREDORES RODOVIÁRIOS
+     3. CONFIGURAÇÃO DOS 8 POLOS METEOROLÓGICOS E 6 CORREDORES RODOVIÁRIOS
      ========================================================================== */
   const POLOS_OPERACIONAIS = [
     { id: 'CDG', nome: 'CDG Guarulhos (Base)', lat: -23.4543, lon: -46.5337, rx: 132, ry: 152, munis: ['GUARULHOS','SAO PAULO'] },
@@ -335,7 +424,6 @@ body.tv-mode #tv-stage { display: flex; }
     { id: 'RIB', nome: 'Ribeirão Preto',       lat: -21.1704, lon: -47.8103, rx: 54,  ry: 38,  munis: ['RIBEIRAO PRETO','SERTAOZINHO','FRANCA','ARARAQUARA','SAO CARLOS','JABOTICABAL','BARRETOS','BEBEDOURO','BATATAIS'] }
   ];
 
-  /* Corredores Rodoviários com distância média de referência e velocidade livre de caminhão (km/h) */
   const CORREDORES_RODOVIARIOS = [
     { id: 'DUTRA',    nome: 'BR-116 Pres. Dutra (Eixo Vale)',     trecho: 'Guarulhos ➔ S. J. Campos / Taubaté', km: 110, vFree: 78, polos: ['CDG','VLP'], lat: -23.31, lon: -46.21 },
     { id: 'AYRTON',   nome: 'SP-070 Ayrton Senna / C. Pinto',     trecho: 'Guarulhos ➔ Mogi / Alto Tietê',      km: 55,  vFree: 80, polos: ['CDG','MOG'], lat: -23.48, lon: -46.34 },
@@ -345,18 +433,21 @@ body.tv-mode #tv-stage { display: flex; }
     { id: 'IMIG_ANC', nome: 'SP-160/150 Imigrantes / Anchieta',   trecho: 'Trecho Serra ➔ Santos / Baixada',    km: 76,  vFree: 65, polos: ['CDG','LIT'], lat: -23.82, lon: -46.47, serra: true }
   ];
 
+  /* Estado Meteorológico Independente (Ciclo de 15 Minutos + 3 Timestamps Rigorosos) */
   const WX_STATE = {
     status: 'SINCRONIZANDO',
-    fetchedAt: null,
+    lastQueryAt: null,       // 1. Horário da última consulta disparada pelo painel
+    lastSuccessAt: null,     // 2. Horário da última atualização efetiva recebida
+    refMeasurementAt: null,  // 3. Horário de referência do dado meteorológico na fonte
     source: 'Open-Meteo Multi-Model (NOAA/ECMWF/CPTEC)',
     radarSource: 'RainViewer Doppler API',
     radarTime: null,
     radarStatus: 'SINCRONIZANDO',
     regions: {},
-    tomtomSpeeds: {}, // Armazena velocidade real via GPS se window.TORRE_TOMTOM_KEY estiver ativa
+    tomtomSpeeds: {},
     silencedAlerts: new Set(),
     soundEnabled: localStorage.getItem('torreWxSound_v1') !== '0',
-    subView: 0 // 0 = Telemetria 48h | 1 = Alertas & Defesa Civil | 2 = 8 Microrregiões | 3 = Rodovias & Previsão Atraso SLA
+    subView: 0 // 0=Telemetria 48h | 1=Previsão 7 Dias | 2=Defesa Civil | 3=Microrregiões (8) | 4=Rodovias & SLA
   };
 
   function wmoInfo(code) {
@@ -373,8 +464,6 @@ body.tv-mode #tv-stage { display: flex; }
 
   const degToCard = deg => ['N','NE','L','SE','S','SO','O','NO'][Math.round(((+deg || 0) % 360) / 45) % 8];
 
-  /* Motor Físico HCM (Highway Capacity Manual) + Integração TomTom Opcional:
-     Calcula velocidade operacional de caminhão, retenção e atraso estimado em minutos */
   function calcHighwayTelemetry(hw, C) {
     const pObjs = hw.polos.map(pid => WX_STATE.regions[pid]).filter(Boolean);
     const worstCode = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.weather_code) || 0)) : 0;
@@ -382,12 +471,10 @@ body.tv-mode #tv-stage { display: flex; }
     const maxGust   = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.wind_gusts_10m) || 0)) : 0;
     const wHw = wmoInfo(worstCode);
 
-    /* Fator de retenção por horário de pico na Grande SP (Rush matinal 06h-09h e vespertino 16h-20h) */
     const hrNow = new Date().getHours();
     const isPeak = (hrNow >= 6 && hrNow <= 9) || (hrNow >= 16 && hrNow <= 20);
     let retainPct = isPeak ? 16 : (hrNow >= 10 && hrNow <= 15 ? 8 : 2);
 
-    /* Penalidade física de pista por chuva, neblina na serra e vento lateral (Manual HCM) */
     let wxPenaltyPct = 0, cause = isPeak ? 'Fluxo intenso de horário de pico' : 'Fluxo livre normal';
     if (worstCode >= 45 && worstCode <= 48) {
       wxPenaltyPct += hw.serra ? 38 : 22;
@@ -413,10 +500,9 @@ body.tv-mode #tv-stage { display: flex; }
     const tRealMin = Math.round((hw.km / vEst) * 60);
     const delayMin = Math.max(0, tRealMin - tFreeMin);
 
-    /* Cruza com os pedidos da carteira (especialmente atrasados e D+1) que passam neste corredor */
     const munisCorredor = new Set(hw.polos.filter(id => id !== 'CDG').flatMap(id => (POLOS_OPERACIONAIS.find(p => p.id === id) || {munis:[]}).munis));
     const pedsRota = C.filter(o => munisCorredor.has(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
-    const pedsUrgentes = pedsRota.filter(o => cat(o[7]) <= 1); // Atrasados ou D+1
+    const pedsUrgentes = pedsRota.filter(o => cat(o[7]) <= 1);
 
     const col = delayMin >= 25 || fluidezPct < 55 ? '#ef4444' : delayMin >= 12 || fluidezPct < 78 ? '#f97316' : '#22c55e';
     return {
@@ -442,10 +528,12 @@ body.tv-mode #tv-stage { display: flex; }
     } catch (e) {}
   }
 
+  /* Atualização Meteorológica Independente a cada 15 Minutos (Preserva cache em caso de falha) */
   async function fetchMultiRegionTelemetry() {
+    WX_STATE.lastQueryAt = new Date();
     const lats = POLOS_OPERACIONAIS.map(p => p.lat).join(',');
     const lons = POLOS_OPERACIONAIS.map(p => p.lon).join(',');
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation_probability,precipitation,wind_speed_10m,wind_direction_10m,surface_pressure,cape,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&past_days=1&forecast_days=7&timezone=America%2FSao_Paulo`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation_probability,precipitation,wind_speed_10m,wind_direction_10m,surface_pressure,cape,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max&past_days=1&forecast_days=7&timezone=America%2FSao_Paulo`;
 
     try {
       const r = await fetch(url);
@@ -457,11 +545,13 @@ body.tv-mode #tv-stage { display: flex; }
         if (polo && item) WX_STATE.regions[polo.id] = item;
       });
       WX_STATE.status = 'ONLINE';
-      WX_STATE.fetchedAt = new Date();
+      WX_STATE.lastSuccessAt = new Date();
+      const cdgCur = WX_STATE.regions['CDG'] && WX_STATE.regions['CDG'].current;
+      if (cdgCur && cdgCur.time) WX_STATE.refMeasurementAt = cdgCur.time;
       const dot = document.getElementById('tv-conn-dot');
       if (dot) dot.style.background = '#22c55e';
     } catch (e) {
-      WX_STATE.status = Object.keys(WX_STATE.regions).length ? 'DESATUALIZADO' : 'INDISPONÍVEL';
+      WX_STATE.status = Object.keys(WX_STATE.regions).length ? 'CACHE PRESERVADO (FALHA REDE)' : 'INDISPONÍVEL';
       const dot = document.getElementById('tv-conn-dot');
       if (dot) dot.style.background = '#f97316';
     }
@@ -481,7 +571,6 @@ body.tv-mode #tv-stage { display: flex; }
       WX_STATE.radarStatus = 'OFFLINE';
     }
 
-    /* Se o usuário tiver configurado chave gratuita TomTom no config.js, puxa GPS real das rodovias */
     if (window.TORRE_TOMTOM_KEY) {
       for (const hw of CORREDORES_RODOVIARIOS) {
         try {
@@ -496,13 +585,264 @@ body.tv-mode #tv-stage { display: flex; }
       }
     }
 
+    renderPendingActionsMount();
     if (document.body.classList.contains('tv-mode') && tvSlide === 0) renderTvSlide(0);
   }
   fetchMultiRegionTelemetry();
-  setInterval(fetchMultiRegionTelemetry, 10 * 60 * 1000);
+  setInterval(fetchMultiRegionTelemetry, 15 * 60 * 1000); // Ciclo estrito de 15 minutos
 
   /* ==========================================================================
-     3. RADAR METEOROLÓGICO DOPPLER COM MALHA DE GRADE CARTESIANA E POLAR SUTIL
+     4. INDICADOR GERENCIAL — PENDÊNCIAS QUE EXIGEM AÇÃO (REGRAS RASTREÁVEIS)
+     ========================================================================== */
+  function computeActionablePendencies() {
+    if (typeof VAZIO === 'function' && VAZIO()) return [];
+    const S = st(), C = S.C, P = S.P, D = S.D;
+    const list = [];
+
+    /* 1. Pedidos atrasados (entrega <= corte sem agendamento) */
+    const atr = C.filter(o => cat(o[7]) === 0);
+    if (atr.length > 0) {
+      list.push({
+        prio: 'CRÍTICO', col: '#ef4444', mod: 'Carteira', tab: 'ct', ref: fdy(ref()),
+        desc: `${n0(atr.length)} pedido(s) em atraso (entrega ≤ corte) pendentes na carteira`,
+        imp: `${fw(sm(atr, 8))} · ${RSc(sm(atr, 9))}`,
+        act: 'Priorizar roteirização imediata ou validar reprogramação comercial.'
+      });
+    }
+
+    /* 2. Vencimento D+1 exigindo alocação */
+    const ven = C.filter(o => cat(o[7]) === 1);
+    if (ven.length > 0) {
+      list.push({
+        prio: ven.length / Math.max(1, S.N) >= 0.05 ? 'CRÍTICO' : 'ALTA',
+        col: ven.length / Math.max(1, S.N) >= 0.05 ? '#ef4444' : '#f97316',
+        mod: 'Carteira', tab: 'ct', ref: fdy(addD(ref(), 1)),
+        desc: `${n0(ven.length)} pedido(s) com vencimento amanhã (D+1) aguardando roteirização`,
+        imp: `${fw(sm(ven, 8))} · ${RSc(sm(ven, 9))}`,
+        act: 'Garantir inclusão nas ondas do próximo turno de separação.'
+      });
+    }
+
+    /* 3. Carregadas na ZS34 e pendentes de faturamento na ZS65 */
+    const nfc = P.filter(g => ZM[g[5]] == null && String(g[21] || '').startsWith('4'));
+    if (nfc.length > 0) {
+      list.push({
+        prio: 'CRÍTICO', col: '#ef4444', mod: 'Agendamento / ZS65', tab: 'ag', ref: fdy(dia),
+        desc: `${n0(nfc.length)} transporte(s) com carregamento finalizado (ZS34) sem NF emitida (ZS65)`,
+        imp: `${fw(sm(nfc, 16))} · ${RS(nfc.reduce((x, g) => x + (g[24] || 0), 0))}`,
+        act: 'Acionar faturamento imediatamente para liberação fiscal de saída.'
+      });
+    }
+
+    /* 4. Pendência de separação / atribuição na ZW14 */
+    if (D.length > 0) {
+      const pendSep = D.filter(r => r[3] >= 0 && r[3] < 2);
+      if (pendSep.length > 0) {
+        const pPct = pct(pendSep.length, D.length);
+        list.push({
+          prio: pPct >= 25 ? 'ALTA' : 'ATENÇÃO', col: pPct >= 25 ? '#f97316' : '#facc15',
+          mod: 'Status Operacional', tab: 'ex', ref: fdy(dia),
+          desc: `${n0(pendSep.length)} etiqueta(s) ZW14 pendentes de conclusão de separação (${pfx(pPct)}%)`,
+          imp: `${fw(pendSep.reduce((x, r) => x + r[7], 0))} em aberto`,
+          act: `Conferir filas de atribuição (${D.filter(r => r[3] === 0).length} impressas sem atribuição).`
+        });
+      }
+    }
+
+    /* 5. Cargas diretas subdimensionadas (< 60% da capacidade) ou com sobrecarga (> 100%) */
+    const subOcup = S.dr.filter(g => ocu(g) != null && ocu(g) < CFG.lo);
+    if (subOcup.length > 0) {
+      list.push({
+        prio: 'ATENÇÃO', col: '#facc15', mod: 'Agendamento', tab: 'ag', ref: fdy(dia),
+        desc: `${n0(subOcup.length)} veículo(s) direto(s) abaixo da ocupação mínima recomendada (<${CFG.lo}%)`,
+        imp: `Peso alocado: ${fw(sm(subOcup, 16))}`,
+        act: 'Avaliar consolidação de entregas ou redimensionamento para veículo menor.'
+      });
+    }
+
+    /* 6. Necessidade de carretas Cross adicionais (conjuntos exigindo >= 2 carretas) */
+    const multiCross = S.X.filter(x => x.c >= 2);
+    if (multiCross.length > 0) {
+      list.push({
+        prio: 'ALTA', col: '#f97316', mod: 'Agendamento (Cross)', tab: 'ag', ref: fdy(dia),
+        desc: `${n0(multiCross.length)} operação(ões) Cross exigem múltiplas carretas (${multiCross.reduce((a, x) => a + x.c, 0)} carretas)`,
+        imp: multiCross.map(x => `${x.tra} (${x.c})`).slice(0, 2).join(', '),
+        act: 'Confirmar disponibilidade física de carretas extras com as transportadoras.'
+      });
+    }
+
+    /* 7. Desproporção regional entre quantidade de pedidos e peso */
+    const prDesp = Object.entries(C.reduce((m, o) => { (m[o[4]] = m[o[4]] || []).push(o); return m; }, {}))
+      .filter(x => x[1].length >= 15 && (idx(x[1], S.N, S.K) < 0.55 || idx(x[1], S.N, S.K) > 1.65));
+    if (prDesp.length > 0) {
+      const topD = prDesp.sort((a, b) => b[1].length - a[1].length)[0];
+      const ixVal = idx(topD[1], S.N, S.K);
+      list.push({
+        prio: 'ATENÇÃO', col: '#a855f7', mod: 'Carteira / Roteirização', tab: 'ct', ref: fdy(dia),
+        desc: `Desproporção Pedido×Peso na praça ${topD[0]} (índice ${ixVal.toFixed(2)})`,
+        imp: `${topD[1].length} pedidos · ${fw(sm(topD[1], 8))}`,
+        act: ixVal < 1 ? 'Alta pulverização de entregas: atenção ao limite de entregas por veículo.' : 'Alta densidade de peso: priorizar veículos de maior capacidade (Truck/Toco).'
+      });
+    }
+
+    /* 8. Divergência entre Agendamento e ZW14 (Necessidade de validação) */
+    const semEtq = P.filter(g => !ETQ[g[5]]);
+    if (semEtq.length > 0) {
+      list.push({
+        prio: 'VALIDAÇÃO', col: '#22d3ee', mod: 'Integração AGD×ZW14', tab: 'al', ref: fdy(dia),
+        desc: `${n0(semEtq.length)} transporte(s) agendado(s) sem etiquetas correspondentes na ZW14`,
+        imp: `${fw(sm(semEtq, 16))} programados`,
+        act: 'Necessidade de validação: confirmar se as OTs já foram geradas no WMS.'
+      });
+    }
+
+    /* 9. Risco climático em região com viagens programadas */
+    POLOS_OPERACIONAIS.forEach(p => {
+      if (p.id === 'CDG') return;
+      const rData = WX_STATE.regions[p.id];
+      const rDaily = rData && rData.daily;
+      const prob = rDaily && rDaily.precipitation_probability_max ? (+rDaily.precipitation_probability_max[1] || 0) : 0;
+      const mm = rDaily && rDaily.precipitation_sum ? (+rDaily.precipitation_sum[1] || 0) : 0;
+      if (prob >= 65 || mm >= 12) {
+        const pedsReg = C.filter(o => p.munis.includes(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+        if (pedsReg.length > 0) {
+          list.push({
+            prio: mm >= 20 ? 'CRÍTICO' : 'ATENÇÃO', col: mm >= 20 ? '#ef4444' : '#f97316',
+            mod: 'Meteorologia × Rota', tab: 'ct', ref: fdy(dia),
+            desc: `Risco climático em ${p.nome} (☔ ${prob}% · ${mm.toFixed(1)}mm) com entregas programadas`,
+            imp: `${n0(pedsReg.length)} pedidos · ${fw(sm(pedsReg, 8))}`,
+            act: 'Verificar enlonamento e considerar janela ampliada de deslocamento na rota.'
+          });
+        }
+      }
+    });
+
+    return list;
+  }
+
+  function renderPendingActionsMount() {
+    const mount = document.getElementById('pend-action-mount');
+    if (!mount) return;
+    if ((typeof VAZIO === 'function' && VAZIO()) || (typeof tab !== 'undefined' && tab !== 'ov')) {
+      mount.innerHTML = '';
+      return;
+    }
+    const items = computeActionablePendencies();
+    if (!items.length) {
+      mount.innerHTML = `<div class="pa-panel" style="border-left-color:#22c55e">
+        <div class="pa-header" style="margin:0"><div class="pa-title" style="color:#4ade80">⚡ PENDÊNCIAS QUE EXIGEM AÇÃO · OPERAÇÃO ESTÁVEL</div><span class="wx-badge wx-b-ok">0 PENDÊNCIAS CRÍTICAS</span></div>
+      </div>`;
+      return;
+    }
+    const critCount = items.filter(x => x.prio === 'CRÍTICO').length;
+    mount.innerHTML = `<div class="pa-panel">
+      <div class="pa-header">
+        <div class="pa-title">⚡ PENDÊNCIAS QUE EXIGEM AÇÃO HUMANA (${items.length})</div>
+        <div class="pa-badges">
+          ${critCount ? `<span class="wx-badge wx-b-gov">${critCount} CRÍTICA(S)</span>` : ''}
+          <span class="wx-badge wx-b-prev">REF. ${fdy(dia)}</span>
+        </div>
+      </div>
+      <div class="pa-grid">
+        ${items.slice(0, 6).map(it => `<div class="pa-card" style="--pac:${it.col}" data-pa-tab="${it.tab}">
+          <div class="pa-card-top">
+            <span class="pa-card-mod">📍 ${escH(it.mod)} · ${escH(it.ref)}</span>
+            <span class="wx-badge" style="background:${it.col}">${it.prio}</span>
+          </div>
+          <div class="pa-card-desc">${escH(it.desc)}</div>
+          <div class="pa-card-imp">Impacto: ${escH(it.imp)}</div>
+          <div class="pa-card-act">▸ Ação: ${escH(it.act)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  /* ==========================================================================
+     5. CALENDÁRIO INTELIGENTE 24H (CONTAGEM REGRESSIVA & CURIOSIDADES REAIS)
+     ========================================================================== */
+  const CURIOSIDADES_VERIFICADAS = [
+    ['LOGÍSTICA & INFRAESTRUTURA', 'A Rodovia Presidente Dutra (BR-116), inaugurada em 1951, conecta São Paulo ao Rio de Janeiro ao longo de 402 km e concentra mais de 50% do PIB industrial brasileiro em seu eixo.'],
+    ['HISTÓRIA & TRANSPORTE', 'O Código de Endereçamento Postal (CEP) brasileiro foi criado pelos Correios em maio de 1971 e ampliado para 8 dígitos em 1992 para automatizar a triagem logística nacional.'],
+    ['GEOGRAFIA & LOGÍSTICA', 'Guarulhos é o principal entroncamento aeroviário e rodoviário da América do Sul, articulando a BR-116 (Dutra), BR-381 (Fernão Dias) e SP-070 (Corredor Ayrton Senna).'],
+    ['METEOROLOGIA APLICADA', 'O índice CAPE (Energia Potencial Convectiva Disponível), medido em J/kg, indica a instabilidade atmosférica: valores acima de 1.200 J/kg apontam potencial para formação de tempestades severas.'],
+    ['ENGENHARIA RODOVIÁRIA', 'O Sistema Anchieta-Imigrantes vence um desnível de 750 metros na Serra do Mar através de túneis e viadutos, operando em esquema de comboio quando a visibilidade cai devido à neblina.'],
+    ['HISTÓRIA DO BRASIL', 'A ferrovia Santos-Jundiaí (1867) foi o primeiro grande corredor logístico de alta capacidade de São Paulo, utilizando sistemas funiculares para transpor a Serra do Mar.'],
+    ['METROLOGIA & CARGAS', 'No transporte rodoviário brasileiro (Resolução CONTRAN), a distribuição correta de peso por eixo previne a fadiga estrutural do pavimento e reduz a distância de frenagem em pista molhada.']
+  ];
+
+  function getSmartCalendarMessages() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const todayIso = now.toISOString().slice(0, 10);
+    const t0 = Date.parse(todayIso);
+    const E = typeof easter === 'function' ? easter(y) : new Date(Date.UTC(y, 3, 5));
+    const E_next = typeof easter === 'function' ? easter(y + 1) : new Date(Date.UTC(y + 1, 2, 28));
+    const fmtIso = (yr, m, d) => `${yr}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+
+    const rawEvents = [
+      [fmtIso(y, 1, 1), 'Ano-Novo (Confraternização Universal)', 'Feriado Nacional'],
+      [fmtIso(y, 1, 25), 'Aniversário da Cidade de São Paulo', 'Feriado Municipal (SP)'],
+      [isoD(addU(E, -47)), 'Carnaval', 'Ponto Facultativo'],
+      [fmtIso(y, 3, 8), 'Dia Internacional da Mulher', 'Data Comemorativa Internacional'],
+      [isoD(addU(E, -2)), 'Paixão de Cristo', 'Feriado Nacional'],
+      [isoD(E), 'Domingo de Páscoa', 'Data Comemorativa'],
+      [fmtIso(y, 4, 21), 'Tiradentes', 'Feriado Nacional'],
+      [fmtIso(y, 5, 1), 'Dia Mundial do Trabalho', 'Feriado Nacional'],
+      [isoD(addU(E, 60)), 'Corpus Christi', 'Ponto Facultativo / Feriado Municipal'],
+      [fmtIso(y, 7, 9), 'Revolução Constitucionalista de 1932', 'Feriado Estadual (SP)'],
+      [fmtIso(y, 9, 7), 'Independência do Brasil', 'Feriado Nacional'],
+      [fmtIso(y, 10, 12), 'Nossa Senhora Aparecida', 'Feriado Nacional'],
+      [fmtIso(y, 11, 2), 'Finados', 'Feriado Nacional'],
+      [fmtIso(y, 11, 15), 'Proclamação da República', 'Feriado Nacional'],
+      [fmtIso(y, 11, 20), 'Dia Nacional de Zumbi e da Consciência Negra', 'Feriado Nacional'],
+      [fmtIso(y, 12, 8), 'Aniversário de Guarulhos', 'Feriado Municipal (Guarulhos)'],
+      [fmtIso(y, 12, 25), 'Natal', 'Feriado Nacional'],
+      [fmtIso(y + 1, 1, 1), 'Ano-Novo (Confraternização Universal)', 'Feriado Nacional'],
+      [isoD(addU(E_next, -47)), 'Carnaval ' + (y + 1), 'Ponto Facultativo']
+    ];
+
+    const upcoming = rawEvents
+      .map(([dtStr, name, kind]) => ({ dtStr, name, kind, diffDays: Math.round((Date.parse(dtStr) - t0) / 864e5) }))
+      .filter(x => x.diffDays >= 0)
+      .sort((a, b) => a.diffDays - b.diffDays);
+
+    const msgs = [];
+    if (upcoming.length > 0) {
+      const nextEv = upcoming[0];
+      if (nextEv.diffDays === 0) {
+        msgs.push([`📅 HOJE (${fdy(nextEv.dtStr)})`, `Hoje é ${nextEv.name} — classificado como ${nextEv.kind}.`]);
+      } else {
+        msgs.push([`⏳ CONTAGEM REGRESSIVA`, `Faltam ${nextEv.diffDays} dia(s) para ${nextEv.name} (${fdy(nextEv.dtStr)} · ${nextEv.kind}).`]);
+      }
+      const nextNat = upcoming.find(x => x.kind === 'Feriado Nacional' && x.diffDays > 0);
+      if (nextNat && nextNat.dtStr !== nextEv.dtStr) {
+        msgs.push([`🇧🇷 PRÓXIMO FERIADO NACIONAL`, `${nextNat.name} em ${nextNat.diffDays} dia(s) (${fdy(nextNat.dtStr)}).`]);
+      }
+      const natal = upcoming.find(x => x.name === 'Natal' && x.diffDays > 0);
+      if (natal && natal.dtStr !== nextEv.dtStr) {
+        msgs.push([`🎄 CALENDÁRIO ANUAL`, `Faltam ${natal.diffDays} dia(s) para o Natal (25/12 · Feriado Nacional).`]);
+      }
+    }
+    CURIOSIDADES_VERIFICADAS.forEach(([catTitle, text]) => {
+      msgs.push([`💡 ${catTitle}`, text]);
+    });
+    return msgs;
+  }
+
+  let smartCalIdx = 0;
+  function rotateSmartCalendarBar() {
+    const el = document.getElementById('tv-smart-cal');
+    if (!el || !document.body.classList.contains('tv-mode')) return;
+    const list = getSmartCalendarMessages();
+    if (!list.length) return;
+    const item = list[smartCalIdx % list.length];
+    smartCalIdx++;
+    el.innerHTML = `<b>${escH(item[0])}:</b> <span>${escH(item[1])}</span>`;
+  }
+  setInterval(rotateSmartCalendarBar, 14000);
+
+  /* ==========================================================================
+     6. RADAR METEOROLÓGICO DOPPLER COM MALHA DE GRADE CARTESIANA E POLAR SUTIL
      ========================================================================== */
   function svgDopplerRadarSquare() {
     let routes = `
@@ -550,7 +890,6 @@ body.tv-mode #tv-stage { display: flex; }
           <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.26"/>
           <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.0"/>
         </radialGradient>
-        <!-- Padrão de Grade Cartesiana Sutil (16x16px) dentro da lente do Radar -->
         <pattern id="radarSubtleGrid" width="16" height="16" patternUnits="userSpaceOnUse">
           <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#22d3ee" stroke-width="0.45" stroke-opacity="0.16"/>
         </pattern>
@@ -558,25 +897,18 @@ body.tv-mode #tv-stage { display: flex; }
           <circle cx="120" cy="120" r="106"/>
         </clipPath>
       </defs>
-
-      <!-- Fundo do Escopo + Malha Quadriculada Sutil Recortada na Lente -->
       <circle cx="120" cy="120" r="106" fill="#08041e" stroke="#2e1f6b" stroke-width="1.8"/>
       <g clip-path="url(#radarLensClip)">
         <rect x="14" y="14" width="212" height="212" fill="url(#radarSubtleGrid)"/>
-        <!-- Diagonais de Azimute 45° e 135° Sutis -->
         <line x1="45" y1="45" x2="195" y2="195" stroke="#22d3ee" stroke-opacity="0.14" stroke-width="0.7" stroke-dasharray="2 3"/>
         <line x1="195" y1="45" x2="45" y2="195" stroke="#22d3ee" stroke-opacity="0.14" stroke-width="0.7" stroke-dasharray="2 3"/>
       </g>
-
-      <!-- Anéis Concêntricos de Alcance + Eixos Cardeais + Escala de Graus -->
       <circle cx="120" cy="120" r="80" fill="none" stroke="#281a60" stroke-width="0.9" stroke-dasharray="3 3"/>
       <circle cx="120" cy="120" r="54" fill="none" stroke="#281a60" stroke-width="0.9" stroke-dasharray="3 3"/>
       <circle cx="120" cy="120" r="28" fill="none" stroke="#281a60" stroke-width="0.9" stroke-dasharray="2 3"/>
       <line x1="14" y1="120" x2="226" y2="120" stroke="#26195c" stroke-width="1"/>
       <line x1="120" y1="14" x2="120" y2="226" stroke="#26195c" stroke-width="1"/>
       ${degreeTicks}
-
-      <!-- Rótulos Técnicos de Alcance e Rosa Cardeal -->
       <text x="120" y="23" text-anchor="middle" fill="#22d3ee" font-size="6.5" font-weight="800" font-family="monospace">000° N</text>
       <text x="216" y="118" text-anchor="end" fill="#22d3ee" font-size="6.5" font-family="monospace">090° L</text>
       <text x="120" y="222" text-anchor="middle" fill="#22d3ee" font-size="6.5" font-family="monospace">180° S</text>
@@ -584,7 +916,6 @@ body.tv-mode #tv-stage { display: flex; }
       <text x="123" y="94" fill="#8f84c9" fill-opacity="0.65" font-size="6" font-family="monospace">50km</text>
       <text x="123" y="68" fill="#8f84c9" fill-opacity="0.65" font-size="6" font-family="monospace">100km</text>
       <text x="123" y="42" fill="#8f84c9" fill-opacity="0.65" font-size="6" font-family="monospace">200km</text>
-
       ${routes}
       ${cells}
       <g class="radar-beam-rot">
@@ -597,7 +928,7 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     4. MOTOR DE IGNIÇÃO:
+     7. MOTOR DE IGNIÇÃO:
         - isTvMode = false (Modo Dash): faz SÓ a ignição de entrada e trava estático!
         - isTvMode = true  (Modo TV): faz a ignição + ativa animações contínuas!
      ========================================================================== */
@@ -837,18 +1168,28 @@ body.tv-mode #tv-stage { display: flex; }
     root.querySelectorAll('.stc .big, .dlg b, .wx-hero-temp').forEach(el => animateCounterOnce(el, 650));
   }
 
-  /* Modo Dash (#v): isTvMode = false (Apenas Ignição de entrada, zero loop!) */
+  /* Modo Dash (#v): isTvMode = false (Apenas Ignição de entrada + Painel de Pendências!) */
   const vMain = document.getElementById('v');
   if (vMain) {
     new MutationObserver(() => {
+      renderPendingActionsMount();
       setTimeout(() => igniteAutomotiveGauges(vMain, false), 25);
     }).observe(vMain, { childList: true, subtree: false });
-    setTimeout(() => igniteAutomotiveGauges(vMain, false), 120);
+    setTimeout(() => {
+      renderPendingActionsMount();
+      igniteAutomotiveGauges(vMain, false);
+    }, 120);
   }
 
   document.addEventListener('click', (e) => {
     if (e.target.closest && e.target.closest('[data-s]')) {
       setTimeout(() => igniteAutomotiveGauges(vMain, false), 25);
+    }
+    const paCard = e.target.closest && e.target.closest('[data-pa-tab]');
+    if (paCard) {
+      const targetTab = paCard.dataset.paTab;
+      const sideBtn = document.querySelector(`#tabs button[data-t="${targetTab}"]`);
+      if (sideBtn) sideBtn.click();
     }
     const ackBtn = e.target.closest && e.target.closest('[data-wx-ack]');
     if (ackBtn) {
@@ -864,7 +1205,7 @@ body.tv-mode #tv-stage { display: flex; }
   });
 
   /* ==========================================================================
-     5. RENDERIZAÇÃO DAS 6 TELAS DO MODO TV
+     8. RENDERIZAÇÃO DAS 6 TELAS DO MODO TV + WAKE LOCK API (QUIOSQUE 24/7)
      ========================================================================== */
   const tvCanvas = document.getElementById('tv-canvas');
   const tvTicker = document.getElementById('tv-ticker');
@@ -875,8 +1216,30 @@ body.tv-mode #tv-stage { display: flex; }
   const DUR_KEY = 'torreTvDurMs_v1';
   const TOTAL_SLIDES = 6;
   let tvSlide = 0, tvTimer = null, tvClockTimer = null, tvScrollTimer = null, wxSubTimer = null, tvPaused = false;
+  let wakeLockSentinel = null;
   let tvDurationMs = parseInt(localStorage.getItem(DUR_KEY) || '90000', 10) || 90000;
   if (tvDurSelect) tvDurSelect.value = String(tvDurationMs);
+
+  /* Wake Lock API: Mantém a tela da Smart TV / Monitor ativa sem suspender enquanto o Modo TV estiver aberto */
+  async function requestTvWakeLock() {
+    if ('wakeLock' in navigator && document.body.classList.contains('tv-mode')) {
+      try {
+        wakeLockSentinel = await navigator.wakeLock.request('screen');
+      } catch (e) {}
+    }
+  }
+  function releaseTvWakeLock() {
+    if (wakeLockSentinel) {
+      wakeLockSentinel.release().catch(() => {});
+      wakeLockSentinel = null;
+    }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && document.body.classList.contains('tv-mode')) {
+      requestTvWakeLock();
+    }
+  });
+
   if (tvSndBtn) {
     tvSndBtn.textContent = WX_STATE.soundEnabled ? '🔊 Áudio' : '🔇 Mudo';
     tvSndBtn.onclick = () => {
@@ -890,7 +1253,7 @@ body.tv-mode #tv-stage { display: flex; }
     clearInterval(wxSubTimer);
     wxSubTimer = setInterval(() => {
       if (!document.body.classList.contains('tv-mode') || tvSlide !== 0 || tvPaused) return;
-      WX_STATE.subView = (WX_STATE.subView + 1) % 4; // Alterna entre as 4 vistas amplas
+      WX_STATE.subView = (WX_STATE.subView + 1) % 5; // Alterna entre as 5 sub-abas (incluindo Previsão 7 Dias)
       renderTvSlide(0);
     }, 12000);
   }
@@ -1022,11 +1385,11 @@ body.tv-mode #tv-stage { display: flex; }
     </svg>`;
   };
 
-  /* GRÁFICO CENTRAL ESTILO B3 / NYSE DO OUTBOUND */
-  const svgStockExchangeArea = (daysList) => {
+  /* GRÁFICO CENTRAL DE PERFORMANCE OUTBOUND (Proporção Retangular Otimizada 780x235 e Sem Sobreposição de Datas) */
+  const svgOutboundPerformanceArea = (daysList) => {
     const valid = daysList.filter(x => x.n > 0 || x.etq > 0);
-    if (valid.length < 2) return '<div class="note">Histórico insuficiente para o gráfico da Bolsa.</div>';
-    const W = 740, H = 225, L = 54, R = 54, T = 26, B = 28, pw = W - L - R, ph = H - T - B, n = valid.length;
+    if (valid.length < 2) return '<div class="note">Histórico insuficiente para o gráfico de performance.</div>';
+    const W = 780, H = 235, L = 58, R = 52, T = 26, B = 28, pw = W - L - R, ph = H - T - B, n = valid.length;
     const valArr = valid.map(x => x.val / 1000);
     const nfArr  = valid.map(x => x.nf / 1000);
     const pesoArr = valid.map(x => x.peso / 1000);
@@ -1042,8 +1405,8 @@ body.tv-mode #tv-stage { display: flex; }
       const yy = T + ph * (1 - k / 4);
       const vLab = (maxV / 4) * k, pLab = (maxP / 4) * k;
       grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#24195c" stroke-dasharray="${k ? '3 4' : ''}"/>
-               <text x="${L - 7}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="9.5" font-family="monospace">R$${n0(vLab)}k</text>
-               <text x="${W - R + 7}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#4ade80" font-size="9.5" font-family="monospace">${n0(pLab)}t</text>`;
+               <text x="${L - 8}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="9.5" font-family="monospace">R$ ${n0(vLab)}k</text>
+               <text x="${W - R + 8}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#4ade80" font-size="9.5" font-family="monospace">${n0(pLab)} t</text>`;
     }
 
     const ptsVal = valArr.map((v, i) => [X(i), Yv(v)]);
@@ -1052,7 +1415,7 @@ body.tv-mode #tv-stage { display: flex; }
     const y0 = Yv(0);
     const areaVal = `${dVal} L${ptsVal[n - 1][0].toFixed(1)},${y0.toFixed(1)} L${ptsVal[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
 
-    const bw = Math.max(4, Math.min(18, (pw / n) * 0.55));
+    const bw = Math.max(4, Math.min(18, (pw / n) * 0.52));
     const volBars = pesoArr.map((p, i) => {
       const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
       return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="url(#nyseBarG)" fill-opacity="0.38"/>`;
@@ -1068,7 +1431,7 @@ body.tv-mode #tv-stage { display: flex; }
         if (idx < 0) return '';
         const px = X(idx), py = Yv(obj.val / 1000), by = up ? Math.max(14, py - 14) : Math.min(H - 34, py + 18);
         const txt = `${lb} ${fd(obj.d)} · R$ ${(obj.val / 1e6).toFixed(2).replace('.', ',')}M`;
-        const tw = txt.length * 5.4 + 14;
+        const tw = txt.length * 5.6 + 14;
         const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
         return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.55" stroke-dasharray="2 3"/>
                 <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#08041c" stroke="${col}" stroke-width="2.5"/>
@@ -1079,9 +1442,17 @@ body.tv-mode #tv-stage { display: flex; }
       if (mnObj.d !== mxObj.d) badges += drawPin(mnObj, '▼ VALE', '#fb7185', false);
     }
 
-    const xLabs = valid.map((x, i) => (n > 14 && i % 2 !== 0 && i !== n - 1) ? '' :
-      `<text x="${X(i).toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="${x.d === dia ? '#facc15' : '#8f84c9'}" font-weight="${x.d === dia ? '800' : '400'}" font-size="9.5" font-family="monospace">${fd(x.d)}</text>`
-    ).join('');
+    /* Passo inteligente no eixo X para nunca sobrepor as duas últimas datas */
+    const stepX = n > 14 ? 2 : 1;
+    let lastDrawnX = -999;
+    const xLabs = valid.map((x, i) => {
+      const cx = X(i);
+      const isRef = x.d === dia;
+      if (!isRef && i % stepX !== 0 && i !== n - 1) return '';
+      if (cx - lastDrawnX < 28 && !isRef) return '';
+      lastDrawnX = cx;
+      return `<text x="${cx.toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="${isRef ? '#facc15' : '#8f84c9'}" font-weight="${isRef ? '800' : '400'}" font-size="9.5" font-family="monospace">${fd(x.d)}</text>`;
+    }).join('');
 
     return `<svg viewBox="0 0 ${W} ${H}">
       <defs>
@@ -1196,9 +1567,11 @@ body.tv-mode #tv-stage { display: flex; }
     const wxCur = cdg && cdg.current
       ? `${Math.round(cdg.current.temperature_2m)}°C ${wmoInfo(cdg.current.weather_code).ic} ${wmoInfo(cdg.current.weather_code).tx} · ${Math.round(cdg.current.surface_pressure||1013)}hPa`
       : `STATUS: ${WX_STATE.status}`;
+    const pends = computeActionablePendencies();
     const items = [
       ['CDG GUARULHOS', wxCur, 'tv-nt', '●'],
       ['DIA REF.', fdy(dia), 'tv-nt', '●'],
+      ['PENDÊNCIAS DE AÇÃO', `${pends.length} ATIVA(S)`, pends.some(x=>x.prio==='CRÍTICO') ? 'tv-dn' : 'tv-up', '⚡'],
       ['CARTEIRA ATIVA', `${n0(S.N)} PED · ${tn(S.K)}`, 'tv-up', '▲'],
       ['VALOR LÍQUIDO CARTEIRA', RSc(S.V), 'tv-up', '▲'],
       ['PROGRAMADO DIA (ZS34)', RS(S.val), 'tv-up', '▲'],
@@ -1216,29 +1589,33 @@ body.tv-mode #tv-stage { display: flex; }
     if (!document.body.classList.contains('tv-mode')) return;
     const S = st(), C = S.C, P = S.P, D = S.D, days = AGK().map(dst);
     updateTicker(S);
+    rotateSmartCalendarBar();
 
     const titles = [
-      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, RADAR DOPPLER E PREVISÃO RODOVIÁRIA DE SLA',
-      '2/6 · VISÃO GERAL EXECUTIVA · PREGÃO OPERACIONAL',
-      '3/6 · CARTEIRA DE PEDIDOS · VOLUMETRIA & RESTRIÇÕES',
-      '4/6 · AGENDAMENTO & FROTA · OCUPAÇÃO E DOCAS',
-      '5/6 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO & COR',
-      '6/6 · OUTBOUND & EXPEDIÇÃO · PAINEL NYSE / B3 (SEMANA, HISTÓRICO & TENDÊNCIA)'
+      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, PREVISÃO 7 DIAS E SLA RODOVIÁRIO',
+      '2/6 · VISÃO GERAL EXECUTIVA · MONITORAMENTO E PENDÊNCIAS DE AÇÃO',
+      '3/6 · CARTEIRA DE PEDIDOS · VOLUMETRIA, PRAZOS & RESTRIÇÕES',
+      '4/6 · AGENDAMENTO & FROTA · OCUPAÇÃO, DOCAS E CONVERSÃO',
+      '5/6 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO, ONDA E TRANSPORTADORA',
+      '6/6 · EXPEDIÇÃO & OUTBOUND · CURVA DE PERFORMANCE, HISTÓRICO & TENDÊNCIA DIÁRIA'
     ];
     if (tvSub) tvSub.textContent = titles[idx] + ' · REF. LOGÍSTICA ' + fdy(dia);
 
     /* ==========================================================================
-       SLIDE 0: CENTRO METEOROLÓGICO DINÂMICO (FIXO À ESQUERDA + 4 SUB-ABAS AMPLAS À DIREITA)
+       SLIDE 0: CENTRO METEOROLÓGICO DINÂMICO (5 SUB-ABAS COM PREVISÃO DE 7 DIAS)
        ========================================================================== */
     if (idx === 0) {
       const cdg = WX_STATE.regions['CDG'];
       const cur = cdg && cdg.current ? cdg.current : null;
       const hr  = cdg && cdg.hourly  ? cdg.hourly  : null;
+      const dl  = cdg && cdg.daily   ? cdg.daily   : null;
       const wNow = cur ? wmoInfo(cur.weather_code) : { ic: '📡', tx: WX_STATE.status, rk: 'AGUARDANDO', col: '#22d3ee', imp: 'Sincronizando telemetria...' };
 
-      const updStr = WX_STATE.fetchedAt ? WX_STATE.fetchedAt.toLocaleTimeString('pt-BR') : '—';
-      const refTimeStr = cur && cur.time ? cur.time.slice(11, 16) + ' (' + cur.time.slice(8, 10) + '/' + cur.time.slice(5, 7) + ')' : '—';
-      const radStr = WX_STATE.radarTime ? WX_STATE.radarTime.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
+      /* Diferenciação rigorosa dos 3 horários exigidos */
+      const queryTimeStr = WX_STATE.lastQueryAt ? WX_STATE.lastQueryAt.toLocaleTimeString('pt-BR') : '—';
+      const updTimeStr   = WX_STATE.lastSuccessAt ? WX_STATE.lastSuccessAt.toLocaleTimeString('pt-BR') : '—';
+      const refTimeStr   = WX_STATE.refMeasurementAt ? WX_STATE.refMeasurementAt.slice(11, 16) + ' (' + WX_STATE.refMeasurementAt.slice(8, 10) + '/' + WX_STATE.refMeasurementAt.slice(5, 7) + ')' : '—';
+      const radStr       = WX_STATE.radarTime ? WX_STATE.radarTime.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
 
       let hLabs = [], hTemps = [], hProbs = [], nowMarkerIdx = 8;
       let maxProbNext24 = 0, maxCapeNext24 = 0, maxTemp24 = 0, minTemp24 = 99;
@@ -1265,7 +1642,6 @@ body.tv-mode #tv-stage { display: flex; }
         }
       }
 
-      /* Cruza as 8 Regiões com a Carteira */
       const regComparisonRows = POLOS_OPERACIONAIS.map(p => {
         const rData = WX_STATE.regions[p.id];
         const rCur  = rData && rData.current ? rData.current : null;
@@ -1287,13 +1663,11 @@ body.tv-mode #tv-stage { display: flex; }
         };
       });
 
-      /* Telemetria Preditiva dos 6 Corredores Rodoviários (HCM + Clima Real + SLA Carteira) */
       const hwRows = CORREDORES_RODOVIARIOS.map(hw => calcHighwayTelemetry(hw, C));
 
-      /* Geração de Alertas Preventivos, Defesa Civil e Atrasos Rodoviários */
       const activeAlerts = [];
       if (WX_STATE.status !== 'ONLINE') {
-        activeAlerts.push({ id: 'API_OFF', type: 'SISTEMA TORRE', sev: 'ATENÇÃO', col: '#facc15', reg: 'CDG Guarulhos', msg: `Fonte meteorológica ${WX_STATE.status}. Verificando reconexão automática.` });
+        activeAlerts.push({ id: 'API_OFF', type: 'SISTEMA TORRE', sev: 'ATENÇÃO', col: '#facc15', reg: 'CDG Guarulhos', msg: `Estado da conexão: ${WX_STATE.status}. Última atualização efetiva às ${updTimeStr}.` });
       }
       if (maxProbNext24 >= 45 && (P.length > 0 || D.length > 0)) {
         activeAlerts.push({
@@ -1302,7 +1676,7 @@ body.tv-mode #tv-stage { display: flex; }
           sev: maxProbNext24 >= 70 ? 'CRÍTICO' : 'ALERTA',
           col: maxProbNext24 >= 70 ? '#ef4444' : '#f97316',
           reg: 'Pátio & Docas CDG',
-          msg: `RISCO DE CHUVA DURANTE A EXPEDIÇÃO (${maxProbNext24}% previsto no CDG) — Verificar proteção de materiais no pátio e docas (${P.length} cargas / ${n0(D.length)} etiquetas ZW14).`
+          msg: `RISCO DE CHUVA DURANTE A EXPEDIÇÃO (${maxProbNext24}% previsto no CDG) — Verificar materiais expostos no pátio (${P.length} cargas / ${n0(D.length)} etiquetas ZW14).`
         });
       }
       hwRows.forEach(h => {
@@ -1343,7 +1717,6 @@ body.tv-mode #tv-stage { display: flex; }
       const unackCritWx = activeAlerts.filter(a => a.sev === 'CRÍTICO' && !WX_STATE.silencedAlerts.has(a.id));
       if (unackCritWx.length > 0) playWxAlertTone(true);
 
-      /* Turnos do Pátio CDG */
       const shiftDefs = [
         ['🌙 MADRUGADA (00h–06h)', [24,25,26,27,28,29], '3º Turno · Pátio e Fechamento'],
         ['☀️ 1º TURNO MANHÃ (06h–12h)', [30,31,32,33,34,35], 'Recebimento de Frota e Separação'],
@@ -1368,11 +1741,10 @@ body.tv-mode #tv-stage { display: flex; }
         </div>`;
       }).join('');
 
-      /* CONTEÚDO DINÂMICO DA COLUNA DIREITA PANORÂMICA (ALTERNA ENTRE AS 4 SUB-ABAS AMPLAS) */
       let rightWideHtml = '';
 
       if (WX_STATE.subView === 0) {
-        /* SUB-ABA 1: TELEMETRIA PANORÂMICA 48H (WIDESCREEN) + TURNOS DE DOCA */
+        /* SUB-ABA 0: TELEMETRIA PANORÂMICA 48H */
         rightWideHtml = `
           <div class="tv-card" style="flex:1.35">
             <div class="tv-card-title">
@@ -1383,7 +1755,7 @@ body.tv-mode #tv-stage { display: flex; }
               </div>
             </div>
             <div class="tv-chart-box">${svgWeatherWideArea(hLabs, hTemps, hProbs, nowMarkerIdx)}</div>
-            <div class="nyse-hl-grid">
+            <div class="nyse-hl-grid" style="grid-template-columns:repeat(4,1fr)">
               <div class="nyse-hl-card">
                 <div class="hl-metric">🌡️ EXTREMOS 24H (CDG)</div>
                 <div class="nyse-hl-row"><span class="tv-up">▲ MÁXIMA</span><b style="color:#f97316">${maxTemp24 ? maxTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
@@ -1408,7 +1780,63 @@ body.tv-mode #tv-stage { display: flex; }
           </div>
           <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
       } else if (WX_STATE.subView === 1) {
-        /* SUB-ABA 2: CENTRAL DE ALERTAS DA DEFESA CIVIL E EXPOSIÇÃO DE PÁTIO (TELA LARGA SEM APERTO) */
+        /* NOVA SUB-ABA 1: PREVISÃO DOS PRÓXIMOS SETE DIAS (CARTÕES VERTICAIS COMPACTOS E ELEGANTES) */
+        const dTimes = (dl && dl.time) ? dl.time.slice(1, 8) : [];
+        const sevenCards = dTimes.map((dStr, k) => {
+          const i = k + 1; // Pula past_days=1 (ontem) e pega de hoje até D+6
+          const w = wmoInfo(dl.weather_code[i]);
+          const tmax = +dl.temperature_2m_max[i] || 0;
+          const tmin = +dl.temperature_2m_min[i] || 0;
+          const apMax = dl.apparent_temperature_max ? (+dl.apparent_temperature_max[i] || tmax) : tmax;
+          const prob = +(dl.precipitation_probability_max && dl.precipitation_probability_max[i]) || 0;
+          const mm = +(dl.precipitation_sum && dl.precipitation_sum[i]) || 0;
+          const wSpd = +(dl.wind_speed_10m_max && dl.wind_speed_10m_max[i]) || 0;
+          const wGst = +(dl.wind_gusts_10m_max && dl.wind_gusts_10m_max[i]) || wSpd;
+          const agDay = AG[dStr] ? dst(dStr) : null;
+          const pedsCart = C.filter(o => o[7] === dStr);
+          const opSummary = agDay && agDay.n > 0
+            ? `🚛 ${agDay.n} carg (${fw(agDay.peso)})`
+            : pedsCart.length > 0
+            ? `📦 ${pedsCart.length} ped (${fw(sm(pedsCart, 8))})`
+            : `Sem prog. na data`;
+          const alertBadge = (prob >= 70 || mm >= 20)
+            ? `<span class="wx-badge wx-b-gov">⚠️ CHUVA FORTE</span>`
+            : (prob >= 45 || wGst >= 50)
+            ? `<span class="wx-badge wx-b-torre">ATENÇÃO PÁTIO</span>`
+            : `<span class="wx-badge wx-b-ok">NORMAL</span>`;
+
+          return `<div class="wx-7d-card ${k === 0 ? 'is-today' : ''}" style="--dc:${w.col}">
+            <div>
+              <div class="wx-7d-day">${k === 0 ? 'HOJE · ' : ''}${WD[wdOf(dStr)].toUpperCase()}</div>
+              <div class="wx-7d-date">${fdy(dStr)}</div>
+            </div>
+            <div>
+              <div class="wx-7d-ico">${w.ic}</div>
+              <div class="wx-7d-cond">${w.tx}</div>
+              <div class="wx-7d-temps"><span style="color:#f97316">${Math.round(tmax)}°</span> <span style="color:#64748b">/</span> <span style="color:#38bdf8">${Math.round(tmin)}°C</span></div>
+              ${alertBadge}
+            </div>
+            <div class="wx-7d-stats">
+              <div>🌡️ Sensação máx: <b style="color:#fff">${Math.round(apMax)}°C</b></div>
+              <div>☔ Prob. chuva: <b style="color:${prob >= 50 ? '#fb7185' : '#22d3ee'}">${prob}%</b></div>
+              <div>🌧️ Volume prev.: <b style="color:#fff">${mm.toFixed(1)} mm</b></div>
+              <div>💨 Vento/Raj.: <b style="color:#fff">${Math.round(wSpd)}/${Math.round(wGst)} km/h</b></div>
+            </div>
+            <div class="wx-7d-op">${opSummary}</div>
+          </div>`;
+        }).join('');
+
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.45;justify-content:space-between">
+            <div class="tv-card-title">
+              📅 PREVISÃO METEOROLÓGICA DOS PRÓXIMOS SETE DIAS · CDG GUARULHOS × PROGRAMAÇÃO LOGÍSTICA
+              <span>Fonte: ${WX_STATE.source} · Cruzamento diário com Agendamento (ZS34) e Carteira</span>
+            </div>
+            <div class="wx-7d-grid">${sevenCards || '<div class="note">Sincronizando previsão de 7 dias...</div>'}</div>
+          </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      } else if (WX_STATE.subView === 2) {
+        /* SUB-ABA 2: CENTRAL DE ALERTAS DA DEFESA CIVIL E EXPOSIÇÃO DE PÁTIO */
         rightWideHtml = `
           <div class="tv-card" style="flex:1.45">
             <div class="tv-card-title">
@@ -1440,8 +1868,8 @@ body.tv-mode #tv-stage { display: flex; }
             </div>
           </div>
           <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
-      } else if (WX_STATE.subView === 2) {
-        /* SUB-ABA 3: MATRIZ DE CARTÕES DAS 8 MICRORREGIÕES × CARTEIRA (AMPLA E ESPAÇOSA) */
+      } else if (WX_STATE.subView === 3) {
+        /* SUB-ABA 3: MATRIZ DE CARTÕES DAS 8 MICRORREGIÕES × CARTEIRA */
         rightWideHtml = `
           <div class="tv-card" style="flex:1;justify-content:space-between">
             <div class="tv-card-title">
@@ -1486,7 +1914,7 @@ body.tv-mode #tv-stage { display: flex; }
             </div>
           </div>`;
       } else {
-        /* NOVA SUB-ABA 4: INTELIGÊNCIA PREDITIVA DE RODOVIAS & IMPACTO DE SLA (ATRASO ESTIMADO) */
+        /* SUB-ABA 4: INTELIGÊNCIA PREDITIVA DE RODOVIAS & IMPACTO DE SLA */
         rightWideHtml = `
           <div class="tv-card" style="flex:1.45;justify-content:space-between">
             <div class="tv-card-title">
@@ -1532,26 +1960,25 @@ body.tv-mode #tv-stage { display: flex; }
       }
 
       tvCanvas.innerHTML = `
-        <!-- BARRA SUPERIOR DE RASTREABILIDADE + SELETOR DAS 4 SUB-ABAS METEOROLÓGICAS E RODOVIÁRIAS -->
+        <!-- BARRA DE RASTREABILIDADE (3 TIMESTAMPS SEPARADOS + CICLO DE 15 MIN) -->
         <div class="wx-top-bar">
           <div class="wx-meta-info">
             <span class="wx-badge ${WX_STATE.status === 'ONLINE' ? 'wx-b-ok' : 'wx-b-torre'}">● ${WX_STATE.status}</span>
-            <span><b>FONTE:</b> ${WX_STATE.source}</span>
-            <span>· <b>ATUALIZADO:</b> ${updStr} (Medição ${refTimeStr})</span>
-            <span>· <b>RADAR:</b> ${WX_STATE.radarSource} (${WX_STATE.radarStatus} · ${radStr})</span>
+            <span><b>FONTE:</b> ${WX_STATE.source} (Ciclo 15m)</span>
+            <span>· <b>CONSULTA:</b> ${queryTimeStr}</span>
+            <span>· <b>ATUALIZAÇÃO EFETIVA:</b> ${updTimeStr}</span>
+            <span>· <b>REF. MEDIÇÃO:</b> ${refTimeStr}</span>
           </div>
           <div class="wx-sub-tabs">
             <button class="wx-sub-btn ${WX_STATE.subView === 0 ? 'on' : ''}" data-wx-sub="0">📈 1. Telemetria 48h</button>
-            <button class="wx-sub-btn ${WX_STATE.subView === 1 ? 'on' : ''}" data-wx-sub="1">🚨 2. Defesa Civil (${activeAlerts.length})</button>
-            <button class="wx-sub-btn ${WX_STATE.subView === 2 ? 'on' : ''}" data-wx-sub="2">🗺️ 3. Microrregiões (8)</button>
-            <button class="wx-sub-btn ${WX_STATE.subView === 3 ? 'on' : ''}" data-wx-sub="3">🛣️ 4. Rodovias &amp; Atraso SLA</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 1 ? 'on' : ''}" data-wx-sub="1">📅 2. Previsão 7 Dias</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 2 ? 'on' : ''}" data-wx-sub="2">🚨 3. Defesa Civil (${activeAlerts.length})</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 3 ? 'on' : ''}" data-wx-sub="3">🗺️ 4. Microrregiões (8)</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 4 ? 'on' : ''}" data-wx-sub="4">🛣️ 5. Rodovias &amp; SLA</button>
           </div>
         </div>
 
-        <!-- CORPO PRINCIPAL: COLUNA ESQUERDA FIXA (CDG HERO + RADAR QUADRADO COM GRADE) + DIREITA PANORÂMICA -->
         <div class="tv-row" style="grid-template-columns: 380px 1fr; flex: 1; min-height: 0">
-          
-          <!-- COLUNA ESQUERDA FIXA: TEMPERATURA GIGANTE DO CDG GUARULHOS + RADAR DOPPLER QUADRADO -->
           <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
             <div class="tv-card" style="flex-shrink:0">
               <div class="tv-card-title">🌡️ CLIMA ATUAL · CDG GUARULHOS <span>CEP 07030-071</span></div>
@@ -1581,14 +2008,12 @@ body.tv-mode #tv-stage { display: flex; }
               </div>
             </div>
 
-            <!-- RADAR METEOROLÓGICO EM CAMPO QUADRADO COM MALHA DE GRADE SUTIL -->
             <div class="tv-card" style="flex:1;align-items:center;justify-content:space-between">
-              <div class="tv-card-title" style="width:100%">📡 RADAR DOPPLER · REGIÕES SP <span>${radStr}</span></div>
+              <div class="tv-card-title" style="width:100%">📡 RADAR DOPPLER · REGIÕES SP <span>${WX_STATE.radarStatus} · ${radStr}</span></div>
               <div class="tv-chart-box">${svgDopplerRadarSquare()}</div>
             </div>
           </div>
 
-          <!-- COLUNA DIREITA PANORÂMICA (ALTERNA DINAMICAMENTE ENTRE AS 4 SUB-ABAS) -->
           <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
             ${rightWideHtml}
           </div>
@@ -1598,7 +2023,7 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 1: VISÃO GERAL */
+    /* SLIDE 1: VISÃO GERAL (INCLUI BLOCO DE PENDÊNCIAS DE AÇÃO) */
     if (idx === 1) {
       const sep = D.length ? pct(D.filter(r => r[3] >= 2).length, D.length) : null;
       const fatP = P.length ? pct(S.fat, P.length) : null;
@@ -1815,7 +2240,9 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 5: OUTBOUND & EXPEDIÇÃO · PAINEL BOLSA DE VALORES (NYSE / B3) */
+    /* ==========================================================================
+       SLIDE 5: EXPEDIÇÃO & OUTBOUND (SEM "B3/NYSE" E COM PROPORÇÃO 2x2 EQUILIBRADA NOS RECORDES)
+       ========================================================================== */
     if (idx === 5) {
       const ws = wk(dia), s = (l, k) => l.reduce((a, x) => a + x[k], 0);
       const scWk = days.filter(x => wk(x.d) == ws);
@@ -1831,19 +2258,20 @@ body.tv-mode #tv-stage { display: flex; }
       };
 
       const hlMetrics = [
-        ['etq', 'ETIQUETAS', v => n0(v)],
+        ['etq', 'ETIQUETAS PROCESSADAS', v => n0(v)],
         ['ent', 'ENTREGAS (ZS34)', v => n0(v)],
         ['peso', 'PESO EXPEDIDO', v => fw(v)],
-        ['val', 'VALOR (R$)', v => RS(v)]
+        ['val', 'VALOR EXPEDIDO (R$)', v => RS(v)]
       ];
+      /* Proporção 2x2 espaçada nos recordes para nunca encavalar números e datas */
       const hlHtml = base.length >= 2 ? `<div class="nyse-hl-grid">${hlMetrics.map(([k, lb, fmt]) => {
         const sorted = [...base].sort((a, b) => b[k] - a[k]);
         const mx = sorted[0], mn = sorted[sorted.length - 1], avg = s(base, k) / base.length;
         const pMx = avg ? ((mx[k] - avg) / avg) * 100 : 0, pMn = avg ? ((mn[k] - avg) / avg) * 100 : 0;
         return `<div class="nyse-hl-card">
           <div class="hl-metric">🏆 ${lb}</div>
-          <div class="nyse-hl-row"><span class="tv-up">▲ MÁX ${fd(mx.d)} (${WD[wdOf(mx.d)]})</span><b style="color:#4ade80">${fmt(mx[k])} (+${pMx.toFixed(0)}%)</b></div>
-          <div class="nyse-hl-row"><span class="tv-dn">▼ MÍN ${fd(mn.d)} (${WD[wdOf(mn.d)]})</span><b style="color:#fb7185">${fmt(mn[k])} (${pMn.toFixed(0)}%)</b></div>
+          <div class="nyse-hl-row"><span class="tv-up">▲ MÁX · ${fd(mx.d)} (${WD[wdOf(mx.d)]})</span><b style="color:#4ade80">${fmt(mx[k])} (+${pMx.toFixed(0)}%)</b></div>
+          <div class="nyse-hl-row"><span class="tv-dn">▼ MÍN · ${fd(mn.d)} (${WD[wdOf(mn.d)]})</span><b style="color:#fb7185">${fmt(mn[k])} (${pMn.toFixed(0)}%)</b></div>
         </div>`;
       }).join('')}</div>` : '';
 
@@ -1853,7 +2281,7 @@ body.tv-mode #tv-stage { display: flex; }
       })).reverse();
 
       tvCanvas.innerHTML = `
-        <div class="tv-row" style="grid-template-columns: 1.05fr 1.55fr 1.35fr; flex: 1; min-height: 0">
+        <div class="tv-row" style="grid-template-columns: 0.98fr 1.68fr 1.34fr; flex: 1; min-height: 0">
           <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
             <div class="tv-card" style="flex:1">
               <div class="tv-card-title">📊 SEMANA ATUAL · SEMANA ${ws} <span>${scWk.length} dia(s) · ${s(scWk, 'n')} cargas</span></div>
@@ -1928,20 +2356,21 @@ body.tv-mode #tv-stage { display: flex; }
             </div>
           </div>
 
+          <!-- GRÁFICO CENTRAL COM IDENTIFICAÇÃO LOGÍSTICA CORRETA (SEM B3/NYSE) E PROPORÇÃO EQUILIBRADA -->
           <div class="tv-card">
             <div class="tv-card-title">
-              📈 ÍNDICE B3 / NYSE · VALOR EXPEDIDO (R$) × PESO (T)
+              📈 CURVA DE PERFORMANCE OUTBOUND · VALOR EXPEDIDO (R$) × PESO (T)
               <div class="tv-legend">
                 <span><i style="background:#22d3ee;color:#22d3ee"></i>Curva = Valor (R$ mil)</span>
                 <span><i style="background:#4ade80;color:#4ade80"></i>Linha/Barras = Peso Expedido (t)</span>
               </div>
             </div>
-            <div class="tv-chart-box">${svgStockExchangeArea(days)}</div>
+            <div class="tv-chart-box">${svgOutboundPerformanceArea(days)}</div>
             ${hlHtml}
           </div>
 
           <div class="tv-card">
-            <div class="tv-card-title">📋 PREGÃO DIA A DIA · ACUMULADO &amp; TENDÊNCIA <span>Cotação diária de expedição</span></div>
+            <div class="tv-card-title">📋 HISTÓRICO DIA A DIA · ACUMULADO &amp; TENDÊNCIA <span>Evolução diária por data de expedição</span></div>
             <div class="nyse-board-wrap" id="nyse-board">
               <table class="nyse-table">
                 <thead>
@@ -2012,7 +2441,7 @@ body.tv-mode #tv-stage { display: flex; }
     }
   }
 
-  /* 6. Controle do Carrossel Configurável (6 Telas, Padrão 1m 30s) e Relógio */
+  /* 9. Controle do Carrossel Configurável (6 Telas, Padrão 1m 30s) e Relógio */
   const btnTv = document.getElementById('icTv');
   const btnExit = document.getElementById('tv-exit');
   const btnPause = document.getElementById('tv-pause');
@@ -2060,6 +2489,7 @@ body.tv-mode #tv-stage { display: flex; }
       if (document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen().catch(() => {});
       }
+      requestTvWakeLock();
       tvPaused = false;
       WX_STATE.subView = 0;
       if (btnPause) btnPause.innerHTML = '⏸️ Pausar';
@@ -2067,6 +2497,7 @@ body.tv-mode #tv-stage { display: flex; }
       goToSlide(0);
       startTvTimers();
     } else {
+      releaseTvWakeLock();
       if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       }
