@@ -30,10 +30,17 @@
 </div></header>
 
 <div class="shell">
-<aside class="side" id="side"><nav class="tabs" id="tabs"><button data-t="ov"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Visão geral</span></button><button data-t="ct"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span>Carteira</span></button><button data-t="ag"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Agendamento</span></button><button data-t="ex"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l6 4V9l6 4V5h6v16z"/></svg><span>Status operacional</span></button><button data-t="ob"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><span>Expedição &amp; Outbound</span></button>
-<!-- Aba de Frete ocultada com segurança -->
-<button data-t="fr" style="display:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6.5C16 5 14 4 12 4c-2.5 0-4.5 1.3-4.5 3.5S9.5 11 12 11.5s4.5 1.3 4.5 3.5S14.5 20 12 20c-2 0-4-1-5-2.5"/></svg><span>Frete</span></button>
-<button data-t="al"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg><span>Alertas</span></button></nav>
+<aside class="side" id="side"><nav class="tabs" id="tabs">
+  <button data-t="ov"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Visão geral</span></button>
+  <button data-t="pa" id="tab-btn-pa"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Pendências que Exigem Ação</span></button>
+  <button data-t="ct"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span>Carteira</span></button>
+  <button data-t="ag"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Agendamento</span></button>
+  <button data-t="ex"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l6 4V9l6 4V5h6v16z"/></svg><span>Status operacional</span></button>
+  <button data-t="ob"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><span>Expedição &amp; Outbound</span></button>
+  <!-- Aba de Frete ocultada com segurança -->
+  <button data-t="fr" style="display:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6.5C16 5 14 4 12 4c-2.5 0-4.5 1.3-4.5 3.5S9.5 11 12 11.5s4.5 1.3 4.5 3.5S14.5 20 12 20c-2 0-4-1-5-2.5"/></svg><span>Frete</span></button>
+  <button data-t="al"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg><span>Alertas</span></button>
+</nav>
 <div class="slab">ATALHOS</div><nav class="sl"><button id="goUp">Carregar planilhas</button><button id="goFl">Filtros e prazos</button><button id="goPar">Parâmetros de ocupação</button></nav>
 <details class="cd calc" id="cdet" open><summary>CALENDÁRIO</summary><label style="font-size:11px;color:var(--mu)">D0 <input type="date" id="hj" value="2026-10-08"></label><div class="q" id="snq"></div><div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><button id="pv0">‹</button><b id="mt0"></b><button id="nx0">›</button></div><div class="cal" id="cal0"></div><div class="note">📦 carteira · 🚛 agendamento disponíveis nos dias marcados</div><div id="hinfo" class="note" style="margin-top:6px"></div></details></aside>
 
@@ -53,9 +60,6 @@
 <div style="display:flex;gap:6px;margin:6px 0 10px;align-items:end;flex-wrap:wrap"><label style="font-size:11px;color:var(--mu)">De<input type="date" id="d1"></label><label style="font-size:11px;color:var(--mu)">Até<input type="date" id="d2"></label><button id="ap">Aplicar</button></div>
 <h4>🔎 Filtros</h4><div class="fg" id="fl"></div><button id="clr">🔄 LIMPAR FILTROS</button></details>
 
-<!-- PAINEL GERENCIAL CONSOLIDADO: PENDÊNCIAS QUE EXIGEM AÇÃO (EXIBIDO NO DASH QUANDO HÁ DADOS) -->
-<div id="pend-action-mount"></div>
-
 <div id="v"></div></main></div>
 
 <!-- ==========================================================================
@@ -72,16 +76,15 @@
     <div class="tv-clock" id="tv-clock">--:--:--</div>
   </div>
   <div id="tv-canvas"></div>
-  <!-- Barra de Calendário Inteligente 24h & Curiosidades Verificadas (Discreta no Rodapé Esquerdo da TV) -->
-  <div id="tv-smart-cal" class="tv-smart-cal"></div>
   <div id="tv-bar">
     <b>MONITORAMENTO TV</b>
-    <button class="tv-tab on" data-tv="0">1. Clima &amp; Radar</button>
+    <button class="tv-tab on" data-tv="0">1. Clima &amp; Rodovias</button>
     <button class="tv-tab" data-tv="1">2. Visão Geral</button>
-    <button class="tv-tab" data-tv="2">3. Carteira</button>
-    <button class="tv-tab" data-tv="3">4. Agendamento</button>
-    <button class="tv-tab" data-tv="4">5. Status Operacional</button>
-    <button class="tv-tab" data-tv="5">6. Expedição &amp; Outbound</button>
+    <button class="tv-tab" data-tv="2">3. Pendências de Ação</button>
+    <button class="tv-tab" data-tv="3">4. Carteira</button>
+    <button class="tv-tab" data-tv="4">5. Agendamento</button>
+    <button class="tv-tab" data-tv="5">6. Status Operacional</button>
+    <button class="tv-tab" data-tv="6">7. Expedição &amp; Outbound</button>
     <button id="tv-snd" title="Ativar/Desativar alertas sonoros">🔊 Áudio</button>
     <label class="tv-dur-lbl" title="Configurar tempo de exibição de cada tela">
       ⏱️
@@ -125,26 +128,71 @@
 .up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid var(--tc-border-hi);border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:var(--tc-cyan);font-weight:800}
 .admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:var(--tc-bg-panel);border:1px solid var(--tc-border-hi);border-radius:var(--tc-radius-lg);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:var(--tc-cyan);letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid var(--tc-border-hi);border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
-/* Anti-corte de gráficos e rótulos */
 .ars, .chx svg, .rsv, .tv-ring-svg { overflow: visible !important; }
 .cd, .gx > .cd { overflow: visible !important; }
 .ars { padding-right: 18px; }
 
 /* ==========================================================================
-   PAINEL GERENCIAL: PENDÊNCIAS QUE EXIGEM AÇÃO (DASH & TV)
+   NOVA GUIA: PENDÊNCIAS QUE EXIGEM AÇÃO (LAYOUT GERENCIAL POR PILARES)
    ========================================================================== */
-.pa-panel { background: linear-gradient(180deg, #150c3a, #0d0827); border: 1px solid var(--tc-border-hi); border-left: 5px solid var(--tc-cyan); border-radius: var(--tc-radius-lg); padding: 12px 16px; margin-bottom: 14px; box-shadow: 0 10px 30px #0008; }
-.pa-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
-.pa-title { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--tc-cyan); }
-.pa-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-.pa-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 8px; }
-.pa-card { background: linear-gradient(145deg, #180f42, #0e0829); border: 1px solid var(--tc-border); border-left: 4px solid var(--pac, #f97316); border-radius: var(--tc-radius-md); padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 4px; cursor: pointer; transition: transform .15s, border-color .15s; }
+.pa-sec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; margin-top: 10px; }
+.pa-pillar { background: linear-gradient(180deg, rgba(22, 13, 61, 0.94), rgba(11, 6, 32, 0.96)); border: 1px solid var(--tc-border-hi); border-top: 3px solid var(--pc, var(--tc-cyan)); border-radius: var(--tc-radius-lg); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 8px 26px #0009; }
+.pa-pillar-hd { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #26195c; padding-bottom: 6px; }
+.pa-pillar-title { font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--pc, var(--tc-cyan)); display: flex; align-items: center; gap: 6px; }
+.pa-card { background: linear-gradient(145deg, #180f42, #0e0829); border: 1px solid var(--tc-border); border-left: 4px solid var(--pac, #f97316); border-radius: var(--tc-radius-md); padding: 9px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 5px; cursor: pointer; transition: transform .15s, border-color .15s; }
 .pa-card:hover { transform: translateY(-1px); border-color: var(--pac, #22d3ee); }
 .pa-card-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .pa-card-mod { color: var(--tc-cyan); font-family: var(--tc-font-mono); }
-.pa-card-desc { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.3; }
+.pa-card-desc { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.35; }
 .pa-card-imp { font-size: 11px; font-weight: 800; color: var(--pac, #facc15); font-family: var(--tc-font-mono); }
-.pa-card-act { font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #251858; padding-top: 4px; margin-top: 2px; }
+.pa-card-act { font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #251858; padding-top: 4px; margin-top: 2px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.pa-go-tag { color: var(--tc-cyan); font-weight: 800; font-size: 9.5px; white-space: nowrap; }
+
+/* ==========================================================================
+   CARTÕES METEOROLÓGICOS 7 DIAS COM ROTAÇÃO 3D (FACE 1: CLIMA / FACE 2: DICA)
+   ========================================================================== */
+.wx-7d-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; flex: 1; min-height: 0; perspective: 1100px; }
+.wx-7d-flip-wrap { position: relative; width: 100%; height: 100%; min-height: 210px; transform-style: preserve-3d; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; cursor: pointer; }
+.wx-7d-flip-wrap.is-flipped { transform: rotateY(180deg); }
+.wx-7d-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: linear-gradient(165deg, #180f42, #0b0622); border: 1px solid #2e1f6b; border-top: 3px solid var(--dc, #22d3ee); border-radius: 12px; padding: 10px 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 6px 18px #0008; overflow: hidden; }
+.wx-7d-face.is-today { border-top-color: var(--tc-yellow); background: linear-gradient(165deg, #23165c, #110934); box-shadow: 0 0 18px rgba(250, 204, 21, 0.18); }
+.wx-7d-back { transform: rotateY(180deg); border-top-color: var(--tc-purple); background: linear-gradient(165deg, #1f114d, #0d0726); justify-content: space-between; text-align: left; align-items: stretch; padding: 12px; }
+.wx-7d-day { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
+.wx-7d-date { font-size: 10px; color: var(--tc-muted); font-family: var(--tc-font-mono); }
+.wx-7d-ico { font-size: 28px; line-height: 1.1; margin: 4px 0 2px; }
+.wx-7d-cond { font-size: 10.5px; font-weight: 800; color: var(--dc, #22d3ee); }
+.wx-7d-temps { font-family: var(--tc-font-mono); font-size: 14px; font-weight: 900; margin: 4px 0; }
+.wx-7d-stats { width: 100%; border-top: 1px solid #26195c; padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-family: var(--tc-font-mono); color: #cfc8f5; text-align: left; }
+.wx-7d-op { width: 100%; background: #11092e; border: 1px solid #2b1d63; border-radius: 6px; padding: 4px 6px; font-size: 9.5px; font-family: var(--tc-font-mono); color: var(--tc-cyan); margin-top: 4px; }
+.wx-tip-cat { font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--tc-yellow); background: rgba(250, 204, 21, 0.12); border: 1px solid rgba(250, 204, 21, 0.35); border-radius: 6px; padding: 3px 7px; display: inline-block; align-self: flex-start; }
+.wx-tip-body { font-size: 11px; line-height: 1.42; color: #ece8ff; font-weight: 600; flex: 1; display: flex; align-items: center; margin: 6px 0; }
+.wx-tip-foot { font-size: 9px; color: var(--tc-muted); font-family: var(--tc-font-mono); border-top: 1px solid #2b1d63; padding-top: 5px; display: flex; justify-content: space-between; }
+
+/* ==========================================================================
+   RODOVIAS E SLA — ANIMAÇÃO CONTÍNUA DE FLUXO E PERFIL HORÁRIO (GPU FLUIDA)
+   ========================================================================== */
+@keyframes hwTrafficFlowMove {
+  from { stroke-dashoffset: 48; }
+  to { stroke-dashoffset: 0; }
+}
+.hw-flow-particles {
+  animation: hwTrafficFlowMove var(--fspd, 1.4s) linear infinite;
+  will-change: stroke-dashoffset;
+}
+.wx-hw-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
+.wx-hw-card { background: linear-gradient(155deg, #170e3f, #0b0622); border: 1px solid #2e1f6b; border-left: 4px solid var(--hwc, #22c55e); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; gap: 4px; }
+.wx-hw-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.wx-hw-title { font-size: 11.5px; font-weight: 900; color: #fff; letter-spacing: .04em; }
+.wx-hw-sub { font-size: 9.5px; color: var(--tc-muted); margin-top: 1px; }
+.wx-hw-speed-row { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 0; font-family: var(--tc-font-mono); }
+.wx-hw-spd { font-size: clamp(18px, 1.55vw, 23px); font-weight: 900; color: var(--hwc, #22c55e); }
+.wx-hw-eta { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #120936; border: 1px solid #33236f; }
+.wx-hw-lane-box { width: 100%; height: 28px; background: #09051d; border: 1px solid #251858; border-radius: 7px; overflow: hidden; padding: 0 4px; display: flex; align-items: center; }
+.wx-hw-profile-box { width: 100%; height: 42px; display: flex; align-items: center; }
+.wx-hw-sla-tags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 9px; font-family: var(--tc-font-mono); border-top: 1px solid #26195c; padding-top: 5px; }
+.wx-hw-sla-cell { background: #11092e; border: 1px solid #26195c; border-radius: 5px; padding: 3px 5px; display: flex; flex-direction: column; }
+.wx-hw-sla-cell small { font-size: 8px; color: var(--tc-muted); text-transform: uppercase; }
+.wx-hw-sla-cell b { font-size: 10px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ==========================================================================
    IGNIÇÃO DE ENTRADA (COMUM AO DASH E TV) + EFEITOS CONTÍNUOS (EXCLUSIVOS DA TV)
@@ -206,7 +254,7 @@
 }
 
 /* ==========================================================================
-   ESTILOS DO PALCO MODO TV (ADAPTÁVEL A 16:9, 16:10, 21:9, FULL HD, QHD E 4K)
+   ESTILOS DO PALCO MODO TV
    ========================================================================== */
 #tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #4b1d9a66, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #070419 0%, #0b0624 55%, #060314 100%); color: var(--tc-text); flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 body.tv-mode { overflow: hidden !important; }
@@ -244,9 +292,6 @@ body.tv-mode #tv-stage { display: flex; }
 .tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 2px 4px; }
 .tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible !important; }
 
-/* ==========================================================================
-   METEOROLOGIA: 5 SUB-ABAS PANORÂMICAS (INCLUINDO PREVISÃO DE 7 DIAS)
-   ========================================================================== */
 .wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(17, 9, 46, 0.92); border: 1px solid var(--tc-border); border-radius: var(--tc-radius-md); padding: 6px 14px; flex-shrink: 0; }
 .wx-meta-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 10px; font-family: var(--tc-font-mono); color: var(--tc-muted); }
 .wx-sub-tabs { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
@@ -264,19 +309,6 @@ body.tv-mode #tv-stage { display: flex; }
 .wx-hero-cond { font-size: 13.5px; font-weight: 800; color: var(--hc, #22d3ee); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
 .wx-hero-sub { font-size: 11px; color: #cfc8f5; margin-top: 2px; }
 
-/* NOVA VISTA: PREVISÃO DOS PRÓXIMOS 7 DIAS (CARTÕES VERTICAIS ELEGANTES) */
-.wx-7d-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; flex: 1; min-height: 0; }
-.wx-7d-card { background: linear-gradient(165deg, #180f42, #0b0622); border: 1px solid #2e1f6b; border-top: 3px solid var(--dc, #22d3ee); border-radius: 12px; padding: 10px 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 6px 18px #0008; }
-.wx-7d-card.is-today { border-top-color: var(--tc-yellow); background: linear-gradient(165deg, #23165c, #110934); box-shadow: 0 0 18px rgba(250, 204, 21, 0.18); }
-.wx-7d-day { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
-.wx-7d-date { font-size: 10px; color: var(--tc-muted); font-family: var(--tc-font-mono); }
-.wx-7d-ico { font-size: 28px; line-height: 1.1; margin: 4px 0 2px; }
-.wx-7d-cond { font-size: 10.5px; font-weight: 800; color: var(--dc, #22d3ee); }
-.wx-7d-temps { font-family: var(--tc-font-mono); font-size: 14px; font-weight: 900; margin: 4px 0; }
-.wx-7d-stats { width: 100%; border-top: 1px solid #26195c; padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-family: var(--tc-font-mono); color: #cfc8f5; text-align: left; }
-.wx-7d-op { width: 100%; background: #11092e; border: 1px solid #2b1d63; border-radius: 6px; padding: 4px 6px; font-size: 9.5px; font-family: var(--tc-font-mono); color: var(--tc-cyan); margin-top: 4px; }
-
-/* Grade de Cartões das 8 Regiões */
 .wx-reg-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
 .wx-reg-card { background: linear-gradient(160deg, #170e3f, #0c0724); border: 1px solid #2e1f6b; border-top: 3px solid var(--rc, #22d3ee); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
 .wx-reg-card.is-base { border-top-color: var(--tc-yellow); background: linear-gradient(160deg, #211556, #100930); }
@@ -287,7 +319,6 @@ body.tv-mode #tv-stage { display: flex; }
 .wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bdb4ee; border-top: 1px solid #281a5e; padding-top: 6px; font-family: var(--tc-font-mono); }
 .wx-reg-cart { margin-top: 6px; padding: 5px 8px; border-radius: 8px; background: #11092e; border: 1px solid #2b1d63; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
 
-/* Alertas Defesa Civil em Tela Larga */
 .wx-alert-wide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 10px; overflow-y: auto; max-height: 100%; padding-right: 4px; align-content: start; }
 .wx-alert-card { background: linear-gradient(145deg, #180d3e, #0e0729); border: 1px solid #332275; border-left: 5px solid var(--ac, #ef4444); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; box-shadow: 0 8px 24px #0009; }
 .wx-alert-card-hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
@@ -295,20 +326,6 @@ body.tv-mode #tv-stage { display: flex; }
 .wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #281a5e; padding-top: 6px; }
 .wx-ack-btn { padding: 4px 12px !important; font-size: 10px !important; font-weight: 700 !important; background: #241855 !important; border-color: #5b3fc4 !important; color: #ece8ff !important; border-radius: 99px !important; }
 
-/* Grade de Corredores Rodoviários & Previsão de Atraso SLA */
-.wx-hw-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
-.wx-hw-card { background: linear-gradient(155deg, #170e3f, #0b0622); border: 1px solid #2e1f6b; border-left: 4px solid var(--hwc, #22c55e); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
-.wx-hw-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-.wx-hw-title { font-size: 11.5px; font-weight: 900; color: #fff; letter-spacing: .04em; }
-.wx-hw-sub { font-size: 10px; color: var(--tc-muted); margin-top: 2px; }
-.wx-hw-speed-row { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 4px; font-family: var(--tc-font-mono); }
-.wx-hw-spd { font-size: clamp(19px, 1.7vw, 25px); font-weight: 900; color: var(--hwc, #22c55e); }
-.wx-hw-eta { font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #120936; border: 1px solid #33236f; }
-.wx-hw-meta { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #cfc8f5; border-top: 1px solid #26195c; padding-top: 6px; margin-top: 4px; }
-
-/* ==========================================================================
-   CORREÇÃO PONTUAL DO OUTBOUND (PROPORÇÃO EQUILIBRADA E ZERO COLISÃO DE TEXTO)
-   ========================================================================== */
 .nyse-idx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; flex: 1; min-height: 0; }
 .nyse-idx-box { background: linear-gradient(145deg, #160d3d, #0c0724); border: 1px solid #2d1e66; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
 .nyse-idx-box small { font-size: 9.5px; color: var(--tc-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
@@ -327,7 +344,6 @@ body.tv-mode #tv-stage { display: flex; }
 .nyse-led { display: inline-flex; gap: 1.5px; vertical-align: middle; margin-right: 4px; }
 .nyse-led i { width: 3.5px; height: 9px; border-radius: 1px; background: #231752; display: inline-block; }
 
-/* Correção dos 4 Cards de Recordes (Maior e Menor Expedição) — Sem texto grudado */
 .nyse-hl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--tc-border); flex-shrink: 0; }
 .nyse-hl-card { background: #120a33; border: 1px solid var(--tc-border); border-radius: 10px; padding: 6px 12px; display: flex; flex-direction: column; gap: 3px; }
 .nyse-hl-card .hl-metric { font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: var(--tc-cyan); text-transform: uppercase; margin-bottom: 1px; }
@@ -345,13 +361,6 @@ body.tv-mode #tv-stage { display: flex; }
 .tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8d2fc; font-weight: 700; }
 .tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; }
 
-/* ==========================================================================
-   CALENDÁRIO INTELIGENTE 24H & CURIOSIDADES LOGÍSTICAS/HISTÓRICAS (RODAPÉ TV)
-   ========================================================================== */
-.tv-smart-cal { position: fixed; bottom: 8px; left: 20px; right: 640px; z-index: 9998; display: flex; align-items: center; gap: 10px; background: rgba(13, 8, 39, 0.94); border: 1px solid #33236f; border-left: 4px solid var(--tc-yellow); border-radius: 99px; padding: 5px 14px; font-size: 11px; color: var(--tc-text); box-shadow: 0 8px 24px #000c; backdrop-filter: blur(10px); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.tv-smart-cal b { color: var(--tc-yellow); font-weight: 800; letter-spacing: .05em; flex-shrink: 0; }
-.tv-smart-cal span { overflow: hidden; text-overflow: ellipsis; color: #d8d2fc; }
-
 #tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.96); border: 1px solid var(--tc-cyan); border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
 #tv-bar b { color: var(--tc-cyan); font-size: 10.5px; letter-spacing: .14em; margin-right: 2px; display: flex; align-items: center; gap: 6px; }
 #tv-bar button { padding: 4px 10px; font-size: 10.5px; font-weight: 700; border-radius: 99px; cursor: pointer; }
@@ -360,10 +369,6 @@ body.tv-mode #tv-stage { display: flex; }
 .tv-dur-lbl select option { background: #130c34; color: var(--tc-text); }
 .tv-btn-exit { background: linear-gradient(135deg, #dc2626, #991b1b) !important; border-color: #ef4444 !important; color: #fff !important; }
 
-/* Adaptação Responsiva para Diferentes Resoluções e Proporções de TV (16:9, 16:10, 21:9, 4K) */
-@media (max-width: 1480px) {
-  .tv-smart-cal { display: none; }
-}
 @media (min-width: 2200px) {
   #tv-canvas { padding: 16px 32px 68px; gap: 16px; }
   .tv-card { padding: 16px 22px; }
@@ -377,11 +382,15 @@ body.tv-mode #tv-stage { display: flex; }
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
 <!-- ==========================================================================
-     CAMADA DE INTELIGÊNCIA OPERACIONAL, METEOROLOGIA 15M, CALENDÁRIO 24H E TV
+     MOTOR DE CONSOLIDAÇÃO FINAL:
+     1. Outbound Dinâmico ao Espaço (ResizeObserver)
+     2. Cartões 7 Dias com Rotação 3D (Previsão / Dica & Curiosidade)
+     3. Nova Guia "Pendências que Exigem Ação" (5 Pilares)
+     4. Rodovias e SLA com Fluxo em Movimento e Perfil Horário 24h
      ========================================================================== -->
 <script>
 (function(){
-  /* 1. Padronização do Onboarding (Estado Sem Dados Sincronizado com o Servidor Render) */
+  /* 1. Onboarding Padronizado */
   window.onboarding = function() {
     return `<div class="cd" style="text-align:center;padding:28px;border-color:#3b2885">
       <div style="font-size:38px">🛰️</div>
@@ -396,7 +405,7 @@ body.tv-mode #tv-stage { display: flex; }
     </div>`;
   };
 
-  /* 2. Ícone Minimalista Consistente no Botão Mobile */
+  /* 2. Ícone Minimalista no Botão Mobile */
   const mbBtn = document.getElementById('mb');
   const svgPhone = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
   const svgDesktop = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
@@ -411,7 +420,7 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     3. CONFIGURAÇÃO DOS 8 POLOS METEOROLÓGICOS E 6 CORREDORES RODOVIÁRIOS
+     3. CONFIGURAÇÃO DOS 8 POLOS E 6 CORREDORES RODOVIÁRIOS PRIORITÁRIOS
      ========================================================================== */
   const POLOS_OPERACIONAIS = [
     { id: 'CDG', nome: 'CDG Guarulhos (Base)', lat: -23.4543, lon: -46.5337, rx: 132, ry: 152, munis: ['GUARULHOS','SAO PAULO'] },
@@ -433,12 +442,11 @@ body.tv-mode #tv-stage { display: flex; }
     { id: 'IMIG_ANC', nome: 'SP-160/150 Imigrantes / Anchieta',   trecho: 'Trecho Serra ➔ Santos / Baixada',    km: 76,  vFree: 65, polos: ['CDG','LIT'], lat: -23.82, lon: -46.47, serra: true }
   ];
 
-  /* Estado Meteorológico Independente (Ciclo de 15 Minutos + 3 Timestamps Rigorosos) */
   const WX_STATE = {
     status: 'SINCRONIZANDO',
-    lastQueryAt: null,       // 1. Horário da última consulta disparada pelo painel
-    lastSuccessAt: null,     // 2. Horário da última atualização efetiva recebida
-    refMeasurementAt: null,  // 3. Horário de referência do dado meteorológico na fonte
+    lastQueryAt: null,
+    lastSuccessAt: null,
+    refMeasurementAt: null,
     source: 'Open-Meteo Multi-Model (NOAA/ECMWF/CPTEC)',
     radarSource: 'RainViewer Doppler API',
     radarTime: null,
@@ -447,7 +455,8 @@ body.tv-mode #tv-stage { display: flex; }
     tomtomSpeeds: {},
     silencedAlerts: new Set(),
     soundEnabled: localStorage.getItem('torreWxSound_v1') !== '0',
-    subView: 0 // 0=Telemetria 48h | 1=Previsão 7 Dias | 2=Defesa Civil | 3=Microrregiões (8) | 4=Rodovias & SLA
+    subView: 0,
+    flippedCardIdx: -1
   };
 
   function wmoInfo(code) {
@@ -464,6 +473,7 @@ body.tv-mode #tv-stage { display: flex; }
 
   const degToCard = deg => ['N','NE','L','SE','S','SO','O','NO'][Math.round(((+deg || 0) % 360) / 45) % 8];
 
+  /* Motor Rodoviário e SLA: Calcula velocidade, perfil de 24h e correlação com entregas */
   function calcHighwayTelemetry(hw, C) {
     const pObjs = hw.polos.map(pid => WX_STATE.regions[pid]).filter(Boolean);
     const worstCode = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.weather_code) || 0)) : 0;
@@ -475,16 +485,16 @@ body.tv-mode #tv-stage { display: flex; }
     const isPeak = (hrNow >= 6 && hrNow <= 9) || (hrNow >= 16 && hrNow <= 20);
     let retainPct = isPeak ? 16 : (hrNow >= 10 && hrNow <= 15 ? 8 : 2);
 
-    let wxPenaltyPct = 0, cause = isPeak ? 'Fluxo intenso de horário de pico' : 'Fluxo livre normal';
+    let wxPenaltyPct = 0, cause = isPeak ? 'Horário de pico metropolitano' : 'Fluxo livre normal';
     if (worstCode >= 45 && worstCode <= 48) {
       wxPenaltyPct += hw.serra ? 38 : 22;
-      cause = hw.serra ? 'Neblina na Serra (Possível Operação Comboio)' : 'Visibilidade reduzida por neblina';
+      cause = hw.serra ? 'Neblina na Serra (Operação Comboio)' : 'Visibilidade reduzida por neblina';
     } else if (maxRain >= 5 || worstCode >= 80) {
       wxPenaltyPct += 35;
-      cause = 'Chuva forte na pista · Redução severa de velocidade';
+      cause = 'Chuva intensa na pista · Redução preventiva';
     } else if (maxRain > 0.2 || (worstCode >= 51 && worstCode <= 67)) {
       wxPenaltyPct += 18;
-      cause = 'Pista molhada · Frenagem ampliada para pesados';
+      cause = 'Pista molhada · Frenagem ampliada';
     }
     if (maxGust >= 50) {
       wxPenaltyPct += 14;
@@ -500,16 +510,66 @@ body.tv-mode #tv-stage { display: flex; }
     const tRealMin = Math.round((hw.km / vEst) * 60);
     const delayMin = Math.max(0, tRealMin - tFreeMin);
 
+    /* Curva de perfil de velocidade nas 24h do dia para o gráfico de linha do corredor */
+    const hourlyCurve = [];
+    const refPolo = pObjs[0] && pObjs[0].hourly ? pObjs[0].hourly : null;
+    for (let h = 0; h < 24; h += 2) {
+      const pk = (h >= 6 && h <= 9) || (h >= 16 && h <= 20) ? 16 : (h >= 10 && h <= 15 ? 8 : 2);
+      const prb = refPolo && refPolo.precipitation_probability ? (+refPolo.precipitation_probability[24 + h] || 0) : 0;
+      const rPen = prb >= 70 ? 28 : prb >= 45 ? 14 : 0;
+      hourlyCurve.push(Math.max(22, Math.round(hw.vFree * (1 - Math.min(70, pk + rPen) / 100))));
+    }
+
     const munisCorredor = new Set(hw.polos.filter(id => id !== 'CDG').flatMap(id => (POLOS_OPERACIONAIS.find(p => p.id === id) || {munis:[]}).munis));
     const pedsRota = C.filter(o => munisCorredor.has(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
     const pedsUrgentes = pedsRota.filter(o => cat(o[7]) <= 1);
 
     const col = delayMin >= 25 || fluidezPct < 55 ? '#ef4444' : delayMin >= 12 || fluidezPct < 78 ? '#f97316' : '#22c55e';
+    const slaStatus = pedsUrgentes.length === 0
+      ? 'Sem entregas D0/D+1 expostas'
+      : delayMin >= 20
+      ? `Risco potencial ao SLA (${pedsUrgentes.length} ped D0/D+1)`
+      : `Exposição monitorada (${pedsUrgentes.length} ped D0/D+1)`;
+
     return {
       hw, wHw, maxRain, maxGust, vEst, fluidezPct, tFreeMin, tRealMin, delayMin, cause, col,
       pedsTotal: pedsRota.length, pedsUrg: pedsUrgentes.length, pesoRota: sm(pedsRota, 8),
-      isLiveGps: !!liveTomTom
+      hourlyCurve, slaStatus, isLiveGps: !!liveTomTom
     };
+  }
+
+  /* ==========================================================================
+     4. ELEMENTOS GRÁFICOS COM MOVIMENTO PARA A GUIA RODOVIAS E SLA
+     ========================================================================== */
+  /* Pista Vetorial com Fluxo Animado Proporcional à Velocidade */
+  function svgAnimatedHighwayLane(h) {
+    const animDur = (Math.max(0.65, Math.min(3.4, 85 / Math.max(20, h.vEst)))).toFixed(2) + 's';
+    return `<svg viewBox="0 0 320 24" style="width:100%;height:24px">
+      <rect x="2" y="3" width="316" height="18" rx="4" fill="#0d0728" stroke="#281a5e" stroke-width="1"/>
+      <line x1="6" y1="12" x2="314" y2="12" stroke="#3b2885" stroke-width="1" stroke-dasharray="6 6"/>
+      <!-- Feixe contínuo de veículos/fluxo movendo-se na velocidade proporcional da via -->
+      <line x1="8" y1="8" x2="312" y2="8" stroke="${h.col}" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 38" class="hw-flow-particles" style="--fspd:${animDur};filter:drop-shadow(0 0 4px ${h.col})"/>
+      <line x1="20" y1="16" x2="312" y2="16" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 40" class="hw-flow-particles" style="--fspd:${animDur};animation-delay:-0.5s"/>
+    </svg>`;
+  }
+
+  /* Mini Gráfico de Linha de Perfil de Velocidade 24h por Corredor */
+  function svgHighwaySpeedCurve24h(curveArr, vFree, col) {
+    if (!curveArr || curveArr.length < 2) return '';
+    const W = 320, H = 38, L = 24, R = 28, T = 5, B = 6, pw = W - L - R, ph = H - T - B, n = curveArr.length;
+    const X = i => L + (i * pw) / (n - 1);
+    const Y = v => T + ph * (1 - Math.max(0, Math.min(vFree * 1.05, v)) / (vFree * 1.05));
+    const pts = curveArr.map((v, i) => [X(i), Y(v)]);
+    const d = smooth(pts);
+    const curIdx = Math.min(n - 1, Math.floor(new Date().getHours() / 2));
+    const cx = pts[curIdx][0], cy = pts[curIdx][1];
+    return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:38px">
+      <line x1="${L}" x2="${W - R}" y1="${Y(vFree).toFixed(1)}" y2="${Y(vFree).toFixed(1)}" stroke="#281a5e" stroke-dasharray="2 3"/>
+      <text x="${L - 3}" y="${(Y(vFree) + 3).toFixed(1)}" text-anchor="end" fill="#8f84c9" font-size="7.5" font-family="monospace">${vFree}</text>
+      <path d="${d}" fill="none" stroke="${col}" stroke-width="2"/>
+      <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3.5" fill="#fff" stroke="${col}" stroke-width="2"/>
+      <text x="${W - R + 4}" y="${(cy + 3).toFixed(1)}" fill="#facc15" font-size="7.5" font-weight="800" font-family="monospace">AGORA</text>
+    </svg>`;
   }
 
   function playWxAlertTone(isCrit) {
@@ -528,7 +588,6 @@ body.tv-mode #tv-stage { display: flex; }
     } catch (e) {}
   }
 
-  /* Atualização Meteorológica Independente a cada 15 Minutos (Preserva cache em caso de falha) */
   async function fetchMultiRegionTelemetry() {
     WX_STATE.lastQueryAt = new Date();
     const lats = POLOS_OPERACIONAIS.map(p => p.lat).join(',');
@@ -585,118 +644,141 @@ body.tv-mode #tv-stage { display: flex; }
       }
     }
 
-    renderPendingActionsMount();
-    if (document.body.classList.contains('tv-mode') && tvSlide === 0) renderTvSlide(0);
+    if (typeof tab !== 'undefined' && tab === 'pa' && typeof draw === 'function') draw();
+    if (document.body.classList.contains('tv-mode') && (tvSlide === 0 || tvSlide === 2)) renderTvSlide(tvSlide);
   }
   fetchMultiRegionTelemetry();
-  setInterval(fetchMultiRegionTelemetry, 15 * 60 * 1000); // Ciclo estrito de 15 minutos
+  setInterval(fetchMultiRegionTelemetry, 15 * 60 * 1000);
 
   /* ==========================================================================
-     4. INDICADOR GERENCIAL — PENDÊNCIAS QUE EXIGEM AÇÃO (REGRAS RASTREÁVEIS)
+     5. NOVA GUIA GERENCIAL: PENDÊNCIAS QUE EXIGEM AÇÃO (ORGANIZADA EM 5 PILARES)
      ========================================================================== */
-  function computeActionablePendencies() {
-    if (typeof VAZIO === 'function' && VAZIO()) return [];
+  function computeStructuredPendencies() {
+    if (typeof VAZIO === 'function' && VAZIO()) return { total: 0, crit: 0, pillars: [] };
     const S = st(), C = S.C, P = S.P, D = S.D;
-    const list = [];
 
-    /* 1. Pedidos atrasados (entrega <= corte sem agendamento) */
+    const pCarteira = [];
+    const pRoteirizacao = [];
+    const pAgendamento = [];
+    const pExpedicao = [];
+    const pExternos = [];
+
+    /* 1. CARTEIRA */
     const atr = C.filter(o => cat(o[7]) === 0);
     if (atr.length > 0) {
-      list.push({
-        prio: 'CRÍTICO', col: '#ef4444', mod: 'Carteira', tab: 'ct', ref: fdy(ref()),
-        desc: `${n0(atr.length)} pedido(s) em atraso (entrega ≤ corte) pendentes na carteira`,
-        imp: `${fw(sm(atr, 8))} · ${RSc(sm(atr, 9))}`,
-        act: 'Priorizar roteirização imediata ou validar reprogramação comercial.'
+      pCarteira.push({
+        prio: 'CRÍTICO', col: '#ef4444', mod: 'Carteira · Prazos', tab: 'ct', ref: fdy(ref()),
+        desc: `${n0(atr.length)} pedido(s) em atraso (data de entrega ≤ corte) sem agendamento`,
+        imp: `${fw(sm(atr, 8))} · ${RSc(sm(atr, 9))} (${uq(atr, o => o[0])} clientes)`,
+        act: 'Priorizar alocação imediata na grade ou alinhar reprogramação comercial.'
       });
     }
-
-    /* 2. Vencimento D+1 exigindo alocação */
     const ven = C.filter(o => cat(o[7]) === 1);
     if (ven.length > 0) {
-      list.push({
-        prio: ven.length / Math.max(1, S.N) >= 0.05 ? 'CRÍTICO' : 'ALTA',
-        col: ven.length / Math.max(1, S.N) >= 0.05 ? '#ef4444' : '#f97316',
-        mod: 'Carteira', tab: 'ct', ref: fdy(addD(ref(), 1)),
-        desc: `${n0(ven.length)} pedido(s) com vencimento amanhã (D+1) aguardando roteirização`,
+      const isCrit = ven.length / Math.max(1, S.N) >= 0.05;
+      pCarteira.push({
+        prio: isCrit ? 'CRÍTICO' : 'ALTA', col: isCrit ? '#ef4444' : '#f97316', mod: 'Carteira · Vencimento D+1', tab: 'ct', ref: fdy(addD(ref(), 1)),
+        desc: `${n0(ven.length)} pedido(s) vencem no próximo dia útil (D+1)`,
         imp: `${fw(sm(ven, 8))} · ${RSc(sm(ven, 9))}`,
-        act: 'Garantir inclusão nas ondas do próximo turno de separação.'
+        act: 'Incluir nas ondas prioritárias de separação e garantir reserva de frota.'
       });
     }
 
-    /* 3. Carregadas na ZS34 e pendentes de faturamento na ZS65 */
+    /* 2. ROTEIRIZAÇÃO */
+    const prDesp = Object.entries(C.reduce((m, o) => { (m[o[4]] = m[o[4]] || []).push(o); return m; }, {}))
+      .filter(x => x[1].length >= 15 && (idx(x[1], S.N, S.K) < 0.55 || idx(x[1], S.N, S.K) > 1.65));
+    prDesp.sort((a, b) => b[1].length - a[1].length).slice(0, 2).forEach(topD => {
+      const ixVal = idx(topD[1], S.N, S.K);
+      pRoteirizacao.push({
+        prio: 'ATENÇÃO', col: '#a855f7', mod: 'Roteirização · Praça', tab: 'ct', ref: fdy(dia),
+        desc: `Desproporção Pedido×Peso em ${topD[0]} (índice ${ixVal.toFixed(2)})`,
+        imp: `${n0(topD[1].length)} pedidos · ${fw(sm(topD[1], 8))}`,
+        act: ixVal < 1 ? 'Alta pulverização de entregas: validar limite de paradas por veículo.' : 'Alta concentração de peso: priorizar alocação de veículos pesados.'
+      });
+    });
+    const vRst = C.filter(o => o[13] === 'Via restrita' || o[13] === 'Residência limitada');
+    if (vRst.length > 0) {
+      pRoteirizacao.push({
+        prio: 'ATENÇÃO', col: '#facc15', mod: 'Roteirização · Restrições', tab: 'ct', ref: fdy(dia),
+        desc: `${n0(vRst.length)} pedido(s) em área de acesso restrito ou residência limitada`,
+        imp: `${fw(sm(vRst, 8))} · ${RSc(sm(vRst, 9))}`,
+        act: 'Validar compatibilidade de porte do veículo (VUC / Carro Pequeno) antes da onda.'
+      });
+    }
+
+    /* 3. AGENDAMENTO */
+    const subOcup = S.dr.filter(g => ocu(g) != null && ocu(g) < CFG.lo);
+    if (subOcup.length > 0) {
+      pAgendamento.push({
+        prio: 'ATENÇÃO', col: '#facc15', mod: 'Agendamento · Ocupação', tab: 'ag', ref: fdy(dia),
+        desc: `${n0(subOcup.length)} carga(s) direta(s) abaixo da capacidade recomendada (<${CFG.lo}%)`,
+        imp: `Peso alocado: ${fw(sm(subOcup, 16))}`,
+        act: 'Avaliar oportunidade de consolidação de pedidos ou troca para veículo menor.'
+      });
+    }
+    const overOcup = S.dr.filter(g => ocu(g) != null && ocu(g) > CFG.hi);
+    if (overOcup.length > 0) {
+      pAgendamento.push({
+        prio: 'ALTA', col: '#f97316', mod: 'Agendamento · Capacidade', tab: 'ag', ref: fdy(dia),
+        desc: `${n0(overOcup.length)} veículo(s) direto(s) acima do teto operacional (>${CFG.hi}%)`,
+        imp: `Peso alocado: ${fw(sm(overOcup, 16))}`,
+        act: 'Verificar limite de balança/cubagem ou necessidade de veículo adicional.'
+      });
+    }
+    const multiCross = S.X.filter(x => x.c >= 2);
+    if (multiCross.length > 0) {
+      pAgendamento.push({
+        prio: 'ALTA', col: '#f97316', mod: 'Agendamento · Cross-Docking', tab: 'ag', ref: fdy(dia),
+        desc: `${n0(multiCross.length)} operação(ões) Cross demandam múltiplas carretas (${multiCross.reduce((a, x) => a + x.c, 0)} carretas)`,
+        imp: multiCross.map(x => `${x.tra} (${x.c} carr. · ${fw(x.k)})`).slice(0, 2).join(' · '),
+        act: 'Confirmar posicionamento das carretas adicionais nas docas.'
+      });
+    }
+
+    /* 4. EXPEDIÇÃO E OUTBOUND */
     const nfc = P.filter(g => ZM[g[5]] == null && String(g[21] || '').startsWith('4'));
     if (nfc.length > 0) {
-      list.push({
-        prio: 'CRÍTICO', col: '#ef4444', mod: 'Agendamento / ZS65', tab: 'ag', ref: fdy(dia),
-        desc: `${n0(nfc.length)} transporte(s) com carregamento finalizado (ZS34) sem NF emitida (ZS65)`,
+      pExpedicao.push({
+        prio: 'CRÍTICO', col: '#ef4444', mod: 'Outbound · ZS34×ZS65', tab: 'ob', ref: fdy(dia),
+        desc: `${n0(nfc.length)} carga(s) com carregamento concluído (ZS34) pendentes de NF (ZS65)`,
         imp: `${fw(sm(nfc, 16))} · ${RS(nfc.reduce((x, g) => x + (g[24] || 0), 0))}`,
-        act: 'Acionar faturamento imediatamente para liberação fiscal de saída.'
+        act: 'Priorizar emissão fiscal no faturamento para liberação imediata do veículo.'
       });
     }
-
-    /* 4. Pendência de separação / atribuição na ZW14 */
     if (D.length > 0) {
       const pendSep = D.filter(r => r[3] >= 0 && r[3] < 2);
       if (pendSep.length > 0) {
         const pPct = pct(pendSep.length, D.length);
-        list.push({
-          prio: pPct >= 25 ? 'ALTA' : 'ATENÇÃO', col: pPct >= 25 ? '#f97316' : '#facc15',
-          mod: 'Status Operacional', tab: 'ex', ref: fdy(dia),
-          desc: `${n0(pendSep.length)} etiqueta(s) ZW14 pendentes de conclusão de separação (${pfx(pPct)}%)`,
-          imp: `${fw(pendSep.reduce((x, r) => x + r[7], 0))} em aberto`,
-          act: `Conferir filas de atribuição (${D.filter(r => r[3] === 0).length} impressas sem atribuição).`
+        pExpedicao.push({
+          prio: pPct >= 25 ? 'ALTA' : 'ATENÇÃO', col: pPct >= 25 ? '#f97316' : '#facc15', mod: 'Status Operacional · ZW14', tab: 'ex', ref: fdy(dia),
+          desc: `${n0(pendSep.length)} etiqueta(s) ZW14 pendentes de separação (${pfx(pPct)}% do dia)`,
+          imp: `${fw(pendSep.reduce((x, r) => x + r[7], 0))} em processamento`,
+          act: `Acompanhar avanço nos prédios (${D.filter(r => r[3] === 0).length} etiquetas aguardando atribuição).`
         });
       }
     }
-
-    /* 5. Cargas diretas subdimensionadas (< 60% da capacidade) ou com sobrecarga (> 100%) */
-    const subOcup = S.dr.filter(g => ocu(g) != null && ocu(g) < CFG.lo);
-    if (subOcup.length > 0) {
-      list.push({
-        prio: 'ATENÇÃO', col: '#facc15', mod: 'Agendamento', tab: 'ag', ref: fdy(dia),
-        desc: `${n0(subOcup.length)} veículo(s) direto(s) abaixo da ocupação mínima recomendada (<${CFG.lo}%)`,
-        imp: `Peso alocado: ${fw(sm(subOcup, 16))}`,
-        act: 'Avaliar consolidação de entregas ou redimensionamento para veículo menor.'
-      });
-    }
-
-    /* 6. Necessidade de carretas Cross adicionais (conjuntos exigindo >= 2 carretas) */
-    const multiCross = S.X.filter(x => x.c >= 2);
-    if (multiCross.length > 0) {
-      list.push({
-        prio: 'ALTA', col: '#f97316', mod: 'Agendamento (Cross)', tab: 'ag', ref: fdy(dia),
-        desc: `${n0(multiCross.length)} operação(ões) Cross exigem múltiplas carretas (${multiCross.reduce((a, x) => a + x.c, 0)} carretas)`,
-        imp: multiCross.map(x => `${x.tra} (${x.c})`).slice(0, 2).join(', '),
-        act: 'Confirmar disponibilidade física de carretas extras com as transportadoras.'
-      });
-    }
-
-    /* 7. Desproporção regional entre quantidade de pedidos e peso */
-    const prDesp = Object.entries(C.reduce((m, o) => { (m[o[4]] = m[o[4]] || []).push(o); return m; }, {}))
-      .filter(x => x[1].length >= 15 && (idx(x[1], S.N, S.K) < 0.55 || idx(x[1], S.N, S.K) > 1.65));
-    if (prDesp.length > 0) {
-      const topD = prDesp.sort((a, b) => b[1].length - a[1].length)[0];
-      const ixVal = idx(topD[1], S.N, S.K);
-      list.push({
-        prio: 'ATENÇÃO', col: '#a855f7', mod: 'Carteira / Roteirização', tab: 'ct', ref: fdy(dia),
-        desc: `Desproporção Pedido×Peso na praça ${topD[0]} (índice ${ixVal.toFixed(2)})`,
-        imp: `${topD[1].length} pedidos · ${fw(sm(topD[1], 8))}`,
-        act: ixVal < 1 ? 'Alta pulverização de entregas: atenção ao limite de entregas por veículo.' : 'Alta densidade de peso: priorizar veículos de maior capacidade (Truck/Toco).'
-      });
-    }
-
-    /* 8. Divergência entre Agendamento e ZW14 (Necessidade de validação) */
     const semEtq = P.filter(g => !ETQ[g[5]]);
     if (semEtq.length > 0) {
-      list.push({
-        prio: 'VALIDAÇÃO', col: '#22d3ee', mod: 'Integração AGD×ZW14', tab: 'al', ref: fdy(dia),
-        desc: `${n0(semEtq.length)} transporte(s) agendado(s) sem etiquetas correspondentes na ZW14`,
-        imp: `${fw(sm(semEtq, 16))} programados`,
-        act: 'Necessidade de validação: confirmar se as OTs já foram geradas no WMS.'
+      pExpedicao.push({
+        prio: 'NECESSIDADE DE VALIDAÇÃO', col: '#22d3ee', mod: 'Integração · AGD×ZW14', tab: 'al', ref: fdy(dia),
+        desc: `${n0(semEtq.length)} transporte(s) na agenda sem etiquetas localizadas na ZW14`,
+        imp: `${fw(sm(semEtq, 16))} previstos na ZS34`,
+        act: 'Validar se as OTs já foram geradas ou se o transporte opera fora do escopo ZW14.'
       });
     }
 
-    /* 9. Risco climático em região com viagens programadas */
+    /* 5. RISCOS EXTERNOS (CLIMA & RODOVIAS × OPERAÇÃO) */
+    CORREDORES_RODOVIARIOS.forEach(hw => {
+      const h = calcHighwayTelemetry(hw, C);
+      if (h.delayMin >= 15 && h.pedsTotal > 0) {
+        pExternos.push({
+          prio: h.delayMin >= 25 ? 'CRÍTICO' : 'ALTA', col: h.col, mod: 'Rodovias & SLA', tab: 'ct', ref: fdy(dia),
+          desc: `${h.hw.nome}: retenção estimada de +${h.delayMin} min (${h.cause})`,
+          imp: `${n0(h.pedsTotal)} pedidos na rota (${h.pedsUrg} urgentes D0/D+1 · ${fw(h.pesoRota)})`,
+          act: 'Monitorar janela de descarga dos clientes atendidos pelo corredor.'
+        });
+      }
+    });
     POLOS_OPERACIONAIS.forEach(p => {
       if (p.id === 'CDG') return;
       const rData = WX_STATE.regions[p.id];
@@ -706,143 +788,141 @@ body.tv-mode #tv-stage { display: flex; }
       if (prob >= 65 || mm >= 12) {
         const pedsReg = C.filter(o => p.munis.includes(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
         if (pedsReg.length > 0) {
-          list.push({
-            prio: mm >= 20 ? 'CRÍTICO' : 'ATENÇÃO', col: mm >= 20 ? '#ef4444' : '#f97316',
-            mod: 'Meteorologia × Rota', tab: 'ct', ref: fdy(dia),
-            desc: `Risco climático em ${p.nome} (☔ ${prob}% · ${mm.toFixed(1)}mm) com entregas programadas`,
+          pExternos.push({
+            prio: mm >= 20 ? 'CRÍTICO' : 'ATENÇÃO', col: mm >= 20 ? '#ef4444' : '#f97316', mod: 'Meteorologia Regional', tab: 'ct', ref: fdy(dia),
+            desc: `Previsão de chuva em ${p.nome} (☔ ${prob}% · ${mm.toFixed(1)}mm) com viagens programadas`,
             imp: `${n0(pedsReg.length)} pedidos · ${fw(sm(pedsReg, 8))}`,
-            act: 'Verificar enlonamento e considerar janela ampliada de deslocamento na rota.'
+            act: 'Garantir enlonamento reforçado e proteção de embalagens.'
           });
         }
       }
     });
 
-    return list;
+    const pillars = [
+      { id: 'cart', title: '📦 1. Carteira & Prazos', color: '#6366f1', items: pCarteira },
+      { id: 'rot',  title: '🧭 2. Roteirização & Malha', color: '#a855f7', items: pRoteirizacao },
+      { id: 'agd',  title: '🚛 3. Agendamento & Frota', color: '#f59e0b', items: pAgendamento },
+      { id: 'exp',  title: '🏭 4. Expedição & Outbound', color: '#22d3ee', items: pExpedicao },
+      { id: 'ext',  title: '🌩️ 5. Riscos Externos (Clima & Vias)', color: '#ec4899', items: pExternos }
+    ];
+    const allItems = pillars.flatMap(p => p.items);
+    const critCount = allItems.filter(x => x.prio === 'CRÍTICO').length;
+    return { total: allItems.length, crit: critCount, pillars, allItems };
   }
 
-  function renderPendingActionsMount() {
-    const mount = document.getElementById('pend-action-mount');
-    if (!mount) return;
-    if ((typeof VAZIO === 'function' && VAZIO()) || (typeof tab !== 'undefined' && tab !== 'ov')) {
-      mount.innerHTML = '';
-      return;
-    }
-    const items = computeActionablePendencies();
-    if (!items.length) {
-      mount.innerHTML = `<div class="pa-panel" style="border-left-color:#22c55e">
-        <div class="pa-header" style="margin:0"><div class="pa-title" style="color:#4ade80">⚡ PENDÊNCIAS QUE EXIGEM AÇÃO · OPERAÇÃO ESTÁVEL</div><span class="wx-badge wx-b-ok">0 PENDÊNCIAS CRÍTICAS</span></div>
-      </div>`;
-      return;
-    }
-    const critCount = items.filter(x => x.prio === 'CRÍTICO').length;
-    mount.innerHTML = `<div class="pa-panel">
-      <div class="pa-header">
-        <div class="pa-title">⚡ PENDÊNCIAS QUE EXIGEM AÇÃO HUMANA (${items.length})</div>
-        <div class="pa-badges">
-          ${critCount ? `<span class="wx-badge wx-b-gov">${critCount} CRÍTICA(S)</span>` : ''}
-          <span class="wx-badge wx-b-prev">REF. ${fdy(dia)}</span>
+  /* Renderizador completo da Guia "Pendências que Exigem Ação" (para o Modo Dash e Modo TV) */
+  function buildPendenciesViewHtml(isTv) {
+    const data = computeStructuredPendencies();
+    const S = st();
+    const valCount = data.allItems.filter(x => x.prio === 'NECESSIDADE DE VALIDAÇÃO').length;
+    const altCount = data.allItems.filter(x => x.prio === 'ALTA' || x.prio === 'ATENÇÃO').length;
+
+    const kpiRow = `<div class="${isTv ? 'tv-kpis' : 'g4'}" style="margin-bottom:10px">
+      ${isTv
+        ? kpiCard('TOTAL DE PENDÊNCIAS', n0(data.total), 'Ocorrências acionáveis mapeadas', '#22d3ee', '⚡') +
+          kpiCard('PRIORIDADE CRÍTICA', n0(data.crit), 'Exigem intervenção imediata', data.crit ? '#ef4444' : '#22c55e', '🔴') +
+          kpiCard('ALTA / ATENÇÃO', n0(altCount), 'Desvios operacionais e ocupação', '#f97316', '🟠') +
+          kpiCard('VALIDAÇÃO DE DADOS', n0(valCount), 'Conferência entre módulos', '#a855f7', '🔍')
+        : stCard('TOTAL DE PENDÊNCIAS', n0(data.total), 'ocorrências acionáveis no dia ' + fdy(dia), '⚡', '#22d3ee') +
+          stCard('PRIORIDADE CRÍTICA', n0(data.crit), 'exigem intervenção imediata', '🔴', data.crit ? '#ef4444' : '#22c55e') +
+          stCard('ALTA / ATENÇÃO', n0(altCount), 'ajustes de frota, onda ou rota', '🟠', '#f97316') +
+          stCard('NECESSIDADE DE VALIDAÇÃO', n0(valCount), 'divergências entre módulos p/ checar', '🔍', '#a855f7')
+      }
+    </div>`;
+
+    const pillarsHtml = `<div class="pa-sec-grid" style="${isTv ? 'grid-template-columns:repeat(3,minmax(0,1fr));flex:1;min-height:0;overflow-y:auto' : ''}">
+      ${data.pillars.map(pil => `<div class="pa-pillar" style="--pc:${pil.color}">
+        <div class="pa-pillar-hd">
+          <div class="pa-pillar-title">${pil.title}</div>
+          <span class="wx-badge" style="background:${pil.items.length ? pil.color : '#1e293b'}">${pil.items.length} item(ns)</span>
         </div>
-      </div>
-      <div class="pa-grid">
-        ${items.slice(0, 6).map(it => `<div class="pa-card" style="--pac:${it.col}" data-pa-tab="${it.tab}">
+        ${pil.items.length ? pil.items.map(it => `<div class="pa-card" style="--pac:${it.col}" data-pa-tab="${it.tab}">
           <div class="pa-card-top">
             <span class="pa-card-mod">📍 ${escH(it.mod)} · ${escH(it.ref)}</span>
-            <span class="wx-badge" style="background:${it.col}">${it.prio}</span>
+            <span class="wx-badge" style="background:${it.col}">${escH(it.prio)}</span>
           </div>
           <div class="pa-card-desc">${escH(it.desc)}</div>
           <div class="pa-card-imp">Impacto: ${escH(it.imp)}</div>
-          <div class="pa-card-act">▸ Ação: ${escH(it.act)}</div>
-        </div>`).join('')}
-      </div>
+          <div class="pa-card-act">
+            <span>▸ ${escH(it.act)}</span>
+            <span class="pa-go-tag">Abrir módulo ➔</span>
+          </div>
+        </div>`).join('') : `<div class="note" style="padding:14px 4px;text-align:center;color:#4ade80">✔ Nenhuma pendência identificada neste pilar para ${fdy(dia)}.</div>`}
+      </div>`).join('')}
     </div>`;
+
+    return (isTv ? '' : `<h3>⚡ PENDÊNCIAS QUE EXIGEM AÇÃO · VISÃO GERENCIAL CONSOLIDADA (${fdy(dia)})</h3>`) + kpiRow + pillarsHtml;
+  }
+
+  /* Integra a guia `pa` ("Pendências que Exigem Ação") diretamente ao ciclo do `draw()` do app.js */
+  const origDraw = window.draw;
+  if (typeof origDraw === 'function') {
+    window.draw = function() {
+      if (typeof tab !== 'undefined' && tab === 'pa' && !(typeof VAZIO === 'function' && VAZIO())) {
+        document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === 'pa'));
+        if (typeof renderCrumb === 'function') {
+          renderCrumb(st());
+          const crumbEl = document.getElementById('crumb');
+          if (crumbEl) crumbEl.innerHTML = crumbEl.innerHTML.replace('Alertas', 'Pendências que Exigem Ação');
+        }
+        const vContainer = document.getElementById('v');
+        if (vContainer) vContainer.innerHTML = buildPendenciesViewHtml(false);
+        return;
+      }
+      origDraw.apply(this, arguments);
+    };
   }
 
   /* ==========================================================================
-     5. CALENDÁRIO INTELIGENTE 24H (CONTAGEM REGRESSIVA & CURIOSIDADES REAIS)
+     6. DICAS E CURIOSIDADES VERIFICADAS PARA O VERSO DOS CARTÕES DE 7 DIAS
      ========================================================================== */
   const CURIOSIDADES_VERIFICADAS = [
-    ['LOGÍSTICA & INFRAESTRUTURA', 'A Rodovia Presidente Dutra (BR-116), inaugurada em 1951, conecta São Paulo ao Rio de Janeiro ao longo de 402 km e concentra mais de 50% do PIB industrial brasileiro em seu eixo.'],
-    ['HISTÓRIA & TRANSPORTE', 'O Código de Endereçamento Postal (CEP) brasileiro foi criado pelos Correios em maio de 1971 e ampliado para 8 dígitos em 1992 para automatizar a triagem logística nacional.'],
-    ['GEOGRAFIA & LOGÍSTICA', 'Guarulhos é o principal entroncamento aeroviário e rodoviário da América do Sul, articulando a BR-116 (Dutra), BR-381 (Fernão Dias) e SP-070 (Corredor Ayrton Senna).'],
-    ['METEOROLOGIA APLICADA', 'O índice CAPE (Energia Potencial Convectiva Disponível), medido em J/kg, indica a instabilidade atmosférica: valores acima de 1.200 J/kg apontam potencial para formação de tempestades severas.'],
-    ['ENGENHARIA RODOVIÁRIA', 'O Sistema Anchieta-Imigrantes vence um desnível de 750 metros na Serra do Mar através de túneis e viadutos, operando em esquema de comboio quando a visibilidade cai devido à neblina.'],
-    ['HISTÓRIA DO BRASIL', 'A ferrovia Santos-Jundiaí (1867) foi o primeiro grande corredor logístico de alta capacidade de São Paulo, utilizando sistemas funiculares para transpor a Serra do Mar.'],
-    ['METROLOGIA & CARGAS', 'No transporte rodoviário brasileiro (Resolução CONTRAN), a distribuição correta de peso por eixo previne a fadiga estrutural do pavimento e reduz a distância de frenagem em pista molhada.']
+    ['INFRAESTRUTURA RODOVIÁRIA', 'A Rodovia Presidente Dutra (BR-116), inaugurada em 1951, conecta São Paulo ao Rio de Janeiro por 402 km e concentra mais de 50% do PIB industrial brasileiro.'],
+    ['HISTÓRIA & LOGÍSTICA', 'O Código de Endereçamento Postal (CEP) brasileiro foi criado em maio de 1971 e ampliado para 8 dígitos em 1992 para automatizar a triagem nacional de cargas.'],
+    ['GEOGRAFIA & TRANSPORTE', 'Guarulhos articula três dos maiores eixos logísticos do país: BR-116 (Dutra), BR-381 (Fernão Dias) e SP-070 (Corredor Ayrton Senna / Carvalho Pinto).'],
+    ['METEOROLOGIA OPERACIONAL', 'Valores de CAPE acima de 1.200 J/kg indicam forte instabilidade convectiva, antecipando pancadas intensas de chuva e rajadas de vento no pátio.'],
+    ['ENGENHARIA SERRA DO MAR', 'O Sistema Anchieta-Imigrantes vence 750 m de desnível na Serra do Mar; sob neblina densa, aciona a Operação Comboio para segurança dos veículos pesados.'],
+    ['FERROVIAS PAULISTAS', 'A São Paulo Railway (Santos-Jundiaí, 1867) foi o primeiro corredor de exportação de alta capacidade do estado, transpondo a serra por cabos e planos inclinados.'],
+    ['SEGURANÇA VIÁRIA & SLA', 'Sob pista molhada, a distância de frenagem de veículos pesados aumenta em até 40%, reduzindo a velocidade média operacional nas rodovias entre 15% e 30%.']
   ];
 
-  function getSmartCalendarMessages() {
-    const now = new Date();
-    const y = now.getFullYear();
-    const todayIso = now.toISOString().slice(0, 10);
-    const t0 = Date.parse(todayIso);
-    const E = typeof easter === 'function' ? easter(y) : new Date(Date.UTC(y, 3, 5));
-    const E_next = typeof easter === 'function' ? easter(y + 1) : new Date(Date.UTC(y + 1, 2, 28));
-    const fmtIso = (yr, m, d) => `${yr}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-
-    const rawEvents = [
-      [fmtIso(y, 1, 1), 'Ano-Novo (Confraternização Universal)', 'Feriado Nacional'],
-      [fmtIso(y, 1, 25), 'Aniversário da Cidade de São Paulo', 'Feriado Municipal (SP)'],
-      [isoD(addU(E, -47)), 'Carnaval', 'Ponto Facultativo'],
-      [fmtIso(y, 3, 8), 'Dia Internacional da Mulher', 'Data Comemorativa Internacional'],
-      [isoD(addU(E, -2)), 'Paixão de Cristo', 'Feriado Nacional'],
-      [isoD(E), 'Domingo de Páscoa', 'Data Comemorativa'],
-      [fmtIso(y, 4, 21), 'Tiradentes', 'Feriado Nacional'],
-      [fmtIso(y, 5, 1), 'Dia Mundial do Trabalho', 'Feriado Nacional'],
-      [isoD(addU(E, 60)), 'Corpus Christi', 'Ponto Facultativo / Feriado Municipal'],
-      [fmtIso(y, 7, 9), 'Revolução Constitucionalista de 1932', 'Feriado Estadual (SP)'],
-      [fmtIso(y, 9, 7), 'Independência do Brasil', 'Feriado Nacional'],
-      [fmtIso(y, 10, 12), 'Nossa Senhora Aparecida', 'Feriado Nacional'],
-      [fmtIso(y, 11, 2), 'Finados', 'Feriado Nacional'],
-      [fmtIso(y, 11, 15), 'Proclamação da República', 'Feriado Nacional'],
-      [fmtIso(y, 11, 20), 'Dia Nacional de Zumbi e da Consciência Negra', 'Feriado Nacional'],
-      [fmtIso(y, 12, 8), 'Aniversário de Guarulhos', 'Feriado Municipal (Guarulhos)'],
-      [fmtIso(y, 12, 25), 'Natal', 'Feriado Nacional'],
-      [fmtIso(y + 1, 1, 1), 'Ano-Novo (Confraternização Universal)', 'Feriado Nacional'],
-      [isoD(addU(E_next, -47)), 'Carnaval ' + (y + 1), 'Ponto Facultativo']
-    ];
-
-    const upcoming = rawEvents
-      .map(([dtStr, name, kind]) => ({ dtStr, name, kind, diffDays: Math.round((Date.parse(dtStr) - t0) / 864e5) }))
-      .filter(x => x.diffDays >= 0)
-      .sort((a, b) => a.diffDays - b.diffDays);
-
-    const msgs = [];
-    if (upcoming.length > 0) {
-      const nextEv = upcoming[0];
-      if (nextEv.diffDays === 0) {
-        msgs.push([`📅 HOJE (${fdy(nextEv.dtStr)})`, `Hoje é ${nextEv.name} — classificado como ${nextEv.kind}.`]);
-      } else {
-        msgs.push([`⏳ CONTAGEM REGRESSIVA`, `Faltam ${nextEv.diffDays} dia(s) para ${nextEv.name} (${fdy(nextEv.dtStr)} · ${nextEv.kind}).`]);
-      }
-      const nextNat = upcoming.find(x => x.kind === 'Feriado Nacional' && x.diffDays > 0);
-      if (nextNat && nextNat.dtStr !== nextEv.dtStr) {
-        msgs.push([`🇧🇷 PRÓXIMO FERIADO NACIONAL`, `${nextNat.name} em ${nextNat.diffDays} dia(s) (${fdy(nextNat.dtStr)}).`]);
-      }
-      const natal = upcoming.find(x => x.name === 'Natal' && x.diffDays > 0);
-      if (natal && natal.dtStr !== nextEv.dtStr) {
-        msgs.push([`🎄 CALENDÁRIO ANUAL`, `Faltam ${natal.diffDays} dia(s) para o Natal (25/12 · Feriado Nacional).`]);
-      }
+  function getCardBackTip(dayIndex, dStr) {
+    /* Verifica se há feriado/evento próximo para destacar ou usa a curiosidade correspondente ao dia */
+    const hols = typeof holCtx === 'function' ? holCtx(dStr) : [];
+    if (hols && hols.length > 0) {
+      return {
+        cat: '📅 CALENDÁRIO & OPERAÇÃO',
+        txt: `Na data ${fdy(dStr)} (${WD[wdOf(dStr)]}): ${hols.join(' · ')}. Planeje antecipadamente as janelas de agendamento e corte de ondas.`,
+        foot: 'Fonte: Calendário Oficial Torre'
+      };
     }
-    CURIOSIDADES_VERIFICADAS.forEach(([catTitle, text]) => {
-      msgs.push([`💡 ${catTitle}`, text]);
-    });
-    return msgs;
+    const item = CURIOSIDADES_VERIFICADAS[dayIndex % CURIOSIDADES_VERIFICADAS.length];
+    return {
+      cat: '💡 ' + item[0],
+      txt: item[1],
+      foot: 'Toque no cartão para alternar face'
+    };
   }
 
-  let smartCalIdx = 0;
-  function rotateSmartCalendarBar() {
-    const el = document.getElementById('tv-smart-cal');
-    if (!el || !document.body.classList.contains('tv-mode')) return;
-    const list = getSmartCalendarMessages();
-    if (!list.length) return;
-    const item = list[smartCalIdx % list.length];
-    smartCalIdx++;
-    el.innerHTML = `<b>${escH(item[0])}:</b> <span>${escH(item[1])}</span>`;
-  }
-  setInterval(rotateSmartCalendarBar, 14000);
+  /* Controlador de Rotação Suave dos Cartões de 7 Dias (Gira 1 cartão por vez a cada 8s) */
+  let flipCursor = 0;
+  setInterval(() => {
+    if (!document.body.classList.contains('tv-mode') || tvSlide !== 0 || WX_STATE.subView !== 1 || tvPaused) return;
+    const cards = document.querySelectorAll('.wx-7d-flip-wrap');
+    if (!cards.length) return;
+    cards.forEach(c => c.classList.remove('is-flipped'));
+    const target = cards[flipCursor % cards.length];
+    flipCursor = (flipCursor + 1) % cards.length;
+    if (target) {
+      target.classList.add('is-flipped');
+      setTimeout(() => {
+        if (target && target.isConnected) target.classList.remove('is-flipped');
+      }, 5800);
+    }
+  }, 8000);
 
   /* ==========================================================================
-     6. RADAR METEOROLÓGICO DOPPLER COM MALHA DE GRADE CARTESIANA E POLAR SUTIL
+     7. RADAR METEOROLÓGICO DOPPLER COM MALHA DE GRADE CARTESIANA E POLAR SUTIL
      ========================================================================== */
   function svgDopplerRadarSquare() {
     let routes = `
@@ -928,9 +1008,7 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     7. MOTOR DE IGNIÇÃO:
-        - isTvMode = false (Modo Dash): faz SÓ a ignição de entrada e trava estático!
-        - isTvMode = true  (Modo TV): faz a ignição + ativa animações contínuas!
+     8. MOTOR DE IGNIÇÃO FLUIDA (ZERO GARGALOS)
      ========================================================================== */
   const activeTvRingGroups = [];
 
@@ -1127,7 +1205,7 @@ body.tv-mode #tv-stage { display: flex; }
 
       svg.querySelectorAll('rect').forEach(r => {
         const fill = (r.getAttribute('fill') || '').toLowerCase();
-        if (!fill || fill === 'transparent' || fill === '#241855' || fill === '#1e1348' || fill.startsWith('url(#nysebarg)') || fill.startsWith('url(#radarsubtlegrid)') || fill.startsWith('#ffffff') || fill.startsWith('#0d072c')) return;
+        if (!fill || fill === 'transparent' || fill === '#241855' || fill === '#1e1348' || fill === '#0d0728' || fill.startsWith('url(#nysebarg)') || fill.startsWith('url(#radarsubtlegrid)') || fill.startsWith('#ffffff') || fill.startsWith('#0d072c')) return;
         const w = parseFloat(r.getAttribute('width') || 0), h = parseFloat(r.getAttribute('height') || 0);
         if (h > 40 && w > 40) return;
         const x = parseFloat(r.getAttribute('x') || 0), y = parseFloat(r.getAttribute('y') || 0);
@@ -1153,7 +1231,7 @@ body.tv-mode #tv-stage { display: flex; }
       svg.querySelectorAll('path').forEach(p => {
         const fill = (p.getAttribute('fill') || 'none').toLowerCase();
         const sw = parseFloat(p.getAttribute('stroke-width') || 0);
-        if (fill === 'none' && sw >= 2) {
+        if (fill === 'none' && sw >= 2.2) {
           p.classList.add('curve-wipe-init');
           if (isTvMode) attachCurveComet(svg, p);
         } else if (fill !== 'none') {
@@ -1168,17 +1246,12 @@ body.tv-mode #tv-stage { display: flex; }
     root.querySelectorAll('.stc .big, .dlg b, .wx-hero-temp').forEach(el => animateCounterOnce(el, 650));
   }
 
-  /* Modo Dash (#v): isTvMode = false (Apenas Ignição de entrada + Painel de Pendências!) */
   const vMain = document.getElementById('v');
   if (vMain) {
     new MutationObserver(() => {
-      renderPendingActionsMount();
       setTimeout(() => igniteAutomotiveGauges(vMain, false), 25);
     }).observe(vMain, { childList: true, subtree: false });
-    setTimeout(() => {
-      renderPendingActionsMount();
-      igniteAutomotiveGauges(vMain, false);
-    }, 120);
+    setTimeout(() => igniteAutomotiveGauges(vMain, false), 120);
   }
 
   document.addEventListener('click', (e) => {
@@ -1188,8 +1261,17 @@ body.tv-mode #tv-stage { display: flex; }
     const paCard = e.target.closest && e.target.closest('[data-pa-tab]');
     if (paCard) {
       const targetTab = paCard.dataset.paTab;
-      const sideBtn = document.querySelector(`#tabs button[data-t="${targetTab}"]`);
-      if (sideBtn) sideBtn.click();
+      if (document.body.classList.contains('tv-mode')) {
+        const mapTv = { ct: 3, ag: 4, ex: 5, ob: 6, al: 2 };
+        if (mapTv[targetTab] != null) goToSlide(mapTv[targetTab]);
+      } else {
+        const sideBtn = document.querySelector(`#tabs button[data-t="${targetTab}"]`);
+        if (sideBtn) sideBtn.click();
+      }
+    }
+    const flipCard = e.target.closest && e.target.closest('.wx-7d-flip-wrap');
+    if (flipCard) {
+      flipCard.classList.toggle('is-flipped');
     }
     const ackBtn = e.target.closest && e.target.closest('[data-wx-ack]');
     if (ackBtn) {
@@ -1205,7 +1287,128 @@ body.tv-mode #tv-stage { display: flex; }
   });
 
   /* ==========================================================================
-     8. RENDERIZAÇÃO DAS 6 TELAS DO MODO TV + WAKE LOCK API (QUIOSQUE 24/7)
+     9. GRÁFICO OUTBOUND COM ADAPTAÇÃO DINÂMICA AO ESPAÇO (RESIZEOBSERVER)
+     ========================================================================== */
+  let outboundResizeObs = null;
+
+  function svgOutboundPerformanceArea(daysList, customW, customH) {
+    const valid = daysList.filter(x => x.n > 0 || x.etq > 0);
+    if (valid.length < 2) return '<div class="note">Histórico insuficiente para o gráfico de performance.</div>';
+
+    /* Adapta as coordenadas internas exatamente à proporção quadrada/retangular real do container */
+    const W = Math.max(380, Math.round(customW || 620));
+    const H = Math.max(220, Math.round(customH || 360));
+    const L = 58, R = 52, T = 28, B = 30, pw = W - L - R, ph = H - T - B, n = valid.length;
+
+    const valArr = valid.map(x => x.val / 1000);
+    const nfArr  = valid.map(x => x.nf / 1000);
+    const pesoArr = valid.map(x => x.peso / 1000);
+
+    const maxV = Math.max(...valArr, ...nfArr, 1) * 1.12;
+    const maxP = Math.max(...pesoArr, 1) * 1.15;
+    const X = i => L + (i * pw) / (n - 1);
+    const Yv = v => T + ph * (1 - Math.max(0, v) / maxV);
+    const Yp = v => T + ph * (1 - Math.max(0, v) / maxP);
+
+    const stepsY = H >= 310 ? 5 : 4;
+    let grid = '';
+    for (let k = 0; k <= stepsY; k++) {
+      const yy = T + ph * (1 - k / stepsY);
+      const vLab = (maxV / stepsY) * k, pLab = (maxP / stepsY) * k;
+      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#24195c" stroke-dasharray="${k ? '3 4' : ''}"/>
+               <text x="${L - 8}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="10" font-family="monospace">R$ ${n0(vLab)}k</text>
+               <text x="${W - R + 8}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#4ade80" font-size="10" font-family="monospace">${n0(pLab)} t</text>`;
+    }
+
+    const ptsVal = valArr.map((v, i) => [X(i), Yv(v)]);
+    const ptsPeso = pesoArr.map((v, i) => [X(i), Yp(v)]);
+    const dVal = smooth(ptsVal), dPeso = smooth(ptsPeso);
+    const y0 = Yv(0);
+    const areaVal = `${dVal} L${ptsVal[n - 1][0].toFixed(1)},${y0.toFixed(1)} L${ptsVal[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
+
+    const bw = Math.max(4, Math.min(20, (pw / n) * 0.54));
+    const volBars = pesoArr.map((p, i) => {
+      const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="url(#nyseBarG)" fill-opacity="0.38"/>`;
+    }).join('');
+
+    const base = valid.filter(x => x.d <= dia && x.val > 0);
+    let badges = '';
+    if (base.length >= 2) {
+      const mxObj = [...base].sort((a, b) => b.val - a.val)[0];
+      const mnObj = [...base].sort((a, b) => a.val - b.val)[0];
+      const drawPin = (obj, lb, col, up) => {
+        const idx = valid.findIndex(x => x.d === obj.d);
+        if (idx < 0) return '';
+        const px = X(idx), py = Yv(obj.val / 1000), by = up ? Math.max(15, py - 15) : Math.min(H - 36, py + 19);
+        const txt = `${lb} ${fd(obj.d)} · R$ ${(obj.val / 1e6).toFixed(2).replace('.', ',')}M`;
+        const tw = txt.length * 5.8 + 14;
+        const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
+        return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.55" stroke-dasharray="2 3"/>
+                <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#08041c" stroke="${col}" stroke-width="2.5"/>
+                <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 11).toFixed(1)}" width="${tw.toFixed(1)}" height="17" rx="8.5" fill="#0d072ce6" stroke="${col}" stroke-width="1.2"/>
+                <text x="${bx.toFixed(1)}" y="${by.toFixed(1)}" text-anchor="middle" fill="#fff" font-size="10" font-weight="800" font-family="monospace">${txt}</text>`;
+      };
+      badges += drawPin(mxObj, '▲ PICO', '#4ade80', true);
+      if (mnObj.d !== mxObj.d) badges += drawPin(mnObj, '▼ VALE', '#fb7185', false);
+    }
+
+    const stepX = n > 14 ? 2 : 1;
+    let lastDrawnX = -999;
+    const xLabs = valid.map((x, i) => {
+      const cx = X(i);
+      const isRef = x.d === dia;
+      if (!isRef && i % stepX !== 0 && i !== n - 1) return '';
+      if (cx - lastDrawnX < 30 && !isRef) return '';
+      lastDrawnX = cx;
+      return `<text x="${cx.toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${isRef ? '#facc15' : '#8f84c9'}" font-weight="${isRef ? '800' : '400'}" font-size="10" font-family="monospace">${fd(x.d)}</text>`;
+    }).join('');
+
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%">
+      <defs>
+        <linearGradient id="nyseAreaG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.45"/>
+          <stop offset="65%" stop-color="#3b82f6" stop-opacity="0.14"/>
+          <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
+        </linearGradient>
+        <linearGradient id="nyseBarG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4ade80" stop-opacity="0.75"/>
+          <stop offset="100%" stop-color="#10b981" stop-opacity="0.1"/>
+        </linearGradient>
+      </defs>
+      ${grid}${volBars}
+      <path d="${areaVal}" fill="url(#nyseAreaG)"/>
+      <path d="${dPeso}" fill="none" stroke="#4ade80" stroke-width="2.2" stroke-dasharray="4 3"/>
+      <path d="${dVal}" fill="none" stroke="#22d3ee" stroke-width="3.2"/>
+      ${badges}${xLabs}
+    </svg>`;
+  }
+
+  function bindDynamicOutboundChart(boxEl, daysList) {
+    if (!boxEl) return;
+    if (outboundResizeObs) {
+      outboundResizeObs.disconnect();
+      outboundResizeObs = null;
+    }
+    let lastW = 0, lastH = 0;
+    const renderFit = () => {
+      if (!boxEl.isConnected) return;
+      const w = Math.floor(boxEl.clientWidth || 620);
+      const h = Math.floor(boxEl.clientHeight || 340);
+      if (Math.abs(w - lastW) < 8 && Math.abs(h - lastH) < 8) return;
+      lastW = w; lastH = h;
+      boxEl.innerHTML = svgOutboundPerformanceArea(daysList, w, h);
+      igniteAutomotiveGauges(boxEl, true);
+    };
+    renderFit();
+    if (typeof ResizeObserver !== 'undefined') {
+      outboundResizeObs = new ResizeObserver(() => requestAnimationFrame(renderFit));
+      outboundResizeObs.observe(boxEl);
+    }
+  }
+
+  /* ==========================================================================
+     10. RENDERIZAÇÃO DAS 7 TELAS DO MODO TV
      ========================================================================== */
   const tvCanvas = document.getElementById('tv-canvas');
   const tvTicker = document.getElementById('tv-ticker');
@@ -1214,18 +1417,15 @@ body.tv-mode #tv-stage { display: flex; }
   const tvDurSelect = document.getElementById('tv-dur');
   const tvSndBtn = document.getElementById('tv-snd');
   const DUR_KEY = 'torreTvDurMs_v1';
-  const TOTAL_SLIDES = 6;
+  const TOTAL_SLIDES = 7;
   let tvSlide = 0, tvTimer = null, tvClockTimer = null, tvScrollTimer = null, wxSubTimer = null, tvPaused = false;
   let wakeLockSentinel = null;
   let tvDurationMs = parseInt(localStorage.getItem(DUR_KEY) || '90000', 10) || 90000;
   if (tvDurSelect) tvDurSelect.value = String(tvDurationMs);
 
-  /* Wake Lock API: Mantém a tela da Smart TV / Monitor ativa sem suspender enquanto o Modo TV estiver aberto */
   async function requestTvWakeLock() {
     if ('wakeLock' in navigator && document.body.classList.contains('tv-mode')) {
-      try {
-        wakeLockSentinel = await navigator.wakeLock.request('screen');
-      } catch (e) {}
+      try { wakeLockSentinel = await navigator.wakeLock.request('screen'); } catch (e) {}
     }
   }
   function releaseTvWakeLock() {
@@ -1235,9 +1435,7 @@ body.tv-mode #tv-stage { display: flex; }
     }
   }
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && document.body.classList.contains('tv-mode')) {
-      requestTvWakeLock();
-    }
+    if (document.visibilityState === 'visible' && document.body.classList.contains('tv-mode')) requestTvWakeLock();
   });
 
   if (tvSndBtn) {
@@ -1253,9 +1451,9 @@ body.tv-mode #tv-stage { display: flex; }
     clearInterval(wxSubTimer);
     wxSubTimer = setInterval(() => {
       if (!document.body.classList.contains('tv-mode') || tvSlide !== 0 || tvPaused) return;
-      WX_STATE.subView = (WX_STATE.subView + 1) % 5; // Alterna entre as 5 sub-abas (incluindo Previsão 7 Dias)
+      WX_STATE.subView = (WX_STATE.subView + 1) % 5;
       renderTvSlide(0);
-    }, 12000);
+    }, 14000);
   }
 
   const miniSpark = (ptsArr, color, w=72, h=20) => {
@@ -1315,7 +1513,6 @@ body.tv-mode #tv-stage { display: flex; }
     return `<span class="nyse-led">${s}</span><span style="color:${col};font-weight:700">${pctVal.toFixed(0)}%</span>`;
   };
 
-  /* GRÁFICO PANORÂMICO LARGO (WIDESCREEN 900x260) DE TELEMETRIA CLIMÁTICA 48H */
   const svgWeatherWideArea = (hLabs, temps, probs, nowIdx) => {
     if (!hLabs || hLabs.length < 2) return '<div class="note">Sincronizando telemetria meteorológica...</div>';
     const W = 900, H = 265, L = 52, R = 50, T = 28, B = 32, pw = W - L - R, ph = H - T - B, n = hLabs.length;
@@ -1382,95 +1579,6 @@ body.tv-mode #tv-stage { display: flex; }
       ${pin(mxI, '▲ MÁX', '#f97316', true)}
       ${mnI !== mxI ? pin(mnI, '▼ MÍN', '#38bdf8', false) : ''}
       ${xLabs}
-    </svg>`;
-  };
-
-  /* GRÁFICO CENTRAL DE PERFORMANCE OUTBOUND (Proporção Retangular Otimizada 780x235 e Sem Sobreposição de Datas) */
-  const svgOutboundPerformanceArea = (daysList) => {
-    const valid = daysList.filter(x => x.n > 0 || x.etq > 0);
-    if (valid.length < 2) return '<div class="note">Histórico insuficiente para o gráfico de performance.</div>';
-    const W = 780, H = 235, L = 58, R = 52, T = 26, B = 28, pw = W - L - R, ph = H - T - B, n = valid.length;
-    const valArr = valid.map(x => x.val / 1000);
-    const nfArr  = valid.map(x => x.nf / 1000);
-    const pesoArr = valid.map(x => x.peso / 1000);
-
-    const maxV = Math.max(...valArr, ...nfArr, 1) * 1.12;
-    const maxP = Math.max(...pesoArr, 1) * 1.15;
-    const X = i => L + (i * pw) / (n - 1);
-    const Yv = v => T + ph * (1 - Math.max(0, v) / maxV);
-    const Yp = v => T + ph * (1 - Math.max(0, v) / maxP);
-
-    let grid = '';
-    for (let k = 0; k <= 4; k++) {
-      const yy = T + ph * (1 - k / 4);
-      const vLab = (maxV / 4) * k, pLab = (maxP / 4) * k;
-      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#24195c" stroke-dasharray="${k ? '3 4' : ''}"/>
-               <text x="${L - 8}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="9.5" font-family="monospace">R$ ${n0(vLab)}k</text>
-               <text x="${W - R + 8}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#4ade80" font-size="9.5" font-family="monospace">${n0(pLab)} t</text>`;
-    }
-
-    const ptsVal = valArr.map((v, i) => [X(i), Yv(v)]);
-    const ptsPeso = pesoArr.map((v, i) => [X(i), Yp(v)]);
-    const dVal = smooth(ptsVal), dPeso = smooth(ptsPeso);
-    const y0 = Yv(0);
-    const areaVal = `${dVal} L${ptsVal[n - 1][0].toFixed(1)},${y0.toFixed(1)} L${ptsVal[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
-
-    const bw = Math.max(4, Math.min(18, (pw / n) * 0.52));
-    const volBars = pesoArr.map((p, i) => {
-      const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
-      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="url(#nyseBarG)" fill-opacity="0.38"/>`;
-    }).join('');
-
-    const base = valid.filter(x => x.d <= dia && x.val > 0);
-    let badges = '';
-    if (base.length >= 2) {
-      const mxObj = [...base].sort((a, b) => b.val - a.val)[0];
-      const mnObj = [...base].sort((a, b) => a.val - b.val)[0];
-      const drawPin = (obj, lb, col, up) => {
-        const idx = valid.findIndex(x => x.d === obj.d);
-        if (idx < 0) return '';
-        const px = X(idx), py = Yv(obj.val / 1000), by = up ? Math.max(14, py - 14) : Math.min(H - 34, py + 18);
-        const txt = `${lb} ${fd(obj.d)} · R$ ${(obj.val / 1e6).toFixed(2).replace('.', ',')}M`;
-        const tw = txt.length * 5.6 + 14;
-        const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
-        return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.55" stroke-dasharray="2 3"/>
-                <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#08041c" stroke="${col}" stroke-width="2.5"/>
-                <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 11).toFixed(1)}" width="${tw.toFixed(1)}" height="16" rx="8" fill="#0d072ce6" stroke="${col}" stroke-width="1.2"/>
-                <text x="${bx.toFixed(1)}" y="${by.toFixed(1)}" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="800" font-family="monospace">${txt}</text>`;
-      };
-      badges += drawPin(mxObj, '▲ PICO', '#4ade80', true);
-      if (mnObj.d !== mxObj.d) badges += drawPin(mnObj, '▼ VALE', '#fb7185', false);
-    }
-
-    /* Passo inteligente no eixo X para nunca sobrepor as duas últimas datas */
-    const stepX = n > 14 ? 2 : 1;
-    let lastDrawnX = -999;
-    const xLabs = valid.map((x, i) => {
-      const cx = X(i);
-      const isRef = x.d === dia;
-      if (!isRef && i % stepX !== 0 && i !== n - 1) return '';
-      if (cx - lastDrawnX < 28 && !isRef) return '';
-      lastDrawnX = cx;
-      return `<text x="${cx.toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="${isRef ? '#facc15' : '#8f84c9'}" font-weight="${isRef ? '800' : '400'}" font-size="9.5" font-family="monospace">${fd(x.d)}</text>`;
-    }).join('');
-
-    return `<svg viewBox="0 0 ${W} ${H}">
-      <defs>
-        <linearGradient id="nyseAreaG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.45"/>
-          <stop offset="65%" stop-color="#3b82f6" stop-opacity="0.14"/>
-          <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
-        </linearGradient>
-        <linearGradient id="nyseBarG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#4ade80" stop-opacity="0.75"/>
-          <stop offset="100%" stop-color="#10b981" stop-opacity="0.1"/>
-        </linearGradient>
-      </defs>
-      ${grid}${volBars}
-      <path d="${areaVal}" fill="url(#nyseAreaG)"/>
-      <path d="${dPeso}" fill="none" stroke="#4ade80" stroke-width="2" stroke-dasharray="4 3"/>
-      <path d="${dVal}" fill="none" stroke="#22d3ee" stroke-width="3"/>
-      ${badges}${xLabs}
     </svg>`;
   };
 
@@ -1567,11 +1675,11 @@ body.tv-mode #tv-stage { display: flex; }
     const wxCur = cdg && cdg.current
       ? `${Math.round(cdg.current.temperature_2m)}°C ${wmoInfo(cdg.current.weather_code).ic} ${wmoInfo(cdg.current.weather_code).tx} · ${Math.round(cdg.current.surface_pressure||1013)}hPa`
       : `STATUS: ${WX_STATE.status}`;
-    const pends = computeActionablePendencies();
+    const pends = computeStructuredPendencies();
     const items = [
       ['CDG GUARULHOS', wxCur, 'tv-nt', '●'],
       ['DIA REF.', fdy(dia), 'tv-nt', '●'],
-      ['PENDÊNCIAS DE AÇÃO', `${pends.length} ATIVA(S)`, pends.some(x=>x.prio==='CRÍTICO') ? 'tv-dn' : 'tv-up', '⚡'],
+      ['PENDÊNCIAS DE AÇÃO', `${pends.total} ATIVA(S) (${pends.crit} CRÍT.)`, pends.crit > 0 ? 'tv-dn' : 'tv-up', '⚡'],
       ['CARTEIRA ATIVA', `${n0(S.N)} PED · ${tn(S.K)}`, 'tv-up', '▲'],
       ['VALOR LÍQUIDO CARTEIRA', RSc(S.V), 'tv-up', '▲'],
       ['PROGRAMADO DIA (ZS34)', RS(S.val), 'tv-up', '▲'],
@@ -1586,23 +1694,24 @@ body.tv-mode #tv-stage { display: flex; }
 
   function renderTvSlide(idx) {
     clearInterval(tvScrollTimer);
+    if (outboundResizeObs) { outboundResizeObs.disconnect(); outboundResizeObs = null; }
     if (!document.body.classList.contains('tv-mode')) return;
     const S = st(), C = S.C, P = S.P, D = S.D, days = AGK().map(dst);
     updateTicker(S);
-    rotateSmartCalendarBar();
 
     const titles = [
-      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, PREVISÃO 7 DIAS E SLA RODOVIÁRIO',
-      '2/6 · VISÃO GERAL EXECUTIVA · MONITORAMENTO E PENDÊNCIAS DE AÇÃO',
-      '3/6 · CARTEIRA DE PEDIDOS · VOLUMETRIA, PRAZOS & RESTRIÇÕES',
-      '4/6 · AGENDAMENTO & FROTA · OCUPAÇÃO, DOCAS E CONVERSÃO',
-      '5/6 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO, ONDA E TRANSPORTADORA',
-      '6/6 · EXPEDIÇÃO & OUTBOUND · CURVA DE PERFORMANCE, HISTÓRICO & TENDÊNCIA DIÁRIA'
+      '1/7 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, PREVISÃO 7 DIAS E MONITORAMENTO RODOVIÁRIO',
+      '2/7 · VISÃO GERAL EXECUTIVA · MONITORAMENTO OPERACIONAL',
+      '3/7 · PENDÊNCIAS QUE EXIGEM AÇÃO · PAINEL GERENCIAL POR PILARES',
+      '4/7 · CARTEIRA DE PEDIDOS · VOLUMETRIA, PRAZOS & RESTRIÇÕES',
+      '5/7 · AGENDAMENTO & FROTA · OCUPAÇÃO, DOCAS E CONVERSÃO',
+      '6/7 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO, ONDA E TRANSPORTADORA',
+      '7/7 · EXPEDIÇÃO & OUTBOUND · CURVA DE PERFORMANCE, HISTÓRICO & TENDÊNCIA DIÁRIA'
     ];
     if (tvSub) tvSub.textContent = titles[idx] + ' · REF. LOGÍSTICA ' + fdy(dia);
 
     /* ==========================================================================
-       SLIDE 0: CENTRO METEOROLÓGICO DINÂMICO (5 SUB-ABAS COM PREVISÃO DE 7 DIAS)
+       SLIDE 0: CLIMA, PREVISÃO 7 DIAS ROTATIVA E RODOVIAS & SLA EM MOVIMENTO
        ========================================================================== */
     if (idx === 0) {
       const cdg = WX_STATE.regions['CDG'];
@@ -1611,7 +1720,6 @@ body.tv-mode #tv-stage { display: flex; }
       const dl  = cdg && cdg.daily   ? cdg.daily   : null;
       const wNow = cur ? wmoInfo(cur.weather_code) : { ic: '📡', tx: WX_STATE.status, rk: 'AGUARDANDO', col: '#22d3ee', imp: 'Sincronizando telemetria...' };
 
-      /* Diferenciação rigorosa dos 3 horários exigidos */
       const queryTimeStr = WX_STATE.lastQueryAt ? WX_STATE.lastQueryAt.toLocaleTimeString('pt-BR') : '—';
       const updTimeStr   = WX_STATE.lastSuccessAt ? WX_STATE.lastSuccessAt.toLocaleTimeString('pt-BR') : '—';
       const refTimeStr   = WX_STATE.refMeasurementAt ? WX_STATE.refMeasurementAt.slice(11, 16) + ' (' + WX_STATE.refMeasurementAt.slice(8, 10) + '/' + WX_STATE.refMeasurementAt.slice(5, 7) + ')' : '—';
@@ -1687,7 +1795,7 @@ body.tv-mode #tv-stage { display: flex; }
             sev: h.delayMin >= 25 ? 'CRÍTICO' : 'ALERTA',
             col: h.col,
             reg: h.hw.nome,
-            msg: `Atraso estimado de +${h.delayMin} min (${h.cause}) · Velocidade média ${h.vEst} km/h · Afeta ${h.pedsTotal} pedidos da carteira (${h.pedsUrg} urgentes D0/D+1).`
+            msg: `Retenção estimada de +${h.delayMin} min (${h.cause}) · Velocidade média ${h.vEst} km/h · Exposição: ${h.pedsTotal} pedidos na rota (${h.pedsUrg} D0/D+1).`
           });
         }
       });
@@ -1744,7 +1852,6 @@ body.tv-mode #tv-stage { display: flex; }
       let rightWideHtml = '';
 
       if (WX_STATE.subView === 0) {
-        /* SUB-ABA 0: TELEMETRIA PANORÂMICA 48H */
         rightWideHtml = `
           <div class="tv-card" style="flex:1.35">
             <div class="tv-card-title">
@@ -1780,10 +1887,10 @@ body.tv-mode #tv-stage { display: flex; }
           </div>
           <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
       } else if (WX_STATE.subView === 1) {
-        /* NOVA SUB-ABA 1: PREVISÃO DOS PRÓXIMOS SETE DIAS (CARTÕES VERTICAIS COMPACTOS E ELEGANTES) */
+        /* SUB-ABA 1: PREVISÃO DOS 7 DIAS COM CARTÕES ROTATIVOS (FACE 1: CLIMA / FACE 2: DICA & CALENDÁRIO) */
         const dTimes = (dl && dl.time) ? dl.time.slice(1, 8) : [];
         const sevenCards = dTimes.map((dStr, k) => {
-          const i = k + 1; // Pula past_days=1 (ontem) e pega de hoje até D+6
+          const i = k + 1;
           const w = wmoInfo(dl.weather_code[i]);
           const tmax = +dl.temperature_2m_max[i] || 0;
           const tmin = +dl.temperature_2m_min[i] || 0;
@@ -1805,38 +1912,54 @@ body.tv-mode #tv-stage { display: flex; }
             ? `<span class="wx-badge wx-b-torre">ATENÇÃO PÁTIO</span>`
             : `<span class="wx-badge wx-b-ok">NORMAL</span>`;
 
-          return `<div class="wx-7d-card ${k === 0 ? 'is-today' : ''}" style="--dc:${w.col}">
-            <div>
-              <div class="wx-7d-day">${k === 0 ? 'HOJE · ' : ''}${WD[wdOf(dStr)].toUpperCase()}</div>
-              <div class="wx-7d-date">${fdy(dStr)}</div>
+          const tip = getCardBackTip(k, dStr);
+
+          return `<div class="wx-7d-flip-wrap" data-card-idx="${k}" title="Clique para alternar entre Previsão e Dica/Curiosidade">
+            <!-- FACE 1: PREVISÃO DO TEMPO PRINCIPAL -->
+            <div class="wx-7d-face ${k === 0 ? 'is-today' : ''}" style="--dc:${w.col}">
+              <div>
+                <div class="wx-7d-day">${k === 0 ? 'HOJE · ' : ''}${WD[wdOf(dStr)].toUpperCase()}</div>
+                <div class="wx-7d-date">${fdy(dStr)}</div>
+              </div>
+              <div>
+                <div class="wx-7d-ico">${w.ic}</div>
+                <div class="wx-7d-cond">${w.tx}</div>
+                <div class="wx-7d-temps"><span style="color:#f97316">${Math.round(tmax)}°</span> <span style="color:#64748b">/</span> <span style="color:#38bdf8">${Math.round(tmin)}°C</span></div>
+                ${alertBadge}
+              </div>
+              <div class="wx-7d-stats">
+                <div>🌡️ Sensação: <b style="color:#fff">${Math.round(apMax)}°C</b></div>
+                <div>☔ Prob. chuva: <b style="color:${prob >= 50 ? '#fb7185' : '#22d3ee'}">${prob}%</b></div>
+                <div>🌧️ Volume: <b style="color:#fff">${mm.toFixed(1)} mm</b></div>
+                <div>💨 Vento: <b style="color:#fff">${Math.round(wSpd)}/${Math.round(wGst)} km/h</b></div>
+              </div>
+              <div class="wx-7d-op">${opSummary}</div>
             </div>
-            <div>
-              <div class="wx-7d-ico">${w.ic}</div>
-              <div class="wx-7d-cond">${w.tx}</div>
-              <div class="wx-7d-temps"><span style="color:#f97316">${Math.round(tmax)}°</span> <span style="color:#64748b">/</span> <span style="color:#38bdf8">${Math.round(tmin)}°C</span></div>
-              ${alertBadge}
+            <!-- FACE 2: DICA OU CURIOSIDADE LOGÍSTICA / HISTÓRICA / CALENDÁRIO -->
+            <div class="wx-7d-face wx-7d-back">
+              <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
+                <span class="wx-tip-cat">${escH(tip.cat)}</span>
+                <span style="font-size:9.5px;color:#a79bd6;font-family:monospace">${fd(dStr)}</span>
+              </div>
+              <div class="wx-tip-body">${escH(tip.txt)}</div>
+              <div class="wx-tip-foot">
+                <span>${escH(tip.foot)}</span>
+                <b style="color:#22d3ee">↻ Face 2/2</b>
+              </div>
             </div>
-            <div class="wx-7d-stats">
-              <div>🌡️ Sensação máx: <b style="color:#fff">${Math.round(apMax)}°C</b></div>
-              <div>☔ Prob. chuva: <b style="color:${prob >= 50 ? '#fb7185' : '#22d3ee'}">${prob}%</b></div>
-              <div>🌧️ Volume prev.: <b style="color:#fff">${mm.toFixed(1)} mm</b></div>
-              <div>💨 Vento/Raj.: <b style="color:#fff">${Math.round(wSpd)}/${Math.round(wGst)} km/h</b></div>
-            </div>
-            <div class="wx-7d-op">${opSummary}</div>
           </div>`;
         }).join('');
 
         rightWideHtml = `
           <div class="tv-card" style="flex:1.45;justify-content:space-between">
             <div class="tv-card-title">
-              📅 PREVISÃO METEOROLÓGICA DOS PRÓXIMOS SETE DIAS · CDG GUARULHOS × PROGRAMAÇÃO LOGÍSTICA
-              <span>Fonte: ${WX_STATE.source} · Cruzamento diário com Agendamento (ZS34) e Carteira</span>
+              📅 PREVISÃO DOS PRÓXIMOS SETE DIAS · CARTÕES INTERATIVOS COM DICAS E CURIOSIDADES
+              <span>Rotação automática suave (Face 1: Previsão Meteorológica · Face 2: Curiosidade &amp; Calendário)</span>
             </div>
             <div class="wx-7d-grid">${sevenCards || '<div class="note">Sincronizando previsão de 7 dias...</div>'}</div>
           </div>
           <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
       } else if (WX_STATE.subView === 2) {
-        /* SUB-ABA 2: CENTRAL DE ALERTAS DA DEFESA CIVIL E EXPOSIÇÃO DE PÁTIO */
         rightWideHtml = `
           <div class="tv-card" style="flex:1.45">
             <div class="tv-card-title">
@@ -1869,7 +1992,6 @@ body.tv-mode #tv-stage { display: flex; }
           </div>
           <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
       } else if (WX_STATE.subView === 3) {
-        /* SUB-ABA 3: MATRIZ DE CARTÕES DAS 8 MICRORREGIÕES × CARTEIRA */
         rightWideHtml = `
           <div class="tv-card" style="flex:1;justify-content:space-between">
             <div class="tv-card-title">
@@ -1914,42 +2036,44 @@ body.tv-mode #tv-stage { display: flex; }
             </div>
           </div>`;
       } else {
-        /* SUB-ABA 4: INTELIGÊNCIA PREDITIVA DE RODOVIAS & IMPACTO DE SLA */
+        /* SUB-ABA 4: RODOVIAS E SLA COM FLUXO DINÂMICO ANIMADO E PERFIL DE VELOCIDADE 24H */
         rightWideHtml = `
           <div class="tv-card" style="flex:1.45;justify-content:space-between">
             <div class="tv-card-title">
-              🛣️ INTELIGÊNCIA RODOVIÁRIA &amp; PREVISÃO DE ATRASO OPERACIONAL (MODELO HCM + CLIMA REAL NOS EIXOS)
-              <span>${window.TORRE_TOMTOM_KEY ? '🟢 GPS TomTom Ativo' : '⚡ Motor Preditivo HCM (Clima de Pista + Horário de Pico + SLA Carteira)'}</span>
+              🛣️ CENTRAL DE MONITORAMENTO RODOVIÁRIO, FLUXO DINÂMICO E RELAÇÃO COM SLA
+              <span>${window.TORRE_TOMTOM_KEY ? '🟢 FONTE: TomTom Traffic API Ao Vivo (Ref. ' + updTimeStr + ')' : '📐 REPRESENTAÇÃO ILUSTRATIVA DE FLUXO (Modelo Físico HCM + Clima Real Open-Meteo · Ref. ' + refTimeStr + ')'}</span>
             </div>
             <div class="wx-hw-grid">
               ${hwRows.map(h => {
-                const N = 22, on = Math.round((h.fluidezPct / 100) * N);
-                let segs = '';
-                for (let i = 0; i < N; i++) {
-                  segs += i < on ? `<i style="background:${h.col};height:11px"></i>` : `<i style="background:#1e1348;height:11px"></i>`;
-                }
                 return `<div class="wx-hw-card" style="--hwc:${h.col}">
-                  <div>
-                    <div class="wx-hw-hd">
-                      <div>
-                        <div class="wx-hw-title">🛣️ ${h.hw.nome}</div>
-                        <div class="wx-hw-sub">${h.hw.trecho} (${h.hw.km} km)</div>
-                      </div>
-                      <span class="wx-badge" style="background:${h.col}">${h.delayMin >= 20 ? 'LENTIDÃO CRÍTICA' : h.delayMin >= 10 ? 'ATENÇÃO' : 'FLUXO NORMAL'}</span>
+                  <div class="wx-hw-hd">
+                    <div>
+                      <div class="wx-hw-title">🛣️ ${h.hw.nome}</div>
+                      <div class="wx-hw-sub">${h.hw.trecho} · Extensão ref. ${h.hw.km} km</div>
                     </div>
-                    <div class="wx-hw-speed-row">
-                      <div class="wx-hw-spd">${h.vEst} <small style="font-size:12px;color:#a79bd6">km/h (${h.fluidezPct}% fluidez)</small></div>
-                      <div class="wx-hw-eta" style="color:${h.delayMin > 0 ? '#facc15' : '#4ade80'}">${h.delayMin > 0 ? '⏱️ +' + h.delayMin + ' min atraso' : '⏱️ Sem atraso'}</div>
-                    </div>
-                    <div class="sg" style="gap:2px;margin:4px 0 6px">${segs}</div>
+                    <span class="wx-badge" style="background:${h.col}">${h.delayMin >= 20 ? 'RETENÇÃO SEVERA' : h.delayMin >= 10 ? 'ATENÇÃO FLUXO' : 'FLUXO LIVRE'}</span>
                   </div>
-                  <div>
-                    <div style="font-size:10.5px;color:#d8d2fc;margin-bottom:4px">
-                      ${h.wHw.ic} <b style="color:${h.wHw.col}">${h.wHw.tx}</b> · ${h.cause}
+                  <div class="wx-hw-speed-row">
+                    <div class="wx-hw-spd">${h.vEst} <small style="font-size:11px;color:#a79bd6">km/h (${h.fluidezPct}% fluidez)</small></div>
+                    <div class="wx-hw-eta" style="color:${h.delayMin > 0 ? '#facc15' : '#4ade80'}">${h.delayMin > 0 ? '⏱️ +' + h.delayMin + ' min s/ livre' : '⏱️ Tempo normal (' + h.tFreeMin + 'm)'}</div>
+                  </div>
+                  <!-- Pista Vetorial com Movimento Contínuo Proporcional à Velocidade -->
+                  <div class="wx-hw-lane-box" title="Representação visual de fluidez proporcional à velocidade média">${svgAnimatedHighwayLane(h)}</div>
+                  <!-- Curva Horária de Velocidade 24h -->
+                  <div class="wx-hw-profile-box" title="Curva horária de fluidez ao longo do dia">${svgHighwaySpeedCurve24h(h.hourlyCurve, h.hw.vFree, h.col)}</div>
+                  <!-- Diferenciação Clara: Condição da Via vs. Exposição da Carteira vs. Risco Potencial ao SLA -->
+                  <div class="wx-hw-sla-tags">
+                    <div class="wx-hw-sla-cell">
+                      <small>1. CONDIÇÃO DA VIA</small>
+                      <b style="color:${h.wHw.col}" title="${escH(h.cause)}">${h.wHw.ic} ${escH(trunc(h.cause, 20))}</b>
                     </div>
-                    <div class="wx-hw-meta">
-                      <span>📦 Na Rota: <b style="color:#38bdf8">${h.pedsTotal} ped (${fw(h.pesoRota)})</b></span>
-                      <span>🔴 Urgentes D0/D+1: <b style="color:${h.pedsUrg > 0 ? '#fb7185' : '#4ade80'}">${h.pedsUrg} ped</b></span>
+                    <div class="wx-hw-sla-cell">
+                      <small>2. EXPOSIÇÃO ROTA</small>
+                      <b style="color:#38bdf8">${n0(h.pedsTotal)} ped (${fw(h.pesoRota)})</b>
+                    </div>
+                    <div class="wx-hw-sla-cell">
+                      <small>3. RELAÇÃO COM SLA</small>
+                      <b style="color:${h.pedsUrg > 0 && h.delayMin >= 15 ? '#fb7185' : '#4ade80'}" title="${escH(h.slaStatus)}">${escH(h.slaStatus)}</b>
                     </div>
                   </div>
                 </div>`;
@@ -1960,7 +2084,6 @@ body.tv-mode #tv-stage { display: flex; }
       }
 
       tvCanvas.innerHTML = `
-        <!-- BARRA DE RASTREABILIDADE (3 TIMESTAMPS SEPARADOS + CICLO DE 15 MIN) -->
         <div class="wx-top-bar">
           <div class="wx-meta-info">
             <span class="wx-badge ${WX_STATE.status === 'ONLINE' ? 'wx-b-ok' : 'wx-b-torre'}">● ${WX_STATE.status}</span>
@@ -1971,7 +2094,7 @@ body.tv-mode #tv-stage { display: flex; }
           </div>
           <div class="wx-sub-tabs">
             <button class="wx-sub-btn ${WX_STATE.subView === 0 ? 'on' : ''}" data-wx-sub="0">📈 1. Telemetria 48h</button>
-            <button class="wx-sub-btn ${WX_STATE.subView === 1 ? 'on' : ''}" data-wx-sub="1">📅 2. Previsão 7 Dias</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 1 ? 'on' : ''}" data-wx-sub="1">📅 2. Previsão 7 Dias (Rotativa)</button>
             <button class="wx-sub-btn ${WX_STATE.subView === 2 ? 'on' : ''}" data-wx-sub="2">🚨 3. Defesa Civil (${activeAlerts.length})</button>
             <button class="wx-sub-btn ${WX_STATE.subView === 3 ? 'on' : ''}" data-wx-sub="3">🗺️ 4. Microrregiões (8)</button>
             <button class="wx-sub-btn ${WX_STATE.subView === 4 ? 'on' : ''}" data-wx-sub="4">🛣️ 5. Rodovias &amp; SLA</button>
@@ -2023,7 +2146,7 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 1: VISÃO GERAL (INCLUI BLOCO DE PENDÊNCIAS DE AÇÃO) */
+    /* SLIDE 1: VISÃO GERAL */
     if (idx === 1) {
       const sep = D.length ? pct(D.filter(r => r[3] >= 2).length, D.length) : null;
       const fatP = P.length ? pct(S.fat, P.length) : null;
@@ -2089,8 +2212,15 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 2: CARTEIRA */
+    /* SLIDE 2: NOVA GUIA — PENDÊNCIAS QUE EXIGEM AÇÃO */
     if (idx === 2) {
+      tvCanvas.innerHTML = buildPendenciesViewHtml(true);
+      igniteAutomotiveGauges(tvCanvas, true);
+      return;
+    }
+
+    /* SLIDE 3: CARTEIRA */
+    if (idx === 3) {
       const vol = C.filter(o => attc(o) === 'Volumetria'), not = C.filter(o => attc(o) === 'Nortuna'), peq = C.filter(o => attc(o) === 'Carro pequeno');
       const vRst = C.filter(o => o[13] === 'Via restrita' || o[13] === 'Residência limitada');
       const B = byD(C, 14), gByD = B.keys.map(x => C.filter(o => B.k(o) == x));
@@ -2136,8 +2266,8 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 3: AGENDAMENTO */
-    if (idx === 3) {
+    /* SLIDE 4: AGENDAMENTO */
+    if (idx === 4) {
       const livres = Math.max(0, S.G_.length - P.length);
       const topTr = topn(grp(P, g => g[4] || '(sem transp.)', g => g[16] || 0), 7).map(x => [x[0], x[1] / 1000, fw(x[1])]);
       const tu = Object.entries(P.reduce((m, g) => { const a = m[g[0] || '—'] = m[g[0] || '—'] || []; a.push(g); return m; }, {})).sort();
@@ -2183,8 +2313,8 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 4: STATUS OPERACIONAL */
-    if (idx === 4) {
+    /* SLIDE 5: STATUS OPERACIONAL */
+    if (idx === 5) {
       const N = D.length, c6 = [0, 1, 2, 3, 4, 5].map(k => D.filter(r => stg(r) == k));
       const sep = c6[3].length + c6[4].length;
       const pf = r => GM[r[5]] ? GM[r[5]][2] : 'S/ Agend.', cf = r => GM[r[5]] ? (GM[r[5]][11] || '—') : 'S/ Agend.';
@@ -2241,9 +2371,9 @@ body.tv-mode #tv-stage { display: flex; }
     }
 
     /* ==========================================================================
-       SLIDE 5: EXPEDIÇÃO & OUTBOUND (SEM "B3/NYSE" E COM PROPORÇÃO 2x2 EQUILIBRADA NOS RECORDES)
+       SLIDE 6: EXPEDIÇÃO & OUTBOUND (COM ADAPTAÇÃO DINÂMICA AO CONTAINER QUADRADO/RETANGULAR)
        ========================================================================== */
-    if (idx === 5) {
+    if (idx === 6) {
       const ws = wk(dia), s = (l, k) => l.reduce((a, x) => a + x[k], 0);
       const scWk = days.filter(x => wk(x.d) == ws);
       const allDays = days.filter(x => x.n > 0 || x.etq > 0);
@@ -2263,7 +2393,6 @@ body.tv-mode #tv-stage { display: flex; }
         ['peso', 'PESO EXPEDIDO', v => fw(v)],
         ['val', 'VALOR EXPEDIDO (R$)', v => RS(v)]
       ];
-      /* Proporção 2x2 espaçada nos recordes para nunca encavalar números e datas */
       const hlHtml = base.length >= 2 ? `<div class="nyse-hl-grid">${hlMetrics.map(([k, lb, fmt]) => {
         const sorted = [...base].sort((a, b) => b[k] - a[k]);
         const mx = sorted[0], mn = sorted[sorted.length - 1], avg = s(base, k) / base.length;
@@ -2356,7 +2485,6 @@ body.tv-mode #tv-stage { display: flex; }
             </div>
           </div>
 
-          <!-- GRÁFICO CENTRAL COM IDENTIFICAÇÃO LOGÍSTICA CORRETA (SEM B3/NYSE) E PROPORÇÃO EQUILIBRADA -->
           <div class="tv-card">
             <div class="tv-card-title">
               📈 CURVA DE PERFORMANCE OUTBOUND · VALOR EXPEDIDO (R$) × PESO (T)
@@ -2365,7 +2493,7 @@ body.tv-mode #tv-stage { display: flex; }
                 <span><i style="background:#4ade80;color:#4ade80"></i>Linha/Barras = Peso Expedido (t)</span>
               </div>
             </div>
-            <div class="tv-chart-box">${svgOutboundPerformanceArea(days)}</div>
+            <div class="tv-chart-box" id="ob-dyn-chart-box"></div>
             ${hlHtml}
           </div>
 
@@ -2426,12 +2554,13 @@ body.tv-mode #tv-stage { display: flex; }
         </div>`;
 
       igniteAutomotiveGauges(tvCanvas, true);
+      bindDynamicOutboundChart(document.getElementById('ob-dyn-chart-box'), days);
 
       const board = document.getElementById('nyse-board');
       if (board && board.scrollHeight > board.clientHeight) {
         let dir = 1;
         tvScrollTimer = setInterval(() => {
-          if (!document.body.classList.contains('tv-mode') || tvSlide !== 5) return;
+          if (!document.body.classList.contains('tv-mode') || tvSlide !== 6) return;
           board.scrollTop += dir * 1;
           if (board.scrollTop + board.clientHeight >= board.scrollHeight - 2) dir = -1;
           else if (board.scrollTop <= 0) dir = 1;
@@ -2441,7 +2570,7 @@ body.tv-mode #tv-stage { display: flex; }
     }
   }
 
-  /* 9. Controle do Carrossel Configurável (6 Telas, Padrão 1m 30s) e Relógio */
+  /* 11. Controle do Carrossel Configurável (7 Telas) e Relógio */
   const btnTv = document.getElementById('icTv');
   const btnExit = document.getElementById('tv-exit');
   const btnPause = document.getElementById('tv-pause');
@@ -2498,6 +2627,7 @@ body.tv-mode #tv-stage { display: flex; }
       startTvTimers();
     } else {
       releaseTvWakeLock();
+      if (outboundResizeObs) { outboundResizeObs.disconnect(); outboundResizeObs = null; }
       if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       }
