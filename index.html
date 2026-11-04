@@ -62,7 +62,7 @@
     <div class="tv-brand">
       <span class="tv-live-dot" id="tv-conn-dot"></span>
       <b>TORRE DE CONTROLE</b>
-      <small id="tv-sub">CENTRO DE INTELIGÊNCIA METEOROLÓGICA E RODOVIÁRIA</small>
+      <small id="tv-sub">CENTRO DE INTELIGÊNCIA METEOROLÓGICA E OPERACIONAL</small>
     </div>
     <div class="tv-ticker-wrap"><div class="tv-ticker" id="tv-ticker"></div></div>
     <div class="tv-clock" id="tv-clock">--:--:--</div>
@@ -70,7 +70,7 @@
   <div id="tv-canvas"></div>
   <div id="tv-bar">
     <b>PREGÃO LOGÍSTICO</b>
-    <button class="tv-tab on" data-tv="0">1. Clima &amp; Rodovias</button>
+    <button class="tv-tab on" data-tv="0">1. Clima &amp; Radar</button>
     <button class="tv-tab" data-tv="1">2. Visão Geral</button>
     <button class="tv-tab" data-tv="2">3. Carteira</button>
     <button class="tv-tab" data-tv="3">4. Agendamento</button>
@@ -159,7 +159,7 @@
   animation: markerPinPulse 1.6s ease-in-out infinite;
 }
 .radar-beam-rot {
-  transform-origin: 135px 115px;
+  transform-origin: 120px 120px;
   animation: radarSweepRot 5.5s linear infinite;
 }
 
@@ -185,8 +185,8 @@ body.tv-mode #tv-stage { display: flex; }
 .tv-dn { color: #fb7185; }
 .tv-nt { color: #22d3ee; }
 
-#tv-canvas { position: relative; z-index: 1; flex: 1; padding: 10px 20px 56px; display: flex; flex-direction: column; gap: 8px; min-height: 0; overflow-y: auto; overflow-x: hidden; animation: tvFadeIn .35s ease-out; }
-.tv-row { display: grid; gap: 9px; min-height: 0; }
+#tv-canvas { position: relative; z-index: 1; flex: 1; padding: 10px 20px 56px; display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; animation: tvFadeIn .35s ease-out; }
+.tv-row { display: grid; gap: 12px; min-height: 0; }
 .tv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 9px; flex-shrink: 0; }
 
 .tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: 14px; padding: 8px 12px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
@@ -194,60 +194,86 @@ body.tv-mode #tv-stage { display: flex; }
 .tv-kpi-val { font-size: clamp(17px, 1.65vw, 25px); font-weight: 900; color: var(--c, #22d3ee); line-height: 1.12; margin: 2px 0; font-variant-numeric: tabular-nums; }
 .tv-kpi-sub { font-size: 10.5px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: 14px; padding: 9px 13px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
-.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #22d3ee; margin-bottom: 5px; flex-shrink: 0; gap: 6px; flex-wrap: wrap; }
-.tv-card-title span { font-size: 10px; color: #a79bd6; font-weight: 600; letter-spacing: .04em; text-transform: none; }
+.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: 14px; padding: 12px 16px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
+.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; color: #22d3ee; margin-bottom: 8px; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
+.tv-card-title span { font-size: 10.5px; color: #a79bd6; font-weight: 600; letter-spacing: .04em; text-transform: none; }
 .tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 2px 4px; }
 .tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible !important; }
 
-/* Selos de Fonte, Status de Conexão e Diferenciação de Alertas */
-.wx-meta-strip { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 9.5px; font-family: ui-monospace, monospace; color: #a79bd6; background: #11092e; border: 1px solid #2b1d63; border-radius: 8px; padding: 3px 8px; margin-bottom: 5px; }
-.wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 1px 7px; border-radius: 99px; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; }
+/* ==========================================================================
+   NOVO LAYOUT HERO DO CLIMA CDG + SUB-CARROSSEL PANORÂMICO (ZERO APERTO)
+   ========================================================================== */
+.wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; background: rgba(17, 9, 46, 0.9); border: 1px solid #2b1d63; border-radius: 10px; padding: 6px 14px; flex-shrink: 0; }
+.wx-meta-info { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-size: 10.5px; font-family: ui-monospace, monospace; color: #a79bd6; }
+.wx-sub-tabs { display: flex; gap: 6px; align-items: center; }
+.wx-sub-btn { padding: 4px 12px !important; font-size: 10.5px !important; font-weight: 800 !important; border-radius: 99px !important; background: #191042 !important; border: 1px solid #3b2885 !important; color: #cfc8f5 !important; cursor: pointer; }
+.wx-sub-btn.on { background: linear-gradient(135deg, #0ea5e9, #6366f1) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 0 14px rgba(34, 211, 238, 0.4); }
+
+.wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; }
 .wx-b-prev { background: #0284c7; }
 .wx-b-torre { background: #d97706; }
 .wx-b-gov { background: #dc2626; }
 .wx-b-ok { background: #16a34a; }
 
-.wx-alert-list { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow-y: auto; scrollbar-width: none; }
-.wx-alert-list::-webkit-scrollbar { display: none; }
-.wx-alert-item { background: #140b38; border: 1px solid #2b1d63; border-left: 4px solid var(--ac, #22d3ee); border-radius: 8px; padding: 5px 8px; font-size: 10.5px; line-height: 1.35; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.wx-alert-item b { color: #fff; }
-.wx-ack-btn { padding: 2px 7px !important; font-size: 9px !important; background: #241855 !important; border-color: #5b3fc4 !important; color: #cfc8f5 !important; flex-shrink: 0; }
+/* Card Hero Temperatura CDG Guarulhos */
+.wx-hero-box { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: linear-gradient(145deg, rgba(26, 16, 72, 0.95), rgba(12, 7, 36, 0.98)); border: 1px solid #3b2885; border-left: 5px solid var(--hc, #22d3ee); border-radius: 14px; padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 8px 25px #0008; }
+.wx-hero-temp { font-size: clamp(38px, 3.6vw, 54px); font-weight: 900; color: #fff; font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1; letter-spacing: -1px; text-shadow: 0 0 24px color-mix(in srgb, var(--hc, #22d3ee) 65%, transparent); }
+.wx-hero-cond { font-size: 14px; font-weight: 800; color: var(--hc, #22d3ee); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
+.wx-hero-sub { font-size: 11.5px; color: #cfc8f5; margin-top: 2px; }
 
-/* Componentes Exclusivos do Painel Outbound e Clima NYSE / B3 */
-.nyse-idx-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; flex: 1; min-height: 0; }
-.nyse-idx-box { background: linear-gradient(145deg, #160d3d, #0c0724); border: 1px solid #2d1e66; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 5px 9px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
-.nyse-idx-box small { font-size: 9px; color: #a79bd6; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
-.nyse-idx-box b { font-size: clamp(13px, 1.2vw, 18px); font-weight: 900; color: var(--ic, #22d3ee); font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1.15; margin: 1px 0; }
-.nyse-idx-box span { font-size: 9.5px; color: #cfc8f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Grade de Cartões das 7 Regiões (Vista 3 — Ampla e Sem Aperto) */
+.wx-reg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex: 1; min-height: 0; }
+.wx-reg-card { background: linear-gradient(160deg, #170e3f, #0c0724); border: 1px solid #2e1f6b; border-top: 3px solid var(--rc, #22d3ee); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
+.wx-reg-card.is-base { border-top-color: #facc15; background: linear-gradient(160deg, #211556, #100930); }
+.wx-reg-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
+.wx-reg-name { font-size: 11.5px; font-weight: 800; color: #fff; letter-spacing: .05em; text-transform: uppercase; }
+.wx-reg-big { display: flex; align-items: baseline; justify-content: space-between; margin: 6px 0; }
+.wx-reg-temp { font-size: clamp(22px, 2vw, 30px); font-weight: 900; color: var(--rc, #22d3ee); font-family: ui-monospace, monospace; line-height: 1; }
+.wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bdb4ee; border-top: 1px solid #281a5e; padding-top: 6px; font-family: ui-monospace, monospace; }
+.wx-reg-cart { margin-top: 6px; padding: 5px 8px; border-radius: 8px; background: #11092e; border: 1px solid #2b1d63; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
+
+/* Alertas Defesa Civil em Tela Larga (Vista 2) */
+.wx-alert-wide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 10px; overflow-y: auto; max-height: 100%; padding-right: 4px; align-content: start; }
+.wx-alert-card { background: linear-gradient(145deg, #180d3e, #0e0729); border: 1px solid #332275; border-left: 5px solid var(--ac, #ef4444); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; box-shadow: 0 8px 24px #0009; }
+.wx-alert-card-hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.wx-alert-card-msg { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.4; }
+.wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #a79bd6; border-top: 1px solid #281a5e; padding-top: 6px; }
+.wx-ack-btn { padding: 4px 12px !important; font-size: 10.5px !important; font-weight: 700 !important; background: #241855 !important; border-color: #5b3fc4 !important; color: #ece8ff !important; border-radius: 99px !important; }
+
+/* Componentes Exclusivos do Painel Outbound NYSE / B3 */
+.nyse-idx-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; flex: 1; min-height: 0; }
+.nyse-idx-box { background: linear-gradient(145deg, #160d3d, #0c0724); border: 1px solid #2d1e66; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.nyse-idx-box small { font-size: 9.5px; color: #a79bd6; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+.nyse-idx-box b { font-size: clamp(14px, 1.3vw, 20px); font-weight: 900; color: var(--ic, #22d3ee); font-family: ui-monospace, SFMono-Regular, monospace; line-height: 1.15; margin: 1px 0; }
+.nyse-idx-box span { font-size: 10px; color: #cfc8f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .nyse-board-wrap { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; position: relative; }
 .nyse-board-wrap::-webkit-scrollbar { display: none; }
-.nyse-table { width: 100%; border-collapse: collapse; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10.5px; }
-.nyse-table thead th { position: sticky; top: 0; background: #140b38; color: #22d3ee !important; font-size: 9px !important; font-weight: 800; padding: 4px 5px; border-bottom: 1px solid #3b2885 !important; text-align: right; z-index: 2; letter-spacing: .07em; }
+.nyse-table { width: 100%; border-collapse: collapse; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; }
+.nyse-table thead th { position: sticky; top: 0; background: #140b38; color: #22d3ee !important; font-size: 9.5px !important; font-weight: 800; padding: 5px 6px; border-bottom: 1px solid #3b2885 !important; text-align: right; z-index: 2; letter-spacing: .07em; }
 .nyse-table thead th:first-child { text-align: left; }
 .nyse-table tbody tr { border-bottom: 1px solid #241654; transition: background .2s; }
 .nyse-table tbody tr.cur-day { background: linear-gradient(90deg, rgba(249, 115, 22, 0.22), rgba(34, 211, 238, 0.08)); border-left: 3px solid #f97316; }
-.nyse-table tbody td { padding: 4px 5px; text-align: right; color: #ece8ff; white-space: nowrap; }
+.nyse-table tbody td { padding: 5px 6px; text-align: right; color: #ece8ff; white-space: nowrap; }
 .nyse-table tbody td:first-child { text-align: left; font-weight: 700; color: #fff; }
 .nyse-led { display: inline-flex; gap: 1.5px; vertical-align: middle; margin-right: 4px; }
 .nyse-led i { width: 3.5px; height: 9px; border-radius: 1px; background: #231752; display: inline-block; }
 
-.nyse-hl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; margin-top: 5px; padding-top: 6px; border-top: 1px solid #2b1d63; flex-shrink: 0; }
-.nyse-hl-card { background: #120a33; border: 1px solid #2b1d63; border-radius: 10px; padding: 5px 8px; display: flex; flex-direction: column; gap: 2px; }
-.nyse-hl-card .hl-metric { font-size: 9px; font-weight: 800; letter-spacing: .11em; color: #a79bd6; text-transform: uppercase; }
-.nyse-hl-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 10px; font-family: ui-monospace, monospace; }
+.nyse-hl-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid #2b1d63; flex-shrink: 0; }
+.nyse-hl-card { background: #120a33; border: 1px solid #2b1d63; border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; gap: 3px; }
+.nyse-hl-card .hl-metric { font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: #a79bd6; text-transform: uppercase; }
+.nyse-hl-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 10.5px; font-family: ui-monospace, monospace; }
 
-.nyse-wk-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; flex-shrink: 0; }
-.nyse-wk-card { background: linear-gradient(155deg, rgba(22, 14, 61, 0.95), rgba(11, 7, 34, 0.95)); border: 1px solid #2e1f6b; border-top: 2.5px solid #22c55e; border-radius: 12px; padding: 6px 11px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
+.nyse-wk-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; flex-shrink: 0; }
+.nyse-wk-card { background: linear-gradient(155deg, rgba(22, 14, 61, 0.95), rgba(11, 7, 34, 0.95)); border: 1px solid #2e1f6b; border-top: 2.5px solid #22c55e; border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
 .nyse-wk-card.active-wk { border-top-color: #22d3ee; background: linear-gradient(155deg, rgba(30, 19, 82, 0.96), rgba(14, 9, 44, 0.96)); }
-.nyse-wk-hd { display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: #a79bd6; text-transform: uppercase; }
-.nyse-wk-val { font-size: clamp(14px, 1.3vw, 19px); font-weight: 900; color: #4ade80; font-family: ui-monospace, monospace; line-height: 1.15; }
-.nyse-wk-meta { font-size: 10px; color: #d8d2fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nyse-wk-nf { font-size: 9.5px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nyse-wk-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; letter-spacing: .11em; color: #a79bd6; text-transform: uppercase; }
+.nyse-wk-val { font-size: clamp(15px, 1.4vw, 20px); font-weight: 900; color: #4ade80; font-family: ui-monospace, monospace; line-height: 1.15; }
+.nyse-wk-meta { font-size: 10.5px; color: #d8d2fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nyse-wk-nf { font-size: 10px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-legend { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; font-size: 10px; color: #d8d2fc; font-weight: 700; }
-.tv-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; }
+.tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8d2fc; font-weight: 700; }
+.tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; }
 
 #tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.96); border: 1px solid #22d3ee; border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
 #tv-bar b { color: #22d3ee; font-size: 10.5px; letter-spacing: .14em; margin-right: 2px; display: flex; align-items: center; gap: 6px; }
@@ -265,7 +291,7 @@ body.tv-mode #tv-stage { display: flex; }
 <script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script>
 
 <!-- ==========================================================================
-     MOTOR DE INTELIGÊNCIA METEOROLÓGICA, RADAR DOPPLER E RODOVIAS (SLIDE 0)
+     MOTOR DE INTELIGÊNCIA METEOROLÓGICA DINÂMICA (SUB-SLIDES PANORÂMICOS)
      + IGNIÇÃO AUTOMOTIVA (ESTÁTICA NO DASH / CONTÍNUA NA TV)
      ========================================================================== -->
 <script>
@@ -285,30 +311,19 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   /* ==========================================================================
-     2. CONFIGURAÇÃO DOS 8 POLOS METEOROLÓGICOS E EIXOS RODOVIÁRIOS (CONFIGURÁVEL)
+     2. CONFIGURAÇÃO DOS 8 POLOS METEOROLÓGICOS REGIONAIS
      ========================================================================== */
   const POLOS_OPERACIONAIS = [
-    { id: 'CDG', nome: 'CDG Guarulhos (Base)', lat: -23.4543, lon: -46.5337, rx: 148, ry: 138, munis: ['GUARULHOS','SAO PAULO'] },
-    { id: 'JUN', nome: 'Jundiaí & Bragança',   lat: -23.1857, lon: -46.8978, rx: 122, ry: 112, munis: ['JUNDIAI','BRAGANCA PAULISTA','ATIBAIA','ITATIBA','VARZEA PAULISTA','CAMPO LIMPO PAULISTA','LOUVEIRA','CAJAMAR','FRANCO DA ROCHA','MAIRIPORA'] },
-    { id: 'CMP', nome: 'Campinas & Entorno',   lat: -22.9099, lon: -47.0626, rx: 104, ry: 92,  munis: ['CAMPINAS','SUMARE','HORTOLANDIA','INDAIATUBA','VALINHOS','VINHEDO','PAULINIA','AMERICANA','SANTA BARBARA D OESTE','NOVA ODESSA','JAGUARIUNA'] },
-    { id: 'VLP', nome: 'Vale do Paraíba',      lat: -23.1791, lon: -45.8872, rx: 208, ry: 118, munis: ['SAO JOSE DOS CAMPOS','TAUBATE','JACAREI','CACAPAVA','PINDAMONHANGABA','GUARATINGUETA','LORENA','CRUZEIRO','APARECIDA','CAMPOS DO JORDAO','CARAGUATATUBA','UBATUBA','SAO SEBASTIAO'] },
-    { id: 'MOG', nome: 'Mogi das Cruzes',      lat: -23.5228, lon: -46.1883, rx: 174, ry: 144, munis: ['MOGI DAS CRUZES','SUZANO','ITAQUAQUECETUBA','POA','FERRAZ DE VASCONCELOS','ARUJA','SANTA ISABEL','GUARAREMA','BIRITIBA MIRIM'] },
-    { id: 'SOR', nome: 'Sorocaba & Região',    lat: -23.5015, lon: -47.4526, rx: 86,  ry: 142, munis: ['SOROCABA','VOTORANTIM','ITU','SALTO','ITAPETININGA','SAO ROQUE','BOITUVA','TATUI','PIEDADE','MAIRINQUE','PORTO FELIZ'] },
-    { id: 'LIT', nome: 'Litoral Sul (Baixada)',lat: -23.9618, lon: -46.3322, rx: 162, ry: 178, munis: ['SANTOS','PRAIA GRANDE','SAO VICENTE','GUARUJA','CUBATAO','BERTIOGA','MONGAGUA','ITANHAEM','PERUIBE','REGISTRO'] },
-    { id: 'RIB', nome: 'Ribeirão Preto',       lat: -21.1704, lon: -47.8103, rx: 64,  ry: 32,  munis: ['RIBEIRAO PRETO','SERTAOZINHO','FRANCA','ARARAQUARA','SAO CARLOS','JABOTICABAL','BARRETOS','BEBEDOURO','BATATAIS'] }
+    { id: 'CDG', nome: 'CDG Guarulhos (Base)', lat: -23.4543, lon: -46.5337, rx: 132, ry: 152, munis: ['GUARULHOS','SAO PAULO'] },
+    { id: 'JUN', nome: 'Jundiaí & Bragança',   lat: -23.1857, lon: -46.8978, rx: 106, ry: 118, munis: ['JUNDIAI','BRAGANCA PAULISTA','ATIBAIA','ITATIBA','VARZEA PAULISTA','CAMPO LIMPO PAULISTA','LOUVEIRA','CAJAMAR','FRANCO DA ROCHA','MAIRIPORA'] },
+    { id: 'CMP', nome: 'Campinas & Entorno',   lat: -22.9099, lon: -47.0626, rx: 88,  ry: 92,  munis: ['CAMPINAS','SUMARE','HORTOLANDIA','INDAIATUBA','VALINHOS','VINHEDO','PAULINIA','AMERICANA','SANTA BARBARA D OESTE','NOVA ODESSA','JAGUARIUNA'] },
+    { id: 'VLP', nome: 'Vale do Paraíba',      lat: -23.1791, lon: -45.8872, rx: 198, ry: 126, munis: ['SAO JOSE DOS CAMPOS','TAUBATE','JACAREI','CACAPAVA','PINDAMONHANGABA','GUARATINGUETA','LORENA','CRUZEIRO','APARECIDA','CAMPOS DO JORDAO','CARAGUATATUBA','UBATUBA','SAO SEBASTIAO'] },
+    { id: 'MOG', nome: 'Mogi das Cruzes',      lat: -23.5228, lon: -46.1883, rx: 164, ry: 158, munis: ['MOGI DAS CRUZES','SUZANO','ITAQUAQUECETUBA','POA','FERRAZ DE VASCONCELOS','ARUJA','SANTA ISABEL','GUARAREMA','BIRITIBA MIRIM'] },
+    { id: 'SOR', nome: 'Sorocaba & Região',    lat: -23.5015, lon: -47.4526, rx: 68,  ry: 156, munis: ['SOROCABA','VOTORANTIM','ITU','SALTO','ITAPETININGA','SAO ROQUE','BOITUVA','TATUI','PIEDADE','MAIRINQUE','PORTO FELIZ'] },
+    { id: 'LIT', nome: 'Litoral Sul (Baixada)',lat: -23.9618, lon: -46.3322, rx: 148, ry: 196, munis: ['SANTOS','PRAIA GRANDE','SAO VICENTE','GUARUJA','CUBATAO','BERTIOGA','MONGAGUA','ITANHAEM','PERUIBE','REGISTRO'] },
+    { id: 'RIB', nome: 'Ribeirão Preto',       lat: -21.1704, lon: -47.8103, rx: 54,  ry: 38,  munis: ['RIBEIRAO PRETO','SERTAOZINHO','FRANCA','ARARAQUARA','SAO CARLOS','JABOTICABAL','BARRETOS','BEBEDOURO','BATATAIS'] }
   ];
 
-  const EIXOS_RODOVIARIOS = [
-    { id: 'DUTRA_RJ', nome: 'BR-116 Pres. Dutra (SP ➔ RJ)',   trecho: 'Guarulhos ➔ Vale do Paraíba', polos: ['CDG','VLP'],conc: 'CCR RioSP' },
-    { id: 'DUTRA_SP', nome: 'BR-116 Pres. Dutra (RJ ➔ SP)',   trecho: 'Vale do Paraíba ➔ Guarulhos', polos: ['VLP','CDG'],conc: 'CCR RioSP' },
-    { id: 'AYRTON',   nome: 'SP-070 Ayrton Senna / C. Pinto', trecho: 'Guarulhos ➔ Mogi ➔ Taubaté',  polos: ['CDG','MOG','VLP'], conc: 'Ecopistas' },
-    { id: 'FERNAO',   nome: 'BR-381 Rod. Fernão Dias',        trecho: 'Guarulhos ➔ Atibaia/Bragança',polos: ['CDG','JUN'], conc: 'Arteris' },
-    { id: 'BAND_ANH', nome: 'SP-348/330 Bandeirantes / Anh.', trecho: 'São Paulo ➔ Jundiaí ➔ Campinas ➔ Ribeirão', polos: ['JUN','CMP','RIB'], conc: 'AutoBAn' },
-    { id: 'CASTELLO', nome: 'SP-280 Rod. Castello Branco',    trecho: 'Osasco ➔ Itu / Sorocaba',     polos: ['CDG','SOR'], conc: 'ViaOeste' },
-    { id: 'REGIS_IM', nome: 'BR-116 Régis / Imigrantes',      trecho: 'Acesso Sul / Baixada Santista',polos: ['CDG','LIT'], conc: 'Arteris/Ecovias' }
-  ];
-
-  /* Estado da Telemetria Multi-Região e Radar */
   const WX_STATE = {
     status: 'SINCRONIZANDO',
     fetchedAt: null,
@@ -316,27 +331,26 @@ body.tv-mode #tv-stage { display: flex; }
     radarSource: 'RainViewer Doppler API',
     radarTime: null,
     radarStatus: 'SINCRONIZANDO',
-    trafficSource: window.TORRE_TOMTOM_KEY ? 'TomTom Traffic API v4' : 'API de Tráfego não configurada (Exibindo Clima Real de Pista)',
     regions: {},
     silencedAlerts: new Set(),
-    soundEnabled: localStorage.getItem('torreWxSound_v1') !== '0'
+    soundEnabled: localStorage.getItem('torreWxSound_v1') !== '0',
+    subView: 0 // 0 = Telemetria 48h & Turnos | 1 = Alertas & Defesa Civil | 2 = Matriz 7 Microrregiões
   };
 
   function wmoInfo(code) {
     const c = +code || 0;
     if (c === 0) return { ic: '☀️', tx: 'Céu Limpo', rk: 'NORMAL', col: '#4ade80', imp: 'Pista seca · Docas 100% operacionais' };
-    if (c <= 2) return { ic: '⛅', tx: 'Parc. Nublado', rk: 'NORMAL', col: '#22d3ee', imp: 'Condição normal de pátio e rodovia' };
+    if (c <= 2) return { ic: '⛅', tx: 'Parc. Nublado', rk: 'NORMAL', col: '#22d3ee', imp: 'Condição normal de pátio e expedição' };
     if (c === 3) return { ic: '☁️', tx: 'Encoberto', rk: 'NORMAL', col: '#38bdf8', imp: 'Sem restrição de carregamento' };
-    if (c <= 48) return { ic: '🌫️', tx: 'Neblina / Névoa', rk: 'ATENÇÃO', col: '#facc15', imp: 'Visibilidade reduzida nas rodovias' };
-    if (c <= 57) return { ic: '🌦️', tx: 'Garoa / Chuvisco', rk: 'ATENÇÃO', col: '#facc15', imp: 'Proteger etiquetas ZW14 e cargas abertas' };
-    if (c <= 67) return { ic: '🌧️', tx: 'Chuva Moderada', rk: 'ALERTA', col: '#f97316', imp: 'Pista molhada · Enlonamento obrigatório' };
+    if (c <= 48) return { ic: '🌫️', tx: 'Neblina', rk: 'ATENÇÃO', col: '#facc15', imp: 'Visibilidade reduzida nas saídas' };
+    if (c <= 57) return { ic: '🌦️', tx: 'Garoa Leve', rk: 'ATENÇÃO', col: '#facc15', imp: 'Proteger etiquetas ZW14 e cargas abertas' };
+    if (c <= 67) return { ic: '🌧️', tx: 'Chuva Moderada', rk: 'ALERTA', col: '#f97316', imp: 'Enlonamento obrigatório · Pátio molhado' };
     if (c <= 82) return { ic: '⛈️', tx: 'Pancadas Fortes', rk: 'CRÍTICO', col: '#ef4444', imp: 'Risco de alagamento · Proteger docas externas' };
-    return { ic: '🌩️', tx: 'Tempestade / Raios', rk: 'CRÍTICO', col: '#ef4444', imp: 'Tempestade elétrica · Suspender pátio externo' };
+    return { ic: '🌩️', tx: 'Tempestade Severa', rk: 'CRÍTICO', col: '#ef4444', imp: 'Tempestade elétrica · Suspender pátio externo' };
   }
 
   const degToCard = deg => ['N','NE','L','SE','S','SO','O','NO'][Math.round(((+deg || 0) % 360) / 45) % 8];
 
-  /* Som sintetizado discreto para alertas climáticos (respeita mute e reconhecimento) */
   function playWxAlertTone(isCrit) {
     if (!WX_STATE.soundEnabled) return;
     try {
@@ -353,7 +367,6 @@ body.tv-mode #tv-stage { display: flex; }
     } catch (e) {}
   }
 
-  /* Busca Multi-Coordenadas (1 única chamada leve para os 8 polos + RainViewer timestamp) */
   async function fetchMultiRegionTelemetry() {
     const lats = POLOS_OPERACIONAIS.map(p => p.lat).join(',');
     const lons = POLOS_OPERACIONAIS.map(p => p.lon).join(',');
@@ -378,7 +391,6 @@ body.tv-mode #tv-stage { display: flex; }
       if (dot) dot.style.background = '#f97316';
     }
 
-    /* Sincroniza metadados reais do Radar Doppler RainViewer */
     try {
       const rv = await fetch('https://api.rainviewer.com/public/weather-maps.json');
       if (rv.ok) {
@@ -387,8 +399,6 @@ body.tv-mode #tv-stage { display: flex; }
         if (past && past.length) {
           const lastFrame = past[past.length - 1];
           WX_STATE.radarTime = new Date(lastFrame.time * 1000);
-          WX_STATE.radarHost = rvJson.host;
-          WX_STATE.radarPath = lastFrame.path;
           WX_STATE.radarStatus = 'ONLINE';
         }
       }
@@ -402,69 +412,15 @@ body.tv-mode #tv-stage { display: flex; }
   setInterval(fetchMultiRegionTelemetry, 10 * 60 * 1000);
 
   /* ==========================================================================
-     3. INSTRUMENTOS ANALÓGICOS ANOS 1960 & RADAR DOPPLER EM SVG PURO
+     3. RADAR METEOROLÓGICO DOPPLER EM PROPORÇÃO QUADRADA PERFEITA (240x240)
      ========================================================================== */
-  /* Barômetro Analógico Anos 1960 (Escala 990 a 1035 hPa) */
-  function svgAnalogBarometer(hpaVal) {
-    const p = +hpaVal || 1013;
-    const clamped = Math.max(990, Math.min(1035, p));
-    const norm = (clamped - 990) / 45; // 0..1
-    const angle = -125 + norm * 250;   // -125deg a +125deg
-    let ticks = '';
-    for (let i = 0; i <= 30; i++) {
-      const a = (-125 + (i / 30) * 250) * (Math.PI / 180) - Math.PI / 2;
-      const r1 = i % 5 === 0 ? 34 : 38, r2 = 43;
-      const col = i < 10 ? '#ef4444' : i < 18 ? '#facc15' : '#22d3ee';
-      ticks += `<line x1="${(50 + Math.cos(a) * r1).toFixed(1)}" y1="${(52 + Math.sin(a) * r1).toFixed(1)}" x2="${(50 + Math.cos(a) * r2).toFixed(1)}" y2="${(52 + Math.sin(a) * r2).toFixed(1)}" stroke="${col}" stroke-width="${i % 5 === 0 ? 2 : 1}"/>`;
-    }
-    return `<svg viewBox="0 0 100 86" style="width:108px;height:90px">
-      <circle cx="50" cy="52" r="45" fill="#090521" stroke="#31216e" stroke-width="1.5"/>
-      ${ticks}
-      <text x="20" y="76" fill="#ef4444" font-size="6.5" font-family="monospace">BAIXA</text>
-      <text x="64" y="76" fill="#22d3ee" font-size="6.5" font-family="monospace">ALTA</text>
-      <text x="50" y="34" text-anchor="middle" fill="#a79bd6" font-size="6.5" font-family="monospace">BARÔMETRO</text>
-      <g transform="rotate(${angle.toFixed(1)} 50 52)">
-        <polygon points="48.5,52 50,15 51.5,52" fill="#f97316"/>
-        <circle cx="50" cy="52" r="4" fill="#22d3ee" stroke="#090521" stroke-width="1.5"/>
-      </g>
-      <text x="50" y="71" text-anchor="middle" fill="#fff" font-size="11" font-weight="900" font-family="monospace">${hpaVal ? Math.round(hpaVal) + ' hPa' : '—'}</text>
-    </svg>`;
-  }
-
-  /* Anemômetro & Bússola Rosa dos Ventos Anos 1960 (Direção 0-360° + Rajada) */
-  function svgAnalogWindCompass(deg, speed, gust) {
-    const d = +deg || 0;
-    let ticks = '';
-    for (let i = 0; i < 16; i++) {
-      const a = (i * 22.5) * (Math.PI / 180);
-      const r1 = i % 4 === 0 ? 33 : 38, r2 = 42;
-      ticks += `<line x1="${(50 + Math.cos(a) * r1).toFixed(1)}" y1="${(46 + Math.sin(a) * r1).toFixed(1)}" x2="${(50 + Math.cos(a) * r2).toFixed(1)}" y2="${(46 + Math.sin(a) * r2).toFixed(1)}" stroke="#3b2885" stroke-width="${i % 4 === 0 ? 1.8 : 1}"/>`;
-    }
-    return `<svg viewBox="0 0 100 86" style="width:108px;height:90px">
-      <circle cx="50" cy="46" r="42" fill="#090521" stroke="#31216e" stroke-width="1.5"/>
-      ${ticks}
-      <text x="50" y="13" text-anchor="middle" fill="#22d3ee" font-size="7.5" font-weight="800" font-family="monospace">N</text>
-      <text x="86" y="49" text-anchor="middle" fill="#8f84c9" font-size="7" font-family="monospace">L</text>
-      <text x="50" y="83" text-anchor="middle" fill="#8f84c9" font-size="7" font-family="monospace">S</text>
-      <text x="14" y="49" text-anchor="middle" fill="#8f84c9" font-size="7" font-family="monospace">O</text>
-      <g transform="rotate(${d.toFixed(1)} 50 46)">
-        <polygon points="48,46 50,16 52,46" fill="#22d3ee"/>
-        <polygon points="48.5,46 50,68 51.5,46" fill="#4f46e5"/>
-        <circle cx="50" cy="46" r="3.5" fill="#facc15"/>
-      </g>
-      <text x="50" y="61" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="900" font-family="monospace">${speed != null ? Math.round(speed) + 'km/h ' + degToCard(d) : '—'}</text>
-    </svg>`;
-  }
-
-  /* Osciloscópio Radar Meteorológico Doppler SP (Células de Precipitação + Eixos Rodoviários) */
-  function svgDopplerRadarSP() {
-    let highwayPaths = `
-      <!-- Eixos Rodoviários Vetoriais a partir de Guarulhos (148,138) -->
-      <path d="M148,138 L208,118" stroke="#3b2885" stroke-width="2" stroke-dasharray="3 2"><title>BR-116 Dutra / Ayrton Senna</title></path>
-      <path d="M148,138 L174,144 L208,118" stroke="#3b2885" stroke-width="1.5"/>
-      <path d="M148,138 L122,112 L104,92 L64,32" stroke="#3b2885" stroke-width="2" stroke-dasharray="3 2"><title>Bandeirantes / Anhanguera / Fernão Dias</title></path>
-      <path d="M148,138 L86,142" stroke="#3b2885" stroke-width="1.8" stroke-dasharray="3 2"><title>Castello Branco</title></path>
-      <path d="M148,138 L162,178" stroke="#3b2885" stroke-width="1.8" stroke-dasharray="3 2"><title>Imigrantes / Anchieta</title></path>
+  function svgDopplerRadarSquare() {
+    let routes = `
+      <path d="M132,152 L198,126" stroke="#3b2885" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M132,152 L164,158 L198,126" stroke="#3b2885" stroke-width="1.5"/>
+      <path d="M132,152 L106,118 L88,92 L54,38" stroke="#3b2885" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M132,152 L68,156" stroke="#3b2885" stroke-width="1.8" stroke-dasharray="3 2"/>
+      <path d="M132,152 L148,196" stroke="#3b2885" stroke-width="1.8" stroke-dasharray="3 2"/>
     `;
 
     let cells = '', pins = '';
@@ -474,50 +430,43 @@ body.tv-mode #tv-stage { display: flex; }
       const rain = cur ? (+cur.precipitation || 0) : 0;
       const wmo = cur ? wmoInfo(cur.weather_code) : { col: '#64748b', tx: 'Sem dados' };
       const windDir = cur ? (+cur.wind_direction_10m || 0) : 0;
-      const windSpd = cur ? (+cur.wind_speed_10m || 0) : 0;
 
-      /* Se houver precipitação real na região, plota mancha Doppler proporcional aos mm */
       if (rain > 0) {
-        const radius = Math.min(34, Math.max(12, 10 + rain * 4.5));
+        const radius = Math.min(36, Math.max(14, 12 + rain * 4.5));
         const rCol = rain >= 5 ? '#ef4444' : rain >= 1.5 ? '#f97316' : '#22c55e';
-        const rad = (windDir + 180) * (Math.PI / 180); // Vetor de deslocamento da célula
-        const dx = (p.rx + Math.cos(rad) * 14).toFixed(1), dy = (p.ry + Math.sin(rad) * 14).toFixed(1);
-        cells += `<circle cx="${p.rx}" cy="${p.ry}" r="${radius}" fill="${rCol}" fill-opacity="0.28" stroke="${rCol}" stroke-opacity="0.55" stroke-dasharray="2 2"/>
-                  <line x1="${p.rx}" y1="${p.ry}" x2="${dx}" y2="${dy}" stroke="#fff" stroke-width="1.4" marker-end="url(#wxArr)"/>`;
+        const rad = (windDir + 180) * (Math.PI / 180);
+        const dx = (p.rx + Math.cos(rad) * 16).toFixed(1), dy = (p.ry + Math.sin(rad) * 16).toFixed(1);
+        cells += `<circle cx="${p.rx}" cy="${p.ry}" r="${radius}" fill="${rCol}" fill-opacity="0.3" stroke="${rCol}" stroke-opacity="0.65" stroke-dasharray="2 2"/>
+                  <line x1="${p.rx}" y1="${p.ry}" x2="${dx}" y2="${dy}" stroke="#fff" stroke-width="1.5"/>`;
       }
 
       const isBase = p.id === 'CDG';
       pins += `<g>
-        <circle cx="${p.rx}" cy="${p.ry}" r="${isBase ? 5.5 : 4.2}" fill="${wmo.col}" stroke="#070419" stroke-width="1.5" class="curve-marker-live"/>
-        <text x="${p.rx}" y="${p.ry - 7}" text-anchor="middle" fill="${isBase ? '#facc15' : '#ece8ff'}" font-size="8.5" font-weight="800" font-family="monospace">${p.id} ${cur ? Math.round(cur.temperature_2m) + '°' : ''}</text>
+        <circle cx="${p.rx}" cy="${p.ry}" r="${isBase ? 6 : 4.5}" fill="${wmo.col}" stroke="#070419" stroke-width="1.6" class="curve-marker-live"/>
+        <text x="${p.rx}" y="${p.ry - 8}" text-anchor="middle" fill="${isBase ? '#facc15' : '#ece8ff'}" font-size="9" font-weight="800" font-family="monospace">${p.id} ${cur ? Math.round(cur.temperature_2m) + '°' : ''}</text>
       </g>`;
     });
 
-    return `<svg viewBox="0 0 270 210" style="width:100%;height:100%;max-height:195px">
+    return `<svg viewBox="0 0 240 240" style="width:100%;height:100%;max-width:255px;max-height:255px;aspect-ratio:1/1">
       <defs>
         <radialGradient id="radSweepG" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.22"/>
+          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.25"/>
           <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.0"/>
         </radialGradient>
-        <marker id="wxArr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
-          <path d="M 0 1 L 10 5 L 0 9 z" fill="#ffffff"/>
-        </marker>
       </defs>
-      <!-- Grade concêntrica do Radar -->
-      <circle cx="135" cy="115" r="90" fill="#08041e" stroke="#26195c" stroke-width="1"/>
-      <circle cx="135" cy="115" r="62" fill="none" stroke="#221552" stroke-dasharray="3 3"/>
-      <circle cx="135" cy="115" r="34" fill="none" stroke="#221552" stroke-dasharray="3 3"/>
-      <line x1="45" y1="115" x2="225" y2="115" stroke="#1e1348"/>
-      <line x1="135" y1="25" x2="135" y2="205" stroke="#1e1348"/>
-      ${highwayPaths}
+      <circle cx="120" cy="120" r="106" fill="#08041e" stroke="#2e1f6b" stroke-width="1.5"/>
+      <circle cx="120" cy="120" r="72" fill="none" stroke="#221552" stroke-dasharray="3 3"/>
+      <circle cx="120" cy="120" r="38" fill="none" stroke="#221552" stroke-dasharray="3 3"/>
+      <line x1="14" y1="120" x2="226" y2="120" stroke="#1e1348"/>
+      <line x1="120" y1="14" x2="120" y2="226" stroke="#1e1348"/>
+      ${routes}
       ${cells}
-      <!-- Feixe giratório de varredura Doppler -->
       <g class="radar-beam-rot">
-        <path d="M135,115 L135,25 A90,90 0 0,1 198,52 Z" fill="url(#radSweepG)"/>
-        <line x1="135" y1="115" x2="135" y2="25" stroke="#22d3ee" stroke-width="1.2" stroke-opacity="0.7"/>
+        <path d="M120,120 L120,14 A106,106 0 0,1 196,46 Z" fill="url(#radSweepG)"/>
+        <line x1="120" y1="120" x2="120" y2="14" stroke="#22d3ee" stroke-width="1.4" stroke-opacity="0.8"/>
       </g>
       ${pins}
-      <text x="8" y="203" fill="#8f84c9" font-size="7.5" font-family="monospace">ESCALA DOPPLER: 🟢 LEVE  🟠 MODERADA  🔴 FORTE</text>
+      <text x="120" y="235" text-anchor="middle" fill="#8f84c9" font-size="8" font-family="monospace">DOPPLER SP: 🟢 LEVE · 🟠 MODERADA · 🔴 INTENSA</text>
     </svg>`;
   }
 
@@ -630,14 +579,14 @@ body.tv-mode #tv-stage { display: flex; }
       pathEl.parentNode.insertBefore(beam, pathEl.nextSibling);
 
       const dot = document.createElementNS(ns, 'circle');
-      dot.setAttribute('r', '4.2');
+      dot.setAttribute('r', '4.5');
       dot.setAttribute('fill', '#ffffff');
       dot.setAttribute('stroke', '#ff1e42');
-      dot.setAttribute('stroke-width', '2.4');
+      dot.setAttribute('stroke-width', '2.5');
       dot.style.filter = 'drop-shadow(0 0 8px #ff1e42) drop-shadow(0 0 12px #22d3ee)';
       pathEl.parentNode.appendChild(dot);
 
-      const duration = 3200;
+      const duration = 3400;
       const tStart = performance.now();
       function moveDot(now) {
         if (!dot.isConnected) return;
@@ -759,7 +708,7 @@ body.tv-mode #tv-stage { display: flex; }
       }
     });
 
-    root.querySelectorAll('.stc .big, .dlg b').forEach(el => animateCounterOnce(el, 650));
+    root.querySelectorAll('.stc .big, .dlg b, .wx-hero-temp').forEach(el => animateCounterOnce(el, 650));
   }
 
   /* Modo Dash (#v): isTvMode = false (Apenas Ignição de entrada, zero loop!) */
@@ -780,6 +729,12 @@ body.tv-mode #tv-stage { display: flex; }
       WX_STATE.silencedAlerts.add(ackBtn.dataset.wxAck);
       renderTvSlide(0);
     }
+    const subBtn = e.target.closest && e.target.closest('[data-wx-sub]');
+    if (subBtn) {
+      WX_STATE.subView = +subBtn.dataset.wxSub;
+      restartWxSubTimer();
+      renderTvSlide(0);
+    }
   });
 
   /* ==========================================================================
@@ -793,7 +748,7 @@ body.tv-mode #tv-stage { display: flex; }
   const tvSndBtn = document.getElementById('tv-snd');
   const DUR_KEY = 'torreTvDurMs_v1';
   const TOTAL_SLIDES = 6;
-  let tvSlide = 0, tvTimer = null, tvClockTimer = null, tvScrollTimer = null, tvPaused = false;
+  let tvSlide = 0, tvTimer = null, tvClockTimer = null, tvScrollTimer = null, wxSubTimer = null, tvPaused = false;
   let tvDurationMs = parseInt(localStorage.getItem(DUR_KEY) || '90000', 10) || 90000;
   if (tvDurSelect) tvDurSelect.value = String(tvDurationMs);
   if (tvSndBtn) {
@@ -803,6 +758,15 @@ body.tv-mode #tv-stage { display: flex; }
       try { localStorage.setItem('torreWxSound_v1', WX_STATE.soundEnabled ? '1' : '0'); } catch (e) {}
       tvSndBtn.textContent = WX_STATE.soundEnabled ? '🔊 Áudio' : '🔇 Mudo';
     };
+  }
+
+  function restartWxSubTimer() {
+    clearInterval(wxSubTimer);
+    wxSubTimer = setInterval(() => {
+      if (!document.body.classList.contains('tv-mode') || tvSlide !== 0 || tvPaused) return;
+      WX_STATE.subView = (WX_STATE.subView + 1) % 3;
+      renderTvSlide(0);
+    }, 12000); // Alterna suavemente as 3 vistas amplas da direita a cada 12s
   }
 
   const miniSpark = (ptsArr, color, w=72, h=20) => {
@@ -862,10 +826,10 @@ body.tv-mode #tv-stage { display: flex; }
     return `<span class="nyse-led">${s}</span><span style="color:${col};font-weight:700">${pctVal.toFixed(0)}%</span>`;
   };
 
-  /* GRÁFICO CENTRAL DE TELEMETRIA CLIMÁTICA 48H (Últimas 24h + Próximas 24h) */
-  const svgWeatherStockArea = (hLabs, temps, probs, nowIdx) => {
-    if (!hLabs || hLabs.length < 2) return '<div class="note">Aguardando resposta da API Open-Meteo...</div>';
-    const W = 720, H = 195, L = 46, R = 44, T = 22, B = 24, pw = W - L - R, ph = H - T - B, n = hLabs.length;
+  /* GRÁFICO PANORÂMICO LARGO (WIDESCREEN 900x260) DE TELEMETRIA CLIMÁTICA 48H */
+  const svgWeatherWideArea = (hLabs, temps, probs, nowIdx) => {
+    if (!hLabs || hLabs.length < 2) return '<div class="note">Sincronizando telemetria meteorológica...</div>';
+    const W = 900, H = 265, L = 52, R = 50, T = 28, B = 32, pw = W - L - R, ph = H - T - B, n = hLabs.length;
     const minT = Math.min(...temps) - 2, maxT = Math.max(...temps) + 2, rngT = Math.max(4, maxT - minT);
     const X = i => L + (i * pw) / (n - 1);
     const Yt = v => T + ph * (1 - (v - minT) / rngT);
@@ -876,8 +840,8 @@ body.tv-mode #tv-stage { display: flex; }
       const yy = T + ph * (1 - k / 4);
       const tVal = minT + (rngT / 4) * k, pVal = 25 * k;
       grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#24195c" stroke-dasharray="${k ? '3 4' : ''}"/>
-               <text x="${L - 6}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="9" font-family="monospace">${Math.round(tVal)}°C</text>
-               <text x="${W - R + 6}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#38bdf8" font-size="9" font-family="monospace">${pVal}%</text>`;
+               <text x="${L - 8}" y="${(yy + 4).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="10.5" font-weight="700" font-family="monospace">${Math.round(tVal)}°C</text>
+               <text x="${W - R + 8}" y="${(yy + 4).toFixed(1)}" text-anchor="start" fill="#38bdf8" font-size="10.5" font-weight="700" font-family="monospace">${pVal}%</text>`;
     }
 
     const ptsT = temps.map((v, i) => [X(i), Yt(v)]);
@@ -886,34 +850,49 @@ body.tv-mode #tv-stage { display: flex; }
     const y0 = T + ph;
     const areaTemp = `${dTemp} L${ptsT[n - 1][0].toFixed(1)},${y0.toFixed(1)} L${ptsT[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
 
-    const bw = Math.max(5, Math.min(14, (pw / n) * 0.55));
+    const bw = Math.max(8, Math.min(24, (pw / n) * 0.55));
     const probBars = probs.map((p, i) => {
       const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
       const bCol = p >= 60 ? '#ef4444' : p >= 35 ? '#facc15' : '#38bdf8';
-      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="1.5" fill="${bCol}" fill-opacity="0.32"/>`;
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${bCol}" fill-opacity="0.34"/>`;
     }).join('');
 
-    /* Linha divisória Passado (Últimas 24h) × Futuro (Próximas 24h) */
-    const nowX = nowIdx != null && nowIdx >= 0 ? X(nowIdx) : X(Math.floor(n / 2));
-    const nowDivider = `<line x1="${nowX.toFixed(1)}" x2="${nowX.toFixed(1)}" y1="${T}" y2="${y0}" stroke="#facc15" stroke-width="1.5" stroke-dasharray="3 3"/>
-                        <text x="${(nowX - 6).toFixed(1)}" y="${T + 10}" text-anchor="end" fill="#a79bd6" font-size="8.5" font-family="monospace">◀ ÚLTIMAS 24H</text>
-                        <text x="${(nowX + 6).toFixed(1)}" y="${T + 10}" text-anchor="start" fill="#facc15" font-weight="800" font-size="8.5" font-family="monospace">PRÓXIMAS 24H ▶</text>`;
+    let mxI = 0, mnI = 0;
+    temps.forEach((v, i) => { if (v > temps[mxI]) mxI = i; if (v < temps[mnI]) mnI = i; });
+    const pin = (idx, lb, col, up) => {
+      const px = X(idx), py = Yt(temps[idx]), by = up ? Math.max(16, py - 15) : Math.min(H - 36, py + 20);
+      const txt = `${lb} ${hLabs[idx]} · ${temps[idx].toFixed(1).replace('.', ',')}°C`;
+      const tw = txt.length * 6.2 + 16;
+      const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
+      return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.6" stroke-dasharray="2 3"/>
+              <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#08041c" stroke="${col}" stroke-width="2.6"/>
+              <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 12).toFixed(1)}" width="${tw.toFixed(1)}" height="18" rx="9" fill="#0d072cf0" stroke="${col}" stroke-width="1.3"/>
+              <text x="${bx.toFixed(1)}" y="${(by + 1).toFixed(1)}" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="800" font-family="monospace">${txt}</text>`;
+    };
 
-    const xLabs = hLabs.map((l, i) => i % 2 !== 0 && i !== nowIdx ? '' : `<text x="${X(i).toFixed(1)}" y="${H - 6}" text-anchor="middle" fill="${i === nowIdx ? '#facc15' : '#8f84c9'}" font-weight="${i === nowIdx ? '800' : '400'}" font-size="8.5" font-family="monospace">${l}</text>`).join('');
+    const nowX = nowIdx != null && nowIdx >= 0 ? X(nowIdx) : X(Math.floor(n / 2));
+    const nowDivider = `<line x1="${nowX.toFixed(1)}" x2="${nowX.toFixed(1)}" y1="${T}" y2="${y0}" stroke="#facc15" stroke-width="1.8" stroke-dasharray="4 3"/>
+                        <text x="${(nowX - 8).toFixed(1)}" y="${T + 11}" text-anchor="end" fill="#a79bd6" font-size="9.5" font-weight="700" font-family="monospace">◀ ÚLTIMAS 24H</text>
+                        <text x="${(nowX + 8).toFixed(1)}" y="${T + 11}" text-anchor="start" fill="#facc15" font-weight="800" font-size="9.5" font-family="monospace">PRÓXIMAS 24H ▶</text>`;
+
+    const xLabs = hLabs.map((l, i) => `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${i === nowIdx ? '#facc15' : '#a79bd6'}" font-weight="${i === nowIdx ? '800' : '500'}" font-size="10" font-family="monospace">${l}</text>`).join('');
 
     return `<svg viewBox="0 0 ${W} ${H}">
       <defs>
         <linearGradient id="wxAreaG" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.48"/>
-          <stop offset="65%" stop-color="#6366f1" stop-opacity="0.15"/>
+          <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.52"/>
+          <stop offset="65%" stop-color="#6366f1" stop-opacity="0.16"/>
           <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
         </linearGradient>
       </defs>
       ${grid}${probBars}
       <path d="${areaTemp}" fill="url(#wxAreaG)"/>
-      <path d="${dProb}" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3"/>
-      <path d="${dTemp}" fill="none" stroke="#22d3ee" stroke-width="2.8"/>
-      ${nowDivider}${xLabs}
+      <path d="${dProb}" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-dasharray="5 3"/>
+      <path d="${dTemp}" fill="none" stroke="#22d3ee" stroke-width="3.2"/>
+      ${nowDivider}
+      ${pin(mxI, '▲ MÁX', '#f97316', true)}
+      ${mnI !== mxI ? pin(mnI, '▼ MÍN', '#38bdf8', false) : ''}
+      ${xLabs}
     </svg>`;
   };
 
@@ -1113,7 +1092,7 @@ body.tv-mode #tv-stage { display: flex; }
     updateTicker(S);
 
     const titles = [
-      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, RADAR DOPPLER E RODOVIAS (CDG & 7 REGIÕES)',
+      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, RADAR DOPPLER E REGIÕES DE ENTREGA',
       '2/6 · VISÃO GERAL EXECUTIVA · PREGÃO OPERACIONAL',
       '3/6 · CARTEIRA DE PEDIDOS · VOLUMETRIA & RESTRIÇÕES',
       '4/6 · AGENDAMENTO & FROTA · OCUPAÇÃO E DOCAS',
@@ -1123,21 +1102,20 @@ body.tv-mode #tv-stage { display: flex; }
     if (tvSub) tvSub.textContent = titles[idx] + ' · REF. LOGÍSTICA ' + fdy(dia);
 
     /* ==========================================================================
-       SLIDE 0: CENTRO DE INTELIGÊNCIA METEOROLÓGICA E RODOVIÁRIA (10 BLOCOS)
+       SLIDE 0: CENTRO METEOROLÓGICO DINÂMICO (FIXO À ESQUERDA + 3 VISTAS AMPLAS À DIREITA)
        ========================================================================== */
     if (idx === 0) {
       const cdg = WX_STATE.regions['CDG'];
       const cur = cdg && cdg.current ? cdg.current : null;
       const hr  = cdg && cdg.hourly  ? cdg.hourly  : null;
-      const wNow = cur ? wmoInfo(cur.weather_code) : { ic: '📡', tx: WX_STATE.status, rk: 'AGUARDANDO', col: '#94a3b8', imp: 'Sincronizando telemetria...' };
+      const wNow = cur ? wmoInfo(cur.weather_code) : { ic: '📡', tx: WX_STATE.status, rk: 'AGUARDANDO', col: '#22d3ee', imp: 'Sincronizando telemetria...' };
 
       const updStr = WX_STATE.fetchedAt ? WX_STATE.fetchedAt.toLocaleTimeString('pt-BR') : '—';
       const refTimeStr = cur && cur.time ? cur.time.slice(11, 16) + ' (' + cur.time.slice(8, 10) + '/' + cur.time.slice(5, 7) + ')' : '—';
       const radStr = WX_STATE.radarTime ? WX_STATE.radarTime.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
 
-      /* Extrai 48h (Últimas 24h + Próximas 24h) em passos de 3h para o gráfico central */
       let hLabs = [], hTemps = [], hProbs = [], nowMarkerIdx = 8;
-      let maxProbNext24 = 0, maxCapeNext24 = 0;
+      let maxProbNext24 = 0, maxCapeNext24 = 0, maxTemp24 = 0, minTemp24 = 99;
       if (hr && hr.time) {
         const nowIsoHr = new Date().toISOString().slice(0, 13);
         let curIdx = hr.time.findIndex(t => t.slice(0, 13) >= nowIsoHr);
@@ -1147,31 +1125,33 @@ body.tv-mode #tv-stage { display: flex; }
           const i = Math.min(hr.time.length - 1, startIdx + k);
           if (Math.abs(i - curIdx) <= 1) nowMarkerIdx = hLabs.length;
           hLabs.push(hr.time[i].slice(11, 16));
-          hTemps.push(+hr.temperature_2m[i] || 0);
+          const tmp = +hr.temperature_2m[i] || 0;
+          hTemps.push(tmp);
           const prb = +hr.precipitation_probability[i] || 0;
           hProbs.push(prb);
           if (i >= curIdx && i <= curIdx + 24) {
             if (prb > maxProbNext24) maxProbNext24 = prb;
+            if (tmp > maxTemp24) maxTemp24 = tmp;
+            if (tmp < minTemp24) minTemp24 = tmp;
             const cp = +(hr.cape && hr.cape[i]) || 0;
             if (cp > maxCapeNext24) maxCapeNext24 = cp;
           }
         }
       }
 
-      /* Cruza as 7 Regiões de Viagem + CDG com a Carteira (Pedidos, Peso e Valor Líquido) */
+      /* Cruza as 8 Regiões com a Carteira */
       const regComparisonRows = POLOS_OPERACIONAIS.map(p => {
         const rData = WX_STATE.regions[p.id];
         const rCur  = rData && rData.current ? rData.current : null;
         const rDaily = rData && rData.daily ? rData.daily : null;
         const rHr   = rData && rData.hourly ? rData.hourly : null;
-        const w = rCur ? wmoInfo(rCur.weather_code) : { ic: '—', tx: 'Indisponível', rk: '—', col: '#64748b' };
+        const w = rCur ? wmoInfo(rCur.weather_code) : { ic: '—', tx: 'Sincronizando', rk: '—', col: '#64748b', imp: 'Aguardando' };
         const probMax = rDaily && rDaily.precipitation_probability_max ? (+rDaily.precipitation_probability_max[1] || 0) : 0;
         const mmSum   = rDaily && rDaily.precipitation_sum ? (+rDaily.precipitation_sum[1] || 0) : 0;
         const tMax    = rDaily && rDaily.temperature_2m_max ? (+rDaily.temperature_2m_max[1] || 0) : 0;
         const tMin    = rDaily && rDaily.temperature_2m_min ? (+rDaily.temperature_2m_min[1] || 0) : 0;
         const capeMax = rHr && rHr.cape ? Math.max(...rHr.cape.slice(24, 48).map(v => +v || 0)) : 0;
 
-        /* Filtra pedidos reais na carteira para os municípios configurados desta região */
         const pedsReg = C.filter(o => p.munis.includes(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
         return {
           polo: p, cur: rCur, w, probMax, mmSum, tMax, tMin, capeMax,
@@ -1181,29 +1161,30 @@ body.tv-mode #tv-stage { display: flex; }
         };
       });
 
-      /* GERAÇÃO DE ALERTAS INTELIGENTES (DIFERENCIANDO PREVISÃO / RISCO TORRE / PARÂMETRO DEFESA CIVIL) */
+      /* Geração de Alertas Preventivos e Defesa Civil */
       const activeAlerts = [];
       if (WX_STATE.status !== 'ONLINE') {
-        activeAlerts.push({ id: 'API_OFF', type: 'TORRE', sev: 'ATENÇÃO', col: '#facc15', msg: `Fonte meteorológica ${WX_STATE.status}. Exibindo último estado conhecido ou aguardando rede.` });
+        activeAlerts.push({ id: 'API_OFF', type: 'SISTEMA TORRE', sev: 'ATENÇÃO', col: '#facc15', reg: 'CDG Guarulhos', msg: `Fonte meteorológica ${WX_STATE.status}. Verificando reconexão automática.` });
       }
-      if (maxProbNext24 >= 50 && (P.length > 0 || D.length > 0)) {
+      if (maxProbNext24 >= 45 && (P.length > 0 || D.length > 0)) {
         activeAlerts.push({
           id: 'PATIO_RAIN_' + dia,
-          type: 'TORRE',
-          sev: maxProbNext24 >= 75 ? 'CRÍTICO' : 'ALERTA',
-          col: maxProbNext24 >= 75 ? '#ef4444' : '#f97316',
-          msg: `RISCO DE CHUVA DURANTE A EXPEDIÇÃO (${maxProbNext24}% no CDG) — VERIFICAR MATERIAIS EXPOSTOS NO PÁTIO (${P.length} cargas / ${D.length} etiquetas ZW14).`
+          type: 'RISCO OPERACIONAL TORRE',
+          sev: maxProbNext24 >= 70 ? 'CRÍTICO' : 'ALERTA',
+          col: maxProbNext24 >= 70 ? '#ef4444' : '#f97316',
+          reg: 'Pátio & Docas CDG',
+          msg: `RISCO DE CHUVA DURANTE A EXPEDIÇÃO (${maxProbNext24}% previsto no CDG) — Verificar proteção de materiais no pátio e docas (${P.length} cargas / ${n0(D.length)} etiquetas ZW14).`
         });
       }
       regComparisonRows.forEach(r => {
-        if (r.id === 'CDG') return;
-        if ((r.probMax >= 65 || r.mmSum >= 10) && r.pedCount > 0) {
+        if (r.polo.id !== 'CDG' && (r.probMax >= 60 || r.mmSum >= 8) && r.pedCount > 0) {
           activeAlerts.push({
             id: 'EXP_REG_' + r.polo.id,
-            type: 'TORRE',
+            type: 'RISCO ROTA / VIAGEM',
             sev: r.mmSum >= 20 ? 'CRÍTICO' : 'ALERTA',
             col: r.mmSum >= 20 ? '#ef4444' : '#f97316',
-            msg: `Exposição na região ${r.polo.nome}: ${r.w.tx} (${r.probMax}% · ${r.mmSum.toFixed(1)}mm) com ${r.pedCount} pedidos na carteira (${fw(r.pesoKg)} · ${RSc(r.valLiq)}).`
+            reg: r.polo.nome,
+            msg: `Previsão de ${r.w.tx} (${r.probMax}% · ${r.mmSum.toFixed(1)}mm) com ${r.pedCount} pedidos programados na carteira (${fw(r.pesoKg)} · ${RSc(r.valLiq)}).`
           });
         }
         if (r.capeMax >= 1200 || (r.cur && +r.cur.wind_gusts_10m >= 55) || r.mmSum >= 25) {
@@ -1212,16 +1193,16 @@ body.tv-mode #tv-stage { display: flex; }
             type: 'DEFESA CIVIL / INMET (LIMIAR SEVERO)',
             sev: 'CRÍTICO',
             col: '#ef4444',
-            msg: `${r.polo.nome}: Condição atmosférica severa detectada (CAPE ${Math.round(r.capeMax)} J/kg · Vento máx ${r.cur ? Math.round(r.cur.wind_gusts_10m) : '—'} km/h ·Acum. ${r.mmSum.toFixed(1)}mm).`
+            reg: r.polo.nome,
+            msg: `Condição atmosférica severa detectada na microrregião (CAPE ${Math.round(r.capeMax)} J/kg · Rajada máx ${r.cur ? Math.round(r.cur.wind_gusts_10m) : '—'} km/h · Acum. ${r.mmSum.toFixed(1)}mm).`
           });
         }
       });
 
-      /* Toca som discreto se houver alerta crítico não silenciado */
       const unackCritWx = activeAlerts.filter(a => a.sev === 'CRÍTICO' && !WX_STATE.silencedAlerts.has(a.id));
       if (unackCritWx.length > 0) playWxAlertTone(true);
 
-      /* Condição por Turno no Pátio e Docas CDG (Rodapé) */
+      /* Turnos do Pátio CDG */
       const shiftDefs = [
         ['🌙 MADRUGADA (00h–06h)', [24,25,26,27,28,29], '3º Turno · Pátio e Fechamento'],
         ['☀️ 1º TURNO MANHÃ (06h–12h)', [30,31,32,33,34,35], 'Recebimento de Frota e Separação'],
@@ -1240,167 +1221,192 @@ body.tv-mode #tv-stage { display: flex; }
         const info = wmoInfo(wCode);
         return `<div class="nyse-wk-card" style="border-top-color:${pMax >= 60 ? '#ef4444' : pMax >= 35 ? '#facc15' : '#22c55e'}">
           <div class="nyse-wk-hd"><span>${title}</span><span style="color:${info.col}">${pMax >= 50 ? '⚠️ RISCO PÁTIO' : '● DOCA SECA'}</span></div>
-          <div class="nyse-wk-val" style="color:${info.col}">${tAvg != null ? info.ic + ' ' + tAvg.toFixed(1).replace('.', ',') + '°C' : '—'} <small style="font-size:11.5px;color:#ece8ff">· ☔ ${pMax}% chuva</small></div>
+          <div class="nyse-wk-val" style="color:${info.col}">${tAvg != null ? info.ic + ' ' + tAvg.toFixed(1).replace('.', ',') + '°C' : '—'} <small style="font-size:12px;color:#ece8ff">· ☔ ${pMax}% chuva</small></div>
           <div class="nyse-wk-meta">${desc}</div>
           <div class="nyse-wk-nf"><b style="color:${info.col}">${pMax >= 50 ? 'Verificar materiais expostos no pátio' : info.imp}</b></div>
         </div>`;
       }).join('');
 
-      tvCanvas.innerHTML = `
-        <!-- BARRA TÉCNICA DE RASTREABILIDADE DE FONTES E CONEXÃO -->
-        <div class="wx-meta-strip">
-          <span class="wx-badge ${WX_STATE.status === 'ONLINE' ? 'wx-b-ok' : 'wx-b-torre'}">CONEXÃO: ${WX_STATE.status}</span>
-          <span><b>FONTE CLIMA:</b> ${WX_STATE.source}</span>
-          <span>· <b>ÚLTIMA ATUALIZAÇÃO:</b> ${updStr}</span>
-          <span>· <b>REF. MEDIÇÃO:</b> ${refTimeStr}</span>
-          <span>· <b>RADAR DOPPLER:</b> ${WX_STATE.radarSource} (${WX_STATE.radarStatus} · ${radStr})</span>
-          <span>· <b>RODOVIAS:</b> ${WX_STATE.trafficSource}</span>
-        </div>
+      /* CONTEÚDO DINÂMICO DA COLUNA DIREITA PANORÂMICA (ALTERNA ENTRE AS 3 VISTAS AMPLAS) */
+      let rightWideHtml = '';
 
-        <!-- LINHA SUPERIOR DO CENTRO DE INTELIGÊNCIA (3 COLUNAS) -->
-        <div class="tv-row" style="grid-template-columns: 1.1fr 1.45fr 1.35fr; flex: 1.05; min-height: 0">
-          
-          <!-- BLOCO 1 & 2: INSTRUMENTOS ANALÓGICOS ANOS 60 CDG + RADAR METEOROLÓGICO DOPPLER SP -->
-          <div style="display:flex;flex-direction:column;gap:8px;min-height:0">
-            <div class="tv-card" style="flex:0.95">
-              <div class="tv-card-title">🎛️ INSTRUMENTAÇÃO CDG GUARULHOS (ANOS 60) <span>CEP 07030-071 · Medição de Superfície</span></div>
-              <div style="display:grid;grid-template-columns:auto auto 1fr;gap:8px;align-items:center;flex:1">
-                ${svgAnalogBarometer(cur ? cur.surface_pressure : null)}
-                ${svgAnalogWindCompass(cur ? cur.wind_direction_10m : 0, cur ? cur.wind_speed_10m : null, cur ? cur.wind_gusts_10m : null)}
-                <div style="display:flex;flex-direction:column;gap:4px">
-                  <div class="nyse-idx-box" style="--ic:${wNow.col};padding:4px 8px">
-                    <small>TEMP. &amp; SENSAÇÃO</small>
-                    <b>${cur ? wNow.ic + ' ' + (+cur.temperature_2m).toFixed(1).replace('.', ',') + '°C' : '—'}</b>
-                    <span>Sensação: ${cur ? (+cur.apparent_temperature).toFixed(1).replace('.', ',') + '°C' : '—'} · Umid: ${cur ? cur.relative_humidity_2m + '%' : '—'}</span>
-                  </div>
-                  <div class="nyse-idx-box" style="--ic:#38bdf8;padding:4px 8px">
-                    <small>PRECIPITAÇÃO &amp; RAJADA</small>
-                    <b>☔ ${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'} · 💨 ${cur ? Math.round(cur.wind_gusts_10m) + ' km/h' : '—'}</b>
-                    <span>CAPE Tempestade: <b>${Math.round(maxCapeNext24)} J/kg</b></span>
-                  </div>
-                </div>
+      if (WX_STATE.subView === 0) {
+        /* VISTA A: TELEMETRIA PANORÂMICA 48H (WIDESCREEN) + TURNOS DE DOCA */
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.35">
+            <div class="tv-card-title">
+              📈 TELEMETRIA CLIMÁTICA PANORÂMICA CDG · ÚLTIMAS 24H + PREVISÃO PRÓXIMAS 24H
+              <div class="tv-legend">
+                <span><i style="background:#22d3ee"></i>Curva = Temperatura (°C)</span>
+                <span><i style="background:#38bdf8"></i>Barras/Linha = Probabilidade de Chuva (%)</span>
               </div>
             </div>
-
-            <div class="tv-card" style="flex:1.05">
-              <div class="tv-card-title">📡 RADAR METEOROLÓGICO DOPPLER · GRANDE SP &amp; INTERIOR <span>Movimentação de células (${radStr})</span></div>
-              <div class="tv-chart-box">${svgDopplerRadarSP()}</div>
+            <div class="tv-chart-box">${svgWeatherWideArea(hLabs, hTemps, hProbs, nowMarkerIdx)}</div>
+            <div class="nyse-hl-grid">
+              <div class="nyse-hl-card">
+                <div class="hl-metric">🌡️ EXTREMOS 24H (CDG)</div>
+                <div class="nyse-hl-row"><span class="tv-up">▲ MÁXIMA</span><b style="color:#f97316">${maxTemp24 ? maxTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">▼ MÍNIMA</span><b style="color:#38bdf8">${minTemp24 < 90 ? minTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+              </div>
+              <div class="nyse-hl-card">
+                <div class="hl-metric">☔ PROBABILIDADE DE CHUVA</div>
+                <div class="nyse-hl-row"><span class="tv-dn">▲ PICO 24H</span><b style="color:${maxProbNext24 >= 50 ? '#ef4444' : '#22d3ee'}">${maxProbNext24}%</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">PRECIP. AGORA</span><b style="color:#ece8ff">${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'}</b></div>
+              </div>
+              <div class="nyse-hl-card">
+                <div class="hl-metric">⚡ ENERGIA TEMPESTADE (CAPE)</div>
+                <div class="nyse-hl-row"><span class="tv-up">▲ PICO 24H</span><b style="color:${maxCapeNext24 >= 1200 ? '#ef4444' : '#4ade80'}">${Math.round(maxCapeNext24)} J/kg</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">PRESSÃO SUP.</span><b style="color:#ece8ff">${cur ? Math.round(cur.surface_pressure) + ' hPa' : '—'}</b></div>
+              </div>
+              <div class="nyse-hl-card">
+                <div class="hl-metric">🚛 EXPOSIÇÃO EXPEDIÇÃO HOJE</div>
+                <div class="nyse-hl-row"><span class="tv-up">PROGRAMADO</span><b style="color:#f59e0b">${n0(P.length)} cargas (${fw(S.pk)})</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">VALOR ZS34</span><b style="color:#4ade80">${RS(S.val)}</b></div>
+              </div>
             </div>
           </div>
-
-          <!-- BLOCO 3, 4, 7 & 10: TELEMETRIA 48H (PASSADO + FUTURO) + CENTRAL DE ALERTAS E DEFESA CIVIL -->
-          <div style="display:flex;flex-direction:column;gap:8px;min-height:0">
-            <div class="tv-card" style="flex:1.1">
-              <div class="tv-card-title">
-                📈 TELEMETRIA CDG: ÚLTIMAS 24H + PREVISÃO PRÓXIMAS 24H
-                <div class="tv-legend">
-                  <span><i style="background:#22d3ee"></i>Temp (°C)</span>
-                  <span><i style="background:#38bdf8"></i>Prob. Chuva (%)</span>
-                </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      } else if (WX_STATE.subView === 1) {
+        /* VISTA B: CENTRAL DE ALERTAS DA DEFESA CIVIL E EXPOSIÇÃO DE PÁTIO (TELA LARGA SEM APERTO) */
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.45">
+            <div class="tv-card-title">
+              🚨 CENTRAL DE ALERTAS PREVENTIVOS, RISCO DE PÁTIO E PARÂMETROS DEFESA CIVIL (${activeAlerts.length})
+              <div style="display:flex;gap:6px">
+                <span class="wx-badge wx-b-prev">PREVISÃO MODELO</span>
+                <span class="wx-badge wx-b-torre">RISCO CALCULADO TORRE</span>
+                <span class="wx-badge wx-b-gov">LIMIAR SEVERO / DEFESA CIVIL</span>
               </div>
-              <div class="tv-chart-box">${svgWeatherStockArea(hLabs, hTemps, hProbs, nowMarkerIdx)}</div>
             </div>
-
-            <div class="tv-card" style="flex:0.9">
-              <div class="tv-card-title">
-                🚨 CENTRAL DE ALERTAS PREVENTIVOS &amp; PARÂMETROS DEFESA CIVIL
-                <span><span class="wx-badge wx-b-prev">PREVISÃO</span> <span class="wx-badge wx-b-torre">RISCO TORRE</span> <span class="wx-badge wx-b-gov">SEVERO/GOV</span></span>
-              </div>
-              <div class="wx-alert-list">
-                ${activeAlerts.length ? activeAlerts.map(a => {
-                  const isAck = WX_STATE.silencedAlerts.has(a.id);
-                  return `<div class="wx-alert-item" style="--ac:${a.col};opacity:${isAck ? 0.55 : 1}">
+            <div class="wx-alert-wide-list">
+              ${activeAlerts.length ? activeAlerts.map(a => {
+                const isAck = WX_STATE.silencedAlerts.has(a.id);
+                return `<div class="wx-alert-card" style="--ac:${a.col};opacity:${isAck ? 0.55 : 1}">
+                  <div class="wx-alert-card-hd">
+                    <span class="wx-badge" style="background:${a.col}">${a.type} · ${a.sev}</span>
+                    <b style="color:#22d3ee;font-size:11.5px;font-family:monospace">📍 ${escH(a.reg)}</b>
+                  </div>
+                  <div class="wx-alert-card-msg">${escH(a.msg)}</div>
+                  <div class="wx-alert-card-ft">
+                    <span>Ref: ${refTimeStr} · Monitoramento ativo</span>
+                    <button class="wx-ack-btn" data-wx-ack="${a.id}">${isAck ? '🔇 Alerta Silenciado' : '✔ Reconhecer / Silenciar'}</button>
+                  </div>
+                </div>`;
+              }).join('') : `<div class="wx-alert-card" style="--ac:#22c55e;grid-column:1/-1">
+                <div class="wx-alert-card-hd"><span class="wx-badge wx-b-ok">OPERAÇÃO NORMAL</span></div>
+                <div class="wx-alert-card-msg">Nenhum alerta meteorológico severo ou risco iminente de pátio/expedição identificado nas 8 regiões monitoradas.</div>
+              </div>`}
+            </div>
+          </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      } else {
+        /* VISTA C: MATRIZ DE CARTÕES DAS 8 MICRORREGIÕES × CARTEIRA (AMPLA E ESPAÇOSA) */
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1;justify-content:space-between">
+            <div class="tv-card-title">
+              🗺️ MONITORAMENTO REGIONAL DE VIAGENS × EXPOSIÇÃO DA CARTEIRA (8 POLOS OPERACIONAIS)
+              <span>Cruzamento em tempo real entre clima regional e pedidos ativos por município</span>
+            </div>
+            <div class="wx-reg-grid">
+              ${regComparisonRows.map(r => {
+                const isBase = r.polo.id === 'CDG';
+                const tNow = r.cur ? (+r.cur.temperature_2m).toFixed(1).replace('.', ',') + '°C' : '—';
+                const sens = r.cur ? (+r.cur.apparent_temperature).toFixed(1).replace('.', ',') + '°C' : '—';
+                const umid = r.cur ? r.cur.relative_humidity_2m + '%' : '—';
+                const wind = r.cur ? `${Math.round(r.cur.wind_speed_10m)}/${Math.round(r.cur.wind_gusts_10m)}km/h ${degToCard(r.cur.wind_direction_10m)}` : '—';
+                return `<div class="wx-reg-card ${isBase ? 'is-base' : ''}" style="--rc:${r.w.col}">
+                  <div class="wx-reg-hd">
                     <div>
-                      <span class="wx-badge" style="background:${a.col}">${a.type} · ${a.sev}</span>
-                      <b style="margin-left:5px">${escH(a.msg)}</b>
+                      <div class="wx-reg-name">${isBase ? '🏭 ' : '📍 '}${r.polo.nome}</div>
+                      <small style="color:${r.w.col};font-weight:700;font-size:10.5px">${r.w.ic} ${r.w.tx}</small>
                     </div>
-                    <button class="wx-ack-btn" data-wx-ack="${a.id}">${isAck ? '🔇 Silenciado' : '✔ Silenciar'}</button>
-                  </div>`;
-                }).join('') : `<div class="wx-alert-item" style="--ac:#22c55e">
-                  <div><span class="wx-badge wx-b-ok">NORMAL</span> <b style="margin-left:5px">Nenhum alerta meteorológico severo ou risco iminente de pátio/expedição nas 8 regiões monitoradas.</b></div>
-                </div>`}
-              </div>
+                    <span class="wx-badge" style="background:${r.probMax >= 60 ? '#ef4444' : r.probMax >= 35 ? '#d97706' : '#1e293b'}">☔ ${r.probMax}%</span>
+                  </div>
+                  <div class="wx-reg-big">
+                    <div class="wx-reg-temp">${tNow}</div>
+                    <div style="text-align:right;font-size:10.5px;color:#a79bd6;font-family:monospace">
+                      <div>Máx <b style="color:#f97316">${Math.round(r.tMax)}°</b> / Mín <b style="color:#38bdf8">${Math.round(r.tMin)}°</b></div>
+                      <div>Sensação: <b>${sens}</b></div>
+                    </div>
+                  </div>
+                  <div class="wx-reg-meta">
+                    <span>💧 Umid: <b style="color:#fff">${umid}</b></span>
+                    <span>🌧️ Acum: <b style="color:#fff">${r.mmSum.toFixed(1)}mm</b></span>
+                    <span style="grid-column:1/-1">💨 Vento/Raj: <b style="color:#fff">${wind}</b></span>
+                  </div>
+                  <div class="wx-reg-cart">
+                    ${isBase
+                      ? `<span>Expedição CDG:</span><b style="color:#facc15">${n0(P.length)} cargas · ${fw(S.pk)}</b>`
+                      : `<span>Carteira Região:</span><b style="color:${r.pedCount > 0 ? '#38bdf8' : '#64748b'}">${n0(r.pedCount)} ped · ${fw(r.pesoKg)}</b>`
+                    }
+                  </div>
+                </div>`;
+              }).join('')}
             </div>
+          </div>`;
+      }
+
+      tvCanvas.innerHTML = `
+        <!-- BARRA SUPERIOR DE RASTREABILIDADE + SELETOR DO SUB-CARROSSEL METEOROLÓGICO -->
+        <div class="wx-top-bar">
+          <div class="wx-meta-info">
+            <span class="wx-badge ${WX_STATE.status === 'ONLINE' ? 'wx-b-ok' : 'wx-b-torre'}">● ${WX_STATE.status}</span>
+            <span><b>FONTE:</b> ${WX_STATE.source}</span>
+            <span>· <b>ATUALIZADO:</b> ${updStr} (Medição ${refTimeStr})</span>
+            <span>· <b>RADAR:</b> ${WX_STATE.radarSource} (${WX_STATE.radarStatus} · ${radStr})</span>
           </div>
-
-          <!-- BLOCO 6 & 8: COMPARATIVO DAS 7 REGIÕES DE ENTREGA + MONITORAMENTO DAS RODOVIAS -->
-          <div style="display:flex;flex-direction:column;gap:8px;min-height:0">
-            <div class="tv-card" style="flex:1.05">
-              <div class="tv-card-title">🗺️ COMPARATIVO DAS REGIÕES DE VIAGEM × CARTEIRA <span>8 Polos em Tempo Real</span></div>
-              <div class="nyse-board-wrap">
-                <table class="nyse-table">
-                  <thead>
-                    <tr>
-                      <th>REGIÃO / POLO</th>
-                      <th style="text-align:left">CLIMA ATUAL</th>
-                      <th>TEMP (MÁX/MÍN)</th>
-                      <th>CHUVA 24H</th>
-                      <th>VENTO/RAJ.</th>
-                      <th>EXPOSIÇÃO CARTEIRA</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${regComparisonRows.map(r => {
-                      const tNow = r.cur ? (+r.cur.temperature_2m).toFixed(1).replace('.', ',') + '°C' : '—';
-                      const windTxt = r.cur ? `${Math.round(r.cur.wind_speed_10m)}/${Math.round(r.cur.wind_gusts_10m)}km/h ${degToCard(r.cur.wind_direction_10m)}` : '—';
-                      const expTxt = r.polo.id === 'CDG'
-                        ? `<b style="color:#f59e0b">${n0(P.length)} carg</b> · ${fw(S.pk)}`
-                        : r.pedCount > 0
-                        ? `<b style="color:#38bdf8">${r.pedCount} ped</b> · ${fw(r.pesoKg)}`
-                        : `<span style="color:#64748b">0 ped</span>`;
-                      return `<tr class="${r.polo.id === 'CDG' ? 'cur-day' : ''}">
-                        <td>${r.polo.nome}</td>
-                        <td style="text-align:left">${r.w.ic} <b style="color:${r.w.col}">${r.w.tx}</b></td>
-                        <td><b>${tNow}</b> <small style="color:#a79bd6">(${Math.round(r.tMax)}°/${Math.round(r.tMin)}°)</small></td>
-                        <td style="color:${r.probMax >= 50 ? '#fb7185' : '#22d3ee'};font-weight:700">${r.probMax}% <small style="color:#a79bd6">(${r.mmSum.toFixed(1)}mm)</small></td>
-                        <td>${windTxt}</td>
-                        <td>${expTxt}</td>
-                      </tr>`;
-                    }).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="tv-card" style="flex:0.95">
-              <div class="tv-card-title">🛣️ MONITORAMENTO RODOVIÁRIO · CLIMA NOS EIXOS &amp; TRÁFEGO <span>Dutra, A. Senna, Bandeirantes, Fernão, Castello e Régis</span></div>
-              <div class="nyse-board-wrap">
-                <table class="nyse-table">
-                  <thead>
-                    <tr>
-                      <th>RODOVIA / SENTIDO</th>
-                      <th style="text-align:left">TRECHO LOGÍSTICO</th>
-                      <th style="text-align:left">CLIMA NO EIXO (REAL)</th>
-                      <th>VENTO PISTA</th>
-                      <th>TELEMETRIA TRÁFEGO</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${EIXOS_RODOVIARIOS.map(hw => {
-                      const pObjs = hw.polos.map(pid => WX_STATE.regions[pid]).filter(Boolean);
-                      const worstCode = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.weather_code) || 0)) : null;
-                      const maxGust   = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.wind_gusts_10m) || 0)) : null;
-                      const wHw = worstCode != null ? wmoInfo(worstCode) : { ic: '—', tx: 'Indisp.', col: '#64748b' };
-                      const trfStatus = window.TORRE_TOMTOM_KEY
-                        ? `<span class="tv-up">● TOMTOM ONLINE</span>`
-                        : `<span style="color:#94a3b8" title="Adicione window.TORRE_TOMTOM_KEY no config.js para fluxo ao vivo">SEM API TRÁFEGO</span>`;
-                      return `<tr>
-                        <td><b>${hw.nome}</b></td>
-                        <td style="text-align:left;color:#a79bd6">${hw.trecho}</td>
-                        <td style="text-align:left">${wHw.ic} <b style="color:${wHw.col}">${wHw.tx}</b></td>
-                        <td style="color:${maxGust >= 50 ? '#fb7185' : '#ece8ff'}">${maxGust != null ? Math.round(maxGust) + ' km/h' : '—'}</td>
-                        <td>${trfStatus}</td>
-                      </tr>`;
-                    }).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="wx-sub-tabs">
+            <button class="wx-sub-btn ${WX_STATE.subView === 0 ? 'on' : ''}" data-wx-sub="0">📈 1. Telemetria 48h &amp; Turnos</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 1 ? 'on' : ''}" data-wx-sub="1">🚨 2. Alertas &amp; Defesa Civil (${activeAlerts.length})</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 2 ? 'on' : ''}" data-wx-sub="2">🗺️ 3. Microrregiões &amp; Carteira (8)</button>
           </div>
         </div>
 
-        <!-- BLOCO 9: CONDIÇÃO CLIMÁTICA DO PÁTIO E DOCAS POR TURNO (RODAPÉ) -->
-        <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+        <!-- CORPO PRINCIPAL: COLUNA ESQUERDA FIXA (CDG HERO + RADAR QUADRADO) + DIREITA PANORÂMICA -->
+        <div class="tv-row" style="grid-template-columns: 380px 1fr; flex: 1; min-height: 0">
+          
+          <!-- COLUNA ESQUERDA FIXA: TEMPERATURA GIGANTE DO CDG GUARULHOS + RADAR DOPPLER QUADRADO -->
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+            <div class="tv-card" style="flex-shrink:0">
+              <div class="tv-card-title">🌡️ CLIMA ATUAL · CDG GUARULHOS <span>CEP 07030-071</span></div>
+              <div class="wx-hero-box" style="--hc:${wNow.col}">
+                <div>
+                  <div class="wx-hero-temp">${cur ? (+cur.temperature_2m).toFixed(1).replace('.', ',') + '°C' : '—'}</div>
+                  <div class="wx-hero-cond">${wNow.ic} ${wNow.tx}</div>
+                  <div class="wx-hero-sub">Sensação térmica: <b>${cur ? (+cur.apparent_temperature).toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+                </div>
+                <div style="text-align:right;font-family:ui-monospace,monospace;font-size:12px;color:#a79bd6;display:flex;flex-direction:column;gap:4px">
+                  <div>Máx <b style="color:#f97316">${maxTemp24 ? Math.round(maxTemp24) + '°C' : '—'}</b></div>
+                  <div>Mín <b style="color:#38bdf8">${minTemp24 < 90 ? Math.round(minTemp24) + '°C' : '—'}</b></div>
+                  <div>Umid <b style="color:#22d3ee">${cur ? cur.relative_humidity_2m + '%' : '—'}</b></div>
+                </div>
+              </div>
+              <div class="nyse-idx-grid">
+                <div class="nyse-idx-box" style="--ic:#38bdf8">
+                  <small>PRECIPITAÇÃO &amp; CHUVA 24H</small>
+                  <b>☔ ${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'} (${maxProbNext24}%)</b>
+                  <span>${wNow.imp}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#a855f7">
+                  <small>VENTO &amp; RAJADAS</small>
+                  <b>💨 ${cur ? Math.round(cur.wind_speed_10m) + ' km/h ' + degToCard(cur.wind_direction_10m) : '—'}</b>
+                  <span>Rajadas até <b>${cur ? Math.round(cur.wind_gusts_10m) + ' km/h' : '—'}</b> · ${cur ? Math.round(cur.surface_pressure) + ' hPa' : ''}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- RADAR METEOROLÓGICO EM CAMPO QUADRADO PERFEITO (SEM ESPREMER) -->
+            <div class="tv-card" style="flex:1;align-items:center;justify-content:space-between">
+              <div class="tv-card-title" style="width:100%">📡 RADAR DOPPLER · REGIÕES SP <span>${radStr}</span></div>
+              <div class="tv-chart-box">${svgDopplerRadarSquare()}</div>
+            </div>
+          </div>
+
+          <!-- COLUNA DIREITA PANORÂMICA (ALTERNA DINAMICAMENTE ENTRE TELEMETRIA, ALERTAS E REGIÕES) -->
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+            ${rightWideHtml}
+          </div>
+        </div>`;
 
       igniteAutomotiveGauges(tvCanvas, true);
       return;
@@ -1851,6 +1857,7 @@ body.tv-mode #tv-stage { display: flex; }
     tickClock();
     tvClockTimer = setInterval(tickClock, 1000);
     restartSlideInterval();
+    restartWxSubTimer();
   }
 
   if (tvDurSelect) {
@@ -1868,6 +1875,7 @@ body.tv-mode #tv-stage { display: flex; }
         document.documentElement.requestFullscreen().catch(() => {});
       }
       tvPaused = false;
+      WX_STATE.subView = 0;
       if (btnPause) btnPause.innerHTML = '⏸️ Pausar';
       fetchMultiRegionTelemetry();
       goToSlide(0);
@@ -1876,7 +1884,7 @@ body.tv-mode #tv-stage { display: flex; }
       if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
       }
-      clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvScrollTimer);
+      clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvScrollTimer); clearInterval(wxSubTimer);
       if (typeof draw === 'function') draw();
     }
   }
