@@ -1,6 +1,6 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Torre de Controle Logística</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#150b3a">
+<meta name="theme-color" content="#0b181f">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -32,7 +32,6 @@
 <div class="shell">
 <aside class="side" id="side"><nav class="tabs" id="tabs">
   <button data-t="ov"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Visão geral</span></button>
-  <button data-t="pa" id="tab-btn-pa"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Pendências que Exigem Ação</span></button>
   <button data-t="ct"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span>Carteira</span></button>
   <button data-t="ag"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Agendamento</span></button>
   <button data-t="ex"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l6 4V9l6 4V5h6v16z"/></svg><span>Status operacional</span></button>
@@ -80,11 +79,10 @@
     <b>MONITORAMENTO TV</b>
     <button class="tv-tab on" data-tv="0">1. Clima &amp; Rodovias</button>
     <button class="tv-tab" data-tv="1">2. Visão Geral</button>
-    <button class="tv-tab" data-tv="2">3. Pendências de Ação</button>
-    <button class="tv-tab" data-tv="3">4. Carteira</button>
-    <button class="tv-tab" data-tv="4">5. Agendamento</button>
-    <button class="tv-tab" data-tv="5">6. Status Operacional</button>
-    <button class="tv-tab" data-tv="6">7. Expedição &amp; Outbound</button>
+    <button class="tv-tab" data-tv="3">3. Carteira</button>
+    <button class="tv-tab" data-tv="4">4. Agendamento</button>
+    <button class="tv-tab" data-tv="5">5. Status Operacional</button>
+    <button class="tv-tab" data-tv="6">6. Expedição &amp; Outbound</button>
     <button id="tv-snd" title="Ativar/Desativar alertas sonoros">🔊 Áudio</button>
     <label class="tv-dur-lbl" title="Configurar tempo de exibição de cada tela">
       ⏱️
@@ -106,27 +104,28 @@
    DESIGN SYSTEM UNIFICADO — TOKENS E PADRONIZAÇÃO SISTÊMICA DA TORRE
    ========================================================================== */
 :root {
-  --tc-bg-deep: #070419;
-  --tc-bg-panel: #130c34;
-  --tc-bg-card: #160d3d;
-  --tc-border: #2b1d63;
-  --tc-border-hi: #3b2885;
+  --tc-bg-deep: #040a0d;
+  --tc-bg-panel: #0b161c;
+  --tc-bg-card: #0c1a20;
+  --tc-border: #182b35;
+  --tc-border-hi: #203a47;
   --tc-cyan: #22d3ee;
   --tc-green: #22c55e;
   --tc-green-hi: #4ade80;
   --tc-yellow: #facc15;
   --tc-orange: #f97316;
   --tc-red: #ef4444;
-  --tc-purple: #a855f7;
-  --tc-text: #ece8ff;
-  --tc-muted: #a79bd6;
+  --tc-purple: #2dd4bf;
+  --tc-text: #e8f1f5;
+  --tc-muted: #a4bcc8;
   --tc-radius-lg: 14px;
   --tc-radius-md: 10px;
   --tc-font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 
-.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#120b34;border:1px solid var(--tc-border-hi);border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:var(--tc-cyan);font-weight:800}
-.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:var(--tc-bg-panel);border:1px solid var(--tc-border-hi);border-radius:var(--tc-radius-lg);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:var(--tc-cyan);letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#120b34;border:1px solid var(--tc-border-hi);border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+:root,body{--mu:#8fb0c0;--tx:#e6f4f8}
+.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#0a161c;border:1px solid var(--tc-border-hi);border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:var(--tc-cyan);font-weight:800}
+.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:var(--tc-bg-panel);border:1px solid var(--tc-border-hi);border-radius:var(--tc-radius-lg);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:var(--tc-cyan);letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#0a161c;border:1px solid var(--tc-border-hi);border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
 .ars, .chx svg, .rsv, .tv-ring-svg { overflow: visible !important; }
 .cd, .gx > .cd { overflow: visible !important; }
@@ -136,16 +135,16 @@
    NOVA GUIA: PENDÊNCIAS QUE EXIGEM AÇÃO (LAYOUT GERENCIAL POR PILARES)
    ========================================================================== */
 .pa-sec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; margin-top: 10px; }
-.pa-pillar { background: linear-gradient(180deg, rgba(22, 13, 61, 0.94), rgba(11, 6, 32, 0.96)); border: 1px solid var(--tc-border-hi); border-top: 3px solid var(--pc, var(--tc-cyan)); border-radius: var(--tc-radius-lg); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 8px 26px #0009; }
-.pa-pillar-hd { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #26195c; padding-bottom: 6px; }
+.pa-pillar { background: linear-gradient(180deg, rgba(12, 26, 32, 0.94), rgba(6, 13, 17, 0.96)); border: 1px solid var(--tc-border-hi); border-top: 3px solid var(--pc, var(--tc-cyan)); border-radius: var(--tc-radius-lg); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 8px 26px #0009; }
+.pa-pillar-hd { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #152831; padding-bottom: 6px; }
 .pa-pillar-title { font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--pc, var(--tc-cyan)); display: flex; align-items: center; gap: 6px; }
-.pa-card { background: linear-gradient(145deg, #180f42, #0e0829); border: 1px solid var(--tc-border); border-left: 4px solid var(--pac, #f97316); border-radius: var(--tc-radius-md); padding: 9px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 5px; cursor: pointer; transition: transform .15s, border-color .15s; }
+.pa-card { background: linear-gradient(145deg, #0e1c23, #081116); border: 1px solid var(--tc-border); border-left: 4px solid var(--pac, #f97316); border-radius: var(--tc-radius-md); padding: 9px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 5px; cursor: pointer; transition: transform .15s, border-color .15s; }
 .pa-card:hover { transform: translateY(-1px); border-color: var(--pac, #22d3ee); }
 .pa-card-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .pa-card-mod { color: var(--tc-cyan); font-family: var(--tc-font-mono); }
 .pa-card-desc { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.35; }
 .pa-card-imp { font-size: 11px; font-weight: 800; color: var(--pac, #facc15); font-family: var(--tc-font-mono); }
-.pa-card-act { font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #251858; padding-top: 4px; margin-top: 2px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.pa-card-act { font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #14262f; padding-top: 4px; margin-top: 2px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 .pa-go-tag { color: var(--tc-cyan); font-weight: 800; font-size: 9.5px; white-space: nowrap; }
 
 /* ==========================================================================
@@ -154,19 +153,19 @@
 .wx-7d-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 9px; flex: 1; min-height: 0; perspective: 1100px; }
 .wx-7d-flip-wrap { position: relative; width: 100%; height: 100%; min-height: 210px; transform-style: preserve-3d; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; cursor: pointer; }
 .wx-7d-flip-wrap.is-flipped { transform: rotateY(180deg); }
-.wx-7d-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: linear-gradient(165deg, #180f42, #0b0622); border: 1px solid #2e1f6b; border-top: 3px solid var(--dc, #22d3ee); border-radius: 12px; padding: 10px 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 6px 18px #0008; overflow: hidden; }
-.wx-7d-face.is-today { border-top-color: var(--tc-yellow); background: linear-gradient(165deg, #23165c, #110934); box-shadow: 0 0 18px rgba(250, 204, 21, 0.18); }
-.wx-7d-back { transform: rotateY(180deg); border-top-color: var(--tc-purple); background: linear-gradient(165deg, #1f114d, #0d0726); justify-content: space-between; text-align: left; align-items: stretch; padding: 12px; }
+.wx-7d-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: linear-gradient(165deg, #0e1c23, #060e12); border: 1px solid #192f39; border-top: 3px solid var(--dc, #22d3ee); border-radius: 12px; padding: 10px 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 6px 18px #0008; overflow: hidden; }
+.wx-7d-face.is-today { border-top-color: var(--tc-yellow); background: linear-gradient(165deg, #132731, #09151b); box-shadow: 0 0 18px rgba(250, 204, 21, 0.18); }
+.wx-7d-back { transform: rotateY(180deg); border-top-color: var(--tc-purple); background: linear-gradient(165deg, #102029, #071014); justify-content: space-between; text-align: left; align-items: stretch; padding: 12px; }
 .wx-7d-day { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
 .wx-7d-date { font-size: 10px; color: var(--tc-muted); font-family: var(--tc-font-mono); }
 .wx-7d-ico { font-size: 28px; line-height: 1.1; margin: 4px 0 2px; }
 .wx-7d-cond { font-size: 10.5px; font-weight: 800; color: var(--dc, #22d3ee); }
 .wx-7d-temps { font-family: var(--tc-font-mono); font-size: 14px; font-weight: 900; margin: 4px 0; }
-.wx-7d-stats { width: 100%; border-top: 1px solid #26195c; padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-family: var(--tc-font-mono); color: #cfc8f5; text-align: left; }
-.wx-7d-op { width: 100%; background: #11092e; border: 1px solid #2b1d63; border-radius: 6px; padding: 4px 6px; font-size: 9.5px; font-family: var(--tc-font-mono); color: var(--tc-cyan); margin-top: 4px; }
+.wx-7d-stats { width: 100%; border-top: 1px solid #152831; padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-family: var(--tc-font-mono); color: #cce0e9; text-align: left; }
+.wx-7d-op { width: 100%; background: #091318; border: 1px solid #182b35; border-radius: 6px; padding: 4px 6px; font-size: 9.5px; font-family: var(--tc-font-mono); color: var(--tc-cyan); margin-top: 4px; }
 .wx-tip-cat { font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--tc-yellow); background: rgba(250, 204, 21, 0.12); border: 1px solid rgba(250, 204, 21, 0.35); border-radius: 6px; padding: 3px 7px; display: inline-block; align-self: flex-start; }
-.wx-tip-body { font-size: 11px; line-height: 1.42; color: #ece8ff; font-weight: 600; flex: 1; display: flex; align-items: center; margin: 6px 0; }
-.wx-tip-foot { font-size: 9px; color: var(--tc-muted); font-family: var(--tc-font-mono); border-top: 1px solid #2b1d63; padding-top: 5px; display: flex; justify-content: space-between; }
+.wx-tip-body { font-size: 11px; line-height: 1.42; color: #e8f1f5; font-weight: 600; flex: 1; display: flex; align-items: center; margin: 6px 0; }
+.wx-tip-foot { font-size: 9px; color: var(--tc-muted); font-family: var(--tc-font-mono); border-top: 1px solid #182b35; padding-top: 5px; display: flex; justify-content: space-between; }
 
 /* ==========================================================================
    RODOVIAS E SLA — ANIMAÇÃO CONTÍNUA DE FLUXO E PERFIL HORÁRIO (GPU FLUIDA)
@@ -180,17 +179,17 @@
   will-change: stroke-dashoffset;
 }
 .wx-hw-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
-.wx-hw-card { background: linear-gradient(155deg, #170e3f, #0b0622); border: 1px solid #2e1f6b; border-left: 4px solid var(--hwc, #22c55e); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; gap: 4px; }
+.wx-hw-card { background: linear-gradient(155deg, #0d1b21, #060e12); border: 1px solid #192f39; border-left: 4px solid var(--hwc, #22c55e); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; gap: 4px; }
 .wx-hw-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
 .wx-hw-title { font-size: 11.5px; font-weight: 900; color: #fff; letter-spacing: .04em; }
 .wx-hw-sub { font-size: 9.5px; color: var(--tc-muted); margin-top: 1px; }
 .wx-hw-speed-row { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 0; font-family: var(--tc-font-mono); }
 .wx-hw-spd { font-size: clamp(18px, 1.55vw, 23px); font-weight: 900; color: var(--hwc, #22c55e); }
-.wx-hw-eta { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #120936; border: 1px solid #33236f; }
-.wx-hw-lane-box { width: 100%; height: 28px; background: #09051d; border: 1px solid #251858; border-radius: 7px; overflow: hidden; padding: 0 4px; display: flex; align-items: center; }
+.wx-hw-eta { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #09161c; border: 1px solid #1c313c; }
+.wx-hw-lane-box { width: 100%; height: 28px; background: #050c0f; border: 1px solid #14262f; border-radius: 7px; overflow: hidden; padding: 0 4px; display: flex; align-items: center; }
 .wx-hw-profile-box { width: 100%; height: 42px; display: flex; align-items: center; }
-.wx-hw-sla-tags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 9px; font-family: var(--tc-font-mono); border-top: 1px solid #26195c; padding-top: 5px; }
-.wx-hw-sla-cell { background: #11092e; border: 1px solid #26195c; border-radius: 5px; padding: 3px 5px; display: flex; flex-direction: column; }
+.wx-hw-sla-tags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 9px; font-family: var(--tc-font-mono); border-top: 1px solid #152831; padding-top: 5px; }
+.wx-hw-sla-cell { background: #091318; border: 1px solid #152831; border-radius: 5px; padding: 3px 5px; display: flex; flex-direction: column; }
 .wx-hw-sla-cell small { font-size: 8px; color: var(--tc-muted); text-transform: uppercase; }
 .wx-hw-sla-cell b { font-size: 10px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -256,22 +255,22 @@
 /* ==========================================================================
    ESTILOS DO PALCO MODO TV
    ========================================================================== */
-#tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #4b1d9a66, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #070419 0%, #0b0624 55%, #060314 100%); color: var(--tc-text); flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+#tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #0891b266, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #040a0d 0%, #060f13 55%, #03080a 100%); color: var(--tc-text); flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 body.tv-mode { overflow: hidden !important; }
 body.tv-mode #tv-stage { display: flex; }
 
-#tv-stage::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(124, 58, 237, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; z-index: 0; }
+#tv-stage::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(34, 211, 238, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; z-index: 0; }
 
-.tv-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 18px; height: 48px; padding: 0 22px; background: linear-gradient(90deg, #120936f2, #180d48f2 60%, #100830f2); border-bottom: 1px solid #33236f; box-shadow: 0 4px 25px #000c; flex-shrink: 0; }
+.tv-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 18px; height: 48px; padding: 0 22px; background: linear-gradient(90deg, #09161cf2, #0d1e26f2 60%, #081419f2); border-bottom: 1px solid #1c313c; box-shadow: 0 4px 25px #000c; flex-shrink: 0; }
 .tv-brand { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
 .tv-brand b { font-size: clamp(16px, 1.3vw, 22px); font-weight: 900; letter-spacing: .12em; color: var(--tc-cyan); }
 .tv-brand small { font-size: clamp(9.5px, 0.75vw, 12px); letter-spacing: .15em; color: var(--tc-muted); font-weight: 700; }
 .tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--tc-green); display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
-.tv-clock { font-family: var(--tc-font-mono); font-size: clamp(14px, 1.1vw, 18px); font-weight: 800; color: var(--tc-yellow); letter-spacing: .08em; white-space: nowrap; background: #191042; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--tc-border-hi); }
+.tv-clock { font-family: var(--tc-font-mono); font-size: clamp(14px, 1.1vw, 18px); font-weight: 800; color: var(--tc-yellow); letter-spacing: .08em; white-space: nowrap; background: #0e1c23; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--tc-border-hi); }
 
 .tv-ticker-wrap { flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 45s linear infinite; padding-left: 100%; }
-.tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: clamp(11px, 0.85vw, 14px); font-weight: 700; letter-spacing: .06em; color: #cfc8f5; }
+.tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: clamp(11px, 0.85vw, 14px); font-weight: 700; letter-spacing: .06em; color: #cce0e9; }
 .tv-tick-item b { color: #fff; font-family: var(--tc-font-mono); font-size: clamp(12px, 0.95vw, 15px); }
 .tv-up { color: var(--tc-green-hi); }
 .tv-dn { color: #fb7185; }
@@ -281,22 +280,22 @@ body.tv-mode #tv-stage { display: flex; }
 .tv-row { display: grid; gap: 12px; min-height: 0; }
 .tv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 9px; flex-shrink: 0; }
 
-.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(25, 16, 66, 0.92), rgba(12, 7, 36, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #2b1d63); border-top: 3px solid var(--c, #22d3ee); border-radius: var(--tc-radius-lg); padding: 8px 12px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-.tv-kpi-hd { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b5abeb; }
+.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(14, 28, 35, 0.92), rgba(7, 15, 19, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #22d3ee) 38%, #182b35); border-top: 3px solid var(--c, #22d3ee); border-radius: var(--tc-radius-lg); padding: 8px 12px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+.tv-kpi-hd { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b4cfdc; }
 .tv-kpi-val { font-size: clamp(17px, 1.65vw, 26px); font-weight: 900; color: var(--c, #22d3ee); line-height: 1.12; margin: 2px 0; font-variant-numeric: tabular-nums; }
-.tv-kpi-sub { font-size: 10.5px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tv-kpi-sub { font-size: 10.5px; color: #9bb7c5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-card { position: relative; background: linear-gradient(180deg, rgba(20, 12, 54, 0.92), rgba(10, 6, 28, 0.96)); border: 1px solid #31216e; border-radius: var(--tc-radius-lg); padding: 11px 15px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
+.tv-card { position: relative; background: linear-gradient(180deg, rgba(11, 23, 29, 0.92), rgba(6, 12, 15, 0.96)); border: 1px solid #1b303b; border-radius: var(--tc-radius-lg); padding: 11px 15px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
 .tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: clamp(10.5px, 0.8vw, 13px); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--tc-cyan); margin-bottom: 7px; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
 .tv-card-title span { font-size: 10.5px; color: var(--tc-muted); font-weight: 600; letter-spacing: .04em; text-transform: none; }
 .tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 2px 4px; }
 .tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible !important; }
 
-.wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(17, 9, 46, 0.92); border: 1px solid var(--tc-border); border-radius: var(--tc-radius-md); padding: 6px 14px; flex-shrink: 0; }
+.wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(9, 19, 24, 0.92); border: 1px solid var(--tc-border); border-radius: var(--tc-radius-md); padding: 6px 14px; flex-shrink: 0; }
 .wx-meta-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 10px; font-family: var(--tc-font-mono); color: var(--tc-muted); }
 .wx-sub-tabs { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
-.wx-sub-btn { padding: 4px 10px !important; font-size: 10px !important; font-weight: 800 !important; border-radius: 99px !important; background: #191042 !important; border: 1px solid var(--tc-border-hi) !important; color: #cfc8f5 !important; cursor: pointer; }
-.wx-sub-btn.on { background: linear-gradient(135deg, #0ea5e9, #6366f1) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 0 14px rgba(34, 211, 238, 0.4); }
+.wx-sub-btn { padding: 4px 10px !important; font-size: 10px !important; font-weight: 800 !important; border-radius: 99px !important; background: #0e1c23 !important; border: 1px solid var(--tc-border-hi) !important; color: #cce0e9 !important; cursor: pointer; }
+.wx-sub-btn.on { background: linear-gradient(135deg, #0ea5e9, #0ea5e9) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 0 14px rgba(34, 211, 238, 0.4); }
 
 .wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; white-space: nowrap; }
 .wx-b-prev { background: #0284c7; }
@@ -304,69 +303,69 @@ body.tv-mode #tv-stage { display: flex; }
 .wx-b-gov { background: #dc2626; }
 .wx-b-ok { background: #16a34a; }
 
-.wx-hero-box { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: linear-gradient(145deg, rgba(26, 16, 72, 0.95), rgba(12, 7, 36, 0.98)); border: 1px solid var(--tc-border-hi); border-left: 5px solid var(--hc, #22d3ee); border-radius: var(--tc-radius-lg); padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 8px 25px #0008; }
+.wx-hero-box { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: linear-gradient(145deg, rgba(15, 30, 38, 0.95), rgba(7, 15, 19, 0.98)); border: 1px solid var(--tc-border-hi); border-left: 5px solid var(--hc, #22d3ee); border-radius: var(--tc-radius-lg); padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 8px 25px #0008; }
 .wx-hero-temp { font-size: clamp(36px, 3.4vw, 52px); font-weight: 900; color: #fff; font-family: var(--tc-font-mono); line-height: 1; letter-spacing: -1px; text-shadow: 0 0 24px color-mix(in srgb, var(--hc, #22d3ee) 65%, transparent); }
 .wx-hero-cond { font-size: 13.5px; font-weight: 800; color: var(--hc, #22d3ee); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
-.wx-hero-sub { font-size: 11px; color: #cfc8f5; margin-top: 2px; }
+.wx-hero-sub { font-size: 11px; color: #cce0e9; margin-top: 2px; }
 
 .wx-reg-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
-.wx-reg-card { background: linear-gradient(160deg, #170e3f, #0c0724); border: 1px solid #2e1f6b; border-top: 3px solid var(--rc, #22d3ee); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
-.wx-reg-card.is-base { border-top-color: var(--tc-yellow); background: linear-gradient(160deg, #211556, #100930); }
+.wx-reg-card { background: linear-gradient(160deg, #0d1b21, #070f13); border: 1px solid #192f39; border-top: 3px solid var(--rc, #22d3ee); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
+.wx-reg-card.is-base { border-top-color: var(--tc-yellow); background: linear-gradient(160deg, #12252e, #091419); }
 .wx-reg-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
 .wx-reg-name { font-size: 11.5px; font-weight: 800; color: #fff; letter-spacing: .05em; text-transform: uppercase; }
 .wx-reg-big { display: flex; align-items: baseline; justify-content: space-between; margin: 6px 0; }
 .wx-reg-temp { font-size: clamp(22px, 2vw, 30px); font-weight: 900; color: var(--rc, #22d3ee); font-family: var(--tc-font-mono); line-height: 1; }
-.wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bdb4ee; border-top: 1px solid #281a5e; padding-top: 6px; font-family: var(--tc-font-mono); }
-.wx-reg-cart { margin-top: 6px; padding: 5px 8px; border-radius: 8px; background: #11092e; border: 1px solid #2b1d63; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
+.wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bbd4e0; border-top: 1px solid #162932; padding-top: 6px; font-family: var(--tc-font-mono); }
+.wx-reg-cart { margin-top: 6px; padding: 5px 8px; border-radius: 8px; background: #091318; border: 1px solid #182b35; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
 
 .wx-alert-wide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 10px; overflow-y: auto; max-height: 100%; padding-right: 4px; align-content: start; }
-.wx-alert-card { background: linear-gradient(145deg, #180d3e, #0e0729); border: 1px solid #332275; border-left: 5px solid var(--ac, #ef4444); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; box-shadow: 0 8px 24px #0009; }
+.wx-alert-card { background: linear-gradient(145deg, #0c1a21, #071116); border: 1px solid #1c333f; border-left: 5px solid var(--ac, #ef4444); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; box-shadow: 0 8px 24px #0009; }
 .wx-alert-card-hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .wx-alert-card-msg { font-size: 12.5px; font-weight: 700; color: #fff; line-height: 1.4; }
-.wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #281a5e; padding-top: 6px; }
-.wx-ack-btn { padding: 4px 12px !important; font-size: 10px !important; font-weight: 700 !important; background: #241855 !important; border-color: #5b3fc4 !important; color: #ece8ff !important; border-radius: 99px !important; }
+.wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #162932; padding-top: 6px; }
+.wx-ack-btn { padding: 4px 12px !important; font-size: 10px !important; font-weight: 700 !important; background: #14252e !important; border-color: #0e7490 !important; color: #e8f1f5 !important; border-radius: 99px !important; }
 
 .nyse-idx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; flex: 1; min-height: 0; }
-.nyse-idx-box { background: linear-gradient(145deg, #160d3d, #0c0724); border: 1px solid #2d1e66; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.nyse-idx-box { background: linear-gradient(145deg, #0c1a20, #070f13); border: 1px solid #182d37; border-left: 3px solid var(--ic, #22d3ee); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
 .nyse-idx-box small { font-size: 9.5px; color: var(--tc-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
 .nyse-idx-box b { font-size: clamp(14px, 1.25vw, 19px); font-weight: 900; color: var(--ic, #22d3ee); font-family: var(--tc-font-mono); line-height: 1.15; margin: 1px 0; }
-.nyse-idx-box span { font-size: 10px; color: #cfc8f5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nyse-idx-box span { font-size: 10px; color: #cce0e9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .nyse-board-wrap { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; position: relative; }
 .nyse-board-wrap::-webkit-scrollbar { display: none; }
 .nyse-table { width: 100%; border-collapse: collapse; font-family: var(--tc-font-mono); font-size: 11px; }
-.nyse-table thead th { position: sticky; top: 0; background: #140b38; color: var(--tc-cyan) !important; font-size: 9.5px !important; font-weight: 800; padding: 5px 6px; border-bottom: 1px solid var(--tc-border-hi) !important; text-align: right; z-index: 2; letter-spacing: .07em; }
+.nyse-table thead th { position: sticky; top: 0; background: #0b171e; color: var(--tc-cyan) !important; font-size: 9.5px !important; font-weight: 800; padding: 5px 6px; border-bottom: 1px solid var(--tc-border-hi) !important; text-align: right; z-index: 2; letter-spacing: .07em; }
 .nyse-table thead th:first-child { text-align: left; }
-.nyse-table tbody tr { border-bottom: 1px solid #241654; transition: background .2s; }
+.nyse-table tbody tr { border-bottom: 1px solid #13242d; transition: background .2s; }
 .nyse-table tbody tr.cur-day { background: linear-gradient(90deg, rgba(249, 115, 22, 0.22), rgba(34, 211, 238, 0.08)); border-left: 3px solid var(--tc-orange); }
 .nyse-table tbody td { padding: 5px 6px; text-align: right; color: var(--tc-text); white-space: nowrap; }
 .nyse-table tbody td:first-child { text-align: left; font-weight: 700; color: #fff; }
 .nyse-led { display: inline-flex; gap: 1.5px; vertical-align: middle; margin-right: 4px; }
-.nyse-led i { width: 3.5px; height: 9px; border-radius: 1px; background: #231752; display: inline-block; }
+.nyse-led i { width: 3.5px; height: 9px; border-radius: 1px; background: #13242c; display: inline-block; }
 
 .nyse-hl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--tc-border); flex-shrink: 0; }
-.nyse-hl-card { background: #120a33; border: 1px solid var(--tc-border); border-radius: 10px; padding: 6px 12px; display: flex; flex-direction: column; gap: 3px; }
+.nyse-hl-card { background: #0a151b; border: 1px solid var(--tc-border); border-radius: 10px; padding: 6px 12px; display: flex; flex-direction: column; gap: 3px; }
 .nyse-hl-card .hl-metric { font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: var(--tc-cyan); text-transform: uppercase; margin-bottom: 1px; }
 .nyse-hl-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 11px; font-family: var(--tc-font-mono); white-space: nowrap; }
 .nyse-hl-row b { text-align: right; }
 
 .nyse-wk-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; flex-shrink: 0; }
-.nyse-wk-card { background: linear-gradient(155deg, rgba(22, 14, 61, 0.95), rgba(11, 7, 34, 0.95)); border: 1px solid #2e1f6b; border-top: 2.5px solid var(--tc-green); border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
-.nyse-wk-card.active-wk { border-top-color: var(--tc-cyan); background: linear-gradient(155deg, rgba(30, 19, 82, 0.96), rgba(14, 9, 44, 0.96)); }
+.nyse-wk-card { background: linear-gradient(155deg, rgba(13, 26, 32, 0.95), rgba(7, 14, 18, 0.95)); border: 1px solid #192f39; border-top: 2.5px solid var(--tc-green); border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
+.nyse-wk-card.active-wk { border-top-color: var(--tc-cyan); background: linear-gradient(155deg, rgba(17, 35, 44, 0.96), rgba(9, 18, 23, 0.96)); }
 .nyse-wk-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; letter-spacing: .11em; color: var(--tc-muted); text-transform: uppercase; }
 .nyse-wk-val { font-size: clamp(15px, 1.35vw, 20px); font-weight: 900; color: var(--tc-green-hi); font-family: var(--tc-font-mono); line-height: 1.15; }
-.nyse-wk-meta { font-size: 10.5px; color: #d8d2fc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nyse-wk-nf { font-size: 10px; color: #9c90d4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nyse-wk-meta { font-size: 10.5px; color: #d8e7ee; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nyse-wk-nf { font-size: 10px; color: #9bb7c5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8d2fc; font-weight: 700; }
+.tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8e7ee; font-weight: 700; }
 .tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; }
 
-#tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(13, 8, 39, 0.96); border: 1px solid var(--tc-cyan); border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
+#tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(8, 16, 21, 0.96); border: 1px solid var(--tc-cyan); border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
 #tv-bar b { color: var(--tc-cyan); font-size: 10.5px; letter-spacing: .14em; margin-right: 2px; display: flex; align-items: center; gap: 6px; }
 #tv-bar button { padding: 4px 10px; font-size: 10.5px; font-weight: 700; border-radius: 99px; cursor: pointer; }
-.tv-dur-lbl { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: var(--tc-cyan); background: #191042; border: 1px solid var(--tc-border-hi); border-radius: 99px; padding: 2px 9px; font-weight: 700; }
+.tv-dur-lbl { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: var(--tc-cyan); background: #0e1c23; border: 1px solid var(--tc-border-hi); border-radius: 99px; padding: 2px 9px; font-weight: 700; }
 .tv-dur-lbl select { background: transparent; border: 0; color: var(--tc-text); font-size: 10.5px; font-weight: 700; padding: 2px 3px; outline: none; cursor: pointer; }
-.tv-dur-lbl select option { background: #130c34; color: var(--tc-text); }
+.tv-dur-lbl select option { background: #0b161c; color: var(--tc-text); }
 .tv-btn-exit { background: linear-gradient(135deg, #dc2626, #991b1b) !important; border-color: #ef4444 !important; color: #fff !important; }
 
 @media (min-width: 2200px) {
@@ -390,13 +389,15 @@ body.tv-mode #tv-stage { display: flex; }
      ========================================================================== -->
 <script>
 (function(){
+  /* Funcionalidade "Pendências que Exigem Ação" desativada por decisão do usuário (já existe a guia Alertas). */
+  const PA_ENABLED = false;
   /* 1. Onboarding Padronizado */
   window.onboarding = function() {
-    return `<div class="cd" style="text-align:center;padding:28px;border-color:#3b2885">
+    return `<div class="cd" style="text-align:center;padding:28px;border-color:#203a47">
       <div style="font-size:38px">🛰️</div>
       <h2 style="margin:6px 0;color:#22d3ee">Bem-vindo à Torre de Controle Logística</h2>
       <p class="note" style="font-size:14px">Para carregar o estado oficial do servidor ou enviar novas planilhas, utilize o painel superior <b>☁️ ATUALIZAR DADOS · HISTÓRICO NO SERVIDOR</b>:</p>
-      <ol style="text-align:left;display:inline-block;line-height:1.8;color:#ece8ff;font-size:13px">
+      <ol style="text-align:left;display:inline-block;line-height:1.8;color:#e8f1f5;font-size:13px">
         <li>Informe o endereço do <b>Servidor (Render)</b> e a <b>Chave de acesso</b> da Torre (salvos automaticamente neste navegador).</li>
         <li>Clique em <b>🔄 Recarregar do servidor</b> para abrir o último snapshot válido imediatamente.</li>
         <li>Para atualizar a base, selecione a <b>Carteira</b> (.xlsm/.xlsx) e/ou o <b>Agendamento acumulado</b> (.xlsx) e clique em <b>☁️ Atualizar dados</b>.</li>
@@ -545,8 +546,8 @@ body.tv-mode #tv-stage { display: flex; }
   function svgAnimatedHighwayLane(h) {
     const animDur = (Math.max(0.65, Math.min(3.4, 85 / Math.max(20, h.vEst)))).toFixed(2) + 's';
     return `<svg viewBox="0 0 320 24" style="width:100%;height:24px">
-      <rect x="2" y="3" width="316" height="18" rx="4" fill="#0d0728" stroke="#281a5e" stroke-width="1"/>
-      <line x1="6" y1="12" x2="314" y2="12" stroke="#3b2885" stroke-width="1" stroke-dasharray="6 6"/>
+      <rect x="2" y="3" width="316" height="18" rx="4" fill="#071015" stroke="#162932" stroke-width="1"/>
+      <line x1="6" y1="12" x2="314" y2="12" stroke="#203a47" stroke-width="1" stroke-dasharray="6 6"/>
       <!-- Feixe contínuo de veículos/fluxo movendo-se na velocidade proporcional da via -->
       <line x1="8" y1="8" x2="312" y2="8" stroke="${h.col}" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 38" class="hw-flow-particles" style="--fspd:${animDur};filter:drop-shadow(0 0 4px ${h.col})"/>
       <line x1="20" y1="16" x2="312" y2="16" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 40" class="hw-flow-particles" style="--fspd:${animDur};animation-delay:-0.5s"/>
@@ -564,8 +565,8 @@ body.tv-mode #tv-stage { display: flex; }
     const curIdx = Math.min(n - 1, Math.floor(new Date().getHours() / 2));
     const cx = pts[curIdx][0], cy = pts[curIdx][1];
     return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:38px">
-      <line x1="${L}" x2="${W - R}" y1="${Y(vFree).toFixed(1)}" y2="${Y(vFree).toFixed(1)}" stroke="#281a5e" stroke-dasharray="2 3"/>
-      <text x="${L - 3}" y="${(Y(vFree) + 3).toFixed(1)}" text-anchor="end" fill="#8f84c9" font-size="7.5" font-family="monospace">${vFree}</text>
+      <line x1="${L}" x2="${W - R}" y1="${Y(vFree).toFixed(1)}" y2="${Y(vFree).toFixed(1)}" stroke="#162932" stroke-dasharray="2 3"/>
+      <text x="${L - 3}" y="${(Y(vFree) + 3).toFixed(1)}" text-anchor="end" fill="#90acba" font-size="7.5" font-family="monospace">${vFree}</text>
       <path d="${d}" fill="none" stroke="${col}" stroke-width="2"/>
       <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3.5" fill="#fff" stroke="${col}" stroke-width="2"/>
       <text x="${W - R + 4}" y="${(cy + 3).toFixed(1)}" fill="#facc15" font-size="7.5" font-weight="800" font-family="monospace">AGORA</text>
@@ -690,7 +691,7 @@ body.tv-mode #tv-stage { display: flex; }
     prDesp.sort((a, b) => b[1].length - a[1].length).slice(0, 2).forEach(topD => {
       const ixVal = idx(topD[1], S.N, S.K);
       pRoteirizacao.push({
-        prio: 'ATENÇÃO', col: '#a855f7', mod: 'Roteirização · Praça', tab: 'ct', ref: fdy(dia),
+        prio: 'ATENÇÃO', col: '#2dd4bf', mod: 'Roteirização · Praça', tab: 'ct', ref: fdy(dia),
         desc: `Desproporção Pedido×Peso em ${topD[0]} (índice ${ixVal.toFixed(2)})`,
         imp: `${n0(topD[1].length)} pedidos · ${fw(sm(topD[1], 8))}`,
         act: ixVal < 1 ? 'Alta pulverização de entregas: validar limite de paradas por veículo.' : 'Alta concentração de peso: priorizar alocação de veículos pesados.'
@@ -799,11 +800,11 @@ body.tv-mode #tv-stage { display: flex; }
     });
 
     const pillars = [
-      { id: 'cart', title: '📦 1. Carteira & Prazos', color: '#6366f1', items: pCarteira },
-      { id: 'rot',  title: '🧭 2. Roteirização & Malha', color: '#a855f7', items: pRoteirizacao },
+      { id: 'cart', title: '📦 1. Carteira & Prazos', color: '#0ea5e9', items: pCarteira },
+      { id: 'rot',  title: '🧭 2. Roteirização & Malha', color: '#2dd4bf', items: pRoteirizacao },
       { id: 'agd',  title: '🚛 3. Agendamento & Frota', color: '#f59e0b', items: pAgendamento },
       { id: 'exp',  title: '🏭 4. Expedição & Outbound', color: '#22d3ee', items: pExpedicao },
-      { id: 'ext',  title: '🌩️ 5. Riscos Externos (Clima & Vias)', color: '#ec4899', items: pExternos }
+      { id: 'ext',  title: '🌩️ 5. Riscos Externos (Clima & Vias)', color: '#14b8a6', items: pExternos }
     ];
     const allItems = pillars.flatMap(p => p.items);
     const critCount = allItems.filter(x => x.prio === 'CRÍTICO').length;
@@ -822,11 +823,11 @@ body.tv-mode #tv-stage { display: flex; }
         ? kpiCard('TOTAL DE PENDÊNCIAS', n0(data.total), 'Ocorrências acionáveis mapeadas', '#22d3ee', '⚡') +
           kpiCard('PRIORIDADE CRÍTICA', n0(data.crit), 'Exigem intervenção imediata', data.crit ? '#ef4444' : '#22c55e', '🔴') +
           kpiCard('ALTA / ATENÇÃO', n0(altCount), 'Desvios operacionais e ocupação', '#f97316', '🟠') +
-          kpiCard('VALIDAÇÃO DE DADOS', n0(valCount), 'Conferência entre módulos', '#a855f7', '🔍')
+          kpiCard('VALIDAÇÃO DE DADOS', n0(valCount), 'Conferência entre módulos', '#2dd4bf', '🔍')
         : stCard('TOTAL DE PENDÊNCIAS', n0(data.total), 'ocorrências acionáveis no dia ' + fdy(dia), '⚡', '#22d3ee') +
           stCard('PRIORIDADE CRÍTICA', n0(data.crit), 'exigem intervenção imediata', '🔴', data.crit ? '#ef4444' : '#22c55e') +
           stCard('ALTA / ATENÇÃO', n0(altCount), 'ajustes de frota, onda ou rota', '🟠', '#f97316') +
-          stCard('NECESSIDADE DE VALIDAÇÃO', n0(valCount), 'divergências entre módulos p/ checar', '🔍', '#a855f7')
+          stCard('NECESSIDADE DE VALIDAÇÃO', n0(valCount), 'divergências entre módulos p/ checar', '🔍', '#2dd4bf')
       }
     </div>`;
 
@@ -858,7 +859,8 @@ body.tv-mode #tv-stage { display: flex; }
   const origDraw = window.draw;
   if (typeof origDraw === 'function') {
     window.draw = function() {
-      if (typeof tab !== 'undefined' && tab === 'pa' && !(typeof VAZIO === 'function' && VAZIO())) {
+      if (!PA_ENABLED && typeof tab !== 'undefined' && tab === 'pa') { try { tab = 'ov'; } catch (e) {} }
+      if (PA_ENABLED && typeof tab !== 'undefined' && tab === 'pa' && !(typeof VAZIO === 'function' && VAZIO())) {
         document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === 'pa'));
         if (typeof renderCrumb === 'function') {
           renderCrumb(st());
@@ -926,11 +928,11 @@ body.tv-mode #tv-stage { display: flex; }
      ========================================================================== */
   function svgDopplerRadarSquare() {
     let routes = `
-      <path d="M132,152 L198,126" stroke="#3b2885" stroke-width="2" stroke-dasharray="3 2"/>
-      <path d="M132,152 L164,158 L198,126" stroke="#3b2885" stroke-width="1.5"/>
-      <path d="M132,152 L106,118 L88,92 L54,38" stroke="#3b2885" stroke-width="2" stroke-dasharray="3 2"/>
-      <path d="M132,152 L68,156" stroke="#3b2885" stroke-width="1.8" stroke-dasharray="3 2"/>
-      <path d="M132,152 L148,196" stroke="#3b2885" stroke-width="1.8" stroke-dasharray="3 2"/>
+      <path d="M132,152 L198,126" stroke="#203a47" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M132,152 L164,158 L198,126" stroke="#203a47" stroke-width="1.5"/>
+      <path d="M132,152 L106,118 L88,92 L54,38" stroke="#203a47" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M132,152 L68,156" stroke="#203a47" stroke-width="1.8" stroke-dasharray="3 2"/>
+      <path d="M132,152 L148,196" stroke="#203a47" stroke-width="1.8" stroke-dasharray="3 2"/>
     `;
 
     let degreeTicks = '';
@@ -959,8 +961,8 @@ body.tv-mode #tv-stage { display: flex; }
 
       const isBase = p.id === 'CDG';
       pins += `<g>
-        <circle cx="${p.rx}" cy="${p.ry}" r="${isBase ? 6 : 4.5}" fill="${wmo.col}" stroke="#070419" stroke-width="1.6" class="curve-marker-live"/>
-        <text x="${p.rx}" y="${p.ry - 8}" text-anchor="middle" fill="${isBase ? '#facc15' : '#ece8ff'}" font-size="9" font-weight="800" font-family="monospace">${p.id} ${cur ? Math.round(cur.temperature_2m) + '°' : ''}</text>
+        <circle cx="${p.rx}" cy="${p.ry}" r="${isBase ? 6 : 4.5}" fill="${wmo.col}" stroke="#040a0d" stroke-width="1.6" class="curve-marker-live"/>
+        <text x="${p.rx}" y="${p.ry - 8}" text-anchor="middle" fill="${isBase ? '#facc15' : '#e8f1f5'}" font-size="9" font-weight="800" font-family="monospace">${p.id} ${cur ? Math.round(cur.temperature_2m) + '°' : ''}</text>
       </g>`;
     });
 
@@ -977,25 +979,25 @@ body.tv-mode #tv-stage { display: flex; }
           <circle cx="120" cy="120" r="106"/>
         </clipPath>
       </defs>
-      <circle cx="120" cy="120" r="106" fill="#08041e" stroke="#2e1f6b" stroke-width="1.8"/>
+      <circle cx="120" cy="120" r="106" fill="#050c10" stroke="#192f39" stroke-width="1.8"/>
       <g clip-path="url(#radarLensClip)">
         <rect x="14" y="14" width="212" height="212" fill="url(#radarSubtleGrid)"/>
         <line x1="45" y1="45" x2="195" y2="195" stroke="#22d3ee" stroke-opacity="0.14" stroke-width="0.7" stroke-dasharray="2 3"/>
         <line x1="195" y1="45" x2="45" y2="195" stroke="#22d3ee" stroke-opacity="0.14" stroke-width="0.7" stroke-dasharray="2 3"/>
       </g>
-      <circle cx="120" cy="120" r="80" fill="none" stroke="#281a60" stroke-width="0.9" stroke-dasharray="3 3"/>
-      <circle cx="120" cy="120" r="54" fill="none" stroke="#281a60" stroke-width="0.9" stroke-dasharray="3 3"/>
-      <circle cx="120" cy="120" r="28" fill="none" stroke="#281a60" stroke-width="0.9" stroke-dasharray="2 3"/>
-      <line x1="14" y1="120" x2="226" y2="120" stroke="#26195c" stroke-width="1"/>
-      <line x1="120" y1="14" x2="120" y2="226" stroke="#26195c" stroke-width="1"/>
+      <circle cx="120" cy="120" r="80" fill="none" stroke="#162933" stroke-width="0.9" stroke-dasharray="3 3"/>
+      <circle cx="120" cy="120" r="54" fill="none" stroke="#162933" stroke-width="0.9" stroke-dasharray="3 3"/>
+      <circle cx="120" cy="120" r="28" fill="none" stroke="#162933" stroke-width="0.9" stroke-dasharray="2 3"/>
+      <line x1="14" y1="120" x2="226" y2="120" stroke="#152831" stroke-width="1"/>
+      <line x1="120" y1="14" x2="120" y2="226" stroke="#152831" stroke-width="1"/>
       ${degreeTicks}
       <text x="120" y="23" text-anchor="middle" fill="#22d3ee" font-size="6.5" font-weight="800" font-family="monospace">000° N</text>
       <text x="216" y="118" text-anchor="end" fill="#22d3ee" font-size="6.5" font-family="monospace">090° L</text>
       <text x="120" y="222" text-anchor="middle" fill="#22d3ee" font-size="6.5" font-family="monospace">180° S</text>
       <text x="24" y="118" text-anchor="start" fill="#22d3ee" font-size="6.5" font-family="monospace">270° O</text>
-      <text x="123" y="94" fill="#8f84c9" fill-opacity="0.65" font-size="6" font-family="monospace">50km</text>
-      <text x="123" y="68" fill="#8f84c9" fill-opacity="0.65" font-size="6" font-family="monospace">100km</text>
-      <text x="123" y="42" fill="#8f84c9" fill-opacity="0.65" font-size="6" font-family="monospace">200km</text>
+      <text x="123" y="94" fill="#90acba" fill-opacity="0.65" font-size="6" font-family="monospace">50km</text>
+      <text x="123" y="68" fill="#90acba" fill-opacity="0.65" font-size="6" font-family="monospace">100km</text>
+      <text x="123" y="42" fill="#90acba" fill-opacity="0.65" font-size="6" font-family="monospace">200km</text>
       ${routes}
       ${cells}
       <g class="radar-beam-rot">
@@ -1003,7 +1005,7 @@ body.tv-mode #tv-stage { display: flex; }
         <line x1="120" y1="120" x2="120" y2="14" stroke="#22d3ee" stroke-width="1.4" stroke-opacity="0.85"/>
       </g>
       ${pins}
-      <text x="120" y="236" text-anchor="middle" fill="#8f84c9" font-size="8" font-family="monospace">DOPPLER SP: 🟢 LEVE · 🟠 MODERADA · 🔴 INTENSA</text>
+      <text x="120" y="236" text-anchor="middle" fill="#90acba" font-size="8" font-family="monospace">DOPPLER SP: 🟢 LEVE · 🟠 MODERADA · 🔴 INTENSA</text>
     </svg>`;
   }
 
@@ -1149,7 +1151,7 @@ body.tv-mode #tv-stage { display: flex; }
       const litLines = [];
       svg.querySelectorAll('line').forEach(ln => {
         const st = (ln.getAttribute('stroke') || '').toLowerCase();
-        if (st && st !== '#2a1f63' && st !== '#221652') litLines.push(ln);
+        if (st && st !== '#192c35' && st !== '#13232c') litLines.push(ln);
       });
 
       const dur = sweepLedsSequentially(litLines, RING_STEP_MS, 0, () => {
@@ -1169,7 +1171,7 @@ body.tv-mode #tv-stage { display: flex; }
       const litCells = [];
       bar.querySelectorAll('i').forEach(cell => {
         const inlineBg = (cell.getAttribute('style') || '').toLowerCase();
-        if (inlineBg.includes('background') && !inlineBg.includes('#1f144d') && !inlineBg.includes('#1e1348') && !inlineBg.includes('#231752')) {
+        if (inlineBg.includes('background') && !inlineBg.includes('#112129') && !inlineBg.includes('#101f26') && !inlineBg.includes('#13242c')) {
           litCells.push(cell);
         }
       });
@@ -1205,7 +1207,7 @@ body.tv-mode #tv-stage { display: flex; }
 
       svg.querySelectorAll('rect').forEach(r => {
         const fill = (r.getAttribute('fill') || '').toLowerCase();
-        if (!fill || fill === 'transparent' || fill === '#241855' || fill === '#1e1348' || fill === '#0d0728' || fill.startsWith('url(#nysebarg)') || fill.startsWith('url(#radarsubtlegrid)') || fill.startsWith('#ffffff') || fill.startsWith('#0d072c')) return;
+        if (!fill || fill === 'transparent' || fill === '#14252e' || fill === '#101f26' || fill === '#071015' || fill.startsWith('url(#nysebarg)') || fill.startsWith('url(#radarsubtlegrid)') || fill.startsWith('#ffffff') || fill.startsWith('#081217')) return;
         const w = parseFloat(r.getAttribute('width') || 0), h = parseFloat(r.getAttribute('height') || 0);
         if (h > 40 && w > 40) return;
         const x = parseFloat(r.getAttribute('x') || 0), y = parseFloat(r.getAttribute('y') || 0);
@@ -1315,7 +1317,7 @@ body.tv-mode #tv-stage { display: flex; }
     for (let k = 0; k <= stepsY; k++) {
       const yy = T + ph * (1 - k / stepsY);
       const vLab = (maxV / stepsY) * k, pLab = (maxP / stepsY) * k;
-      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#24195c" stroke-dasharray="${k ? '3 4' : ''}"/>
+      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#152831" stroke-dasharray="${k ? '3 4' : ''}"/>
                <text x="${L - 8}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="10" font-family="monospace">R$ ${n0(vLab)}k</text>
                <text x="${W - R + 8}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#4ade80" font-size="10" font-family="monospace">${n0(pLab)} t</text>`;
     }
@@ -1345,8 +1347,8 @@ body.tv-mode #tv-stage { display: flex; }
         const tw = txt.length * 5.8 + 14;
         const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
         return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.55" stroke-dasharray="2 3"/>
-                <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#08041c" stroke="${col}" stroke-width="2.5"/>
-                <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 11).toFixed(1)}" width="${tw.toFixed(1)}" height="17" rx="8.5" fill="#0d072ce6" stroke="${col}" stroke-width="1.2"/>
+                <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#050b0f" stroke="${col}" stroke-width="2.5"/>
+                <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 11).toFixed(1)}" width="${tw.toFixed(1)}" height="17" rx="8.5" fill="#081217e6" stroke="${col}" stroke-width="1.2"/>
                 <text x="${bx.toFixed(1)}" y="${by.toFixed(1)}" text-anchor="middle" fill="#fff" font-size="10" font-weight="800" font-family="monospace">${txt}</text>`;
       };
       badges += drawPin(mxObj, '▲ PICO', '#4ade80', true);
@@ -1361,7 +1363,7 @@ body.tv-mode #tv-stage { display: flex; }
       if (!isRef && i % stepX !== 0 && i !== n - 1) return '';
       if (cx - lastDrawnX < 30 && !isRef) return '';
       lastDrawnX = cx;
-      return `<text x="${cx.toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${isRef ? '#facc15' : '#8f84c9'}" font-weight="${isRef ? '800' : '400'}" font-size="10" font-family="monospace">${fd(x.d)}</text>`;
+      return `<text x="${cx.toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${isRef ? '#facc15' : '#90acba'}" font-weight="${isRef ? '800' : '400'}" font-size="10" font-family="monospace">${fd(x.d)}</text>`;
     }).join('');
 
     return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%">
@@ -1479,7 +1481,7 @@ body.tv-mode #tv-stage { display: flex; }
     for (let i = 0; i < N; i++) {
       const a = (i / N) * 2 * Math.PI - Math.PI / 2, c = Math.cos(a), d = Math.sin(a);
       const isOn = i < on;
-      const col = isOn ? lerpC(colors, i / (N - 1)) : '#221652';
+      const col = isOn ? lerpC(colors, i / (N - 1)) : '#13232c';
       lines += `<line x1="${(50 + c * 35).toFixed(2)}" y1="${(50 + d * 35).toFixed(2)}" x2="${(50 + c * 45).toFixed(2)}" y2="${(50 + d * 45).toFixed(2)}" stroke="${col}" stroke-width="3" stroke-linecap="round"/>`;
     }
     return `<div class="tv-card" style="align-items:center;justify-content:center;text-align:center;padding:10px">
@@ -1487,7 +1489,7 @@ body.tv-mode #tv-stage { display: flex; }
         <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="19" font-weight="900">${mainTxt}</text>
       </svg>
       <div style="font-size:11px;font-weight:800;letter-spacing:.14em;color:#22d3ee;text-transform:uppercase;margin-top:4px">${label}</div>
-      <div style="font-size:11px;color:#9c90d4;margin-top:2px">${sub}</div>
+      <div style="font-size:11px;color:#9bb7c5;margin-top:2px">${sub}</div>
     </div>`;
   };
 
@@ -1496,10 +1498,10 @@ body.tv-mode #tv-stage { display: flex; }
     let segs = '';
     for (let i = 0; i < N; i++) {
       const col = lerpC(colors, i / (N - 1));
-      segs += i < on ? `<i style="background:${col}"></i>` : `<i style="background:#1f144d"></i>`;
+      segs += i < on ? `<i style="background:${col}"></i>` : `<i style="background:#112129"></i>`;
     }
     return `<div class="sgr" style="margin:8px 0">
-      <div class="sgh" style="font-size:12px"><span style="color:#d8d2fc;font-weight:700">${label}</span><b style="color:#22d3ee;font-size:13px">${extraRight || (n0(count) + ' · ' + pfx(p) + '%')}</b></div>
+      <div class="sgh" style="font-size:12px"><span style="color:#d8e7ee;font-weight:700">${label}</span><b style="color:#22d3ee;font-size:13px">${extraRight || (n0(count) + ' · ' + pfx(p) + '%')}</b></div>
       <div class="sg" style="gap:3px">${segs}</div>
     </div>`;
   };
@@ -1509,7 +1511,7 @@ body.tv-mode #tv-stage { display: flex; }
     const N = 10, on = Math.round(Math.min(100, Math.max(0, pctVal)) / 100 * N);
     const col = pctVal < CFG.lo ? '#ef4444' : pctVal > CFG.hi ? '#f97316' : '#22c55e';
     let s = '';
-    for (let i = 0; i < N; i++) s += `<i style="${i < on ? `background:${col}` : 'background:#231752'}"></i>`;
+    for (let i = 0; i < N; i++) s += `<i style="${i < on ? `background:${col}` : 'background:#13242c'}"></i>`;
     return `<span class="nyse-led">${s}</span><span style="color:${col};font-weight:700">${pctVal.toFixed(0)}%</span>`;
   };
 
@@ -1525,7 +1527,7 @@ body.tv-mode #tv-stage { display: flex; }
     for (let k = 0; k <= 4; k++) {
       const yy = T + ph * (1 - k / 4);
       const tVal = minT + (rngT / 4) * k, pVal = 25 * k;
-      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#24195c" stroke-dasharray="${k ? '3 4' : ''}"/>
+      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#152831" stroke-dasharray="${k ? '3 4' : ''}"/>
                <text x="${L - 8}" y="${(yy + 4).toFixed(1)}" text-anchor="end" fill="#22d3ee" font-size="10.5" font-weight="700" font-family="monospace">${Math.round(tVal)}°C</text>
                <text x="${W - R + 8}" y="${(yy + 4).toFixed(1)}" text-anchor="start" fill="#38bdf8" font-size="10.5" font-weight="700" font-family="monospace">${pVal}%</text>`;
     }
@@ -1551,23 +1553,23 @@ body.tv-mode #tv-stage { display: flex; }
       const tw = txt.length * 6.2 + 16;
       const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
       return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.6" stroke-dasharray="2 3"/>
-              <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#08041c" stroke="${col}" stroke-width="2.6"/>
-              <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 12).toFixed(1)}" width="${tw.toFixed(1)}" height="18" rx="9" fill="#0d072cf0" stroke="${col}" stroke-width="1.3"/>
+              <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#050b0f" stroke="${col}" stroke-width="2.6"/>
+              <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 12).toFixed(1)}" width="${tw.toFixed(1)}" height="18" rx="9" fill="#081217f0" stroke="${col}" stroke-width="1.3"/>
               <text x="${bx.toFixed(1)}" y="${(by + 1).toFixed(1)}" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="800" font-family="monospace">${txt}</text>`;
     };
 
     const nowX = nowIdx != null && nowIdx >= 0 ? X(nowIdx) : X(Math.floor(n / 2));
     const nowDivider = `<line x1="${nowX.toFixed(1)}" x2="${nowX.toFixed(1)}" y1="${T}" y2="${y0}" stroke="#facc15" stroke-width="1.8" stroke-dasharray="4 3"/>
-                        <text x="${(nowX - 8).toFixed(1)}" y="${T + 11}" text-anchor="end" fill="#a79bd6" font-size="9.5" font-weight="700" font-family="monospace">◀ ÚLTIMAS 24H</text>
+                        <text x="${(nowX - 8).toFixed(1)}" y="${T + 11}" text-anchor="end" fill="#a4bcc8" font-size="9.5" font-weight="700" font-family="monospace">◀ ÚLTIMAS 24H</text>
                         <text x="${(nowX + 8).toFixed(1)}" y="${T + 11}" text-anchor="start" fill="#facc15" font-weight="800" font-size="9.5" font-family="monospace">PRÓXIMAS 24H ▶</text>`;
 
-    const xLabs = hLabs.map((l, i) => `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${i === nowIdx ? '#facc15' : '#a79bd6'}" font-weight="${i === nowIdx ? '800' : '500'}" font-size="10" font-family="monospace">${l}</text>`).join('');
+    const xLabs = hLabs.map((l, i) => `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${i === nowIdx ? '#facc15' : '#a4bcc8'}" font-weight="${i === nowIdx ? '800' : '500'}" font-size="10" font-family="monospace">${l}</text>`).join('');
 
     return `<svg viewBox="0 0 ${W} ${H}">
       <defs>
         <linearGradient id="wxAreaG" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.52"/>
-          <stop offset="65%" stop-color="#6366f1" stop-opacity="0.16"/>
+          <stop offset="65%" stop-color="#0ea5e9" stop-opacity="0.16"/>
           <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
         </linearGradient>
       </defs>
@@ -1592,8 +1594,8 @@ body.tv-mode #tv-stage { display: flex; }
     let g = '';
     for (let k = 0; k <= 4; k++) {
       const yy = T + ph * (1 - k / 4);
-      g += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#281a5e" stroke-dasharray="3 4"/>
-            <text x="${L - 6}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#8f84c9" font-size="9.5">${yFmt ? yFmt((maxB / 4) * k) : fv((maxB / 4) * k)}</text>` +
+      g += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#162932" stroke-dasharray="3 4"/>
+            <text x="${L - 6}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#90acba" font-size="9.5">${yFmt ? yFmt((maxB / 4) * k) : fv((maxB / 4) * k)}</text>` +
             (lineData ? `<text x="${W - R + 6}" y="${(yy + 3).toFixed(1)}" fill="${lineColor}" font-size="9.5">${fv((maxL / 4) * k)}</text>` : '');
     }
 
@@ -1602,14 +1604,14 @@ body.tv-mode #tv-stage { display: flex; }
       const col = Array.isArray(barColors) ? barColors[i % barColors.length] : barColors;
       const x = X(i) - bw / 2, k1 = Math.min(KM, Math.max(v > 0 ? 1 : 0, Math.round((v / maxB) * KM)));
       for (let k = 0; k < KM; k++) {
-        bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="#1e1348" fill-opacity="0.55"/>`;
+        bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="#101f26" fill-opacity="0.55"/>`;
       }
       for (let k = 0; k < k1; k++) {
         const segCol = lerpC([shd(col, 0.3), col, lit(col, 0.35)], k1 > 1 ? k / (k1 - 1) : 1);
         bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="${segCol}"/>`;
       }
       if (n <= 12 || i % 2 === 0) {
-        bars += `<text x="${X(i).toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="#a79bd6" font-size="9.5">${trunc(labelsArr[i], 10)}</text>`;
+        bars += `<text x="${X(i).toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="#a4bcc8" font-size="9.5">${trunc(labelsArr[i], 10)}</text>`;
       }
     });
 
@@ -1617,7 +1619,7 @@ body.tv-mode #tv-stage { display: flex; }
     if (lineData && lineData.length >= 2) {
       const P = lineData.map((v, i) => [X(i), Yl(v)]), d = smooth(P);
       ln = `<path d="${d}" fill="none" stroke="${lineColor}" stroke-width="2.8"/>` +
-            P.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="#0b0624" stroke="${lineColor}" stroke-width="2.2"/>`).join('');
+            P.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="#060f13" stroke="${lineColor}" stroke-width="2.2"/>`).join('');
     }
     return `<svg viewBox="0 0 ${W} ${H}">${g}${bars}${ln}</svg>`;
   };
@@ -1631,10 +1633,10 @@ body.tv-mode #tv-stage { display: flex; }
         const p = Math.min(100, (val / maxV) * 100), N = 28, on = Math.max(val > 0 ? 1 : 0, Math.round((p / 100) * N));
         let segs = '';
         for (let i = 0; i < N; i++) {
-          segs += i < on ? `<i style="background:${col};height:14px"></i>` : `<i style="background:#1e1348;height:14px"></i>`;
+          segs += i < on ? `<i style="background:${col};height:14px"></i>` : `<i style="background:#101f26;height:14px"></i>`;
         }
         return `<div class="sgr" style="margin:0;display:grid;grid-template-columns:145px 1fr 105px;align-items:center;gap:10px;font-size:11px">
-          <span style="color:#ece8ff;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(lbl)}</span>
+          <span style="color:#e8f1f5;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(lbl)}</span>
           <div class="sg" style="gap:2.5px">${segs}</div>
           <div class="sgh" style="margin:0"><b style="text-align:right;color:${col};font-family:ui-monospace,monospace;font-size:12px">${rightTxt || fv(val)}</b></div>
         </div>`;
@@ -1654,12 +1656,12 @@ body.tv-mode #tv-stage { display: flex; }
     return `<div style="display:flex;align-items:center;gap:22px;width:100%;justify-content:center">
       <svg class="tv-ring-svg" viewBox="0 0 100 100" style="width:145px;height:145px;flex:none;overflow:visible">${lines}
         <text x="50" y="51" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">${n0(tot)}</text>
-        <text x="50" y="63" text-anchor="middle" fill="#a79bd6" font-size="8" letter-spacing="1">TOTAL</text>
+        <text x="50" y="63" text-anchor="middle" fill="#a4bcc8" font-size="8" letter-spacing="1">TOTAL</text>
       </svg>
       <div class="dlg" style="flex:1;display:flex;flex-direction:column;gap:7px;max-width:300px">
-        ${entries.map(([k, v], i) => `<div style="display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #281a5e;padding-bottom:4px">
+        ${entries.map(([k, v], i) => `<div style="display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #162932;padding-bottom:4px">
           <i style="width:10px;height:10px;border-radius:50%;background:${colors[i % colors.length]}"></i>
-          <span style="color:#d8d2fc;font-weight:600">${escH(trunc(k, 24))}</span>
+          <span style="color:#d8e7ee;font-weight:600">${escH(trunc(k, 24))}</span>
           <b style="margin-left:auto;color:#fff;font-family:ui-monospace,monospace">${n0(v)} · ${pfx((v / tot) * 100)}%</b>
         </div>`).join('')}
       </div>
@@ -1675,11 +1677,9 @@ body.tv-mode #tv-stage { display: flex; }
     const wxCur = cdg && cdg.current
       ? `${Math.round(cdg.current.temperature_2m)}°C ${wmoInfo(cdg.current.weather_code).ic} ${wmoInfo(cdg.current.weather_code).tx} · ${Math.round(cdg.current.surface_pressure||1013)}hPa`
       : `STATUS: ${WX_STATE.status}`;
-    const pends = computeStructuredPendencies();
     const items = [
       ['CDG GUARULHOS', wxCur, 'tv-nt', '●'],
       ['DIA REF.', fdy(dia), 'tv-nt', '●'],
-      ['PENDÊNCIAS DE AÇÃO', `${pends.total} ATIVA(S) (${pends.crit} CRÍT.)`, pends.crit > 0 ? 'tv-dn' : 'tv-up', '⚡'],
       ['CARTEIRA ATIVA', `${n0(S.N)} PED · ${tn(S.K)}`, 'tv-up', '▲'],
       ['VALOR LÍQUIDO CARTEIRA', RSc(S.V), 'tv-up', '▲'],
       ['PROGRAMADO DIA (ZS34)', RS(S.val), 'tv-up', '▲'],
@@ -1843,7 +1843,7 @@ body.tv-mode #tv-stage { display: flex; }
         const info = wmoInfo(wCode);
         return `<div class="nyse-wk-card" style="border-top-color:${pMax >= 60 ? '#ef4444' : pMax >= 35 ? '#facc15' : '#22c55e'}">
           <div class="nyse-wk-hd"><span>${title}</span><span style="color:${info.col}">${pMax >= 50 ? '⚠️ RISCO PÁTIO' : '● DOCA SECA'}</span></div>
-          <div class="nyse-wk-val" style="color:${info.col}">${tAvg != null ? info.ic + ' ' + tAvg.toFixed(1).replace('.', ',') + '°C' : '—'} <small style="font-size:12px;color:#ece8ff">· ☔ ${pMax}% chuva</small></div>
+          <div class="nyse-wk-val" style="color:${info.col}">${tAvg != null ? info.ic + ' ' + tAvg.toFixed(1).replace('.', ',') + '°C' : '—'} <small style="font-size:12px;color:#e8f1f5">· ☔ ${pMax}% chuva</small></div>
           <div class="nyse-wk-meta">${desc}</div>
           <div class="nyse-wk-nf"><b style="color:${info.col}">${pMax >= 50 ? 'Verificar materiais expostos no pátio' : info.imp}</b></div>
         </div>`;
@@ -1871,12 +1871,12 @@ body.tv-mode #tv-stage { display: flex; }
               <div class="nyse-hl-card">
                 <div class="hl-metric">☔ PROBABILIDADE DE CHUVA</div>
                 <div class="nyse-hl-row"><span class="tv-dn">▲ PICO 24H</span><b style="color:${maxProbNext24 >= 50 ? '#ef4444' : '#22d3ee'}">${maxProbNext24}%</b></div>
-                <div class="nyse-hl-row"><span class="tv-nt">PRECIP. AGORA</span><b style="color:#ece8ff">${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'}</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">PRECIP. AGORA</span><b style="color:#e8f1f5">${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'}</b></div>
               </div>
               <div class="nyse-hl-card">
                 <div class="hl-metric">⚡ ENERGIA TEMPESTADE (CAPE)</div>
                 <div class="nyse-hl-row"><span class="tv-up">▲ PICO 24H</span><b style="color:${maxCapeNext24 >= 1200 ? '#ef4444' : '#4ade80'}">${Math.round(maxCapeNext24)} J/kg</b></div>
-                <div class="nyse-hl-row"><span class="tv-nt">PRESSÃO SUP.</span><b style="color:#ece8ff">${cur ? Math.round(cur.surface_pressure) + ' hPa' : '—'}</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">PRESSÃO SUP.</span><b style="color:#e8f1f5">${cur ? Math.round(cur.surface_pressure) + ' hPa' : '—'}</b></div>
               </div>
               <div class="nyse-hl-card">
                 <div class="hl-metric">🚛 EXPOSIÇÃO EXPEDIÇÃO HOJE</div>
@@ -1939,7 +1939,7 @@ body.tv-mode #tv-stage { display: flex; }
             <div class="wx-7d-face wx-7d-back">
               <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
                 <span class="wx-tip-cat">${escH(tip.cat)}</span>
-                <span style="font-size:9.5px;color:#a79bd6;font-family:monospace">${fd(dStr)}</span>
+                <span style="font-size:9.5px;color:#a4bcc8;font-family:monospace">${fd(dStr)}</span>
               </div>
               <div class="wx-tip-body">${escH(tip.txt)}</div>
               <div class="wx-tip-foot">
@@ -2015,7 +2015,7 @@ body.tv-mode #tv-stage { display: flex; }
                   </div>
                   <div class="wx-reg-big">
                     <div class="wx-reg-temp">${tNow}</div>
-                    <div style="text-align:right;font-size:10.5px;color:#a79bd6;font-family:monospace">
+                    <div style="text-align:right;font-size:10.5px;color:#a4bcc8;font-family:monospace">
                       <div>Máx <b style="color:#f97316">${Math.round(r.tMax)}°</b> / Mín <b style="color:#38bdf8">${Math.round(r.tMin)}°</b></div>
                       <div>Sensação: <b>${sens}</b></div>
                     </div>
@@ -2054,7 +2054,7 @@ body.tv-mode #tv-stage { display: flex; }
                     <span class="wx-badge" style="background:${h.col}">${h.delayMin >= 20 ? 'RETENÇÃO SEVERA' : h.delayMin >= 10 ? 'ATENÇÃO FLUXO' : 'FLUXO LIVRE'}</span>
                   </div>
                   <div class="wx-hw-speed-row">
-                    <div class="wx-hw-spd">${h.vEst} <small style="font-size:11px;color:#a79bd6">km/h (${h.fluidezPct}% fluidez)</small></div>
+                    <div class="wx-hw-spd">${h.vEst} <small style="font-size:11px;color:#a4bcc8">km/h (${h.fluidezPct}% fluidez)</small></div>
                     <div class="wx-hw-eta" style="color:${h.delayMin > 0 ? '#facc15' : '#4ade80'}">${h.delayMin > 0 ? '⏱️ +' + h.delayMin + ' min s/ livre' : '⏱️ Tempo normal (' + h.tFreeMin + 'm)'}</div>
                   </div>
                   <!-- Pista Vetorial com Movimento Contínuo Proporcional à Velocidade -->
@@ -2111,7 +2111,7 @@ body.tv-mode #tv-stage { display: flex; }
                   <div class="wx-hero-cond">${wNow.ic} ${wNow.tx}</div>
                   <div class="wx-hero-sub">Sensação térmica: <b>${cur ? (+cur.apparent_temperature).toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
                 </div>
-                <div style="text-align:right;font-family:ui-monospace,monospace;font-size:12px;color:#a79bd6;display:flex;flex-direction:column;gap:4px">
+                <div style="text-align:right;font-family:ui-monospace,monospace;font-size:12px;color:#a4bcc8;display:flex;flex-direction:column;gap:4px">
                   <div>Máx <b style="color:#f97316">${maxTemp24 ? Math.round(maxTemp24) + '°C' : '—'}</b></div>
                   <div>Mín <b style="color:#38bdf8">${minTemp24 < 90 ? Math.round(minTemp24) + '°C' : '—'}</b></div>
                   <div>Umid <b style="color:#22d3ee">${cur ? cur.relative_humidity_2m + '%' : '—'}</b></div>
@@ -2123,7 +2123,7 @@ body.tv-mode #tv-stage { display: flex; }
                   <b>☔ ${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'} (${maxProbNext24}%)</b>
                   <span>${wNow.imp}</span>
                 </div>
-                <div class="nyse-idx-box" style="--ic:#a855f7">
+                <div class="nyse-idx-box" style="--ic:#2dd4bf">
                   <small>VENTO &amp; RAJADAS</small>
                   <b>💨 ${cur ? Math.round(cur.wind_speed_10m) + ' km/h ' + degToCard(cur.wind_direction_10m) : '—'}</b>
                   <span>Rajadas até <b>${cur ? Math.round(cur.wind_gusts_10m) + ' km/h' : '—'}</b> · ${cur ? Math.round(cur.surface_pressure) + ' hPa' : ''}</span>
@@ -2157,25 +2157,25 @@ body.tv-mode #tv-stage { display: flex; }
       if (base.length >= 2) {
         const mxd = [...base].sort((a, b) => b.etq - a.etq)[0], mnd = [...base].sort((a, b) => a.etq - b.etq)[0], ix = d => days.findIndex(x => x.d == d.d);
         mks.push({ i: ix(mxd), lb: 'Maior ' + fd(mxd.d), c: '#22d3ee' });
-        if (mnd.d != mxd.d) mks.push({ i: ix(mnd), lb: 'Menor ' + fd(mnd.d), c: '#f472b6' });
+        if (mnd.d != mxd.d) mks.push({ i: ix(mnd), lb: 'Menor ' + fd(mnd.d), c: '#7dd3fc' });
         const hj = days.findIndex(x => x.d == dia);
         if (hj >= 0 && !mks.some(m => m.i == hj)) mks.push({ i: hj, lb: 'Dia ' + fd(dia), c: '#facc15' });
       }
 
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
-          ${kpiCard('PEDIDOS CARTEIRA', n0(S.N), uq(C, o => o[0]) + ' clientes únicos', '#6366f1', '📦', days.slice(-10).map(x => x.ent))}
+          ${kpiCard('PEDIDOS CARTEIRA', n0(S.N), uq(C, o => o[0]) + ' clientes únicos', '#0ea5e9', '📦', days.slice(-10).map(x => x.ent))}
           ${kpiCard('PESO CARTEIRA', tn(S.K), (S.N ? n0(S.K / S.N) : 0) + ' kg/pedido', '#38bdf8', '⚖️', days.slice(-10).map(x => x.peso))}
           ${kpiCard('VALOR LÍQUIDO', RSc(S.V), 'Frete cli: ' + RS(sm(C, 10)), '#22c55e', '💰', days.slice(-10).map(x => x.val))}
           ${kpiCard('CARGAS DO DIA', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#f59e0b', '🚛', days.slice(-10).map(x => x.n))}
-          ${kpiCard('ENTREGAS (ZS34)', n0(S.ent), fw(S.pk) + ' programados', '#ec4899', '📍')}
-          ${kpiCard('ETIQUETAS (ZW14)', n0(D.length), (sep ? pfx(sep) : 0) + '% separadas', '#a855f7', '🏷️', days.slice(-10).map(x => x.etq))}
+          ${kpiCard('ENTREGAS (ZS34)', n0(S.ent), fw(S.pk) + ' programados', '#14b8a6', '📍')}
+          ${kpiCard('ETIQUETAS (ZW14)', n0(D.length), (sep ? pfx(sep) : 0) + '% separadas', '#2dd4bf', '🏷️', days.slice(-10).map(x => x.etq))}
           ${kpiCard('FATURADO (ZS65)', RS(S.fatnf), S.fat + ' de ' + P.length + ' cargas', '#4ade80', '✅', days.slice(-10).map(x => x.nf))}
         </div>
         <div class="tv-row" style="grid-template-columns: repeat(4, 1fr) 1.55fr; flex: 0.95">
-          ${neonRing(sep, ['#22d3ee', '#60a5fa', '#a78bfa'], sep == null ? '—' : pfx(sep) + '%', 'Etiquetas Separadas', D.length ? D.filter(r => r[3] >= 2).length + ' de ' + n0(D.length) : 'sem ZW14')}
+          ${neonRing(sep, ['#22d3ee', '#60a5fa', '#67e8f9'], sep == null ? '—' : pfx(sep) + '%', 'Etiquetas Separadas', D.length ? D.filter(r => r[3] >= 2).length + ' de ' + n0(D.length) : 'sem ZW14')}
           ${neonRing(fatP, ['#4ade80', '#a3e635', '#facc15'], fatP == null ? '—' : pfx(fatP) + '%', 'Cargas Faturadas', P.length ? S.fat + ' de ' + P.length + ' cargas' : 'sem agenda')}
-          ${neonRing(S.ocD, ['#a78bfa', '#f472b6', '#fb923c'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Ocupação Diretos', S.dr.length + ' veículos diretos')}
+          ${neonRing(S.ocD, ['#67e8f9', '#7dd3fc', '#fb923c'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Ocupação Diretos', S.dr.length + ' veículos diretos')}
           ${neonRing(S.ocX, ['#22d3ee', '#34d399', '#facc15'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Ocupação Cross', S.car + ' carretas · ' + fw(sm(S.cx, 16)))}
           <div class="tv-card">
             <div class="tv-card-title">PRAZO DA CARTEIRA · PEDIDOS <span>Distribuição de vencimentos</span></div>
@@ -2183,7 +2183,7 @@ body.tv-mode #tv-stage { display: flex; }
               ${ledBar('🔴 Atrasado (≤ corte)', cs[0].length, S.N, ['#f43f5e', '#fb923c'])}
               ${ledBar('🟠 Vencimento D+1', cs[1].length, S.N, ['#fb923c', '#facc15'])}
               ${ledBar('🟡 Antecipação (' + fd(w.first) + ' a ' + fd(w.last) + ')', cs[2].length, S.N, ['#facc15', '#4ade80'])}
-              ${ledBar('🔵 Após a janela', cs[3].length, S.N, ['#22d3ee', '#a78bfa'])}
+              ${ledBar('🔵 Após a janela', cs[3].length, S.N, ['#22d3ee', '#67e8f9'])}
             </div>
           </div>
         </div>
@@ -2202,7 +2202,7 @@ body.tv-mode #tv-stage { display: flex; }
                 ${tnode(P.length ? pct(carg, P.length) : null, 'Carregada')}
                 ${tnode(fatP, 'Faturada')}
               </div>
-              <div style="border-top:1px solid #2b1d63;padding-top:8px">
+              <div style="border-top:1px solid #182b35;padding-top:8px">
                 ${ledBar('Conferidas na doca (ZW14)', st4[3], D.length || 1, ['#fb923c', '#facc15'])}
               </div>
             </div>
@@ -2229,37 +2229,37 @@ body.tv-mode #tv-stage { display: flex; }
 
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
-          ${kpiCard('TOTAL DE PEDIDOS', n0(S.N), uq(C, o => o[19]) + ' clientes ativos', '#6366f1', '📦')}
+          ${kpiCard('TOTAL DE PEDIDOS', n0(S.N), uq(C, o => o[19]) + ' clientes ativos', '#0ea5e9', '📦')}
           ${kpiCard('PESO TOTAL CARTEIRA', tn(S.K), 'Média ' + (S.N ? n0(S.K / S.N) : 0) + ' kg/ped', '#38bdf8', '⚖️')}
           ${kpiCard('VALOR LÍQUIDO (AB)', RSc(S.V), 'Carteira ativa', '#22c55e', '💰')}
           ${kpiCard('FRETE DO CLIENTE', RS(sm(C, 10)), S.V ? pfx(pct(sm(C, 10), S.V)) + '% s/ valor líq.' : '—', '#22d3ee', '🧾')}
-          ${kpiCard('VOLUMETRIA (CALC)', n0(vol.length) + ' ped', tn(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)), '#a855f7', '📐')}
-          ${kpiCard('ENTREGA NOTURNA', n0(not.length) + ' ped', tn(sm(not, 8)) + ' · ' + RSc(sm(not, 9)), '#818cf8', '🌙')}
+          ${kpiCard('VOLUMETRIA (CALC)', n0(vol.length) + ' ped', tn(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)), '#2dd4bf', '📐')}
+          ${kpiCard('ENTREGA NOTURNA', n0(not.length) + ' ped', tn(sm(not, 8)) + ' · ' + RSc(sm(not, 9)), '#0891b2', '🌙')}
           ${kpiCard('ÁREAS RESTRITAS', n0(vRst.length) + ' ped', pfx(pct(vRst.length, S.N)) + '% da carteira · ' + tn(sm(vRst, 8)), '#f97316', '🚧')}
         </div>
         <div class="tv-row" style="grid-template-columns: 1.35fr 1fr; flex: 1">
           <div class="tv-card">
             <div class="tv-card-title">PEDIDOS × PESO (T) POR DATA DE ENTREGA <span><i style="color:#22c55e">■</i> Barras = Pedidos (cor prazo) · <i style="color:#22d3ee">●</i> Linha = Peso (t)</span></div>
-            <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#6366f1' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#22d3ee')}</div>
+            <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#0ea5e9' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#22d3ee')}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">PEDIDOS POR ÁREA RESTRITA <span>Mapeamento de restrições de acesso</span></div>
-            <div class="tv-chart-box">${svgDonutNeon(rstMap, ['#f472b6', '#fb923c', '#22d3ee', '#facc15', '#a78bfa'])}</div>
+            <div class="tv-chart-box">${svgDonutNeon(rstMap, ['#7dd3fc', '#fb923c', '#22d3ee', '#facc15', '#67e8f9'])}</div>
           </div>
         </div>
         <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 0.95">
           <div class="tv-card">
             <div class="tv-card-title">PERFIL DE ATENÇÃO ESPECIAL · VOLUMETRIA, NOTURNA E VEÍCULO PEQUENO <span>Participação em Peso e Valor</span></div>
             <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
-              ${ledBar('📐 Volumetria (' + vol.length + ' pedidos)', sm(vol, 8), S.K || 1, ['#a855f7', '#ec4899'], fw(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)))}
-              ${ledBar('🌙 Entrega Noturna (' + not.length + ' pedidos)', sm(not, 8), S.K || 1, ['#6366f1', '#22d3ee'], fw(sm(not, 8)) + ' · ' + RSc(sm(not, 9)))}
+              ${ledBar('📐 Volumetria (' + vol.length + ' pedidos)', sm(vol, 8), S.K || 1, ['#2dd4bf', '#14b8a6'], fw(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)))}
+              ${ledBar('🌙 Entrega Noturna (' + not.length + ' pedidos)', sm(not, 8), S.K || 1, ['#0ea5e9', '#22d3ee'], fw(sm(not, 8)) + ' · ' + RSc(sm(not, 9)))}
               ${ledBar('🚗 Carro Pequeno (' + peq.length + ' pedidos)', sm(peq, 8), S.K || 1, ['#f97316', '#facc15'], fw(sm(peq, 8)) + ' · ' + RSc(sm(peq, 9)))}
               ${ledBar('🚧 Via Restrita (' + C.filter(o => o[13] === 'Via restrita').length + ' pedidos)', sm(C.filter(o => o[13] === 'Via restrita'), 8), S.K || 1, ['#ef4444', '#fb923c'], fw(sm(C.filter(o => o[13] === 'Via restrita'), 8)))}
             </div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">TOP PRAÇAS POR PESO NA CARTEIRA <span>Concentração de carga (t)</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(topPra, ['#22d3ee', '#38bdf8', '#818cf8', '#a78bfa', '#f472b6', '#fb923c', '#facc15'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(topPra, ['#22d3ee', '#38bdf8', '#0891b2', '#67e8f9', '#7dd3fc', '#fb923c', '#facc15'])}</div>
           </div>
         </div>`;
       igniteAutomotiveGauges(tvCanvas, true);
@@ -2277,8 +2277,8 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="tv-kpis">
           ${kpiCard('CARGAS AGENDADAS', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#f59e0b', '🚛')}
           ${kpiCard('PESO REAL (ZS34)', tn(S.pk), S.car + ' carretas Cross estimadas', '#38bdf8', '⚖️')}
-          ${kpiCard('QTDE DE ENTREGAS', n0(S.ent), n0(S.pedA) + ' pedidos na ZS34', '#ec4899', '📍')}
-          ${kpiCard('OCUPAÇÃO DIRETOS', S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Cross: ' + (S.ocX == null ? '—' : pfx(S.ocX) + '%'), '#a855f7', '📈')}
+          ${kpiCard('QTDE DE ENTREGAS', n0(S.ent), n0(S.pedA) + ' pedidos na ZS34', '#14b8a6', '📍')}
+          ${kpiCard('OCUPAÇÃO DIRETOS', S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Cross: ' + (S.ocX == null ? '—' : pfx(S.ocX) + '%'), '#2dd4bf', '📈')}
           ${kpiCard('DOCAS LIVRES', n0(livres), 'de ' + n0(S.G_.length) + ' janelas na grade', '#22d3ee', '🅿️')}
           ${kpiCard('VALOR PROGRAMADO', RS(S.val), 'Total ZS34 do dia', '#10b981', '💰')}
           ${kpiCard('VALOR FATURADO (ZS65)', RS(S.fatnf), S.fat + '/' + P.length + ' cargas (' + (P.length ? pfx(pct(S.fat, P.length)) : 0) + '%)', '#4ade80', '✅')}
@@ -2286,20 +2286,20 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="tv-row" style="grid-template-columns: 1.2fr 1fr 1fr; flex: 1.05">
           <div class="tv-card">
             <div class="tv-card-title">PESO REAL POR TRANSPORTADORA (TOP 7) <span>Volume alocado no dia</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(topTr, ['#f59e0b', '#fb923c', '#facc15', '#4ade80', '#22d3ee', '#818cf8', '#f472b6'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(topTr, ['#f59e0b', '#fb923c', '#facc15', '#4ade80', '#22d3ee', '#0891b2', '#7dd3fc'])}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">CHEGADA POR TURNO · CARGAS × PESO (T) <span>Ritmo de recebimento de frota</span></div>
-            <div class="tv-chart-box">${svgNeonCombo(tu.map(x => x[0]), tu.map(x => x[1].length), ['#0ea5e9', '#f59e0b', '#8b5cf6'], tu.map(x => Math.round(sm(x[1], 16) / 1000)), '#f43f5e')}</div>
+            <div class="tv-chart-box">${svgNeonCombo(tu.map(x => x[0]), tu.map(x => x[1].length), ['#0ea5e9', '#f59e0b', '#0e7490'], tu.map(x => Math.round(sm(x[1], 16) / 1000)), '#f43f5e')}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">MIX DE FROTA AGENDADA <span>Cargas por tipologia de veículo</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(veicEntries, ['#22d3ee', '#a78bfa', '#f472b6', '#fb923c', '#4ade80', '#facc15'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(veicEntries, ['#22d3ee', '#67e8f9', '#7dd3fc', '#fb923c', '#4ade80', '#facc15'])}</div>
           </div>
         </div>
         <div class="tv-row" style="grid-template-columns: 1fr 1fr 1.2fr; flex: 0.9">
-          ${neonRing(S.ocD, ['#22d3ee', '#818cf8', '#f472b6'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Taxa Ocupação Diretos', S.dr.length + ' veículos dedicados')}
-          ${neonRing(S.ocX, ['#4ade80', '#22d3ee', '#a855f7'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Taxa Ocupação Cross', S.cx.length + ' cargas em ' + S.car + ' carretas')}
+          ${neonRing(S.ocD, ['#22d3ee', '#0891b2', '#7dd3fc'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Taxa Ocupação Diretos', S.dr.length + ' veículos dedicados')}
+          ${neonRing(S.ocX, ['#4ade80', '#22d3ee', '#2dd4bf'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Taxa Ocupação Cross', S.cx.length + ' cargas em ' + S.car + ' carretas')}
           <div class="tv-card">
             <div class="tv-card-title">CONVERSÃO FINANCEIRA DO AGENDAMENTO <span>Programado (ZS34) × Faturado (ZS65)</span></div>
             <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
@@ -2328,7 +2328,7 @@ body.tv-mode #tv-stage { display: flex; }
 
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
-          ${kpiCard('TOTAL ETIQUETAS (ZW14)', n0(N), uq(D, r => r[5]) + ' transportes ativos', '#6366f1', '🏷️')}
+          ${kpiCard('TOTAL ETIQUETAS (ZW14)', n0(N), uq(D, r => r[5]) + ' transportes ativos', '#0ea5e9', '🏷️')}
           ${kpiCard('SEPARADAS + CONFERIDAS', n0(sep), (N ? pfx(pct(sep, N)) : 0) + '% concluído · ' + fw(sepk(D)), '#22c55e', '🟢')}
           ${kpiCard('CONFERIDAS NA DOCA', n0(c6[4].length), (N ? pfx(pct(c6[4].length, N)) : 0) + '% das etiquetas', '#0ea5e9', '☑️')}
           ${kpiCard('ATRIBUÍDAS (EM SEP.)', n0(c6[2].length), (N ? pfx(pct(c6[2].length, N)) : 0) + '% em andamento', '#f59e0b', '🟡')}
@@ -2350,7 +2350,7 @@ body.tv-mode #tv-stage { display: flex; }
             <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
               ${cores.length ? cores.map(c => {
                 const l = D.filter(r => cf(r) == c), sCount = l.filter(r => stg(r) >= 3 && stg(r) < 5).length;
-                const hex = OC[c] || '#a78bfa';
+                const hex = OC[c] || '#67e8f9';
                 return ledBar('🎨 Onda ' + c, sCount, l.length || 1, [hex, '#22d3ee'], `${n0(sCount)} / ${n0(l.length)} (${pfx(pct(sCount, l.length))}%)`);
               }).join('') : '<div class="note">Sem ondas registradas.</div>'}
             </div>
@@ -2359,7 +2359,7 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 1">
           <div class="tv-card">
             <div class="tv-card-title">TOP TRANSPORTADORAS · ETIQUETAS E SEPARAÇÃO <span>Volume de OTs e percentual separado</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(topTranspEtq, ['#4ade80', '#22d3ee', '#38bdf8', '#818cf8', '#a78bfa', '#f472b6', '#fb923c'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(topTranspEtq, ['#4ade80', '#22d3ee', '#38bdf8', '#0891b2', '#67e8f9', '#7dd3fc', '#fb923c'])}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">RITMO HORÁRIO DE PRODUTIVIDADE <span><i style="color:#10b981">■</i> Separadas/h · <i style="color:#facc15">●</i> Atribuídas/h</span></div>
@@ -2415,13 +2415,13 @@ body.tv-mode #tv-stage { display: flex; }
             <div class="tv-card" style="flex:1">
               <div class="tv-card-title">📊 SEMANA ATUAL · SEMANA ${ws} <span>${scWk.length} dia(s) · ${s(scWk, 'n')} cargas</span></div>
               <div class="nyse-idx-grid">
-                <div class="nyse-idx-box" style="--ic:#a855f7">
-                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ETIQUETAS</small>${miniSpark(scWk.map(x=>x.etq), '#a855f7', 54, 15)}</div>
+                <div class="nyse-idx-box" style="--ic:#2dd4bf">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ETIQUETAS</small>${miniSpark(scWk.map(x=>x.etq), '#2dd4bf', 54, 15)}</div>
                   <b>${n0(s(scWk, 'etq'))}</b>
                   <span>méd/dia ${n0(scWk.length ? s(scWk, 'etq') / scWk.length : 0)} · ${dvStr('etq')}</span>
                 </div>
-                <div class="nyse-idx-box" style="--ic:#ec4899">
-                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS (ZS34)</small>${miniSpark(scWk.map(x=>x.ent), '#ec4899', 54, 15)}</div>
+                <div class="nyse-idx-box" style="--ic:#14b8a6">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS (ZS34)</small>${miniSpark(scWk.map(x=>x.ent), '#14b8a6', 54, 15)}</div>
                   <b>${n0(s(scWk, 'ent'))}</b>
                   <span>méd/dia ${n0(scWk.length ? s(scWk, 'ent') / scWk.length : 0)} · ${dvStr('ent')}</span>
                 </div>
@@ -2451,13 +2451,13 @@ body.tv-mode #tv-stage { display: flex; }
             <div class="tv-card" style="flex:1">
               <div class="tv-card-title">🏛️ TODO O HISTÓRICO ACUMULADO <span>${allDays.length} dia(s) · ${n0(s(days, 'n'))} cargas</span></div>
               <div class="nyse-idx-grid">
-                <div class="nyse-idx-box" style="--ic:#818cf8">
-                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ETIQUETAS TOTAIS</small>${miniSpark(days.map(x=>x.etq), '#818cf8', 54, 15)}</div>
+                <div class="nyse-idx-box" style="--ic:#0891b2">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ETIQUETAS TOTAIS</small>${miniSpark(days.map(x=>x.etq), '#0891b2', 54, 15)}</div>
                   <b>${n0(s(days, 'etq'))}</b>
                   <span>méd/dia ${n0(allDays.length ? s(days, 'etq') / allDays.length : 0)}</span>
                 </div>
-                <div class="nyse-idx-box" style="--ic:#f472b6">
-                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS TOTAIS</small>${miniSpark(days.map(x=>x.ent), '#f472b6', 54, 15)}</div>
+                <div class="nyse-idx-box" style="--ic:#7dd3fc">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS TOTAIS</small>${miniSpark(days.map(x=>x.ent), '#7dd3fc', 54, 15)}</div>
                   <b>${n0(s(days, 'ent'))}</b>
                   <span>méd/dia ${n0(allDays.length ? s(days, 'ent') / allDays.length : 0)}</span>
                 </div>
@@ -2522,7 +2522,7 @@ body.tv-mode #tv-stage { display: flex; }
                       ? `<span class="tv-up">▲${x.dv.toFixed(0)}%</span>`
                       : `<span class="tv-dn">▼${Math.abs(x.dv).toFixed(0)}%</span>`;
                     return `<tr class="${isCur ? 'cur-day' : ''}">
-                      <td>${fd(x.d)} <small style="color:#a79bd6">${WD[wdOf(x.d)]}</small>${isCur ? ' ◀' : ''}</td>
+                      <td>${fd(x.d)} <small style="color:#a4bcc8">${WD[wdOf(x.d)]}</small>${isCur ? ' ◀' : ''}</td>
                       <td style="color:#22d3ee;font-weight:700">${wk(x.d)}</td>
                       <td>${x.n}</td>
                       <td><b>${n0(x.etq)}</b> ${tArrow}</td>
@@ -2531,7 +2531,7 @@ body.tv-mode #tv-stage { display: flex; }
                       <td>${x.fat}/${x.n}</td>
                       <td>${miniLed(x.ocD)}</td>
                       <td>${miniLed(x.ocX)}</td>
-                      <td style="text-align:left;color:#a79bd6;max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${escH(x.ctx || '')}">${escH(trunc(x.ctx || '—', 22))}</td>
+                      <td style="text-align:left;color:#a4bcc8;max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${escH(x.ctx || '')}">${escH(trunc(x.ctx || '—', 22))}</td>
                     </tr>`;
                   }).join('')}
                 </tbody>
@@ -2548,7 +2548,7 @@ body.tv-mode #tv-stage { display: flex; }
               <div class="nyse-wk-hd"><span>📅 SEMANA ${w} · ${l.length} DIA(S)</span><span>${w === ws ? '● ATUAL' : 'FECHADO'}</span></div>
               <div class="nyse-wk-val">${RS(s(l, 'val'))}</div>
               <div class="nyse-wk-meta">${n0(s(l, 'etq'))} etiquetas · ${n0(s(l, 'ent'))} entregas · ${s(l, 'n')} cargas · <b>${fw(s(l, 'peso'))}</b></div>
-              <div class="nyse-wk-nf">NF <b style="color:#4ade80">${RS(s(l, 'nf'))}</b> · pendente <b style="color:${pendVal > 0 ? '#fb923c' : '#9c90d4'}">${RS(pendVal)}</b></div>
+              <div class="nyse-wk-nf">NF <b style="color:#4ade80">${RS(s(l, 'nf'))}</b> · pendente <b style="color:${pendVal > 0 ? '#fb923c' : '#9bb7c5'}">${RS(pendVal)}</b></div>
             </div>`;
           }).join('')}
         </div>`;
@@ -2582,6 +2582,7 @@ body.tv-mode #tv-stage { display: flex; }
 
   function goToSlide(idx) {
     tvSlide = (idx + TOTAL_SLIDES) % TOTAL_SLIDES;
+    if (!PA_ENABLED && tvSlide === 2) tvSlide = 3;
     syncTabs();
     renderTvSlide(tvSlide);
   }
