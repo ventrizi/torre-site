@@ -84,7 +84,3 @@ summary{cursor:pointer;color:#e3f3f1}summary::marker{color:#1fd6c4}.q button{pad
 .cd h4,.ct2,.sec,th{font-family:var(--font-display);letter-spacing:.14em}
 .cd h4{font-size:13px;font-weight:600}
 .sec{font-size:15px;font-weight:600}
-/* icones de linha fina (substituem os emojis; herdam a cor do texto) */
-.ic{width:1.15em;height:1.15em;vertical-align:-.2em;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none;overflow:visible}
-.dot-ic{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--dc,#1fd6c4);vertical-align:.04em;box-shadow:0 0 6px color-mix(in srgb,var(--dc,#1fd6c4) 55%,transparent)}
-.k8 em .ic{width:1em;height:1em;stroke-width:1.2}
