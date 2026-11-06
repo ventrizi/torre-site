@@ -5,6 +5,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Torre Controle">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="styles.css"></head><body>
 <header class="hd2">
 <!-- Botão de 3 traços ocultado com segurança para manter compatibilidade com app.js -->
@@ -130,6 +132,27 @@
 .tv-card,.tv-kpi,.pa-pillar{isolation:isolate}
 .tv-card::before,.tv-kpi::before,.pa-pillar::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;background-image:linear-gradient(to right,var(--grid-line-in) 1px,transparent 1px),linear-gradient(to bottom,var(--grid-line-in) 1px,transparent 1px);background-size:22px 22px}
 .pa-pillar{position:relative}
+/* ===== ACABAMENTO: tipografia e clima (linguagem do widget de referencia) ===== */
+.tv-brand b,.tv-kpi-val,.wx-hero-temp,.wx-reg-temp,.nyse-wk-val,.tv-clock{font-family:var(--font-display);font-variant-numeric:tabular-nums}
+.tv-brand b{font-weight:700;font-size:clamp(20px,1.7vw,28px)}
+.tv-clock{color:#fff;font-weight:600;font-size:clamp(18px,1.5vw,24px);letter-spacing:.1em}
+.tv-kpi-val{font-weight:600;font-size:clamp(22px,2.05vw,32px)}
+.tv-card-title{font-family:var(--font-display);font-weight:600;font-size:clamp(12px,0.95vw,15px)}
+.wx-hero-temp{font-weight:600;font-size:clamp(48px,4.6vw,72px);letter-spacing:0}
+.wx-reg-temp{font-weight:600;font-size:clamp(26px,2.4vw,36px)}
+.nyse-wk-val{font-weight:600;font-size:clamp(18px,1.6vw,24px)}
+.wx-7d-day{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:.08em}
+.wx-7d-ico{display:flex;justify-content:center;color:var(--dc,var(--tc-cyan))}
+.wx-7d-ico .ic{width:42px;height:42px;stroke-width:1.3}
+.wx-7d-cond{font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.wx-7d-temps{font-family:var(--font-display);font-size:22px;font-weight:600;letter-spacing:.02em}
+.wx-7d-face.is-today{border-top-color:var(--tc-cyan);box-shadow:0 0 18px rgba(31,214,196,.18)}
+.wx-tip-cat{color:var(--tc-cyan);background:rgba(31,214,196,.10);border-color:rgba(31,214,196,.35);white-space:normal;line-height:1.2;min-width:0}
+.wx-7d-back>div:first-child{gap:6px}
+.wx-7d-back>div:first-child>span:last-child{flex:none;white-space:nowrap}
+.wx-moon-ic{font-size:inherit;filter:none;color:#d6efec}
+.wx-moon-ic .ic{width:36px;height:36px;stroke-width:1.2}
+.wx-astro-sun svg{height:36px}
 /* Pendências: crítico com halo discreto; chave de habilitar/desabilitar */
 /* Clima: ciclo dia/noite (pelo horário local) e painel astronômico */
 .wx-hero-box{position:relative;overflow:hidden}
@@ -334,7 +357,7 @@ body.tv-mode #tv-stage { display: flex; }
 .wx-sub-btn.on { background: linear-gradient(135deg, #0d9488, #1fd6c4) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 0 14px rgba(31, 214, 196, 0.4); }
 
 .wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; white-space: nowrap; }
-.wx-b-prev { background: #0284c7; }
+.wx-b-prev { background: #0d9488; }
 .wx-b-torre { background: #d97706; }
 .wx-b-gov { background: #dc2626; }
 .wx-b-ok { background: #16a34a; }
@@ -499,9 +522,9 @@ body.tv-mode #tv-stage { display: flex; }
 
   function wmoInfo(code) {
     const c = +code || 0;
-    if (c === 0) return { ic: '☀️', tx: 'Céu Limpo', rk: 'NORMAL', col: '#4ade80', imp: 'Pista seca · Docas 100% operacionais' };
+    if (c === 0) return { ic: '☀️', tx: 'Céu Limpo', rk: 'NORMAL', col: '#a7f3d0', imp: 'Pista seca · Docas 100% operacionais' };
     if (c <= 2) return { ic: '⛅', tx: 'Parc. Nublado', rk: 'NORMAL', col: '#1fd6c4', imp: 'Condição normal de pátio e expedição' };
-    if (c === 3) return { ic: '☁️', tx: 'Encoberto', rk: 'NORMAL', col: '#38bdf8', imp: 'Sem restrição de carregamento' };
+    if (c === 3) return { ic: '☁️', tx: 'Encoberto', rk: 'NORMAL', col: '#5eead4', imp: 'Sem restrição de carregamento' };
     if (c <= 48) return { ic: '🌫️', tx: 'Neblina', rk: 'ATENÇÃO', col: '#facc15', imp: 'Visibilidade reduzida nas saídas' };
     if (c <= 57) return { ic: '🌦️', tx: 'Garoa Leve', rk: 'ATENÇÃO', col: '#facc15', imp: 'Proteger etiquetas ZW14 e cargas abertas' };
     if (c <= 67) return { ic: '🌧️', tx: 'Chuva Moderada', rk: 'ALERTA', col: '#f97316', imp: 'Enlonamento obrigatório · Pátio molhado' };
@@ -837,7 +860,7 @@ body.tv-mode #tv-stage { display: flex; }
     });
 
     const pillars = [
-      { id: 'cart', title: '📦 1. Carteira & Prazos', color: '#0ea5e9', items: pCarteira },
+      { id: 'cart', title: '📦 1. Carteira & Prazos', color: '#14b8a6', items: pCarteira },
       { id: 'rot',  title: '🧭 2. Roteirização & Malha', color: '#14b8a6', items: pRoteirizacao },
       { id: 'agd',  title: '🚛 3. Agendamento & Frota', color: '#f59e0b', items: pAgendamento },
       { id: 'exp',  title: '🏭 4. Expedição & Outbound', color: '#1fd6c4', items: pExpedicao },
@@ -979,7 +1002,7 @@ body.tv-mode #tv-stage { display: flex; }
     else if (f < 0.5338) i = 4; else if (f < 0.7162) i = 5; else if (f < 0.7838) i = 6; else i = 7;
     const marks = [[0.25, 'Quarto Crescente'], [0.5, 'Lua Cheia'], [0.75, 'Quarto Minguante'], [1, 'Lua Nova']];
     const nx = marks.find(x => x[0] > f);
-    return { name: names[i], icon: icons[i], illum: Math.round(illum * 100), nextName: nx[1], nextDays: Math.max(1, Math.round((nx[0] - f) * SYN)) };
+    return { name: names[i], icon: icons[i], frac: f, illum: Math.round(illum * 100), nextName: nx[1], nextDays: Math.max(1, Math.round((nx[0] - f) * SYN)) };
   }
   function wxAstro(now) {
     now = now || new Date();
@@ -991,6 +1014,19 @@ body.tv-mode #tv-stage { display: flex; }
     const fmt = x => x.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: WX_TZ });
     const isDay = now >= rise && now <= set;
     return { isDay, rise: fmt(rise), set: fmt(set), progress: isDay ? (now - rise) / (set - rise) : null, moon: wxMoon(now) };
+  }
+  /* Fase da Lua em SVG de linha fina (hemisfério sul: o lado iluminado é espelhado por CSS) */
+  function wxMoonSvg(f) {
+    const k = Math.cos(2 * Math.PI * f), rx = (9 * Math.abs(k)).toFixed(2);
+    let lit = '';
+    if (f < 0.0338 || f >= 0.9662) lit = '';
+    else if (Math.abs(f - 0.5) < 0.0338) lit = '<circle cx="12" cy="12" r="9" fill="currentColor"/>';
+    else {
+      const waxing = f < 0.5, crescent = f < 0.25 || f > 0.75;
+      const outer = waxing ? 1 : 0, inner = waxing ? (crescent ? 0 : 1) : (crescent ? 1 : 0);
+      lit = `<path d="M12 3A9 9 0 0 ${outer} 12 21A${rx} 9 0 0 ${inner} 12 3z" fill="currentColor" stroke="none"/>`;
+    }
+    return `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/>${lit}</svg>`;
   }
   function wxIsDay() { try { return wxAstro().isDay; } catch (e) { return true; } }
   function wxAstroHtml() {
@@ -1004,7 +1040,7 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="wx-astro-t"><span><small>NASCER</small><b>${a.rise}</b></span><span><small>PÔR</small><b>${a.set}</b></span></div>
       </div>
       <div class="wx-astro-moon">
-        <span class="wx-moon-ic">${M.icon}</span>
+        <span class="wx-moon-ic" style="display:inline-block;transform:scaleX(-1)">${wxMoonSvg(M.frac)}</span>
         <div><b>${M.name}</b><small>${M.illum}% iluminada · ${M.nextName} ≈ em ${M.nextDays} d</small></div>
       </div>
     </div>`;
@@ -1041,7 +1077,7 @@ body.tv-mode #tv-stage { display: flex; }
     for (let deg = 0; deg < 360; deg += 10) {
       const rad = (deg - 90) * (Math.PI / 180);
       const r1 = deg % 30 === 0 ? 100 : 103, r2 = 106;
-      degreeTicks += `<line x1="${(120 + Math.cos(rad) * r1).toFixed(1)}" y1="${(120 + Math.sin(rad) * r1).toFixed(1)}" x2="${(120 + Math.cos(rad) * r2).toFixed(1)}" y2="${(120 + Math.sin(rad) * r2).toFixed(1)}" stroke="#38bdf8" stroke-opacity="${deg % 30 === 0 ? '0.55' : '0.25'}" stroke-width="${deg % 30 === 0 ? '1.2' : '0.7'}"/>`;
+      degreeTicks += `<line x1="${(120 + Math.cos(rad) * r1).toFixed(1)}" y1="${(120 + Math.sin(rad) * r1).toFixed(1)}" x2="${(120 + Math.cos(rad) * r2).toFixed(1)}" y2="${(120 + Math.sin(rad) * r2).toFixed(1)}" stroke="#5eead4" stroke-opacity="${deg % 30 === 0 ? '0.55' : '0.25'}" stroke-width="${deg % 30 === 0 ? '1.2' : '0.7'}"/>`;
     }
 
     let cells = '', pins = '';
@@ -1472,8 +1508,8 @@ body.tv-mode #tv-stage { display: flex; }
       <defs>
         <linearGradient id="nyseAreaG" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#1fd6c4" stop-opacity="0.45"/>
-          <stop offset="65%" stop-color="#3b82f6" stop-opacity="0.14"/>
-          <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
+          <stop offset="65%" stop-color="#14b8a6" stop-opacity="0.14"/>
+          <stop offset="100%" stop-color="#0f766e" stop-opacity="0.0"/>
         </linearGradient>
         <linearGradient id="nyseBarG" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#4ade80" stop-opacity="0.75"/>
@@ -1631,7 +1667,7 @@ body.tv-mode #tv-stage { display: flex; }
       const tVal = minT + (rngT / 4) * k, pVal = 25 * k;
       grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#15312d" stroke-dasharray="${k ? '3 4' : ''}"/>
                <text x="${L - 8}" y="${(yy + 4).toFixed(1)}" text-anchor="end" fill="#1fd6c4" font-size="10.5" font-weight="700" font-family="monospace">${Math.round(tVal)}°C</text>
-               <text x="${W - R + 8}" y="${(yy + 4).toFixed(1)}" text-anchor="start" fill="#38bdf8" font-size="10.5" font-weight="700" font-family="monospace">${pVal}%</text>`;
+               <text x="${W - R + 8}" y="${(yy + 4).toFixed(1)}" text-anchor="start" fill="#5eead4" font-size="10.5" font-weight="700" font-family="monospace">${pVal}%</text>`;
     }
 
     const ptsT = temps.map((v, i) => [X(i), Yt(v)]);
@@ -1643,7 +1679,7 @@ body.tv-mode #tv-stage { display: flex; }
     const bw = Math.max(8, Math.min(24, (pw / n) * 0.55));
     const probBars = probs.map((p, i) => {
       const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
-      const bCol = p >= 60 ? '#ef4444' : p >= 35 ? '#facc15' : '#38bdf8';
+      const bCol = p >= 60 ? '#ef4444' : p >= 35 ? '#facc15' : '#5eead4';
       return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${bCol}" fill-opacity="0.34"/>`;
     }).join('');
 
@@ -1671,17 +1707,17 @@ body.tv-mode #tv-stage { display: flex; }
       <defs>
         <linearGradient id="wxAreaG" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stop-color="#1fd6c4" stop-opacity="0.52"/>
-          <stop offset="65%" stop-color="#0ea5e9" stop-opacity="0.16"/>
-          <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.0"/>
+          <stop offset="65%" stop-color="#14b8a6" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="#0f766e" stop-opacity="0.0"/>
         </linearGradient>
       </defs>
       ${grid}${probBars}
       <path d="${areaTemp}" fill="url(#wxAreaG)"/>
-      <path d="${dProb}" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-dasharray="5 3"/>
+      <path d="${dProb}" fill="none" stroke="#5eead4" stroke-width="2.2" stroke-dasharray="5 3"/>
       <path d="${dTemp}" fill="none" stroke="#1fd6c4" stroke-width="3.2"/>
       ${nowDivider}
       ${pin(mxI, '▲ MÁX', '#f97316', true)}
-      ${mnI !== mxI ? pin(mnI, '▼ MÍN', '#38bdf8', false) : ''}
+      ${mnI !== mxI ? pin(mnI, '▼ MÍN', '#5eead4', false) : ''}
       ${xLabs}
     </svg>`;
   };
@@ -1962,7 +1998,7 @@ body.tv-mode #tv-stage { display: flex; }
               📈 TELEMETRIA CLIMÁTICA PANORÂMICA CDG · ÚLTIMAS 24H + PREVISÃO PRÓXIMAS 24H
               <div class="tv-legend">
                 <span><i style="background:#1fd6c4"></i>Curva = Temperatura (°C)</span>
-                <span><i style="background:#38bdf8"></i>Barras/Linha = Probabilidade de Chuva (%)</span>
+                <span><i style="background:#5eead4"></i>Barras/Linha = Probabilidade de Chuva (%)</span>
               </div>
             </div>
             <div class="tv-chart-box">${svgWeatherWideArea(hLabs, hTemps, hProbs, nowMarkerIdx)}</div>
@@ -1970,7 +2006,7 @@ body.tv-mode #tv-stage { display: flex; }
               <div class="nyse-hl-card">
                 <div class="hl-metric">🌡️ EXTREMOS 24H (CDG)</div>
                 <div class="nyse-hl-row"><span class="tv-up">▲ MÁXIMA</span><b style="color:#f97316">${maxTemp24 ? maxTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
-                <div class="nyse-hl-row"><span class="tv-nt">▼ MÍNIMA</span><b style="color:#38bdf8">${minTemp24 < 90 ? minTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">▼ MÍNIMA</span><b style="color:#5eead4">${minTemp24 < 90 ? minTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
               </div>
               <div class="nyse-hl-card">
                 <div class="hl-metric">☔ PROBABILIDADE DE CHUVA</div>
@@ -2028,7 +2064,7 @@ body.tv-mode #tv-stage { display: flex; }
               <div>
                 <div class="wx-7d-ico">${w.ic}</div>
                 <div class="wx-7d-cond">${w.tx}</div>
-                <div class="wx-7d-temps"><span style="color:#f97316">${Math.round(tmax)}°</span> <span style="color:#64748b">/</span> <span style="color:#38bdf8">${Math.round(tmin)}°C</span></div>
+                <div class="wx-7d-temps"><span style="color:#fff">${Math.round(tmax)}°</span> <span style="color:#64748b">/</span> <span style="color:#5eead4">${Math.round(tmin)}°C</span></div>
                 ${alertBadge}
               </div>
               <div class="wx-7d-stats">
@@ -2120,7 +2156,7 @@ body.tv-mode #tv-stage { display: flex; }
                   <div class="wx-reg-big">
                     <div class="wx-reg-temp">${tNow}</div>
                     <div style="text-align:right;font-size:10.5px;color:#a4c8c4;font-family:monospace">
-                      <div>Máx <b style="color:#f97316">${Math.round(r.tMax)}°</b> / Mín <b style="color:#38bdf8">${Math.round(r.tMin)}°</b></div>
+                      <div>Máx <b style="color:#ffffff">${Math.round(r.tMax)}°</b> / Mín <b style="color:#5eead4">${Math.round(r.tMin)}°</b></div>
                       <div>Sensação: <b>${sens}</b></div>
                     </div>
                   </div>
@@ -2132,7 +2168,7 @@ body.tv-mode #tv-stage { display: flex; }
                   <div class="wx-reg-cart">
                     ${isBase
                       ? `<span>Expedição CDG:</span><b style="color:#facc15">${n0(P.length)} cargas · ${fw(S.pk)}</b>`
-                      : `<span>Carteira Região:</span><b style="color:${r.pedCount > 0 ? '#38bdf8' : '#64748b'}">${n0(r.pedCount)} ped · ${fw(r.pesoKg)}</b>`
+                      : `<span>Carteira Região:</span><b style="color:${r.pedCount > 0 ? '#5eead4' : '#64748b'}">${n0(r.pedCount)} ped · ${fw(r.pesoKg)}</b>`
                     }
                   </div>
                 </div>`;
@@ -2173,7 +2209,7 @@ body.tv-mode #tv-stage { display: flex; }
                     </div>
                     <div class="wx-hw-sla-cell">
                       <small>2. EXPOSIÇÃO ROTA</small>
-                      <b style="color:#38bdf8">${n0(h.pedsTotal)} ped (${fw(h.pesoRota)})</b>
+                      <b style="color:#5eead4">${n0(h.pedsTotal)} ped (${fw(h.pesoRota)})</b>
                     </div>
                     <div class="wx-hw-sla-cell">
                       <small>3. RELAÇÃO COM SLA</small>
@@ -2217,13 +2253,13 @@ body.tv-mode #tv-stage { display: flex; }
                 </div>
                 <div style="text-align:right;font-family:ui-monospace,monospace;font-size:12px;color:#a4c8c4;display:flex;flex-direction:column;gap:4px">
                   <div>Máx <b style="color:#f97316">${maxTemp24 ? Math.round(maxTemp24) + '°C' : '—'}</b></div>
-                  <div>Mín <b style="color:#38bdf8">${minTemp24 < 90 ? Math.round(minTemp24) + '°C' : '—'}</b></div>
+                  <div>Mín <b style="color:#5eead4">${minTemp24 < 90 ? Math.round(minTemp24) + '°C' : '—'}</b></div>
                   <div>Umid <b style="color:#1fd6c4">${cur ? cur.relative_humidity_2m + '%' : '—'}</b></div>
                 </div>
               </div>
               ${wxAstroHtml()}
               <div class="nyse-idx-grid">
-                <div class="nyse-idx-box" style="--ic:#38bdf8">
+                <div class="nyse-idx-box" style="--ic:#5eead4">
                   <small>PRECIPITAÇÃO &amp; CHUVA 24H</small>
                   <b>☔ ${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'} (${maxProbNext24}%)</b>
                   <span>${wNow.imp}</span>
@@ -2262,15 +2298,15 @@ body.tv-mode #tv-stage { display: flex; }
       if (base.length >= 2) {
         const mxd = [...base].sort((a, b) => b.etq - a.etq)[0], mnd = [...base].sort((a, b) => a.etq - b.etq)[0], ix = d => days.findIndex(x => x.d == d.d);
         mks.push({ i: ix(mxd), lb: 'Maior ' + fd(mxd.d), c: '#1fd6c4' });
-        if (mnd.d != mxd.d) mks.push({ i: ix(mnd), lb: 'Menor ' + fd(mnd.d), c: '#7dd3fc' });
+        if (mnd.d != mxd.d) mks.push({ i: ix(mnd), lb: 'Menor ' + fd(mnd.d), c: '#99f6e4' });
         const hj = days.findIndex(x => x.d == dia);
         if (hj >= 0 && !mks.some(m => m.i == hj)) mks.push({ i: hj, lb: 'Dia ' + fd(dia), c: '#facc15' });
       }
 
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
-          ${kpiCard('PEDIDOS CARTEIRA', n0(S.N), uq(C, o => o[0]) + ' clientes únicos', '#0ea5e9', '📦', days.slice(-10).map(x => x.ent))}
-          ${kpiCard('PESO CARTEIRA', tn(S.K), (S.N ? n0(S.K / S.N) : 0) + ' kg/pedido', '#38bdf8', '⚖️', days.slice(-10).map(x => x.peso))}
+          ${kpiCard('PEDIDOS CARTEIRA', n0(S.N), uq(C, o => o[0]) + ' clientes únicos', '#14b8a6', '📦', days.slice(-10).map(x => x.ent))}
+          ${kpiCard('PESO CARTEIRA', tn(S.K), (S.N ? n0(S.K / S.N) : 0) + ' kg/pedido', '#5eead4', '⚖️', days.slice(-10).map(x => x.peso))}
           ${kpiCard('VALOR LÍQUIDO', RSc(S.V), 'Frete cli: ' + RS(sm(C, 10)), '#22c55e', '💰', days.slice(-10).map(x => x.val))}
           ${kpiCard('CARGAS DO DIA', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#f59e0b', '🚛', days.slice(-10).map(x => x.n))}
           ${kpiCard('ENTREGAS (ZS34)', n0(S.ent), fw(S.pk) + ' programados', '#a7f3d0', '📍')}
@@ -2278,9 +2314,9 @@ body.tv-mode #tv-stage { display: flex; }
           ${kpiCard('FATURADO (ZS65)', RS(S.fatnf), S.fat + ' de ' + P.length + ' cargas', '#4ade80', '✅', days.slice(-10).map(x => x.nf))}
         </div>
         <div class="tv-row" style="grid-template-columns: repeat(4, 1fr) 1.55fr; flex: 0.95">
-          ${neonRing(sep, ['#1fd6c4', '#60a5fa', '#67e8f9'], sep == null ? '—' : pfx(sep) + '%', 'Etiquetas Separadas', D.length ? D.filter(r => r[3] >= 2).length + ' de ' + n0(D.length) : 'sem ZW14')}
+          ${neonRing(sep, ['#1fd6c4', '#2dd4bf', '#67e8f9'], sep == null ? '—' : pfx(sep) + '%', 'Etiquetas Separadas', D.length ? D.filter(r => r[3] >= 2).length + ' de ' + n0(D.length) : 'sem ZW14')}
           ${neonRing(fatP, ['#4ade80', '#a3e635', '#facc15'], fatP == null ? '—' : pfx(fatP) + '%', 'Cargas Faturadas', P.length ? S.fat + ' de ' + P.length + ' cargas' : 'sem agenda')}
-          ${neonRing(S.ocD, ['#67e8f9', '#7dd3fc', '#fb923c'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Ocupação Diretos', S.dr.length + ' veículos diretos')}
+          ${neonRing(S.ocD, ['#67e8f9', '#99f6e4', '#fb923c'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Ocupação Diretos', S.dr.length + ' veículos diretos')}
           ${neonRing(S.ocX, ['#1fd6c4', '#34d399', '#facc15'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Ocupação Cross', S.car + ' carretas · ' + fw(sm(S.cx, 16)))}
           <div class="tv-card">
             <div class="tv-card-title">PRAZO DA CARTEIRA · PEDIDOS <span>Distribuição de vencimentos</span></div>
@@ -2334,8 +2370,8 @@ body.tv-mode #tv-stage { display: flex; }
 
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
-          ${kpiCard('TOTAL DE PEDIDOS', n0(S.N), uq(C, o => o[19]) + ' clientes ativos', '#0ea5e9', '📦')}
-          ${kpiCard('PESO TOTAL CARTEIRA', tn(S.K), 'Média ' + (S.N ? n0(S.K / S.N) : 0) + ' kg/ped', '#38bdf8', '⚖️')}
+          ${kpiCard('TOTAL DE PEDIDOS', n0(S.N), uq(C, o => o[19]) + ' clientes ativos', '#14b8a6', '📦')}
+          ${kpiCard('PESO TOTAL CARTEIRA', tn(S.K), 'Média ' + (S.N ? n0(S.K / S.N) : 0) + ' kg/ped', '#5eead4', '⚖️')}
           ${kpiCard('VALOR LÍQUIDO (AB)', RSc(S.V), 'Carteira ativa', '#22c55e', '💰')}
           ${kpiCard('FRETE DO CLIENTE', RS(sm(C, 10)), S.V ? pfx(pct(sm(C, 10), S.V)) + '% s/ valor líq.' : '—', '#1fd6c4', '🧾')}
           ${kpiCard('VOLUMETRIA (CALC)', n0(vol.length) + ' ped', tn(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)), '#14b8a6', '📐')}
@@ -2345,11 +2381,11 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="tv-row" style="grid-template-columns: 1.35fr 1fr; flex: 1">
           <div class="tv-card">
             <div class="tv-card-title">PEDIDOS × PESO (T) POR DATA DE ENTREGA <span><i style="color:#22c55e">■</i> Barras = Pedidos (cor prazo) · <i style="color:#1fd6c4">●</i> Linha = Peso (t)</span></div>
-            <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#0ea5e9' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#1fd6c4')}</div>
+            <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#14b8a6' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#1fd6c4')}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">PEDIDOS POR ÁREA RESTRITA <span>Mapeamento de restrições de acesso</span></div>
-            <div class="tv-chart-box">${svgDonutNeon(rstMap, ['#7dd3fc', '#fb923c', '#1fd6c4', '#facc15', '#67e8f9'])}</div>
+            <div class="tv-chart-box">${svgDonutNeon(rstMap, ['#99f6e4', '#fb923c', '#1fd6c4', '#facc15', '#67e8f9'])}</div>
           </div>
         </div>
         <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 0.95">
@@ -2357,14 +2393,14 @@ body.tv-mode #tv-stage { display: flex; }
             <div class="tv-card-title">PERFIL DE ATENÇÃO ESPECIAL · VOLUMETRIA, NOTURNA E VEÍCULO PEQUENO <span>Participação em Peso e Valor</span></div>
             <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
               ${ledBar('📐 Volumetria (' + vol.length + ' pedidos)', sm(vol, 8), S.K || 1, ['#14b8a6', '#a7f3d0'], fw(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)))}
-              ${ledBar('🌙 Entrega Noturna (' + not.length + ' pedidos)', sm(not, 8), S.K || 1, ['#0ea5e9', '#1fd6c4'], fw(sm(not, 8)) + ' · ' + RSc(sm(not, 9)))}
+              ${ledBar('🌙 Entrega Noturna (' + not.length + ' pedidos)', sm(not, 8), S.K || 1, ['#14b8a6', '#1fd6c4'], fw(sm(not, 8)) + ' · ' + RSc(sm(not, 9)))}
               ${ledBar('🚗 Carro Pequeno (' + peq.length + ' pedidos)', sm(peq, 8), S.K || 1, ['#f97316', '#facc15'], fw(sm(peq, 8)) + ' · ' + RSc(sm(peq, 9)))}
               ${ledBar('🚧 Via Restrita (' + C.filter(o => o[13] === 'Via restrita').length + ' pedidos)', sm(C.filter(o => o[13] === 'Via restrita'), 8), S.K || 1, ['#ef4444', '#fb923c'], fw(sm(C.filter(o => o[13] === 'Via restrita'), 8)))}
             </div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">TOP PRAÇAS POR PESO NA CARTEIRA <span>Concentração de carga (t)</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(topPra, ['#1fd6c4', '#38bdf8', '#0d9488', '#67e8f9', '#7dd3fc', '#fb923c', '#facc15'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(topPra, ['#1fd6c4', '#5eead4', '#0d9488', '#67e8f9', '#99f6e4', '#fb923c', '#facc15'])}</div>
           </div>
         </div>`;
       igniteAutomotiveGauges(tvCanvas, true);
@@ -2381,7 +2417,7 @@ body.tv-mode #tv-stage { display: flex; }
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
           ${kpiCard('CARGAS AGENDADAS', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#f59e0b', '🚛')}
-          ${kpiCard('PESO REAL (ZS34)', tn(S.pk), S.car + ' carretas Cross estimadas', '#38bdf8', '⚖️')}
+          ${kpiCard('PESO REAL (ZS34)', tn(S.pk), S.car + ' carretas Cross estimadas', '#5eead4', '⚖️')}
           ${kpiCard('QTDE DE ENTREGAS', n0(S.ent), n0(S.pedA) + ' pedidos na ZS34', '#a7f3d0', '📍')}
           ${kpiCard('OCUPAÇÃO DIRETOS', S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Cross: ' + (S.ocX == null ? '—' : pfx(S.ocX) + '%'), '#14b8a6', '📈')}
           ${kpiCard('DOCAS LIVRES', n0(livres), 'de ' + n0(S.G_.length) + ' janelas na grade', '#1fd6c4', '🅿️')}
@@ -2391,24 +2427,24 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="tv-row" style="grid-template-columns: 1.2fr 1fr 1fr; flex: 1.05">
           <div class="tv-card">
             <div class="tv-card-title">PESO REAL POR TRANSPORTADORA (TOP 7) <span>Volume alocado no dia</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(topTr, ['#f59e0b', '#fb923c', '#facc15', '#4ade80', '#1fd6c4', '#0d9488', '#7dd3fc'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(topTr, ['#f59e0b', '#fb923c', '#facc15', '#4ade80', '#1fd6c4', '#0d9488', '#99f6e4'])}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">CHEGADA POR TURNO · CARGAS × PESO (T) <span>Ritmo de recebimento de frota</span></div>
-            <div class="tv-chart-box">${svgNeonCombo(tu.map(x => x[0]), tu.map(x => x[1].length), ['#0ea5e9', '#f59e0b', '#0e7490'], tu.map(x => Math.round(sm(x[1], 16) / 1000)), '#f43f5e')}</div>
+            <div class="tv-chart-box">${svgNeonCombo(tu.map(x => x[0]), tu.map(x => x[1].length), ['#14b8a6', '#f59e0b', '#0e7490'], tu.map(x => Math.round(sm(x[1], 16) / 1000)), '#f43f5e')}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">MIX DE FROTA AGENDADA <span>Cargas por tipologia de veículo</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(veicEntries, ['#1fd6c4', '#67e8f9', '#7dd3fc', '#fb923c', '#4ade80', '#facc15'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(veicEntries, ['#1fd6c4', '#67e8f9', '#99f6e4', '#fb923c', '#4ade80', '#facc15'])}</div>
           </div>
         </div>
         <div class="tv-row" style="grid-template-columns: 1fr 1fr 1.2fr; flex: 0.9">
-          ${neonRing(S.ocD, ['#1fd6c4', '#0d9488', '#7dd3fc'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Taxa Ocupação Diretos', S.dr.length + ' veículos dedicados')}
+          ${neonRing(S.ocD, ['#1fd6c4', '#0d9488', '#99f6e4'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Taxa Ocupação Diretos', S.dr.length + ' veículos dedicados')}
           ${neonRing(S.ocX, ['#4ade80', '#1fd6c4', '#14b8a6'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Taxa Ocupação Cross', S.cx.length + ' cargas em ' + S.car + ' carretas')}
           <div class="tv-card">
             <div class="tv-card-title">CONVERSÃO FINANCEIRA DO AGENDAMENTO <span>Programado (ZS34) × Faturado (ZS65)</span></div>
             <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
-              ${ledBar('💰 Valor Programado (ZS34)', S.val, S.val || 1, ['#0ea5e9', '#1fd6c4'], RS(S.val))}
+              ${ledBar('💰 Valor Programado (ZS34)', S.val, S.val || 1, ['#14b8a6', '#1fd6c4'], RS(S.val))}
               ${ledBar('✅ Valor Faturado NF (ZS65)', S.fatnf, Math.max(S.val, S.fatnf, 1), ['#22c55e', '#4ade80'], RS(S.fatnf))}
               ${ledBar('⏳ Pendente de Faturamento', S.pendv, S.val || 1, ['#f97316', '#facc15'], RS(S.pendv) + ' (' + (P.length - S.fat) + ' cargas)')}
             </div>
@@ -2433,9 +2469,9 @@ body.tv-mode #tv-stage { display: flex; }
 
       tvCanvas.innerHTML = `
         <div class="tv-kpis">
-          ${kpiCard('TOTAL ETIQUETAS (ZW14)', n0(N), uq(D, r => r[5]) + ' transportes ativos', '#0ea5e9', '🏷️')}
+          ${kpiCard('TOTAL ETIQUETAS (ZW14)', n0(N), uq(D, r => r[5]) + ' transportes ativos', '#14b8a6', '🏷️')}
           ${kpiCard('SEPARADAS + CONFERIDAS', n0(sep), (N ? pfx(pct(sep, N)) : 0) + '% concluído · ' + fw(sepk(D)), '#22c55e', '🟢')}
-          ${kpiCard('CONFERIDAS NA DOCA', n0(c6[4].length), (N ? pfx(pct(c6[4].length, N)) : 0) + '% das etiquetas', '#0ea5e9', '☑️')}
+          ${kpiCard('CONFERIDAS NA DOCA', n0(c6[4].length), (N ? pfx(pct(c6[4].length, N)) : 0) + '% das etiquetas', '#14b8a6', '☑️')}
           ${kpiCard('ATRIBUÍDAS (EM SEP.)', n0(c6[2].length), (N ? pfx(pct(c6[2].length, N)) : 0) + '% em andamento', '#f59e0b', '🟡')}
           ${kpiCard('IMPRESSAS + REIMPR.', n0(c6[0].length + c6[1].length), c6[1].length + ' reimpressas', '#94a3b8', '🖨️')}
           ${kpiCard('ATRIB. ELIMINADA', n0(c6[5].length), fw(c6[5].reduce((x, r) => x + r[7], 0)), c6[5].length ? '#ef4444' : '#64748b', '🔴')}
@@ -2464,7 +2500,7 @@ body.tv-mode #tv-stage { display: flex; }
         <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 1">
           <div class="tv-card">
             <div class="tv-card-title">TOP TRANSPORTADORAS · ETIQUETAS E SEPARAÇÃO <span>Volume de OTs e percentual separado</span></div>
-            <div class="tv-chart-box">${svgHorizNeon(topTranspEtq, ['#4ade80', '#1fd6c4', '#38bdf8', '#0d9488', '#67e8f9', '#7dd3fc', '#fb923c'])}</div>
+            <div class="tv-chart-box">${svgHorizNeon(topTranspEtq, ['#4ade80', '#1fd6c4', '#5eead4', '#0d9488', '#67e8f9', '#99f6e4', '#fb923c'])}</div>
           </div>
           <div class="tv-card">
             <div class="tv-card-title">RITMO HORÁRIO DE PRODUTIVIDADE <span><i style="color:#10b981">■</i> Separadas/h · <i style="color:#facc15">●</i> Atribuídas/h</span></div>
@@ -2530,8 +2566,8 @@ body.tv-mode #tv-stage { display: flex; }
                   <b>${n0(s(scWk, 'ent'))}</b>
                   <span>méd/dia ${n0(scWk.length ? s(scWk, 'ent') / scWk.length : 0)} · ${dvStr('ent')}</span>
                 </div>
-                <div class="nyse-idx-box" style="--ic:#38bdf8">
-                  <div style="display:flex;justify-content:space-between;align-items:center"><small>PESO SEMANA</small>${miniSpark(scWk.map(x=>x.peso), '#38bdf8', 54, 15)}</div>
+                <div class="nyse-idx-box" style="--ic:#5eead4">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>PESO SEMANA</small>${miniSpark(scWk.map(x=>x.peso), '#5eead4', 54, 15)}</div>
                   <b>${fw(s(scWk, 'peso'))}</b>
                   <span>méd/dia ${fw(scWk.length ? s(scWk, 'peso') / scWk.length : 0)}</span>
                 </div>
@@ -2561,8 +2597,8 @@ body.tv-mode #tv-stage { display: flex; }
                   <b>${n0(s(days, 'etq'))}</b>
                   <span>méd/dia ${n0(allDays.length ? s(days, 'etq') / allDays.length : 0)}</span>
                 </div>
-                <div class="nyse-idx-box" style="--ic:#7dd3fc">
-                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS TOTAIS</small>${miniSpark(days.map(x=>x.ent), '#7dd3fc', 54, 15)}</div>
+                <div class="nyse-idx-box" style="--ic:#99f6e4">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS TOTAIS</small>${miniSpark(days.map(x=>x.ent), '#99f6e4', 54, 15)}</div>
                   <b>${n0(s(days, 'ent'))}</b>
                   <span>méd/dia ${n0(allDays.length ? s(days, 'ent') / allDays.length : 0)}</span>
                 </div>
@@ -2631,7 +2667,7 @@ body.tv-mode #tv-stage { display: flex; }
                       <td style="color:#1fd6c4;font-weight:700">${wk(x.d)}</td>
                       <td>${x.n}</td>
                       <td><b>${n0(x.etq)}</b> ${tArrow}</td>
-                      <td style="color:#38bdf8">${fw(x.peso)}</td>
+                      <td style="color:#5eead4">${fw(x.peso)}</td>
                       <td style="color:#4ade80;font-weight:700">${RS(x.val)}</td>
                       <td>${x.fat}/${x.n}</td>
                       <td>${miniLed(x.ocD)}</td>
@@ -2782,6 +2818,63 @@ body.tv-mode #tv-stage { display: flex; }
     }
   });
   applyPaState();
+
+  /* ==========================================================================
+     ICONES DE LINHA FINA: troca emojis por SVG (traço currentColor) em toda a aplicação.
+     Camada aditiva: observa o DOM e converte apenas nós de texto; não altera dados nem motores.
+     ========================================================================== */
+  (function () {
+    const LIB = {"truck": "<path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/>", "package": "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><path d=\"m3.3 7 8.7 5 8.7-5\"/><path d=\"m7.5 4.27 9 5.15\"/>", "check-circle": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8.5 12.5 2.5 2.5 4.5-5\"/>", "check": "<path d=\"m5 12.5 4.5 4.5L19 7\"/>", "x": "<path d=\"M6 6l12 12M18 6 6 18\"/>", "pin": "<path d=\"M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/>", "scale": "<path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/>", "alert": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>", "coin": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M15 9.5c-.5-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v2m0 8v2\"/>", "calendar": "<path d=\"M8 2v4M16 2v4\"/><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 10h18\"/>", "hourglass": "<path d=\"M5 22h14M5 2h14\"/><path d=\"M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22\"/><path d=\"M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2\"/>", "tag": "<path d=\"M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.42l8.7 8.7a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\".6\"/>", "clipboard": "<rect x=\"8\" y=\"2\" width=\"8\" height=\"4\" rx=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"M9 12h6M9 16h4\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m21 21-4.3-4.3\"/>", "clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "stopwatch": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l2 2M9 2h6\"/>", "zap": "<path d=\"M13 2 4 14h7l-1 8 9-12h-7z\"/>", "trend": "<path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M15 7h6v6\"/>", "chart": "<path d=\"M4 20V10M10 20V4M16 20v-8M22 20H2\"/>", "road": "<path d=\"M4 20 8 4M20 20 16 4M12 5v3m0 4v3m0 4v1\"/>", "cone": "<path d=\"M5 21h14M8 21l2.2-13h3.6L16 21M9 15h6M9.7 11h4.6\"/><path d=\"M12 3v2\"/>", "volume": "<path d=\"M11 5 6 9H2v6h4l5 4z\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14\"/>", "mute": "<path d=\"M11 5 6 9H2v6h4l5 4z\"/><path d=\"m22 9-6 6m0-6 6 6\"/>", "refresh": "<path d=\"M21 12a9 9 0 0 0-15-6.7L3 8\"/><path d=\"M3 3v5h5\"/><path d=\"M3 12a9 9 0 0 0 15 6.7L21 16\"/><path d=\"M16 16h5v5\"/>", "moon": "<path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z\"/>", "thermo": "<path d=\"M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z\"/>", "wind": "<path d=\"M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2\"/><path d=\"M9.6 4.6A2 2 0 1 1 11 8H2\"/><path d=\"M12.6 19.4A2 2 0 1 0 14 16H2\"/>", "umbrella": "<path d=\"M22 12a10 10 0 0 0-20 0z\"/><path d=\"M12 12v7a2 2 0 0 0 4 0\"/><path d=\"M12 2v1\"/>", "drop": "<path d=\"M12 22a7 7 0 0 0 7-7c0-4-7-13-7-13S5 11 5 15a7 7 0 0 0 7 7z\"/>", "sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"/>", "cloud": "<path d=\"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z\"/>", "cloud-sun": "<path d=\"M12 2v2\"/><path d=\"m4.93 4.93 1.41 1.41\"/><path d=\"M20 12h2\"/><path d=\"m19.07 4.93-1.41 1.41\"/><path d=\"M15.95 12.65a4 4 0 0 0-5.93-4.13\"/><path d=\"M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6z\"/>", "rain": "<path d=\"M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24\"/><path d=\"M16 14v6M8 14v6M12 16v6\"/>", "drizzle": "<path d=\"M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24\"/><path d=\"M8 19v1M8 14v1M16 19v1M16 14v1M12 21v1M12 16v1\"/>", "storm": "<path d=\"M6 16.33A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.97\"/><path d=\"m13 12-3 5h4l-3 5\"/>", "fog": "<path d=\"M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24\"/><path d=\"M16 17H7M17 21H9\"/>", "radar": "<path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"/><path d=\"M4 6h.01\"/><path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"/><path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"/><path d=\"M12 18h.01\"/><path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"m13.41 10.59 5.66-5.66\"/>", "signal": "<circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19.1 4.9a10 10 0 0 1 0 14.2M4.9 19.1a10 10 0 0 1 0-14.2\"/>", "map": "<path d=\"m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z\"/><path d=\"M9 3v15M15 6v15\"/>", "factory": "<path d=\"M2 20V8l6 4V8l6 4V4h4v16z\"/><path d=\"M2 20h20\"/>", "building": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1\"/><path d=\"M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2\"/>", "landmark": "<path d=\"M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10l10-6 10 6z\"/>", "receipt": "<path d=\"M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2z\"/><path d=\"M8 8h8M8 12h8M8 16h5\"/>", "printer": "<path d=\"M6 9V2h12v7\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\"/><path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/>", "palette": "<circle cx=\"13.5\" cy=\"6.5\" r=\".6\"/><circle cx=\"17.5\" cy=\"10.5\" r=\".6\"/><circle cx=\"8.5\" cy=\"7.5\" r=\".6\"/><circle cx=\"6.5\" cy=\"12.5\" r=\".6\"/><path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.7-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z\"/>", "trophy": "<path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0z\"/>", "flame": "<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z\"/>", "cog": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z\"/>", "plug": "<path d=\"M12 22v-5M9 8V2M15 8V2M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z\"/>", "shield": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/>", "compass": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m16 8-2 6-6 2 2-6z\"/>", "bulb": "<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "monitor": "<rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M8 21h8M12 17v4\"/>", "phone": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2\"/><path d=\"M12 18h.01\"/>", "trash": "<path d=\"M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6\"/>", "pencil": "<path d=\"M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z\"/>", "ruler": "<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z\"/><path d=\"m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2\"/>", "calc": "<rect x=\"4\" y=\"2\" width=\"16\" height=\"20\" rx=\"2\"/><path d=\"M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h4\"/>", "plus": "<path d=\"M12 5v14M5 12h14\"/>", "minus": "<path d=\"M5 12h14\"/>", "help": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5M12 17.5h.01\"/>", "pause": "<path d=\"M8 5v14M16 5v14\"/>", "play": "<path d=\"M7 4v16l13-8z\"/>", "siren": "<path d=\"M7 18v-6a5 5 0 0 1 10 0v6M5 21h14M12 2v2M3 8l1.5 1M21 8l-1.5 1\"/>", "arrow-up": "<path d=\"M12 19V5M5 12l7-7 7 7\"/>", "arrow-down": "<path d=\"M12 5v14M19 12l-7 7-7-7\"/>", "square": "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/>"};
+    const MAP = {"🚛": "truck", "🚚": "truck", "🚐": "truck", "🛻": "truck", "🚙": "truck", "🚗": "truck", "📦": "package", "✅": "check-circle", "☑": "check-circle", "✔": "check", "✓": "check", "❌": "x", "✕": "x", "✗": "x", "📍": "pin", "⚖": "scale", "⚠": "alert", "💰": "coin", "💲": "coin", "📅": "calendar", "🗓": "calendar", "⏳": "hourglass", "🏷": "tag", "📋": "clipboard", "📝": "clipboard", "🔎": "search", "🔍": "search", "⏰": "clock", "🕓": "clock", "🕑": "clock", "⏱": "stopwatch", "⚡": "zap", "📈": "trend", "📊": "chart", "🛣": "road", "🚧": "cone", "🔊": "volume", "🔇": "mute", "🔄": "refresh", "🔁": "refresh", "🔀": "refresh", "↻": "refresh", "🌙": "moon", "🌑": "moon", "🌒": "moon", "🌓": "moon", "🌔": "moon", "🌕": "moon", "🌖": "moon", "🌗": "moon", "🌘": "moon", "🌌": "moon", "🌡": "thermo", "💨": "wind", "☔": "umbrella", "💧": "drop", "☀": "sun", "🌞": "sun", "☁": "cloud", "⛅": "cloud-sun", "🌤": "cloud-sun", "🌧": "rain", "🌦": "drizzle", "⛈": "storm", "🌩": "storm", "🌫": "fog", "📡": "radar", "🛰": "signal", "🗺": "map", "🏭": "factory", "🏢": "building", "🏛": "landmark", "🧾": "receipt", "🖨": "printer", "🎨": "palette", "🏆": "trophy", "🔥": "flame", "⚙": "cog", "🔌": "plug", "🛡": "shield", "🎯": "target", "🧭": "compass", "💡": "bulb", "👤": "user", "🖥": "monitor", "📱": "phone", "🗑": "trash", "✏": "pencil", "📏": "ruler", "📐": "ruler", "🧮": "calc", "➕": "plus", "➖": "minus", "❓": "help", "⏸": "pause", "🚨": "siren", "🔺": "arrow-up", "🔻": "arrow-down"};
+    const VS16 = {"▶": "play", "▫": "square"};
+    const DOTS = {"🔴": "#ef4444", "🟠": "#f97316", "🟡": "#facc15", "🟢": "#2dd4bf", "🔵": "#5eead4", "⚪": "#cbd5e1"};
+    const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const alts = Object.keys(MAP).concat(Object.keys(DOTS)).sort((a, b) => b.length - a.length).map(esc);
+    Object.keys(VS16).forEach(k => alts.unshift(esc(k) + '\\uFE0F'));
+    const RE = new RegExp('(?:' + alts.join('|') + ')\\uFE0F?', 'g');
+    const TEST = new RegExp(RE.source);
+    const SKIP = 'svg,script,style,textarea,select,option,title,noscript,[data-noicon]';
+    const tpl = document.createElement('template');
+    function node(ch) {
+      const k = ch.replace(/\uFE0F/g, '');
+      let name = MAP[k];
+      if (!name && ch.indexOf('\uFE0F') >= 0 && VS16[k]) name = VS16[k];
+      if (DOTS[k]) { const i = document.createElement('i'); i.className = 'dot-ic'; i.style.setProperty('--dc', DOTS[k]); return i; }
+      if (!name || !LIB[name]) return document.createTextNode(ch);
+      tpl.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + LIB[name] + '</svg>';
+      return tpl.content.firstChild.cloneNode(true);
+    }
+    function convertText(t) {
+      const p = t.parentElement;
+      if (!p || p.closest(SKIP) || !TEST.test(t.nodeValue)) return;
+      const txt = t.nodeValue, frag = document.createDocumentFragment();
+      let last = 0, m; RE.lastIndex = 0;
+      while ((m = RE.exec(txt))) {
+        if (m.index > last) frag.appendChild(document.createTextNode(txt.slice(last, m.index)));
+        frag.appendChild(node(m[0])); last = m.index + m[0].length;
+      }
+      if (last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+      t.parentNode.replaceChild(frag, t);
+    }
+    function scan(root) {
+      if (!root) return;
+      if (root.nodeType === 3) { convertText(root); return; }
+      if (root.nodeType !== 1 || root.closest(SKIP)) return;
+      const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => n.parentElement && !n.parentElement.closest(SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+      });
+      const list = []; let n; while ((n = w.nextNode())) list.push(n);
+      list.forEach(convertText);
+    }
+    let queued = new Set(), raf = 0;
+    const flush = () => { raf = 0; const q = queued; queued = new Set(); q.forEach(scan); };
+    new MutationObserver(muts => {
+      muts.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 3 || (n.nodeType === 1 && n.tagName !== 'svg')) queued.add(n); }));
+      if (!raf && queued.size) raf = requestAnimationFrame(flush);
+    }).observe(document.body, { childList: true, subtree: true });
+    scan(document.body);
+    window.torreIconify = scan;
+  })();
 })();
 </script>
 </body></html>
