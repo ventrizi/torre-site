@@ -41,10 +41,8 @@
   <!-- Aba de Frete ocultada com segurança -->
   <button data-t="fr" style="display:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6.5C16 5 14 4 12 4c-2.5 0-4.5 1.3-4.5 3.5S9.5 11 12 11.5s4.5 1.3 4.5 3.5S14.5 20 12 20c-2 0-4-1-5-2.5"/></svg><span>Frete</span></button>
   <button data-t="al"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg><span>Alertas</span></button>
-  <button data-t="pa" id="tab-btn-pa"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span>Pendências que Exigem Ação</span></button>
 </nav>
 <div class="slab">ATALHOS</div><nav class="sl"><button id="goUp">Carregar planilhas</button><button id="goFl">Filtros e prazos</button><button id="goPar">Parâmetros de ocupação</button></nav>
-<div class="slab">MÓDULOS</div><label class="pa-sw" title="Mostrar ou ocultar a guia Pendências de Ação (dash e Modo TV)"><input type="checkbox" id="paChk" checked><span class="pa-sw-t">Pendências de Ação</span><i class="pa-sw-k"></i></label>
 <details class="cd calc" id="cdet" open><summary>CALENDÁRIO</summary><label style="font-size:11px;color:var(--mu)">D0 <input type="date" id="hj" value="2026-10-08"></label><div class="q" id="snq"></div><div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><button id="pv0">‹</button><b id="mt0"></b><button id="nx0">›</button></div><div class="cal" id="cal0"></div><div class="note">📦 carteira · 🚛 agendamento disponíveis nos dias marcados</div><div id="hinfo" class="note" style="margin-top:6px"></div></details></aside>
 
 <main class="main"><div class="crumb" id="crumb"></div>
@@ -83,11 +81,10 @@
     <b>MONITORAMENTO TV</b>
     <button class="tv-tab on" data-tv="0">1. Clima &amp; Rodovias</button>
     <button class="tv-tab" data-tv="1">2. Visão Geral</button>
-    <button class="tv-tab" data-tv="2">3. Pendências de Ação</button>
-    <button class="tv-tab" data-tv="3">4. Carteira</button>
-    <button class="tv-tab" data-tv="4">5. Agendamento</button>
-    <button class="tv-tab" data-tv="5">6. Status Operacional</button>
-    <button class="tv-tab" data-tv="6">7. Expedição &amp; Outbound</button>
+    <button class="tv-tab" data-tv="3">3. Carteira</button>
+    <button class="tv-tab" data-tv="4">4. Agendamento</button>
+    <button class="tv-tab" data-tv="5">5. Status Operacional</button>
+    <button class="tv-tab" data-tv="6">6. Expedição &amp; Outbound</button>
     <button id="tv-snd" title="Ativar/Desativar alertas sonoros">🔊 Áudio</button>
     <label class="tv-dur-lbl" title="Configurar tempo de exibição de cada tela">
       ⏱️
@@ -129,9 +126,12 @@
 }
 
 /* GRADE TECNOLÓGICA (dash, Modo TV e painéis): linhas finas em ciano esverdeado, baixa opacidade */
-.tv-card,.tv-kpi,.pa-pillar{isolation:isolate}
-.tv-card::before,.tv-kpi::before,.pa-pillar::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;background-image:linear-gradient(to right,var(--grid-line-in) 1px,transparent 1px),linear-gradient(to bottom,var(--grid-line-in) 1px,transparent 1px);background-size:22px 22px}
-.pa-pillar{position:relative}
+.tv-card,.tv-kpi{isolation:isolate}
+.tv-card::before,.tv-kpi::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;background-image:linear-gradient(to right,var(--grid-line-in) 1px,transparent 1px),linear-gradient(to bottom,var(--grid-line-in) 1px,transparent 1px);background-size:22px 22px}
+/* ===== ICONES (fonte unica; fica no index para nunca divergir do styles.css em cache) ===== */
+.ic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;flex:none;background-color:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.dot-ic{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--dc,#1fd6c4);vertical-align:.04em;box-shadow:0 0 6px color-mix(in srgb,var(--dc,#1fd6c4) 55%,transparent)}
+.k8 em .ic{width:1em;height:1em;-webkit-mask-image:var(--mt);mask-image:var(--mt)}
 /* ===== ACABAMENTO: tipografia e clima (linguagem do widget de referencia) ===== */
 .tv-brand b,.tv-kpi-val,.wx-hero-temp,.wx-reg-temp,.nyse-wk-val,.tv-clock{font-family:var(--font-display);font-variant-numeric:tabular-nums}
 .tv-brand b{font-weight:700;font-size:clamp(20px,1.7vw,28px)}
@@ -143,7 +143,7 @@
 .nyse-wk-val{font-weight:600;font-size:clamp(18px,1.6vw,24px)}
 .wx-7d-day{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:.08em}
 .wx-7d-ico{display:flex;justify-content:center;color:var(--dc,var(--tc-cyan))}
-.wx-7d-ico .ic{width:42px;height:42px;stroke-width:1.3}
+.wx-7d-ico .ic{width:42px;height:42px;-webkit-mask-image:var(--mt);mask-image:var(--mt)}
 .wx-7d-cond{font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 .wx-7d-temps{font-family:var(--font-display);font-size:22px;font-weight:600;letter-spacing:.02em}
 .wx-7d-face.is-today{border-top-color:var(--tc-cyan);box-shadow:0 0 18px rgba(31,214,196,.18)}
@@ -151,9 +151,8 @@
 .wx-7d-back>div:first-child{gap:6px}
 .wx-7d-back>div:first-child>span:last-child{flex:none;white-space:nowrap}
 .wx-moon-ic{font-size:inherit;filter:none;color:#d6efec}
-.wx-moon-ic .ic{width:36px;height:36px;stroke-width:1.2}
+.wx-moon-ic .ic{width:36px;height:36px;-webkit-mask-image:var(--mt);mask-image:var(--mt)}
 .wx-astro-sun svg{height:36px}
-/* Pendências: crítico com halo discreto; chave de habilitar/desabilitar */
 /* Clima: ciclo dia/noite (pelo horário local) e painel astronômico */
 .wx-hero-box{position:relative;overflow:hidden}
 .wx-hero-box > *{position:relative;z-index:1}
@@ -175,14 +174,6 @@
 .wx-astro-moon > div{display:flex;flex-direction:column;gap:1px;min-width:0}
 .wx-astro-moon b{font-size:11.5px;color:#fff;white-space:nowrap}
 .wx-astro-moon small{white-space:normal;line-height:1.25;text-transform:none;letter-spacing:.02em;font-size:9.5px}
-.pa-crit{box-shadow:0 0 0 1px rgba(239,68,68,.28),0 6px 18px rgba(239,68,68,.08)}
-.pa-sw{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:6px 0 12px;padding:8px 12px;border:1px solid var(--tc-border-hi);border-radius:10px;background:var(--tc-bg-panel);cursor:pointer;font-size:12px;color:var(--tc-text);user-select:none}
-.pa-sw input{position:absolute;opacity:0;pointer-events:none}
-.pa-sw-k{position:relative;width:32px;height:18px;border-radius:99px;background:#16303a;border:1px solid var(--tc-border-hi);transition:background .2s,border-color .2s;flex-shrink:0}
-.pa-sw-k::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#7fa8a8;transition:transform .2s,background .2s}
-.pa-sw input:checked + .pa-sw-t + .pa-sw-k{background:rgba(31,214,196,.25);border-color:var(--tc-cyan)}
-.pa-sw input:checked + .pa-sw-t + .pa-sw-k::after{transform:translateX(14px);background:var(--tc-cyan)}
-.pa-sw input:focus-visible + .pa-sw-t + .pa-sw-k{outline:2px solid var(--tc-cyan);outline-offset:2px}
 .up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#0a1c19;border:1px solid var(--tc-border-hi);border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:var(--tc-cyan);font-weight:800}
 .admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:var(--tc-bg-panel);border:1px solid var(--tc-border-hi);border-radius:var(--tc-radius-lg);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:var(--tc-cyan);letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#0a1c19;border:1px solid var(--tc-border-hi);border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
 
@@ -190,21 +181,6 @@
 .cd, .gx > .cd { overflow: visible !important; }
 .ars { padding-right: 18px; }
 
-/* ==========================================================================
-   NOVA GUIA: PENDÊNCIAS QUE EXIGEM AÇÃO (LAYOUT GERENCIAL POR PILARES)
-   ========================================================================== */
-.pa-sec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 12px; margin-top: 10px; }
-.pa-pillar { background: linear-gradient(180deg, rgba(12, 32, 30, 0.94), rgba(6, 17, 15, 0.96)); border: 1px solid var(--tc-border-hi); border-top: 3px solid var(--pc, var(--tc-cyan)); border-radius: var(--tc-radius-lg); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 8px 26px #0009; }
-.pa-pillar-hd { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #15312d; padding-bottom: 6px; }
-.pa-pillar-title { font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--pc, var(--tc-cyan)); display: flex; align-items: center; gap: 6px; }
-.pa-card { background: linear-gradient(145deg, #0e2320, #081614); border: 1px solid var(--tc-border); border-left: 4px solid var(--pac, #f97316); border-radius: var(--tc-radius-md); padding: 9px 12px; display: flex; flex-direction: column; justify-content: space-between; gap: 5px; cursor: pointer; transition: transform .15s, border-color .15s; }
-.pa-card:hover { transform: translateY(-1px); border-color: var(--pac, #1fd6c4); }
-.pa-card-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-.pa-card-mod { color: var(--tc-cyan); font-family: var(--tc-font-mono); }
-.pa-card-desc { font-size: 12px; font-weight: 700; color: #fff; line-height: 1.35; }
-.pa-card-imp { font-size: 11px; font-weight: 800; color: var(--pac, #facc15); font-family: var(--tc-font-mono); }
-.pa-card-act { font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #142f2b; padding-top: 4px; margin-top: 2px; display: flex; justify-content: space-between; align-items: center; gap: 6px; }
-.pa-go-tag { color: var(--tc-cyan); font-weight: 800; font-size: 9.5px; white-space: nowrap; }
 
 /* ==========================================================================
    CARTÕES METEOROLÓGICOS 7 DIAS COM ROTAÇÃO 3D (FACE 1: CLIMA / FACE 2: DICA)
@@ -443,14 +419,10 @@ body.tv-mode #tv-stage { display: flex; }
      MOTOR DE CONSOLIDAÇÃO FINAL:
      1. Outbound Dinâmico ao Espaço (ResizeObserver)
      2. Cartões 7 Dias com Rotação 3D (Previsão / Dica & Curiosidade)
-     3. Nova Guia "Pendências que Exigem Ação" (5 Pilares)
      4. Rodovias e SLA com Fluxo em Movimento e Perfil Horário 24h
      ========================================================================== -->
 <script>
 (function(){
-  /* Guia "Pendências de Ação": habilitada por padrão; a escolha fica salva neste navegador. */
-  let PA_ENABLED = true;
-  try { PA_ENABLED = localStorage.getItem('torre_pa_enabled') !== '0'; } catch (e) {}
   /* 1. Onboarding Padronizado */
   window.onboarding = function() {
     return `<div class="cd" style="text-align:center;padding:28px;border-color:#204742">
@@ -705,237 +677,10 @@ body.tv-mode #tv-stage { display: flex; }
       }
     }
 
-    if (typeof tab !== 'undefined' && tab === 'pa' && typeof draw === 'function') draw();
-    if (document.body.classList.contains('tv-mode') && (tvSlide === 0 || tvSlide === 2)) renderTvSlide(tvSlide);
+    if (document.body.classList.contains('tv-mode') && tvSlide === 0) renderTvSlide(tvSlide);
   }
   fetchMultiRegionTelemetry();
   setInterval(fetchMultiRegionTelemetry, 15 * 60 * 1000);
-
-  /* ==========================================================================
-     5. NOVA GUIA GERENCIAL: PENDÊNCIAS QUE EXIGEM AÇÃO (ORGANIZADA EM 5 PILARES)
-     ========================================================================== */
-  function computeStructuredPendencies() {
-    if (typeof VAZIO === 'function' && VAZIO()) return { total: 0, crit: 0, pillars: [] };
-    const S = st(), C = S.C, P = S.P, D = S.D;
-
-    const pCarteira = [];
-    const pRoteirizacao = [];
-    const pAgendamento = [];
-    const pExpedicao = [];
-    const pExternos = [];
-
-    /* 1. CARTEIRA */
-    const atr = C.filter(o => cat(o[7]) === 0);
-    if (atr.length > 0) {
-      pCarteira.push({
-        prio: 'CRÍTICO', col: '#ef4444', mod: 'Carteira · Prazos', tab: 'ct', ref: fdy(ref()),
-        desc: `${n0(atr.length)} pedido(s) em atraso (data de entrega ≤ corte) sem agendamento`,
-        imp: `${fw(sm(atr, 8))} · ${RSc(sm(atr, 9))} (${uq(atr, o => o[0])} clientes)`,
-        act: 'Priorizar alocação imediata na grade ou alinhar reprogramação comercial.'
-      });
-    }
-    const ven = C.filter(o => cat(o[7]) === 1);
-    if (ven.length > 0) {
-      const isCrit = ven.length / Math.max(1, S.N) >= 0.05;
-      pCarteira.push({
-        prio: isCrit ? 'CRÍTICO' : 'ALTA', col: isCrit ? '#ef4444' : '#f97316', mod: 'Carteira · Vencimento D+1', tab: 'ct', ref: fdy(addD(ref(), 1)),
-        desc: `${n0(ven.length)} pedido(s) vencem no próximo dia útil (D+1)`,
-        imp: `${fw(sm(ven, 8))} · ${RSc(sm(ven, 9))}`,
-        act: 'Incluir nas ondas prioritárias de separação e garantir reserva de frota.'
-      });
-    }
-
-    /* 2. ROTEIRIZAÇÃO */
-    const prDesp = Object.entries(C.reduce((m, o) => { (m[o[4]] = m[o[4]] || []).push(o); return m; }, {}))
-      .filter(x => x[1].length >= 15 && (idx(x[1], S.N, S.K) < 0.55 || idx(x[1], S.N, S.K) > 1.65));
-    prDesp.sort((a, b) => b[1].length - a[1].length).slice(0, 2).forEach(topD => {
-      const ixVal = idx(topD[1], S.N, S.K);
-      pRoteirizacao.push({
-        prio: 'ATENÇÃO', col: '#14b8a6', mod: 'Roteirização · Praça', tab: 'ct', ref: fdy(dia),
-        desc: `Desproporção Pedido×Peso em ${topD[0]} (índice ${ixVal.toFixed(2)})`,
-        imp: `${n0(topD[1].length)} pedidos · ${fw(sm(topD[1], 8))}`,
-        act: ixVal < 1 ? 'Alta pulverização de entregas: validar limite de paradas por veículo.' : 'Alta concentração de peso: priorizar alocação de veículos pesados.'
-      });
-    });
-    const vRst = C.filter(o => o[13] === 'Via restrita' || o[13] === 'Residência limitada');
-    if (vRst.length > 0) {
-      pRoteirizacao.push({
-        prio: 'ATENÇÃO', col: '#facc15', mod: 'Roteirização · Restrições', tab: 'ct', ref: fdy(dia),
-        desc: `${n0(vRst.length)} pedido(s) em área de acesso restrito ou residência limitada`,
-        imp: `${fw(sm(vRst, 8))} · ${RSc(sm(vRst, 9))}`,
-        act: 'Validar compatibilidade de porte do veículo (VUC / Carro Pequeno) antes da onda.'
-      });
-    }
-
-    /* 3. AGENDAMENTO */
-    const subOcup = S.dr.filter(g => ocu(g) != null && ocu(g) < CFG.lo);
-    if (subOcup.length > 0) {
-      pAgendamento.push({
-        prio: 'ATENÇÃO', col: '#facc15', mod: 'Agendamento · Ocupação', tab: 'ag', ref: fdy(dia),
-        desc: `${n0(subOcup.length)} carga(s) direta(s) abaixo da capacidade recomendada (<${CFG.lo}%)`,
-        imp: `Peso alocado: ${fw(sm(subOcup, 16))}`,
-        act: 'Avaliar oportunidade de consolidação de pedidos ou troca para veículo menor.'
-      });
-    }
-    const overOcup = S.dr.filter(g => ocu(g) != null && ocu(g) > CFG.hi);
-    if (overOcup.length > 0) {
-      pAgendamento.push({
-        prio: 'ALTA', col: '#f97316', mod: 'Agendamento · Capacidade', tab: 'ag', ref: fdy(dia),
-        desc: `${n0(overOcup.length)} veículo(s) direto(s) acima do teto operacional (>${CFG.hi}%)`,
-        imp: `Peso alocado: ${fw(sm(overOcup, 16))}`,
-        act: 'Verificar limite de balança/cubagem ou necessidade de veículo adicional.'
-      });
-    }
-    const multiCross = S.X.filter(x => x.c >= 2);
-    if (multiCross.length > 0) {
-      pAgendamento.push({
-        prio: 'ALTA', col: '#f97316', mod: 'Agendamento · Cross-Docking', tab: 'ag', ref: fdy(dia),
-        desc: `${n0(multiCross.length)} operação(ões) Cross demandam múltiplas carretas (${multiCross.reduce((a, x) => a + x.c, 0)} carretas)`,
-        imp: multiCross.map(x => `${x.tra} (${x.c} carr. · ${fw(x.k)})`).slice(0, 2).join(' · '),
-        act: 'Confirmar posicionamento das carretas adicionais nas docas.'
-      });
-    }
-
-    /* 4. EXPEDIÇÃO E OUTBOUND */
-    const nfc = P.filter(g => ZM[g[5]] == null && String(g[21] || '').startsWith('4'));
-    if (nfc.length > 0) {
-      pExpedicao.push({
-        prio: 'CRÍTICO', col: '#ef4444', mod: 'Outbound · ZS34×ZS65', tab: 'ob', ref: fdy(dia),
-        desc: `${n0(nfc.length)} carga(s) com carregamento concluído (ZS34) pendentes de NF (ZS65)`,
-        imp: `${fw(sm(nfc, 16))} · ${RS(nfc.reduce((x, g) => x + (g[24] || 0), 0))}`,
-        act: 'Priorizar emissão fiscal no faturamento para liberação imediata do veículo.'
-      });
-    }
-    if (D.length > 0) {
-      const pendSep = D.filter(r => r[3] >= 0 && r[3] < 2);
-      if (pendSep.length > 0) {
-        const pPct = pct(pendSep.length, D.length);
-        pExpedicao.push({
-          prio: pPct >= 25 ? 'ALTA' : 'ATENÇÃO', col: pPct >= 25 ? '#f97316' : '#facc15', mod: 'Status Operacional · ZW14', tab: 'ex', ref: fdy(dia),
-          desc: `${n0(pendSep.length)} etiqueta(s) ZW14 pendentes de separação (${pfx(pPct)}% do dia)`,
-          imp: `${fw(pendSep.reduce((x, r) => x + r[7], 0))} em processamento`,
-          act: `Acompanhar avanço nos prédios (${D.filter(r => r[3] === 0).length} etiquetas aguardando atribuição).`
-        });
-      }
-    }
-    const semEtq = P.filter(g => !ETQ[g[5]]);
-    if (semEtq.length > 0) {
-      pExpedicao.push({
-        prio: 'NECESSIDADE DE VALIDAÇÃO', col: '#1fd6c4', mod: 'Integração · AGD×ZW14', tab: 'al', ref: fdy(dia),
-        desc: `${n0(semEtq.length)} transporte(s) na agenda sem etiquetas localizadas na ZW14`,
-        imp: `${fw(sm(semEtq, 16))} previstos na ZS34`,
-        act: 'Validar se as OTs já foram geradas ou se o transporte opera fora do escopo ZW14.'
-      });
-    }
-
-    /* 5. RISCOS EXTERNOS (CLIMA & RODOVIAS × OPERAÇÃO) */
-    CORREDORES_RODOVIARIOS.forEach(hw => {
-      const h = calcHighwayTelemetry(hw, C);
-      if (h.delayMin >= 15 && h.pedsTotal > 0) {
-        pExternos.push({
-          prio: h.delayMin >= 25 ? 'CRÍTICO' : 'ALTA', col: h.col, mod: 'Rodovias & SLA', tab: 'ct', ref: fdy(dia),
-          desc: `${h.hw.nome}: retenção estimada de +${h.delayMin} min (${h.cause})`,
-          imp: `${n0(h.pedsTotal)} pedidos na rota (${h.pedsUrg} urgentes D0/D+1 · ${fw(h.pesoRota)})`,
-          act: 'Monitorar janela de descarga dos clientes atendidos pelo corredor.'
-        });
-      }
-    });
-    POLOS_OPERACIONAIS.forEach(p => {
-      if (p.id === 'CDG') return;
-      const rData = WX_STATE.regions[p.id];
-      const rDaily = rData && rData.daily;
-      const prob = rDaily && rDaily.precipitation_probability_max ? (+rDaily.precipitation_probability_max[1] || 0) : 0;
-      const mm = rDaily && rDaily.precipitation_sum ? (+rDaily.precipitation_sum[1] || 0) : 0;
-      if (prob >= 65 || mm >= 12) {
-        const pedsReg = C.filter(o => p.munis.includes(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
-        if (pedsReg.length > 0) {
-          pExternos.push({
-            prio: mm >= 20 ? 'CRÍTICO' : 'ATENÇÃO', col: mm >= 20 ? '#ef4444' : '#f97316', mod: 'Meteorologia Regional', tab: 'ct', ref: fdy(dia),
-            desc: `Previsão de chuva em ${p.nome} (☔ ${prob}% · ${mm.toFixed(1)}mm) com viagens programadas`,
-            imp: `${n0(pedsReg.length)} pedidos · ${fw(sm(pedsReg, 8))}`,
-            act: 'Garantir enlonamento reforçado e proteção de embalagens.'
-          });
-        }
-      }
-    });
-
-    const pillars = [
-      { id: 'cart', title: '📦 1. Carteira & Prazos', color: '#14b8a6', items: pCarteira },
-      { id: 'rot',  title: '🧭 2. Roteirização & Malha', color: '#14b8a6', items: pRoteirizacao },
-      { id: 'agd',  title: '🚛 3. Agendamento & Frota', color: '#f59e0b', items: pAgendamento },
-      { id: 'exp',  title: '🏭 4. Expedição & Outbound', color: '#1fd6c4', items: pExpedicao },
-      { id: 'ext',  title: '🌩️ 5. Riscos Externos (Clima & Vias)', color: '#a7f3d0', items: pExternos }
-    ];
-    const allItems = pillars.flatMap(p => p.items);
-    const critCount = allItems.filter(x => x.prio === 'CRÍTICO').length;
-    return { total: allItems.length, crit: critCount, pillars, allItems };
-  }
-
-  /* Renderizador completo da Guia "Pendências que Exigem Ação" (para o Modo Dash e Modo TV) */
-  const PA_RANK = { 'CRÍTICO': 0, 'ALTA': 1, 'ATENÇÃO': 2, 'NECESSIDADE DE VALIDAÇÃO': 3 };
-  function paSort(arr) { return arr.slice().sort((a, b) => (PA_RANK[a.prio] ?? 9) - (PA_RANK[b.prio] ?? 9)); }
-  function buildPendenciesViewHtml(isTv) {
-    const data = computeStructuredPendencies();
-    const S = st();
-    const valCount = data.allItems.filter(x => x.prio === 'NECESSIDADE DE VALIDAÇÃO').length;
-    const altCount = data.allItems.filter(x => x.prio === 'ALTA' || x.prio === 'ATENÇÃO').length;
-
-    const kpiRow = `<div class="${isTv ? 'tv-kpis' : 'g4'}" style="margin-bottom:10px">
-      ${isTv
-        ? kpiCard('TOTAL DE PENDÊNCIAS', n0(data.total), 'Ocorrências acionáveis mapeadas', '#1fd6c4', '⚡') +
-          kpiCard('PRIORIDADE CRÍTICA', n0(data.crit), 'Exigem intervenção imediata', data.crit ? '#ef4444' : '#22c55e', '🔴') +
-          kpiCard('ALTA / ATENÇÃO', n0(altCount), 'Desvios operacionais e ocupação', '#f97316', '🟠') +
-          kpiCard('VALIDAÇÃO DE DADOS', n0(valCount), 'Conferência entre módulos', '#14b8a6', '🔍')
-        : stCard('TOTAL DE PENDÊNCIAS', n0(data.total), 'ocorrências acionáveis no dia ' + fdy(dia), '⚡', '#1fd6c4') +
-          stCard('PRIORIDADE CRÍTICA', n0(data.crit), 'exigem intervenção imediata', '🔴', data.crit ? '#ef4444' : '#22c55e') +
-          stCard('ALTA / ATENÇÃO', n0(altCount), 'ajustes de frota, onda ou rota', '🟠', '#f97316') +
-          stCard('NECESSIDADE DE VALIDAÇÃO', n0(valCount), 'divergências entre módulos p/ checar', '🔍', '#14b8a6')
-      }
-    </div>`;
-
-    const pillarsHtml = `<div class="pa-sec-grid" style="${isTv ? 'grid-template-columns:repeat(3,minmax(0,1fr));flex:1;min-height:0;overflow-y:auto' : ''}">
-      ${data.pillars.map(pil => `<div class="pa-pillar" style="--pc:${pil.color}">
-        <div class="pa-pillar-hd">
-          <div class="pa-pillar-title">${pil.title}</div>
-          <span class="wx-badge" style="background:${pil.items.length ? pil.color : '#1e293b'}">${pil.items.length} item(ns)</span>
-        </div>
-        ${pil.items.length ? paSort(pil.items).map(it => `<div class="pa-card${it.prio === 'CRÍTICO' ? ' pa-crit' : ''}" style="--pac:${it.col}" data-pa-tab="${it.tab}">
-          <div class="pa-card-top">
-            <span class="pa-card-mod">📍 ${escH(it.mod)} · ${escH(it.ref)}</span>
-            <span class="wx-badge" style="background:${it.col}">${escH(it.prio)}</span>
-          </div>
-          <div class="pa-card-desc">${escH(it.desc)}</div>
-          <div class="pa-card-imp">Impacto: ${escH(it.imp)}</div>
-          <div class="pa-card-act">
-            <span>▸ ${escH(it.act)}</span>
-            <span class="pa-go-tag">Abrir módulo ➔</span>
-          </div>
-        </div>`).join('') : `<div class="note" style="padding:14px 4px;text-align:center;color:#4ade80">✔ Nenhuma pendência identificada neste pilar para ${fdy(dia)}.</div>`}
-      </div>`).join('')}
-    </div>`;
-
-    return (isTv ? '' : `<h3>⚡ PENDÊNCIAS QUE EXIGEM AÇÃO · VISÃO GERENCIAL CONSOLIDADA (${fdy(dia)})</h3>`) + kpiRow + pillarsHtml;
-  }
-
-  /* Integra a guia `pa` ("Pendências que Exigem Ação") diretamente ao ciclo do `draw()` do app.js */
-  const origDraw = window.draw;
-  if (typeof origDraw === 'function') {
-    window.draw = function() {
-      if (!PA_ENABLED && typeof tab !== 'undefined' && tab === 'pa') { try { tab = 'ov'; } catch (e) {} }
-      if (PA_ENABLED && typeof tab !== 'undefined' && tab === 'pa' && !(typeof VAZIO === 'function' && VAZIO())) {
-        document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.t === 'pa'));
-        if (typeof renderCrumb === 'function') {
-          renderCrumb(st());
-          const crumbEl = document.getElementById('crumb');
-          if (crumbEl) crumbEl.innerHTML = crumbEl.innerHTML.replace('Alertas', 'Pendências que Exigem Ação');
-        }
-        const vContainer = document.getElementById('v');
-        if (vContainer) vContainer.innerHTML = buildPendenciesViewHtml(false);
-        return;
-      }
-      origDraw.apply(this, arguments);
-    };
-  }
 
   /* ==========================================================================
      6. DICAS E CURIOSIDADES VERIFICADAS PARA O VERSO DOS CARTÕES DE 7 DIAS
@@ -1026,7 +771,7 @@ body.tv-mode #tv-stage { display: flex; }
       const outer = waxing ? 1 : 0, inner = waxing ? (crescent ? 0 : 1) : (crescent ? 1 : 0);
       lit = `<path d="M12 3A9 9 0 0 ${outer} 12 21A${rx} 9 0 0 ${inner} 12 3z" fill="currentColor" stroke="none"/>`;
     }
-    return `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/>${lit}</svg>`;
+    return window.torreIconHtml ? window.torreIconHtml('<circle cx="12" cy="12" r="9"/>' + lit) : '';
   }
   function wxIsDay() { try { return wxAstro().isDay; } catch (e) { return true; } }
   function wxAstroHtml() {
@@ -1397,17 +1142,6 @@ body.tv-mode #tv-stage { display: flex; }
   document.addEventListener('click', (e) => {
     if (e.target.closest && e.target.closest('[data-s]')) {
       setTimeout(() => igniteAutomotiveGauges(vMain, false), 25);
-    }
-    const paCard = e.target.closest && e.target.closest('[data-pa-tab]');
-    if (paCard) {
-      const targetTab = paCard.dataset.paTab;
-      if (document.body.classList.contains('tv-mode')) {
-        const mapTv = { ct: 3, ag: 4, ex: 5, ob: 6, al: 2 };
-        if (mapTv[targetTab] != null) goToSlide(mapTv[targetTab]);
-      } else {
-        const sideBtn = document.querySelector(`#tabs button[data-t="${targetTab}"]`);
-        if (sideBtn) sideBtn.click();
-      }
     }
     const flipCard = e.target.closest && e.target.closest('.wx-7d-flip-wrap');
     if (flipCard) {
@@ -1815,11 +1549,9 @@ body.tv-mode #tv-stage { display: flex; }
     const wxCur = cdg && cdg.current
       ? `${Math.round(cdg.current.temperature_2m)}°C ${wmoInfo(cdg.current.weather_code).ic} ${wmoInfo(cdg.current.weather_code).tx} · ${Math.round(cdg.current.surface_pressure||1013)}hPa`
       : `STATUS: ${WX_STATE.status}`;
-    const pends = PA_ENABLED ? computeStructuredPendencies() : null;
     const items = [
       ['CDG GUARULHOS', wxCur, 'tv-nt', '●'],
       ['DIA REF.', fdy(dia), 'tv-nt', '●'],
-      ...(pends ? [['PENDÊNCIAS DE AÇÃO', `${pends.total} ATIVA(S) (${pends.crit} CRÍT.)`, pends.crit > 0 ? 'tv-dn' : 'tv-up', '⚡']] : []),
       ['CARTEIRA ATIVA', `${n0(S.N)} PED · ${tn(S.K)}`, 'tv-up', '▲'],
       ['VALOR LÍQUIDO CARTEIRA', RSc(S.V), 'tv-up', '▲'],
       ['PROGRAMADO DIA (ZS34)', RS(S.val), 'tv-up', '▲'],
@@ -1840,13 +1572,13 @@ body.tv-mode #tv-stage { display: flex; }
     updateTicker(S);
 
     const titles = [
-      '1/7 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, PREVISÃO 7 DIAS E MONITORAMENTO RODOVIÁRIO',
-      '2/7 · VISÃO GERAL EXECUTIVA · MONITORAMENTO OPERACIONAL',
-      '3/7 · PENDÊNCIAS QUE EXIGEM AÇÃO · PAINEL GERENCIAL POR PILARES',
-      '4/7 · CARTEIRA DE PEDIDOS · VOLUMETRIA, PRAZOS & RESTRIÇÕES',
-      '5/7 · AGENDAMENTO & FROTA · OCUPAÇÃO, DOCAS E CONVERSÃO',
-      '6/7 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO, ONDA E TRANSPORTADORA',
-      '7/7 · EXPEDIÇÃO & OUTBOUND · CURVA DE PERFORMANCE, HISTÓRICO & TENDÊNCIA DIÁRIA'
+      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, PREVISÃO 7 DIAS E MONITORAMENTO RODOVIÁRIO',
+      '2/6 · VISÃO GERAL EXECUTIVA · MONITORAMENTO OPERACIONAL',
+      '',
+      '3/6 · CARTEIRA DE PEDIDOS · VOLUMETRIA, PRAZOS & RESTRIÇÕES',
+      '4/6 · AGENDAMENTO & FROTA · OCUPAÇÃO, DOCAS E CONVERSÃO',
+      '5/6 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO, ONDA E TRANSPORTADORA',
+      '6/6 · EXPEDIÇÃO & OUTBOUND · CURVA DE PERFORMANCE, HISTÓRICO & TENDÊNCIA DIÁRIA'
     ];
     if (tvSub) tvSub.textContent = titles[idx] + ' · REF. LOGÍSTICA ' + fdy(dia);
 
@@ -2353,13 +2085,6 @@ body.tv-mode #tv-stage { display: flex; }
       return;
     }
 
-    /* SLIDE 2: NOVA GUIA — PENDÊNCIAS QUE EXIGEM AÇÃO */
-    if (idx === 2) {
-      tvCanvas.innerHTML = buildPendenciesViewHtml(true);
-      igniteAutomotiveGauges(tvCanvas, true);
-      return;
-    }
-
     /* SLIDE 3: CARTEIRA */
     if (idx === 3) {
       const vol = C.filter(o => attc(o) === 'Volumetria'), not = C.filter(o => attc(o) === 'Nortuna'), peq = C.filter(o => attc(o) === 'Carro pequeno');
@@ -2722,8 +2447,10 @@ body.tv-mode #tv-stage { display: flex; }
   }
 
   function goToSlide(idx) {
+    const prevSlide = tvSlide;
     tvSlide = (idx + TOTAL_SLIDES) % TOTAL_SLIDES;
-    if (!PA_ENABLED && tvSlide === 2) tvSlide = 3;
+    /* indice 2 = antiga tela de Pendências (removida): mantido reservado para nao renumerar as demais telas */
+    if (tvSlide === 2) tvSlide = prevSlide > 2 ? 1 : 3;
     syncTabs();
     renderTvSlide(tvSlide);
   }
@@ -2789,36 +2516,6 @@ body.tv-mode #tv-stage { display: flex; }
     restartSlideInterval();
   }));
 
-  /* Habilitar / desabilitar a guia Pendências de Ação (nav do dash, aba e rotação do Modo TV) */
-  function applyPaState() {
-    const navBtn = document.getElementById('tab-btn-pa');
-    if (navBtn) navBtn.style.display = PA_ENABLED ? '' : 'none';
-    const tvPa = document.querySelector('.tv-tab[data-tv="2"]');
-    if (tvPa) tvPa.style.display = PA_ENABLED ? '' : 'none';
-    let n = 0;
-    tvTabs.forEach(b => {
-      if (b.style.display === 'none') return;
-      n++;
-      b.textContent = b.textContent.replace(/^\d+\.\s*/, n + '. ');
-    });
-    const chk = document.getElementById('paChk');
-    if (chk) chk.checked = PA_ENABLED;
-  }
-  const paChk = document.getElementById('paChk');
-  if (paChk) paChk.addEventListener('change', () => {
-    PA_ENABLED = paChk.checked;
-    try { localStorage.setItem('torre_pa_enabled', PA_ENABLED ? '1' : '0'); } catch (e) {}
-    applyPaState();
-    if (!PA_ENABLED) {
-      if (typeof tab !== 'undefined' && tab === 'pa') {
-        const ov = document.querySelector('#tabs button[data-t="ov"]');
-        if (ov) ov.click();
-      }
-      if (document.body.classList.contains('tv-mode') && tvSlide === 2) goToSlide(3);
-    }
-  });
-  applyPaState();
-
   /* ==========================================================================
      ICONES DE LINHA FINA: troca emojis por SVG (traço currentColor) em toda a aplicação.
      Camada aditiva: observa o DOM e converte apenas nós de texto; não altera dados nem motores.
@@ -2834,15 +2531,31 @@ body.tv-mode #tv-stage { display: flex; }
     const RE = new RegExp('(?:' + alts.join('|') + ')\\uFE0F?', 'g');
     const TEST = new RegExp(RE.source);
     const SKIP = 'svg,script,style,textarea,select,option,title,noscript,[data-noicon]';
-    const tpl = document.createElement('template');
+    const CACHE = {};
+    function uri(inner, sw) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="' + sw +
+        '" stroke-linecap="round" stroke-linejoin="round">' + inner.replace(/currentColor/g, '#000') + '</svg>';
+      return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+    }
+    function vars(inner) {
+      const k = inner; if (!CACHE[k]) CACHE[k] = [uri(inner, 1.6), uri(inner, 1.15)];
+      return CACHE[k];
+    }
+    /* O icone e um <i> com mascara CSS (nao um <svg>): nenhuma regra generica "svg" do app consegue redimensiona-lo. */
+    function iconEl(inner) {
+      const i = document.createElement('i'), v = vars(inner);
+      i.className = 'ic'; i.setAttribute('aria-hidden', 'true');
+      i.style.setProperty('--m', v[0]); i.style.setProperty('--mt', v[1]);
+      return i;
+    }
+    window.torreIconHtml = inner => { const v = vars(inner); return '<i class="ic" aria-hidden="true" style="--m:' + v[0].replace(/"/g, '&quot;') + ';--mt:' + v[1].replace(/"/g, '&quot;') + '"></i>'; };
     function node(ch) {
       const k = ch.replace(/\uFE0F/g, '');
       let name = MAP[k];
       if (!name && ch.indexOf('\uFE0F') >= 0 && VS16[k]) name = VS16[k];
       if (DOTS[k]) { const i = document.createElement('i'); i.className = 'dot-ic'; i.style.setProperty('--dc', DOTS[k]); return i; }
       if (!name || !LIB[name]) return document.createTextNode(ch);
-      tpl.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + LIB[name] + '</svg>';
-      return tpl.content.firstChild.cloneNode(true);
+      return iconEl(LIB[name]);
     }
     function convertText(t) {
       const p = t.parentElement;
