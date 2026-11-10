@@ -1,0 +1,2624 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Torre de Controle Logística</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b1f1c">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Torre Controle">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css"></head><body>
+<header class="hd2">
+<!-- Botão de 3 traços ocultado com segurança para manter compatibilidade com app.js -->
+<button id="mnu" class="ico" aria-label="Menu" title="Menu" style="display:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+<div class="brand">Torre de Controle</div>
+<form class="srch" id="gsf" role="search"><input id="gq" type="search" placeholder="Buscar pedido, cliente, município ou transporte" autocomplete="off" aria-label="Buscar"><button type="submit" id="gb" aria-label="Buscar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button></form>
+<div class="hact"><span id="sh" class="sh">🔇 clique em qualquer lugar para liberar o som dos alertas</span>
+
+<!-- 1. Botão de Alertas (Sino Minimalista) -->
+<button class="ico" id="icAl" title="Alertas Operacionais"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><i class="dot r" id="dotAl" hidden></i></button>
+
+<!-- 2. Botão de Filtros e Prazos (Funil Minimalista) -->
+<button class="ico" id="icSet" title="Filtros e prazos"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></button>
+
+<!-- 3. Botão de Carregar Planilhas (Upload na Nuvem Minimalista) -->
+<button class="ico" id="icUp" title="Carregar planilhas"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><i class="dot g" id="dotUp" hidden></i></button>
+
+<!-- 4. Botão Modo TV -->
+<button class="ico" id="icTv" title="Modo Apresentação TV (Monitoramento Contínuo)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+
+<!-- 5. Botão Mobile (Smartphone Minimalista) -->
+<button class="ico" id="mb" title="Alternar layout mobile / desktop"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+</div></header>
+
+<div class="shell">
+<aside class="side" id="side"><nav class="tabs" id="tabs">
+  <button data-t="ov"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Visão geral</span></button>
+  <button data-t="ct"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg><span>Carteira</span></button>
+  <button data-t="ag"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span>Agendamento</span></button>
+  <button data-t="ex"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l6 4V9l6 4V5h6v16z"/></svg><span>Status operacional</span></button>
+  <button data-t="ob"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg><span>Expedição &amp; Outbound</span></button>
+  <!-- Aba de Frete ocultada com segurança -->
+  <button data-t="fr" style="display:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6.5C16 5 14 4 12 4c-2.5 0-4.5 1.3-4.5 3.5S9.5 11 12 11.5s4.5 1.3 4.5 3.5S14.5 20 12 20c-2 0-4-1-5-2.5"/></svg><span>Frete</span></button>
+  <button data-t="gf"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 6.5C16 5 14 4 12 4c-2.5 0-4.5 1.3-4.5 3.5S9.5 11 12 11.5s4.5 1.3 4.5 3.5S14.5 20 12 20c-2 0-4-1-5-2.5"/></svg><span>Gestão de Fretes</span></button>
+  <button data-t="al"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg><span>Alertas</span></button>
+</nav>
+<div class="slab">ATALHOS</div><nav class="sl"><button id="goUp">Carregar planilhas</button><button id="goFl">Filtros e prazos</button><button id="goPar">Parâmetros de ocupação</button></nav>
+<details class="cd calc" id="cdet" open><summary>CALENDÁRIO</summary><label style="font-size:11px;color:var(--mu)">D0 <input type="date" id="hj" value="2026-10-08"></label><div class="q" id="snq"></div><div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0"><button id="pv0">‹</button><b id="mt0"></b><button id="nx0">›</button></div><div class="cal" id="cal0"></div><div class="note">📦 carteira · 🚛 agendamento disponíveis nos dias marcados</div><div id="hinfo" class="note" style="margin-top:6px"></div></details></aside>
+
+<main class="main"><div class="crumb" id="crumb"></div>
+<details class="cd up" id="up" open><summary>☁️ ATUALIZAR DADOS · HISTÓRICO NO SERVIDOR</summary>
+<div class="fg" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><label>Servidor (endereço do Render)<input type="url" id="fsv" placeholder="https://seu-servico.onrender.com" autocomplete="off"></label><label>Chave de acesso<input type="password" id="ftk" placeholder="informada pelo administrador" autocomplete="off"><span style="display:flex;gap:6px;align-items:center;font-size:11px;color:var(--mu);margin-top:4px"><input type="checkbox" id="ftkkeep" style="width:auto"> Manter conectado neste computador (TV) — use só em computador de confiança</span></label><label>Carteira (.xlsm / .xlsx)<input type="file" id="fc" accept=".xlsm,.xlsx"></label><label>Data do corte da carteira<input type="date" id="fcd"></label><label>Turno do corte<select id="fct"><option value="AM">AM (manhã)</option><option value="PM">PM (tarde)</option></select></label><label>Agendamento acumulado (.xlsx)<input type="file" id="fa" accept=".xlsx,.xlsm"></label>
+<label style="display:none">Tabela de frete (.xlsx, opcional)<input type="file" id="ff" accept=".xlsx"></label></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button id="fp" class="on">☁️ Atualizar dados</button><button id="ft">🔌 Testar conexão</button><button id="fr">🔄 Recarregar do servidor</button>
+<button id="ffv" style="display:none">📋 Validação da tabela de frete</button>
+<label style="display:flex;gap:6px;align-items:center;font-size:12px;color:var(--mu)">🕓 Ver o estado em<select id="fem" style="max-width:290px"><option value="">Estado atual (último snapshot válido)</option></select></label></div><div id="fe" class="note"></div>
+<div class="h4b">HISTÓRICO NO SERVIDOR (só valores normalizados; as planilhas são descartadas após o processamento)</div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button id="fx">🛡️ Administração: limpar dados…</button></div>
+<div id="fst" class="note"></div><div id="fsvn" class="note"></div><div id="fs" class="note" role="status"></div></details>
+
+<details class="cd fpan" id="fpan"><summary>🔎 FILTROS E PRAZOS <span id="sel" class="note"></span></summary>
+<h4 style="margin-top:10px">🎯 Data de entrega (carteira) · filtro por prazo</h4><div class="q"><button data-q2="atr">🔴 Atrasado (≤ corte)</button><button data-q2="ven">🟠 Vencimento (D+1)</button><button data-q2="ant">🟡 Antecipação (5 dias úteis)</button><button data-q2="a">📦 Tudo</button></div>
+<div style="display:flex;gap:6px;margin:6px 0 10px;align-items:end;flex-wrap:wrap"><label style="font-size:11px;color:var(--mu)">De<input type="date" id="d1"></label><label style="font-size:11px;color:var(--mu)">Até<input type="date" id="d2"></label><button id="ap">Aplicar</button></div>
+<h4>🔎 Filtros</h4><div class="fg" id="fl"></div><button id="clr">🔄 LIMPAR FILTROS</button></details>
+
+<div id="v"></div></main></div>
+
+<!-- ==========================================================================
+     STAGE EXCLUSIVO DO MODO TV · MONITORAMENTO EXECUTIVO CONTÍNUO 24/7
+     ========================================================================== -->
+<div id="tv-stage" aria-hidden="true">
+  <div class="tv-top">
+    <div class="tv-brand">
+      <span class="tv-live-dot" id="tv-conn-dot"></span>
+      <b>TORRE DE CONTROLE</b>
+      <small id="tv-sub">TERMINAL DE INTELIGÊNCIA LOGÍSTICA</small>
+    </div>
+    <div class="tv-ticker-wrap"><div class="tv-ticker" id="tv-ticker"></div></div>
+    <div class="tv-clock" id="tv-clock">--:--:--</div>
+    <div class="tv-sync" id="tv-sync" title="Sincronização automática com o servidor"><i class="dot-ic"></i><span>aguardando servidor</span></div>
+  </div>
+  <div id="tv-canvas"></div>
+  <div id="tv-bar">
+    <b>MONITORAMENTO TV</b>
+    <button class="tv-tab on" data-tv="0">1. Clima &amp; Rodovias</button>
+    <button class="tv-tab" data-tv="1">2. Visão Geral</button>
+    <button class="tv-tab" data-tv="3">3. Carteira</button>
+    <button class="tv-tab" data-tv="4">4. Agendamento</button>
+    <button class="tv-tab" data-tv="5">5. Status Operacional</button>
+    <button class="tv-tab" data-tv="6">6. Expedição &amp; Outbound</button>
+    <button id="tv-snd" title="Ativar/Desativar alertas sonoros">🔊 Áudio</button>
+    <label class="tv-dur-lbl" title="Configurar tempo de exibição de cada tela">
+      ⏱️
+      <select id="tv-dur">
+        <option value="30000">30s / tela</option>
+        <option value="60000">1m / tela</option>
+        <option value="90000" selected>1m 30s / tela</option>
+        <option value="120000">2m / tela</option>
+        <option value="180000">3m / tela</option>
+      </select>
+    </label>
+    <button id="tv-pause" title="Pausar/Retomar rotação automática">⏸️ Pausar</button>
+    <button id="tv-exit" class="tv-btn-exit">✕ Sair da TV</button>
+  </div>
+</div>
+
+<style>
+/* ==========================================================================
+   DESIGN SYSTEM UNIFICADO — TOKENS E PADRONIZAÇÃO SISTÊMICA DA TORRE
+   ========================================================================== */
+:root {
+  --tc-bg-deep: #040d0c;
+  --tc-bg-panel: #0b1c19;
+  --tc-bg-card: #0c201e;
+  --tc-border: #183531;
+  --tc-border-hi: #204742;
+  --tc-cyan: #1fd6c4;
+  --tc-green: #22c55e;
+  --tc-green-hi: #4ade80;
+  --tc-yellow: #F2C94C;
+  --tc-orange: #F2994A;
+  --tc-red: #E05252;
+  --tc-purple: #14b8a6;
+  --tc-text: #e8f5f4;
+  --tc-muted: #a4c8c4;
+  --tc-radius-lg: 14px;
+  --tc-radius-md: 10px;
+  --tc-font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+/* GRADE TECNOLÓGICA (dash, Modo TV e painéis): linhas finas em ciano esverdeado, baixa opacidade */
+.tv-card,.tv-kpi{isolation:isolate}
+.tv-card::before,.tv-kpi::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;background-image:linear-gradient(to right,var(--grid-line-in) 1px,transparent 1px),linear-gradient(to bottom,var(--grid-line-in) 1px,transparent 1px);background-size:22px 22px}
+/* Indicador discreto de sincronização (Modo TV) */
+.tv-sync{display:flex;align-items:center;gap:6px;font-family:var(--tc-font-mono);font-size:clamp(9.5px,.72vw,12px);color:var(--tc-muted);letter-spacing:.04em;white-space:nowrap}
+.tv-sync .dot-ic{--dc:#8fb8b2}
+.tv-sync[data-s="ok"] .dot-ic{--dc:#1fd6c4}.tv-sync[data-s="warn"] .dot-ic{--dc:#F2C94C}.tv-sync[data-s="err"] .dot-ic{--dc:#E05252}
+.tv-sync[data-s="err"] span{color:#E05252}.tv-sync[data-s="warn"] span{color:#F2C94C}
+/* ===== ICONES (fonte unica; fica no index para nunca divergir do styles.css em cache) ===== */
+.ic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;flex:none;background-color:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.dot-ic{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:var(--dc,#1fd6c4);vertical-align:.04em;box-shadow:0 0 6px color-mix(in srgb,var(--dc,#1fd6c4) 55%,transparent)}
+.k8 em .ic{width:1em;height:1em;-webkit-mask-image:var(--mt);mask-image:var(--mt)}
+/* ===== ACABAMENTO: tipografia e clima (linguagem do widget de referencia) ===== */
+.tv-brand b,.tv-kpi-val,.wx-hero-temp,.wx-reg-temp,.nyse-wk-val,.tv-clock{font-family:var(--font-display);font-variant-numeric:tabular-nums}
+.tv-brand b{font-weight:700;font-size:clamp(20px,1.7vw,28px)}
+.tv-clock{color:#fff;font-weight:600;font-size:clamp(18px,1.5vw,24px);letter-spacing:.1em}
+.tv-kpi-val{font-weight:600;font-size:clamp(22px,2.05vw,32px)}
+.tv-card-title{font-family:var(--font-display);font-weight:600;font-size:clamp(12px,0.95vw,15px)}
+.wx-hero-temp{font-weight:600;font-size:clamp(48px,4.6vw,72px);letter-spacing:0}
+.wx-reg-temp{font-weight:600;font-size:clamp(26px,2.4vw,36px)}
+.nyse-wk-val{font-weight:600;font-size:clamp(18px,1.6vw,24px)}
+.wx-7d-day{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:.08em}
+.wx-7d-ico{display:flex;justify-content:center;color:var(--dc,var(--tc-cyan))}
+.wx-7d-ico .ic{width:42px;height:42px;-webkit-mask-image:var(--mt);mask-image:var(--mt)}
+.wx-7d-cond{font-family:var(--font-display);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.wx-7d-temps{font-family:var(--font-display);font-size:22px;font-weight:600;letter-spacing:.02em}
+.wx-7d-face.is-today{border-top-color:var(--tc-cyan);box-shadow:0 0 18px rgba(31,214,196,.18)}
+.wx-tip-cat{color:var(--tc-cyan);background:rgba(31,214,196,.10);border-color:rgba(31,214,196,.35);white-space:normal;line-height:1.2;min-width:0}
+.wx-7d-back>div:first-child{gap:6px}
+.wx-7d-back>div:first-child>span:last-child{flex:none;white-space:nowrap}
+.wx-moon-ic{font-size:inherit;filter:none;color:#d6efec}
+.wx-moon-ic .ic{width:36px;height:36px;-webkit-mask-image:var(--mt);mask-image:var(--mt)}
+.wx-astro-sun svg{height:36px}
+/* Clima: ciclo dia/noite (pelo horário local) e painel astronômico */
+.wx-hero-box{position:relative;overflow:hidden}
+.wx-hero-box > *{position:relative;z-index:1}
+.wx-hero-box::after{content:"";position:absolute;right:-34px;top:-34px;width:170px;height:170px;border-radius:50%;pointer-events:none;animation:wxGlowIn 1.4s ease-out both}
+.wx-hero-box.is-day{background:linear-gradient(145deg,rgba(17,62,57,.96),rgba(7,21,19,.98))}
+.wx-hero-box.is-day::after{background:radial-gradient(circle,rgba(31,214,196,.30),transparent 68%)}
+.wx-hero-box.is-night{background:linear-gradient(145deg,rgba(4,13,15,.98),rgba(2,7,8,.99))}
+.wx-hero-box.is-night::after{background:radial-gradient(circle,rgba(185,222,228,.13),transparent 66%)}
+@keyframes wxGlowIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.wx-astro{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 8px;padding:6px 10px;background:rgba(7,19,17,.72);border:1px solid var(--tc-border);border-radius:var(--tc-radius-md)}
+.wx-astro-sun{display:flex;flex-direction:column;gap:2px;min-width:0}
+.wx-astro-sun svg{width:100%;height:34px}
+.wx-astro-t{display:flex;justify-content:space-between;gap:6px;font-family:var(--tc-font-mono)}
+.wx-astro-t span{display:flex;flex-direction:column}
+.wx-astro small{font-size:8.5px;letter-spacing:.1em;color:var(--tc-muted);text-transform:uppercase;font-weight:700}
+.wx-astro-t b{font-size:13px;color:var(--tc-cyan)}
+.wx-astro-moon{display:flex;align-items:center;gap:8px;min-width:0}
+.wx-moon-ic{font-size:30px;line-height:1;display:inline-block;transform:scaleX(-1);filter:drop-shadow(0 0 6px rgba(185,222,228,.3))}
+.wx-astro-moon > div{display:flex;flex-direction:column;gap:1px;min-width:0}
+.wx-astro-moon b{font-size:11.5px;color:#fff;white-space:nowrap}
+.wx-astro-moon small{white-space:normal;line-height:1.25;text-transform:none;letter-spacing:.02em;font-size:9.5px}
+.up{margin-bottom:14px;padding:14px}.up input[type=url],.up input[type=password]{background:#0a1c19;border:1px solid var(--tc-border-hi);border-radius:8px;padding:6px 8px;color:var(--tx);width:100%}.h4b{margin:12px 0 6px;font-size:10px;letter-spacing:.14em;color:var(--tc-cyan);font-weight:800}
+.admmask{position:fixed;inset:0;background:#000a;display:grid;place-items:center;z-index:100;padding:10px}.admbox{background:var(--tc-bg-panel);border:1px solid var(--tc-border-hi);border-radius:var(--tc-radius-lg);padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 20px 60px #000c;max-height:94vh;overflow:auto}.admbox h4{margin:0;color:var(--tc-cyan);letter-spacing:.1em;text-transform:uppercase;font-size:12px}.admbox label{display:flex;flex-direction:column;gap:4px;font-size:11px;color:var(--mu)}.admbox input,.admbox select{background:#0a1c19;border:1px solid var(--tc-border-hi);border-radius:8px;padding:8px;color:var(--tx)}.admbt{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+
+.ars, .chx svg, .rsv, .tv-ring-svg { overflow: visible !important; }
+.cd, .gx > .cd { overflow: visible !important; }
+.ars { padding-right: 18px; }
+
+
+/* ==========================================================================
+   CARTÕES METEOROLÓGICOS 7 DIAS COM ROTAÇÃO 3D (FACE 1: CLIMA / FACE 2: DICA)
+   ========================================================================== */
+.wx-7d-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 9px; flex: 1; min-height: 0; perspective: 1100px; }
+.wx-7d-flip-wrap { position: relative; width: 100%; height: 100%; min-height: 210px; transform-style: preserve-3d; transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; cursor: pointer; }
+.wx-7d-flip-wrap.is-flipped { transform: rotateY(180deg); }
+.wx-7d-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; background: linear-gradient(165deg, #0e2320, #061210); border: 1px solid #193935; border-top: 3px solid var(--dc, #1fd6c4); border-radius: 12px; padding: 10px 10px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; box-shadow: 0 6px 18px #0008; overflow: hidden; }
+.wx-7d-face.is-today { border-top-color: var(--tc-yellow); background: linear-gradient(165deg, #13312d, #091b19); box-shadow: 0 0 18px rgba(242, 201, 76, 0.18); }
+.wx-7d-back { transform: rotateY(180deg); border-top-color: var(--tc-purple); background: linear-gradient(165deg, #102925, #071412); justify-content: space-between; text-align: left; align-items: stretch; padding: 12px; }
+.wx-7d-day { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: #fff; }
+.wx-7d-date { font-size: 10px; color: var(--tc-muted); font-family: var(--tc-font-mono); }
+.wx-7d-ico { font-size: 28px; line-height: 1.1; margin: 4px 0 2px; }
+.wx-7d-cond { font-size: 10.5px; font-weight: 800; color: var(--dc, #1fd6c4); }
+.wx-7d-temps { font-family: var(--tc-font-mono); font-size: 14px; font-weight: 900; margin: 4px 0; }
+.wx-7d-stats { width: 100%; border-top: 1px solid #15312d; padding-top: 6px; display: flex; flex-direction: column; gap: 3px; font-size: 10px; font-family: var(--tc-font-mono); color: #cce9e5; text-align: left; }
+.wx-7d-op { width: 100%; background: #091816; border: 1px solid #183531; border-radius: 6px; padding: 4px 6px; font-size: 9.5px; font-family: var(--tc-font-mono); color: var(--tc-cyan); margin-top: 4px; }
+.wx-tip-cat { font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--tc-yellow); background: rgba(242, 201, 76, 0.12); border: 1px solid rgba(242, 201, 76, 0.35); border-radius: 6px; padding: 3px 7px; display: inline-block; align-self: flex-start; }
+.wx-tip-body { font-size: 11px; line-height: 1.42; color: #e8f5f4; font-weight: 600; flex: 1; display: flex; align-items: center; margin: 6px 0; }
+.wx-tip-foot { font-size: 9px; color: var(--tc-muted); font-family: var(--tc-font-mono); border-top: 1px solid #183531; padding-top: 5px; display: flex; justify-content: space-between; }
+
+/* ==========================================================================
+   RODOVIAS E SLA — ANIMAÇÃO CONTÍNUA DE FLUXO E PERFIL HORÁRIO (GPU FLUIDA)
+   ========================================================================== */
+@keyframes hwTrafficFlowMove {
+  from { stroke-dashoffset: 48; }
+  to { stroke-dashoffset: 0; }
+}
+.hw-flow-particles {
+  animation: hwTrafficFlowMove var(--fspd, 1.4s) linear infinite;
+  will-change: stroke-dashoffset;
+}
+.wx-hw-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
+.wx-hw-card { background: linear-gradient(155deg, #0d211f, #061210); border: 1px solid #193935; border-left: 4px solid var(--hwc, #22c55e); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; gap: 4px; }
+.wx-hw-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.wx-hw-title { font-size: 11.5px; font-weight: 900; color: #fff; letter-spacing: .04em; }
+.wx-hw-sub { font-size: 9.5px; color: var(--tc-muted); margin-top: 1px; }
+.wx-hw-speed-row { display: flex; justify-content: space-between; align-items: baseline; margin: 2px 0; font-family: var(--tc-font-mono); }
+.wx-hw-spd { font-size: clamp(18px, 1.55vw, 23px); font-weight: 900; color: var(--hwc, #22c55e); }
+.wx-hw-eta { font-size: 10.5px; font-weight: 800; padding: 2px 7px; border-radius: 6px; background: #091c1a; border: 1px solid #1c3c38; }
+.wx-hw-lane-box { width: 100%; height: 28px; background: #050f0e; border: 1px solid #142f2b; border-radius: 7px; overflow: hidden; padding: 0 4px; display: flex; align-items: center; }
+.wx-hw-profile-box { width: 100%; height: 42px; display: flex; align-items: center; }
+.wx-hw-sla-tags { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; font-size: 9px; font-family: var(--tc-font-mono); border-top: 1px solid #15312d; padding-top: 5px; }
+.wx-hw-sla-cell { background: #091816; border: 1px solid #15312d; border-radius: 5px; padding: 3px 5px; display: flex; flex-direction: column; }
+.wx-hw-sla-cell small { font-size: 8px; color: var(--tc-muted); text-transform: uppercase; }
+.wx-hw-sla-cell b { font-size: 10px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ==========================================================================
+   IGNIÇÃO DE ENTRADA (COMUM AO DASH E TV) + EFEITOS CONTÍNUOS (EXCLUSIVOS DA TV)
+   ========================================================================== */
+.led-wait { opacity: 0.12 !important; }
+
+@keyframes curveClipReveal {
+  0% { clip-path: inset(-15% 102% -15% -5%); }
+  100% { clip-path: inset(-15% -8% -15% -5%); }
+}
+.curve-wipe-init { animation: curveClipReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+#tv-stage svg line.led-hole-off { opacity: 0.12 !important; }
+
+@keyframes redTipBlinkHtml {
+  0%, 100% { background: #ff1e42 !important; box-shadow: 0 0 10px #ff1e42, 0 0 4px #ff8fa3 !important; transform: scaleY(1.14); opacity: 1 !important; }
+  50% { background: var(--orig-bg, #E05252) !important; box-shadow: none !important; transform: scaleY(1); opacity: 0.65 !important; }
+}
+@keyframes redTipBlinkSvg {
+  0%, 100% { fill: #ff1e42 !important; filter: drop-shadow(0 0 6px #ff1e42); opacity: 1 !important; }
+  50% { fill: var(--orig-fill, #E05252) !important; filter: none; opacity: 0.65 !important; }
+}
+#tv-stage .sg i.bar-tip-red-active,
+#tv-stage .sgb i.bar-tip-red-active,
+#tv-stage .nyse-led i.bar-tip-red-active {
+  animation: redTipBlinkHtml 1.05s ease-in-out infinite !important;
+  position: relative;
+  z-index: 2;
+}
+#tv-stage svg rect.bar-tip-red-active {
+  animation: redTipBlinkSvg 1.05s ease-in-out infinite !important;
+}
+
+@keyframes cometDashFlow {
+  0% { stroke-dashoffset: var(--clen, 1600); }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes markerPinPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 3px currentColor); }
+  50% { transform: scale(1.25); filter: drop-shadow(0 0 8px #ff1e42); stroke: #ff1e42; }
+}
+@keyframes radarSweepRot {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+#tv-stage .curve-comet-beam {
+  fill: none; stroke: #ffffff; stroke-width: 3.2; stroke-linecap: round;
+  stroke-dasharray: 24 var(--clen, 1600);
+  filter: drop-shadow(0 0 7px #1fd6c4) drop-shadow(0 0 12px #ff1e42);
+  animation: cometDashFlow 3.2s linear infinite; pointer-events: none;
+}
+#tv-stage .curve-marker-live {
+  transform-box: fill-box; transform-origin: center;
+  animation: markerPinPulse 1.6s ease-in-out infinite;
+}
+.radar-beam-rot {
+  transform-origin: 120px 120px;
+  animation: radarSweepRot 5.5s linear infinite;
+}
+
+/* ==========================================================================
+   ESTILOS DO PALCO MODO TV
+   ========================================================================== */
+#tv-stage { display: none; position: fixed; inset: 0; z-index: 9000; background: radial-gradient(1200px 600px at 85% -10%, #0d948866, transparent), radial-gradient(1000px 550px at -10% 10%, #0e749044, transparent), linear-gradient(180deg, #040d0c 0%, #061311 55%, #030a0a 100%); color: var(--tc-text); flex-direction: column; overflow: hidden; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+body.tv-mode { overflow: hidden !important; }
+body.tv-mode #tv-stage { display: flex; }
+
+#tv-stage::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(to right, rgba(31, 214, 196, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(31, 214, 196, 0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; z-index: 0; }
+
+.tv-top { position: relative; z-index: 2; display: flex; align-items: center; gap: 18px; height: 48px; padding: 0 22px; background: linear-gradient(90deg, #091c1af2, #0d2623f2 60%, #081917f2); border-bottom: 1px solid #1c3c38; box-shadow: 0 4px 25px #000c; flex-shrink: 0; }
+.tv-brand { display: flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.tv-brand b { font-size: clamp(16px, 1.3vw, 22px); font-weight: 900; letter-spacing: .12em; color: var(--tc-cyan); }
+.tv-brand small { font-size: clamp(9.5px, 0.75vw, 12px); letter-spacing: .15em; color: var(--tc-muted); font-weight: 700; }
+.tv-live-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--tc-green); display: inline-block; animation: tvPulseDot 1.4s infinite alternate; }
+.tv-clock { font-family: var(--tc-font-mono); font-size: clamp(14px, 1.1vw, 18px); font-weight: 800; color: var(--tc-yellow); letter-spacing: .08em; white-space: nowrap; background: #0e2320; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--tc-border-hi); }
+
+.tv-ticker-wrap { flex: 1; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.tv-ticker { display: inline-flex; gap: 36px; white-space: nowrap; animation: tvTickerMove 45s linear infinite; padding-left: 100%; }
+.tv-tick-item { display: inline-flex; align-items: center; gap: 7px; font-size: clamp(11px, 0.85vw, 14px); font-weight: 700; letter-spacing: .06em; color: #cce9e5; }
+.tv-tick-item b { color: #fff; font-family: var(--tc-font-mono); font-size: clamp(12px, 0.95vw, 15px); }
+.tv-up { color: var(--tc-green-hi); }
+.tv-dn { color: #E05252; }
+.tv-nt { color: var(--tc-cyan); }
+
+#tv-canvas { position: relative; z-index: 1; flex: 1; padding: 10px 20px 56px; display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow: hidden; animation: tvFadeIn .35s ease-out; }
+.tv-row { display: grid; gap: 12px; min-height: 0; }
+.tv-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 9px; flex-shrink: 0; }
+
+.tv-kpi { position: relative; background: linear-gradient(155deg, rgba(14, 35, 32, 0.92), rgba(7, 19, 17, 0.94)); border: 1px solid color-mix(in srgb, var(--c, #1fd6c4) 38%, #183531); border-top: 3px solid var(--c, #1fd6c4); border-radius: var(--tc-radius-lg); padding: 8px 12px; box-shadow: 0 8px 24px #0008; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+.tv-kpi-hd { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #b4dcd7; }
+.tv-kpi-val { font-size: clamp(17px, 1.65vw, 26px); font-weight: 900; color: var(--c, #1fd6c4); line-height: 1.12; margin: 2px 0; font-variant-numeric: tabular-nums; }
+.tv-kpi-sub { font-size: 10.5px; color: #9bc5bf; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.tv-card { position: relative; background: linear-gradient(180deg, rgba(11, 29, 26, 0.92), rgba(6, 15, 14, 0.96)); border: 1px solid #1b3b37; border-radius: var(--tc-radius-lg); padding: 11px 15px; box-shadow: 0 10px 28px #000a; display: flex; flex-direction: column; min-height: 0; overflow: visible; }
+.tv-card-title { display: flex; justify-content: space-between; align-items: center; font-size: clamp(10.5px, 0.8vw, 13px); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--tc-cyan); margin-bottom: 7px; flex-shrink: 0; gap: 8px; flex-wrap: wrap; }
+.tv-card-title span { font-size: 10.5px; color: var(--tc-muted); font-weight: 600; letter-spacing: .04em; text-transform: none; }
+.tv-chart-box { flex: 1; min-height: 0; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; padding: 2px 4px; }
+.tv-chart-box svg { width: 100%; height: 100%; max-height: 100%; overflow: visible !important; }
+
+.wx-top-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(9, 24, 22, 0.92); border: 1px solid var(--tc-border); border-radius: var(--tc-radius-md); padding: 6px 14px; flex-shrink: 0; }
+.wx-meta-info { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; font-size: 10px; font-family: var(--tc-font-mono); color: var(--tc-muted); }
+.wx-sub-tabs { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.wx-sub-btn { padding: 4px 10px !important; font-size: 10px !important; font-weight: 800 !important; border-radius: 99px !important; background: #0e2320 !important; border: 1px solid var(--tc-border-hi) !important; color: #cce9e5 !important; cursor: pointer; }
+.wx-sub-btn.on { background: linear-gradient(135deg, #0d9488, #1fd6c4) !important; border-color: transparent !important; color: #fff !important; box-shadow: 0 0 14px rgba(31, 214, 196, 0.4); }
+
+.wx-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 99px; font-size: 9.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; white-space: nowrap; }
+.wx-b-prev { background: #0d9488; }
+.wx-b-torre { background: #F2C94C; }
+.wx-b-gov { background: #E05252; }
+.wx-b-ok { background: #16a34a; }
+
+.wx-hero-box { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: linear-gradient(145deg, rgba(15, 38, 35, 0.95), rgba(7, 19, 17, 0.98)); border: 1px solid var(--tc-border-hi); border-left: 5px solid var(--hc, #1fd6c4); border-radius: var(--tc-radius-lg); padding: 12px 16px; margin-bottom: 10px; box-shadow: 0 8px 25px #0008; }
+.wx-hero-temp { font-size: clamp(36px, 3.4vw, 52px); font-weight: 900; color: #fff; font-family: var(--tc-font-mono); line-height: 1; letter-spacing: -1px; text-shadow: 0 0 24px color-mix(in srgb, var(--hc, #1fd6c4) 65%, transparent); }
+.wx-hero-cond { font-size: 13.5px; font-weight: 800; color: var(--hc, #1fd6c4); text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
+.wx-hero-sub { font-size: 11px; color: #cce9e5; margin-top: 2px; }
+
+.wx-reg-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; flex: 1; min-height: 0; }
+.wx-reg-card { background: linear-gradient(160deg, #0d211f, #071311); border: 1px solid #193935; border-top: 3px solid var(--rc, #1fd6c4); border-radius: 12px; padding: 10px 14px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 6px 18px #0008; }
+.wx-reg-card.is-base { border-top-color: var(--tc-yellow); background: linear-gradient(160deg, #122e2a, #091917); }
+.wx-reg-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
+.wx-reg-name { font-size: 11.5px; font-weight: 800; color: #fff; letter-spacing: .05em; text-transform: uppercase; }
+.wx-reg-big { display: flex; align-items: baseline; justify-content: space-between; margin: 6px 0; }
+.wx-reg-temp { font-size: clamp(22px, 2vw, 30px); font-weight: 900; color: var(--rc, #1fd6c4); font-family: var(--tc-font-mono); line-height: 1; }
+.wx-reg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; font-size: 10.5px; color: #bbe0db; border-top: 1px solid #16322e; padding-top: 6px; font-family: var(--tc-font-mono); }
+.wx-reg-cart { margin-top: 6px; padding: 5px 8px; border-radius: 8px; background: #091816; border: 1px solid #183531; display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
+
+.wx-alert-wide-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 10px; overflow-y: auto; max-height: 100%; padding-right: 4px; align-content: start; }
+.wx-alert-card { background: linear-gradient(145deg, #0c211e, #071614); border: 1px solid #1c3f3a; border-left: 5px solid var(--ac, #E05252); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; box-shadow: 0 8px 24px #0009; }
+.wx-alert-card-hd { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.wx-alert-card-msg { font-size: 12.5px; font-weight: 700; color: #fff; line-height: 1.4; }
+.wx-alert-card-ft { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--tc-muted); border-top: 1px solid #16322e; padding-top: 6px; }
+.wx-ack-btn { padding: 4px 12px !important; font-size: 10px !important; font-weight: 700 !important; background: #142e2a !important; border-color: #0f766e !important; color: #e8f5f4 !important; border-radius: 99px !important; }
+
+.nyse-idx-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; flex: 1; min-height: 0; }
+.nyse-idx-box { background: linear-gradient(145deg, #0c201e, #071311); border: 1px solid #183733; border-left: 3px solid var(--ic, #1fd6c4); border-radius: 10px; padding: 6px 10px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.nyse-idx-box small { font-size: 9.5px; color: var(--tc-muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 700; }
+.nyse-idx-box b { font-size: clamp(14px, 1.25vw, 19px); font-weight: 900; color: var(--ic, #1fd6c4); font-family: var(--tc-font-mono); line-height: 1.15; margin: 1px 0; }
+.nyse-idx-box span { font-size: 10px; color: #cce9e5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.nyse-board-wrap { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; position: relative; }
+.nyse-board-wrap::-webkit-scrollbar { display: none; }
+.nyse-table { width: 100%; border-collapse: collapse; font-family: var(--tc-font-mono); font-size: 11px; }
+.nyse-table thead th { position: sticky; top: 0; background: #0b1e1b; color: var(--tc-cyan) !important; font-size: 9.5px !important; font-weight: 800; padding: 5px 6px; border-bottom: 1px solid var(--tc-border-hi) !important; text-align: right; z-index: 2; letter-spacing: .07em; }
+.nyse-table thead th:first-child { text-align: left; }
+.nyse-table tbody tr { border-bottom: 1px solid #132d29; transition: background .2s; }
+.nyse-table tbody tr.cur-day { background: linear-gradient(90deg, rgba(242, 153, 74, 0.22), rgba(31, 214, 196, 0.08)); border-left: 3px solid var(--tc-orange); }
+.nyse-table tbody td { padding: 5px 6px; text-align: right; color: var(--tc-text); white-space: nowrap; }
+.nyse-table tbody td:first-child { text-align: left; font-weight: 700; color: #fff; }
+.nyse-led { display: inline-flex; gap: 1.5px; vertical-align: middle; margin-right: 4px; }
+.nyse-led i { width: 3.5px; height: 9px; border-radius: 1px; background: #132c29; display: inline-block; }
+
+.nyse-hl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid var(--tc-border); flex-shrink: 0; }
+.nyse-hl-card { background: #0a1b19; border: 1px solid var(--tc-border); border-radius: 10px; padding: 6px 12px; display: flex; flex-direction: column; gap: 3px; }
+.nyse-hl-card .hl-metric { font-size: 9.5px; font-weight: 800; letter-spacing: .11em; color: var(--tc-cyan); text-transform: uppercase; margin-bottom: 1px; }
+.nyse-hl-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 11px; font-family: var(--tc-font-mono); white-space: nowrap; }
+.nyse-hl-row b { text-align: right; }
+
+.nyse-wk-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; flex-shrink: 0; }
+.nyse-wk-card { background: linear-gradient(155deg, rgba(13, 32, 30, 0.95), rgba(7, 18, 16, 0.95)); border: 1px solid #193935; border-top: 2.5px solid var(--tc-green); border-radius: 12px; padding: 8px 12px; box-shadow: 0 6px 20px #0009; display: flex; flex-direction: column; gap: 2px; }
+.nyse-wk-card.active-wk { border-top-color: var(--tc-cyan); background: linear-gradient(155deg, rgba(17, 44, 40, 0.96), rgba(9, 23, 21, 0.96)); }
+.nyse-wk-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; letter-spacing: .11em; color: var(--tc-muted); text-transform: uppercase; }
+.nyse-wk-val { font-size: clamp(15px, 1.35vw, 20px); font-weight: 900; color: var(--tc-green-hi); font-family: var(--tc-font-mono); line-height: 1.15; }
+.nyse-wk-meta { font-size: 10.5px; color: #d8eeeb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nyse-wk-nf { font-size: 10px; color: #9bc5bf; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.tv-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11px; color: #d8eeeb; font-weight: 700; }
+.tv-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; }
+
+#tv-bar { position: fixed; bottom: 8px; right: 20px; z-index: 9999; display: flex; background: rgba(8, 21, 19, 0.96); border: 1px solid var(--tc-cyan); border-radius: 99px; padding: 4px 12px; gap: 6px; align-items: center; box-shadow: 0 8px 32px #000e; backdrop-filter: blur(12px); flex-wrap: wrap; }
+#tv-bar b { color: var(--tc-cyan); font-size: 10.5px; letter-spacing: .14em; margin-right: 2px; display: flex; align-items: center; gap: 6px; }
+#tv-bar button { padding: 4px 10px; font-size: 10.5px; font-weight: 700; border-radius: 99px; cursor: pointer; }
+.tv-dur-lbl { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; color: var(--tc-cyan); background: #0e2320; border: 1px solid var(--tc-border-hi); border-radius: 99px; padding: 2px 9px; font-weight: 700; }
+.tv-dur-lbl select { background: transparent; border: 0; color: var(--tc-text); font-size: 10.5px; font-weight: 700; padding: 2px 3px; outline: none; cursor: pointer; }
+.tv-dur-lbl select option { background: #0b1c19; color: var(--tc-text); }
+.tv-btn-exit { background: linear-gradient(135deg, #E05252, #B20000) !important; border-color: #E05252 !important; color: #fff !important; }
+
+@media (min-width: 2200px) {
+  #tv-canvas { padding: 16px 32px 68px; gap: 16px; }
+  .tv-card { padding: 16px 22px; }
+}
+
+@keyframes tvTickerMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+@keyframes tvPulseDot { 0% { transform: scale(0.85); opacity: 0.7; } 100% { transform: scale(1.2); opacity: 1; } }
+@keyframes tvFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+<script src="config.js"></script><script src="data.js"></script><script src="app.js"></script><script src="upload_servidor.js"></script><script src="gestao_frete.js"></script>
+
+<!-- ==========================================================================
+     MOTOR DE CONSOLIDAÇÃO FINAL:
+     1. Outbound Dinâmico ao Espaço (ResizeObserver)
+     2. Cartões 7 Dias com Rotação 3D (Previsão / Dica & Curiosidade)
+     4. Rodovias e SLA com Fluxo em Movimento e Perfil Horário 24h
+     ========================================================================== -->
+<script>
+(function(){
+  /* 1. Onboarding Padronizado */
+  window.onboarding = function() {
+    return `<div class="cd" style="text-align:center;padding:28px;border-color:#204742">
+      <div style="font-size:38px">🛰️</div>
+      <h2 style="margin:6px 0;color:#1fd6c4">Bem-vindo à Torre de Controle Logística</h2>
+      <p class="note" style="font-size:14px">Para carregar o estado oficial do servidor ou enviar novas planilhas, utilize o painel superior <b>☁️ ATUALIZAR DADOS · HISTÓRICO NO SERVIDOR</b>:</p>
+      <ol style="text-align:left;display:inline-block;line-height:1.8;color:#e8f5f4;font-size:13px">
+        <li>Informe o endereço do <b>Servidor (Render)</b> e a <b>Chave de acesso</b> da Torre (salvos automaticamente neste navegador).</li>
+        <li>Clique em <b>🔄 Recarregar do servidor</b> para abrir o último snapshot válido imediatamente.</li>
+        <li>Para atualizar a base, selecione a <b>Carteira</b> (.xlsm/.xlsx) e/ou o <b>Agendamento acumulado</b> (.xlsx) e clique em <b>☁️ Atualizar dados</b>.</li>
+      </ol>
+      <p class="note">O motor Python valida e grava apenas os indicadores normalizados no PostgreSQL; as planilhas originais são descartadas com segurança.</p>
+    </div>`;
+  };
+
+  /* 2. Ícone Minimalista no Botão Mobile */
+  const mbBtn = document.getElementById('mb');
+  const svgPhone = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>';
+  const svgDesktop = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
+  if (mbBtn) {
+    mbBtn.innerHTML = svgPhone;
+    mbBtn.onclick = () => {
+      const isMob = document.body.classList.toggle('mob');
+      mbBtn.innerHTML = isMob ? svgDesktop : svgPhone;
+      mbBtn.title = isMob ? 'Voltar para layout Desktop' : 'Alternar para layout Mobile';
+      if (typeof draw === 'function') draw();
+    };
+  }
+
+  /* ==========================================================================
+     3. CONFIGURAÇÃO DOS 8 POLOS E 6 CORREDORES RODOVIÁRIOS PRIORITÁRIOS
+     ========================================================================== */
+  const POLOS_OPERACIONAIS = [
+    { id: 'CDG', nome: 'CDG Guarulhos (Base)', lat: -23.4543, lon: -46.5337, rx: 132, ry: 152, munis: ['GUARULHOS','SAO PAULO'] },
+    { id: 'JUN', nome: 'Jundiaí & Bragança',   lat: -23.1857, lon: -46.8978, rx: 106, ry: 118, munis: ['JUNDIAI','BRAGANCA PAULISTA','ATIBAIA','ITATIBA','VARZEA PAULISTA','CAMPO LIMPO PAULISTA','LOUVEIRA','CAJAMAR','FRANCO DA ROCHA','MAIRIPORA'] },
+    { id: 'CMP', nome: 'Campinas & Entorno',   lat: -22.9099, lon: -47.0626, rx: 88,  ry: 92,  munis: ['CAMPINAS','SUMARE','HORTOLANDIA','INDAIATUBA','VALINHOS','VINHEDO','PAULINIA','AMERICANA','SANTA BARBARA D OESTE','NOVA ODESSA','JAGUARIUNA'] },
+    { id: 'VLP', nome: 'Vale do Paraíba',      lat: -23.1791, lon: -45.8872, rx: 198, ry: 126, munis: ['SAO JOSE DOS CAMPOS','TAUBATE','JACAREI','CACAPAVA','PINDAMONHANGABA','GUARATINGUETA','LORENA','CRUZEIRO','APARECIDA','CAMPOS DO JORDAO','CARAGUATATUBA','UBATUBA','SAO SEBASTIAO'] },
+    { id: 'MOG', nome: 'Mogi das Cruzes',      lat: -23.5228, lon: -46.1883, rx: 164, ry: 158, munis: ['MOGI DAS CRUZES','SUZANO','ITAQUAQUECETUBA','POA','FERRAZ DE VASCONCELOS','ARUJA','SANTA ISABEL','GUARAREMA','BIRITIBA MIRIM'] },
+    { id: 'SOR', nome: 'Sorocaba & Região',    lat: -23.5015, lon: -47.4526, rx: 68,  ry: 156, munis: ['SOROCABA','VOTORANTIM','ITU','SALTO','ITAPETININGA','SAO ROQUE','BOITUVA','TATUI','PIEDADE','MAIRINQUE','PORTO FELIZ'] },
+    { id: 'LIT', nome: 'Litoral Sul (Baixada)',lat: -23.9618, lon: -46.3322, rx: 148, ry: 196, munis: ['SANTOS','PRAIA GRANDE','SAO VICENTE','GUARUJA','CUBATAO','BERTIOGA','MONGAGUA','ITANHAEM','PERUIBE','REGISTRO'] },
+    { id: 'RIB', nome: 'Ribeirão Preto',       lat: -21.1704, lon: -47.8103, rx: 54,  ry: 38,  munis: ['RIBEIRAO PRETO','SERTAOZINHO','FRANCA','ARARAQUARA','SAO CARLOS','JABOTICABAL','BARRETOS','BEBEDOURO','BATATAIS'] }
+  ];
+
+  const CORREDORES_RODOVIARIOS = [
+    { id: 'DUTRA',    nome: 'BR-116 Pres. Dutra (Eixo Vale)',     trecho: 'Guarulhos ➔ S. J. Campos / Taubaté', km: 110, vFree: 78, polos: ['CDG','VLP'], lat: -23.31, lon: -46.21 },
+    { id: 'AYRTON',   nome: 'SP-070 Ayrton Senna / C. Pinto',     trecho: 'Guarulhos ➔ Mogi / Alto Tietê',      km: 55,  vFree: 80, polos: ['CDG','MOG'], lat: -23.48, lon: -46.34 },
+    { id: 'FERNAO',   nome: 'BR-381 Rod. Fernão Dias',            trecho: 'Guarulhos ➔ Atibaia / Bragança',     km: 68,  vFree: 72, polos: ['CDG','JUN'], lat: -23.31, lon: -46.58 },
+    { id: 'BAND_ANH', nome: 'SP-348/330 Bandeirantes / Anh.',     trecho: 'Saída Norte ➔ Jundiaí / Campinas',   km: 98,  vFree: 82, polos: ['JUN','CMP'], lat: -23.05, lon: -46.98 },
+    { id: 'CASTELLO', nome: 'SP-280 Rod. Castello Branco',        trecho: 'Marginal ➔ Itu / Sorocaba',          km: 102, vFree: 80, polos: ['CDG','SOR'], lat: -23.48, lon: -47.12 },
+    { id: 'TIETE',    nome: 'Marginal Tietê (SP-015)',            trecho: 'Ayrton Senna ↔ Castelo Branco (23 km)', km: 23, vFree: 60, polos: ['CDG'], munis: ['SAO PAULO'], lat: -23.5148, lon: -46.6458 },
+    { id: 'IMIG_ANC', nome: 'SP-160/150 Imigrantes / Anchieta',   trecho: 'Trecho Serra ➔ Santos / Baixada',    km: 76,  vFree: 65, polos: ['CDG','LIT'], lat: -23.82, lon: -46.47, serra: true }
+  ];
+
+  const WX_STATE = {
+    status: 'SINCRONIZANDO',
+    lastQueryAt: null,
+    lastSuccessAt: null,
+    refMeasurementAt: null,
+    source: 'Open-Meteo Multi-Model (NOAA/ECMWF/CPTEC)',
+    radarSource: 'RainViewer Doppler API',
+    radarTime: null,
+    radarStatus: 'SINCRONIZANDO',
+    regions: {},
+    tomtomSpeeds: {},
+    silencedAlerts: new Set(),
+    soundEnabled: localStorage.getItem('torreWxSound_v1') !== '0',
+    subView: 0,
+    flippedCardIdx: -1
+  };
+
+  function wmoInfo(code) {
+    const c = +code || 0;
+    if (c === 0) return { ic: '☀️', tx: 'Céu Limpo', rk: 'NORMAL', col: '#a7f3d0', imp: 'Pista seca · Docas 100% operacionais' };
+    if (c <= 2) return { ic: '⛅', tx: 'Parc. Nublado', rk: 'NORMAL', col: '#1fd6c4', imp: 'Condição normal de pátio e expedição' };
+    if (c === 3) return { ic: '☁️', tx: 'Encoberto', rk: 'NORMAL', col: '#5eead4', imp: 'Sem restrição de carregamento' };
+    if (c <= 48) return { ic: '🌫️', tx: 'Neblina', rk: 'ATENÇÃO', col: '#F2C94C', imp: 'Visibilidade reduzida nas saídas' };
+    if (c <= 57) return { ic: '🌦️', tx: 'Garoa Leve', rk: 'ATENÇÃO', col: '#F2C94C', imp: 'Proteger etiquetas ZW14 e cargas abertas' };
+    if (c <= 67) return { ic: '🌧️', tx: 'Chuva Moderada', rk: 'ALERTA', col: '#F2994A', imp: 'Enlonamento obrigatório · Pátio molhado' };
+    if (c <= 82) return { ic: '⛈️', tx: 'Pancadas Fortes', rk: 'CRÍTICO', col: '#E05252', imp: 'Risco de alagamento · Proteger docas externas' };
+    return { ic: '🌩️', tx: 'Tempestade Severa', rk: 'CRÍTICO', col: '#E05252', imp: 'Tempestade elétrica · Suspender pátio externo' };
+  }
+
+  const degToCard = deg => ['N','NE','L','SE','S','SO','O','NO'][Math.round(((+deg || 0) % 360) / 45) % 8];
+
+  /* Motor Rodoviário e SLA: Calcula velocidade, perfil de 24h e correlação com entregas */
+  function calcHighwayTelemetry(hw, C) {
+    const pObjs = hw.polos.map(pid => WX_STATE.regions[pid]).filter(Boolean);
+    const worstCode = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.weather_code) || 0)) : 0;
+    const maxRain   = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.precipitation) || 0)) : 0;
+    const maxGust   = pObjs.length ? Math.max(...pObjs.map(x => +(x.current && x.current.wind_gusts_10m) || 0)) : 0;
+    const wHw = wmoInfo(worstCode);
+
+    const hrNow = new Date().getHours();
+    const isPeak = (hrNow >= 6 && hrNow <= 9) || (hrNow >= 16 && hrNow <= 20);
+    let retainPct = isPeak ? 16 : (hrNow >= 10 && hrNow <= 15 ? 8 : 2);
+
+    let wxPenaltyPct = 0, cause = isPeak ? 'Horário de pico metropolitano' : 'Fluxo livre normal';
+    if (worstCode >= 45 && worstCode <= 48) {
+      wxPenaltyPct += hw.serra ? 38 : 22;
+      cause = hw.serra ? 'Neblina na Serra (Operação Comboio)' : 'Visibilidade reduzida por neblina';
+    } else if (maxRain >= 5 || worstCode >= 80) {
+      wxPenaltyPct += 35;
+      cause = 'Chuva intensa na pista · Redução preventiva';
+    } else if (maxRain > 0.2 || (worstCode >= 51 && worstCode <= 67)) {
+      wxPenaltyPct += 18;
+      cause = 'Pista molhada · Frenagem ampliada';
+    }
+    if (maxGust >= 50) {
+      wxPenaltyPct += 14;
+      cause += ' + Vento lateral forte (>50km/h)';
+    }
+
+    const totalLossPct = Math.min(72, retainPct + wxPenaltyPct);
+    const liveTomTom = WX_STATE.tomtomSpeeds[hw.id];
+    const vEst = liveTomTom ? liveTomTom.curSpd : Math.max(22, Math.round(hw.vFree * (1 - totalLossPct / 100)));
+    const fluidezPct = Math.min(100, Math.round((vEst / hw.vFree) * 100));
+
+    const tFreeMin = Math.round((hw.km / hw.vFree) * 60);
+    const tRealMin = Math.round((hw.km / vEst) * 60);
+    const delayMin = Math.max(0, tRealMin - tFreeMin);
+
+    /* Curva de perfil de velocidade nas 24h do dia para o gráfico de linha do corredor */
+    const hourlyCurve = [];
+    const refPolo = pObjs[0] && pObjs[0].hourly ? pObjs[0].hourly : null;
+    for (let h = 0; h < 24; h += 2) {
+      const pk = (h >= 6 && h <= 9) || (h >= 16 && h <= 20) ? 16 : (h >= 10 && h <= 15 ? 8 : 2);
+      const prb = refPolo && refPolo.precipitation_probability ? (+refPolo.precipitation_probability[24 + h] || 0) : 0;
+      const rPen = prb >= 70 ? 28 : prb >= 45 ? 14 : 0;
+      hourlyCurve.push(Math.max(22, Math.round(hw.vFree * (1 - Math.min(70, pk + rPen) / 100))));
+    }
+
+    const munisCorredor = new Set(hw.polos.filter(id => id !== 'CDG').flatMap(id => (POLOS_OPERACIONAIS.find(p => p.id === id) || {munis:[]}).munis).concat(hw.munis || []));
+    const pedsRota = C.filter(o => munisCorredor.has(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+    const pedsUrgentes = pedsRota.filter(o => cat(o[7]) <= 1);
+
+    const col = delayMin >= 25 || fluidezPct < 55 ? '#E05252' : delayMin >= 12 || fluidezPct < 78 ? '#F2994A' : '#22c55e';
+    const slaStatus = pedsUrgentes.length === 0
+      ? 'Sem entregas D0/D+1 expostas'
+      : delayMin >= 20
+      ? `Risco potencial ao SLA (${pedsUrgentes.length} ped D0/D+1)`
+      : `Exposição monitorada (${pedsUrgentes.length} ped D0/D+1)`;
+
+    return {
+      hw, wHw, maxRain, maxGust, vEst, fluidezPct, tFreeMin, tRealMin, delayMin, cause, col,
+      pedsTotal: pedsRota.length, pedsUrg: pedsUrgentes.length, pesoRota: sm(pedsRota, 8),
+      hourlyCurve, slaStatus, isLiveGps: !!liveTomTom
+    };
+  }
+
+  /* ==========================================================================
+     4. ELEMENTOS GRÁFICOS COM MOVIMENTO PARA A GUIA RODOVIAS E SLA
+     ========================================================================== */
+  /* Pista Vetorial com Fluxo Animado Proporcional à Velocidade */
+  function svgAnimatedHighwayLane(h) {
+    const animDur = (Math.max(0.65, Math.min(3.4, 85 / Math.max(20, h.vEst)))).toFixed(2) + 's';
+    return `<svg viewBox="0 0 320 24" style="width:100%;height:24px">
+      <rect x="2" y="3" width="316" height="18" rx="4" fill="#071513" stroke="#16322e" stroke-width="1"/>
+      <line x1="6" y1="12" x2="314" y2="12" stroke="#204742" stroke-width="1" stroke-dasharray="6 6"/>
+      <!-- Feixe contínuo de veículos/fluxo movendo-se na velocidade proporcional da via -->
+      <line x1="8" y1="8" x2="312" y2="8" stroke="${h.col}" stroke-width="3" stroke-linecap="round" stroke-dasharray="10 38" class="hw-flow-particles" style="--fspd:${animDur};filter:drop-shadow(0 0 4px ${h.col})"/>
+      <line x1="20" y1="16" x2="312" y2="16" stroke="#1fd6c4" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="8 40" class="hw-flow-particles" style="--fspd:${animDur};animation-delay:-0.5s"/>
+    </svg>`;
+  }
+
+  /* Mini Gráfico de Linha de Perfil de Velocidade 24h por Corredor */
+  function svgHighwaySpeedCurve24h(curveArr, vFree, col) {
+    if (!curveArr || curveArr.length < 2) return '';
+    const W = 320, H = 38, L = 24, R = 28, T = 5, B = 6, pw = W - L - R, ph = H - T - B, n = curveArr.length;
+    const X = i => L + (i * pw) / (n - 1);
+    const Y = v => T + ph * (1 - Math.max(0, Math.min(vFree * 1.05, v)) / (vFree * 1.05));
+    const pts = curveArr.map((v, i) => [X(i), Y(v)]);
+    const d = smooth(pts);
+    const curIdx = Math.min(n - 1, Math.floor(new Date().getHours() / 2));
+    const cx = pts[curIdx][0], cy = pts[curIdx][1];
+    return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:38px">
+      <line x1="${L}" x2="${W - R}" y1="${Y(vFree).toFixed(1)}" y2="${Y(vFree).toFixed(1)}" stroke="#16322e" stroke-dasharray="2 3"/>
+      <text x="${L - 3}" y="${(Y(vFree) + 3).toFixed(1)}" text-anchor="end" fill="#90bab4" font-size="7.5" font-family="monospace">${vFree}</text>
+      <path d="${d}" fill="none" stroke="${col}" stroke-width="2"/>
+      <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3.5" fill="#fff" stroke="${col}" stroke-width="2"/>
+      <text x="${W - R + 4}" y="${(cy + 3).toFixed(1)}" fill="#F2C94C" font-size="7.5" font-weight="800" font-family="monospace">AGORA</text>
+    </svg>`;
+  }
+
+  function playWxAlertTone(isCrit) {
+    if (!WX_STATE.soundEnabled) return;
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === 'suspended') ctx.resume();
+      const osc = ctx.createOscillator(), gain = ctx.createGain();
+      osc.type = isCrit ? 'triangle' : 'sine';
+      osc.frequency.setValueAtTime(isCrit ? 660 : 520, ctx.currentTime);
+      if (isCrit) osc.frequency.setValueAtTime(880, ctx.currentTime + 0.14);
+      gain.gain.setValueAtTime(0.045, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (isCrit ? 0.35 : 0.2));
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime + (isCrit ? 0.36 : 0.22));
+    } catch (e) {}
+  }
+
+  async function fetchMultiRegionTelemetry() {
+    WX_STATE.lastQueryAt = new Date();
+    const lats = POLOS_OPERACIONAIS.map(p => p.lat).join(',');
+    const lons = POLOS_OPERACIONAIS.map(p => p.lon).join(',');
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lats}&longitude=${lons}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m&hourly=temperature_2m,precipitation_probability,precipitation,wind_speed_10m,wind_direction_10m,surface_pressure,cape,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max&past_days=1&forecast_days=7&timezone=America%2FSao_Paulo`;
+
+    try {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const data = await r.json();
+      const list = Array.isArray(data) ? data : [data];
+      list.forEach((item, idx) => {
+        const polo = POLOS_OPERACIONAIS[idx];
+        if (polo && item) WX_STATE.regions[polo.id] = item;
+      });
+      WX_STATE.status = 'ONLINE';
+      WX_STATE.lastSuccessAt = new Date();
+      const cdgCur = WX_STATE.regions['CDG'] && WX_STATE.regions['CDG'].current;
+      if (cdgCur && cdgCur.time) WX_STATE.refMeasurementAt = cdgCur.time;
+      const dot = document.getElementById('tv-conn-dot');
+      if (dot) dot.style.background = '#22c55e';
+    } catch (e) {
+      WX_STATE.status = Object.keys(WX_STATE.regions).length ? 'CACHE PRESERVADO (FALHA REDE)' : 'INDISPONÍVEL';
+      const dot = document.getElementById('tv-conn-dot');
+      if (dot) dot.style.background = '#F2994A';
+    }
+
+    try {
+      const rv = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+      if (rv.ok) {
+        const rvJson = await rv.json();
+        const past = rvJson && rvJson.radar && rvJson.radar.past;
+        if (past && past.length) {
+          const lastFrame = past[past.length - 1];
+          WX_STATE.radarTime = new Date(lastFrame.time * 1000);
+          WX_STATE.radarStatus = 'ONLINE';
+        }
+      }
+    } catch (e) {
+      WX_STATE.radarStatus = 'OFFLINE';
+    }
+
+    if (window.TORRE_TOMTOM_KEY) {
+      for (const hw of CORREDORES_RODOVIARIOS) {
+        try {
+          const tr = await fetch(`https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?point=${hw.lat},${hw.lon}&key=${window.TORRE_TOMTOM_KEY}`);
+          if (tr.ok) {
+            const tj = await tr.json();
+            if (tj && tj.flowSegmentData) {
+              WX_STATE.tomtomSpeeds[hw.id] = { curSpd: tj.flowSegmentData.currentSpeed, freeSpd: tj.flowSegmentData.freeFlowSpeed };
+            }
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (document.body.classList.contains('tv-mode') && tvSlide === 0) renderTvSlide(tvSlide);
+  }
+  fetchMultiRegionTelemetry();
+  setInterval(fetchMultiRegionTelemetry, 15 * 60 * 1000);
+
+  /* ==========================================================================
+     6. DICAS E CURIOSIDADES VERIFICADAS PARA O VERSO DOS CARTÕES DE 7 DIAS
+     ========================================================================== */
+  const CURIOSIDADES_VERIFICADAS = [
+    ['INFRAESTRUTURA RODOVIÁRIA', 'A Rodovia Presidente Dutra (BR-116), inaugurada em 1951, conecta São Paulo ao Rio de Janeiro por 402 km e concentra mais de 50% do PIB industrial brasileiro.'],
+    ['HISTÓRIA & LOGÍSTICA', 'O Código de Endereçamento Postal (CEP) brasileiro foi criado em maio de 1971 e ampliado para 8 dígitos em 1992 para automatizar a triagem nacional de cargas.'],
+    ['GEOGRAFIA & TRANSPORTE', 'Guarulhos articula três dos maiores eixos logísticos do país: BR-116 (Dutra), BR-381 (Fernão Dias) e SP-070 (Corredor Ayrton Senna / Carvalho Pinto).'],
+    ['METEOROLOGIA OPERACIONAL', 'Valores de CAPE acima de 1.200 J/kg indicam forte instabilidade convectiva, antecipando pancadas intensas de chuva e rajadas de vento no pátio.'],
+    ['ENGENHARIA SERRA DO MAR', 'O Sistema Anchieta-Imigrantes vence 750 m de desnível na Serra do Mar; sob neblina densa, aciona a Operação Comboio para segurança dos veículos pesados.'],
+    ['FERROVIAS PAULISTAS', 'A São Paulo Railway (Santos-Jundiaí, 1867) foi o primeiro corredor de exportação de alta capacidade do estado, transpondo a serra por cabos e planos inclinados.'],
+    ['SEGURANÇA VIÁRIA & SLA', 'Sob pista molhada, a distância de frenagem de veículos pesados aumenta em até 40%, reduzindo a velocidade média operacional nas rodovias entre 15% e 30%.']
+  ];
+
+  function getCardBackTip(dayIndex, dStr) {
+    /* Verifica se há feriado/evento próximo para destacar ou usa a curiosidade correspondente ao dia */
+    const hols = typeof holCtx === 'function' ? holCtx(dStr) : [];
+    if (hols && hols.length > 0) {
+      return {
+        cat: '📅 CALENDÁRIO & OPERAÇÃO',
+        txt: `Na data ${fdy(dStr)} (${WD[wdOf(dStr)]}): ${hols.join(' · ')}. Planeje antecipadamente as janelas de agendamento e corte de ondas.`,
+        foot: 'Fonte: Calendário Oficial Torre'
+      };
+    }
+    const item = CURIOSIDADES_VERIFICADAS[dayIndex % CURIOSIDADES_VERIFICADAS.length];
+    return {
+      cat: '💡 ' + item[0],
+      txt: item[1],
+      foot: 'Toque no cartão para alternar face'
+    };
+  }
+
+  /* ==========================================================================
+     ASTRONOMIA LOCAL (sem API): nascer/pôr do sol e fase da Lua calculados no navegador.
+     Sol: algoritmo do Almanac (zenith 90,833°) para Guarulhos; fuso America/Sao_Paulo.
+     Lua: mês sinódico médio (precisão da ordem de ±1 dia nas datas das fases).
+     ========================================================================== */
+  const WX_LAT = -23.4538, WX_LON = -46.5333, WX_TZ = 'America/Sao_Paulo';
+  function wxSunHours(y, m, d, rising) {
+    const R = Math.PI / 180, mod = (a, n) => ((a % n) + n) % n;
+    const N1 = Math.floor(275 * m / 9), N2 = Math.floor((m + 9) / 12);
+    const N3 = 1 + Math.floor((y - 4 * Math.floor(y / 4) + 2) / 3);
+    const doy = N1 - N2 * N3 + d - 30;
+    const lngH = WX_LON / 15, t = doy + ((rising ? 6 : 18) - lngH) / 24;
+    const M = 0.9856 * t - 3.289;
+    const L = mod(M + 1.916 * Math.sin(M * R) + 0.020 * Math.sin(2 * M * R) + 282.634, 360);
+    let RA = mod(Math.atan(0.91764 * Math.tan(L * R)) / R, 360);
+    RA = (RA + (Math.floor(L / 90) * 90 - Math.floor(RA / 90) * 90)) / 15;
+    const sinDec = 0.39782 * Math.sin(L * R), cosDec = Math.cos(Math.asin(sinDec));
+    const cosH = (Math.cos(90.833 * R) - sinDec * Math.sin(WX_LAT * R)) / (cosDec * Math.cos(WX_LAT * R));
+    if (cosH > 1 || cosH < -1) return null;
+    const H = (rising ? 360 - Math.acos(cosH) / R : Math.acos(cosH) / R) / 15;
+    const T = H + RA - 0.06571 * t - 6.622;
+    return mod(T - lngH, 24);
+  }
+  function wxMoon(now) {
+    const SYN = 29.530588853, REF = Date.UTC(2000, 0, 6, 18, 14);
+    const age = (((now - REF) / 86400000) % SYN + SYN) % SYN, f = age / SYN;
+    const illum = (1 - Math.cos(2 * Math.PI * f)) / 2;
+    const names = ['Lua Nova', 'Lua Crescente', 'Quarto Crescente', 'Gibosa Crescente', 'Lua Cheia', 'Gibosa Minguante', 'Quarto Minguante', 'Lua Minguante'];
+    const icons = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+    let i;
+    if (f < 0.0338 || f >= 0.9662) i = 0; else if (f < 0.2162) i = 1; else if (f < 0.2838) i = 2; else if (f < 0.4662) i = 3;
+    else if (f < 0.5338) i = 4; else if (f < 0.7162) i = 5; else if (f < 0.7838) i = 6; else i = 7;
+    const marks = [[0.25, 'Quarto Crescente'], [0.5, 'Lua Cheia'], [0.75, 'Quarto Minguante'], [1, 'Lua Nova']];
+    const nx = marks.find(x => x[0] > f);
+    return { name: names[i], icon: icons[i], frac: f, illum: Math.round(illum * 100), nextName: nx[1], nextDays: Math.max(1, Math.round((nx[0] - f) * SYN)) };
+  }
+  function wxAstro(now) {
+    now = now || new Date();
+    const ymd = now.toLocaleDateString('en-CA', { timeZone: WX_TZ }).split('-').map(Number);
+    const hr = wxSunHours(ymd[0], ymd[1], ymd[2], true), hs = wxSunHours(ymd[0], ymd[1], ymd[2], false);
+    if (hr == null || hs == null) return { isDay: true, rise: '—', set: '—', progress: null, moon: wxMoon(now) };
+    const base = Date.UTC(ymd[0], ymd[1] - 1, ymd[2]);
+    const rise = new Date(base + hr * 3600000), set = new Date(base + hs * 3600000);
+    const fmt = x => x.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', timeZone: WX_TZ });
+    const isDay = now >= rise && now <= set;
+    return { isDay, rise: fmt(rise), set: fmt(set), progress: isDay ? (now - rise) / (set - rise) : null, moon: wxMoon(now) };
+  }
+  /* Fase da Lua em SVG de linha fina (hemisfério sul: o lado iluminado é espelhado por CSS) */
+  function wxMoonSvg(f) {
+    const k = Math.cos(2 * Math.PI * f), rx = (9 * Math.abs(k)).toFixed(2);
+    let lit = '';
+    if (f < 0.0338 || f >= 0.9662) lit = '';
+    else if (Math.abs(f - 0.5) < 0.0338) lit = '<circle cx="12" cy="12" r="9" fill="currentColor"/>';
+    else {
+      const waxing = f < 0.5, crescent = f < 0.25 || f > 0.75;
+      const outer = waxing ? 1 : 0, inner = waxing ? (crescent ? 0 : 1) : (crescent ? 1 : 0);
+      lit = `<path d="M12 3A9 9 0 0 ${outer} 12 21A${rx} 9 0 0 ${inner} 12 3z" fill="currentColor" stroke="none"/>`;
+    }
+    return window.torreIconHtml ? window.torreIconHtml('<circle cx="12" cy="12" r="9"/>' + lit) : '';
+  }
+  function wxIsDay() { try { return wxAstro().isDay; } catch (e) { return true; } }
+  function wxAstroHtml() {
+    let a;
+    try { a = wxAstro(); } catch (e) { return ''; }
+    const p = a.progress, M = a.moon;
+    const sx = p == null ? null : (60 - 52 * Math.cos(Math.PI * p)).toFixed(1), sy = p == null ? null : (34 - 30 * Math.sin(Math.PI * p)).toFixed(1);
+    return `<div class="wx-astro">
+      <div class="wx-astro-sun">
+        <svg viewBox="0 0 120 40" aria-hidden="true"><path d="M8 34 A52 30 0 0 1 112 34" fill="none" stroke="var(--tc-border-hi)" stroke-width="1.4" stroke-dasharray="3 3"/><line x1="4" y1="34" x2="116" y2="34" stroke="var(--tc-border-hi)" stroke-width="1"/>${p == null ? '' : `<circle cx="${sx}" cy="${sy}" r="4.2" fill="#F2C94C" style="filter:drop-shadow(0 0 4px #F2C94C)"/>`}</svg>
+        <div class="wx-astro-t"><span><small>NASCER</small><b>${a.rise}</b></span><span><small>PÔR</small><b>${a.set}</b></span></div>
+      </div>
+      <div class="wx-astro-moon">
+        <span class="wx-moon-ic" style="display:inline-block;transform:scaleX(-1)">${wxMoonSvg(M.frac)}</span>
+        <div><b>${M.name}</b><small>${M.illum}% iluminada · ${M.nextName} ≈ em ${M.nextDays} d</small></div>
+      </div>
+    </div>`;
+  }
+
+  /* Rotação 3D sincronizada: todos os cartões giram juntos para a face de curiosidade e voltam juntos.
+     As curiosidades (CURIOSIDADES_VERIFICADAS / getCardBackTip) e o clique individual continuam como antes. */
+  const WX_FLIP_CYCLE_MS = 16000, WX_FLIP_HOLD_MS = 8500;
+  let wxFlipBackTimer = null;
+  setInterval(() => {
+    if (!document.body.classList.contains('tv-mode') || tvSlide !== 0 || WX_STATE.subView !== 1 || tvPaused) return;
+    const cards = document.querySelectorAll('.wx-7d-flip-wrap');
+    if (!cards.length) return;
+    cards.forEach(c => c.classList.add('is-flipped'));
+    clearTimeout(wxFlipBackTimer);
+    wxFlipBackTimer = setTimeout(() => {
+      document.querySelectorAll('.wx-7d-flip-wrap').forEach(c => c.classList.remove('is-flipped'));
+    }, WX_FLIP_HOLD_MS);
+  }, WX_FLIP_CYCLE_MS);
+
+  /* ==========================================================================
+     7. RADAR METEOROLÓGICO DOPPLER COM MALHA DE GRADE CARTESIANA E POLAR SUTIL
+     ========================================================================== */
+  function svgDopplerRadarSquare() {
+    let routes = `
+      <path d="M132,152 L198,126" stroke="#204742" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M132,152 L164,158 L198,126" stroke="#204742" stroke-width="1.5"/>
+      <path d="M132,152 L106,118 L88,92 L54,38" stroke="#204742" stroke-width="2" stroke-dasharray="3 2"/>
+      <path d="M132,152 L68,156" stroke="#204742" stroke-width="1.8" stroke-dasharray="3 2"/>
+      <path d="M132,152 L148,196" stroke="#204742" stroke-width="1.8" stroke-dasharray="3 2"/>
+    `;
+
+    let degreeTicks = '';
+    for (let deg = 0; deg < 360; deg += 10) {
+      const rad = (deg - 90) * (Math.PI / 180);
+      const r1 = deg % 30 === 0 ? 100 : 103, r2 = 106;
+      degreeTicks += `<line x1="${(120 + Math.cos(rad) * r1).toFixed(1)}" y1="${(120 + Math.sin(rad) * r1).toFixed(1)}" x2="${(120 + Math.cos(rad) * r2).toFixed(1)}" y2="${(120 + Math.sin(rad) * r2).toFixed(1)}" stroke="#5eead4" stroke-opacity="${deg % 30 === 0 ? '0.55' : '0.25'}" stroke-width="${deg % 30 === 0 ? '1.2' : '0.7'}"/>`;
+    }
+
+    let cells = '', pins = '';
+    POLOS_OPERACIONAIS.forEach(p => {
+      const reg = WX_STATE.regions[p.id];
+      const cur = reg && reg.current ? reg.current : null;
+      const rain = cur ? (+cur.precipitation || 0) : 0;
+      const wmo = cur ? wmoInfo(cur.weather_code) : { col: '#64748b', tx: 'Sem dados' };
+      const windDir = cur ? (+cur.wind_direction_10m || 0) : 0;
+
+      if (rain > 0) {
+        const radius = Math.min(36, Math.max(14, 12 + rain * 4.5));
+        const rCol = rain >= 5 ? '#E05252' : rain >= 1.5 ? '#F2994A' : '#22c55e';
+        const rad = (windDir + 180) * (Math.PI / 180);
+        const dx = (p.rx + Math.cos(rad) * 16).toFixed(1), dy = (p.ry + Math.sin(rad) * 16).toFixed(1);
+        cells += `<circle cx="${p.rx}" cy="${p.ry}" r="${radius}" fill="${rCol}" fill-opacity="0.3" stroke="${rCol}" stroke-opacity="0.65" stroke-dasharray="2 2"/>
+                  <line x1="${p.rx}" y1="${p.ry}" x2="${dx}" y2="${dy}" stroke="#fff" stroke-width="1.5"/>`;
+      }
+
+      const isBase = p.id === 'CDG';
+      pins += `<g>
+        <circle cx="${p.rx}" cy="${p.ry}" r="${isBase ? 6 : 4.5}" fill="${wmo.col}" stroke="#040d0c" stroke-width="1.6" class="curve-marker-live"/>
+        <text x="${p.rx}" y="${p.ry - 8}" text-anchor="middle" fill="${isBase ? '#F2C94C' : '#e8f5f4'}" font-size="9" font-weight="800" font-family="monospace">${p.id} ${cur ? Math.round(cur.temperature_2m) + '°' : ''}</text>
+      </g>`;
+    });
+
+    return `<svg viewBox="0 0 240 240" style="width:100%;height:100%;max-width:255px;max-height:255px;aspect-ratio:1/1">
+      <defs>
+        <radialGradient id="radSweepG" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1fd6c4" stop-opacity="0.26"/>
+          <stop offset="100%" stop-color="#1fd6c4" stop-opacity="0.0"/>
+        </radialGradient>
+        <pattern id="radarSubtleGrid" width="16" height="16" patternUnits="userSpaceOnUse">
+          <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#1fd6c4" stroke-width="0.45" stroke-opacity="0.16"/>
+        </pattern>
+        <clipPath id="radarLensClip">
+          <circle cx="120" cy="120" r="106"/>
+        </clipPath>
+      </defs>
+      <circle cx="120" cy="120" r="106" fill="#05100e" stroke="#193935" stroke-width="1.8"/>
+      <g clip-path="url(#radarLensClip)">
+        <rect x="14" y="14" width="212" height="212" fill="url(#radarSubtleGrid)"/>
+        <line x1="45" y1="45" x2="195" y2="195" stroke="#1fd6c4" stroke-opacity="0.14" stroke-width="0.7" stroke-dasharray="2 3"/>
+        <line x1="195" y1="45" x2="45" y2="195" stroke="#1fd6c4" stroke-opacity="0.14" stroke-width="0.7" stroke-dasharray="2 3"/>
+      </g>
+      <circle cx="120" cy="120" r="80" fill="none" stroke="#16332f" stroke-width="0.9" stroke-dasharray="3 3"/>
+      <circle cx="120" cy="120" r="54" fill="none" stroke="#16332f" stroke-width="0.9" stroke-dasharray="3 3"/>
+      <circle cx="120" cy="120" r="28" fill="none" stroke="#16332f" stroke-width="0.9" stroke-dasharray="2 3"/>
+      <line x1="14" y1="120" x2="226" y2="120" stroke="#15312d" stroke-width="1"/>
+      <line x1="120" y1="14" x2="120" y2="226" stroke="#15312d" stroke-width="1"/>
+      ${degreeTicks}
+      <text x="120" y="23" text-anchor="middle" fill="#1fd6c4" font-size="6.5" font-weight="800" font-family="monospace">000° N</text>
+      <text x="216" y="118" text-anchor="end" fill="#1fd6c4" font-size="6.5" font-family="monospace">090° L</text>
+      <text x="120" y="222" text-anchor="middle" fill="#1fd6c4" font-size="6.5" font-family="monospace">180° S</text>
+      <text x="24" y="118" text-anchor="start" fill="#1fd6c4" font-size="6.5" font-family="monospace">270° O</text>
+      <text x="123" y="94" fill="#90bab4" fill-opacity="0.65" font-size="6" font-family="monospace">50km</text>
+      <text x="123" y="68" fill="#90bab4" fill-opacity="0.65" font-size="6" font-family="monospace">100km</text>
+      <text x="123" y="42" fill="#90bab4" fill-opacity="0.65" font-size="6" font-family="monospace">200km</text>
+      ${routes}
+      ${cells}
+      <g class="radar-beam-rot">
+        <path d="M120,120 L120,14 A106,106 0 0,1 196,46 Z" fill="url(#radSweepG)"/>
+        <line x1="120" y1="120" x2="120" y2="14" stroke="#1fd6c4" stroke-width="1.4" stroke-opacity="0.85"/>
+      </g>
+      ${pins}
+      <text x="120" y="236" text-anchor="middle" fill="#90bab4" font-size="8" font-family="monospace">DOPPLER SP: 🟢 LEVE · 🟠 MODERADA · 🔴 INTENSA</text>
+    </svg>`;
+  }
+
+  /* ==========================================================================
+     8. MOTOR DE IGNIÇÃO FLUIDA (ZERO GARGALOS)
+     ========================================================================== */
+  const activeTvRingGroups = [];
+
+  function animateCounterOnce(el, duration) {
+    if (!el || el.dataset.counted === '1') return;
+    const orig = (el.getAttribute('data-orig-txt') || el.textContent || '').trim();
+    if (!orig || orig === '—') return;
+    el.setAttribute('data-orig-txt', orig);
+    el.dataset.counted = '1';
+
+    const m = orig.match(/^([+-]?\s*(?:R\$\s*)?)(\d[\d.]*(?:,\d+)?)(.*)$/);
+    if (!m) return;
+    const prefix = m[1], numStr = m[2], suffix = m[3];
+    const hasDots = numStr.includes('.'), hasComma = numStr.includes(',');
+    const clean = numStr.replace(/\./g, '').replace(',', '.');
+    const target = parseFloat(clean);
+    if (isNaN(target) || target === 0) {
+      el.textContent = orig;
+      return;
+    }
+
+    const decimals = hasComma ? (numStr.split(',')[1] || '').length : 0;
+    const t0 = performance.now();
+
+    function step(now) {
+      if (!el.isConnected) return;
+      const p = Math.min(1, (now - t0) / duration);
+      const ease = 1 - Math.pow(1 - p, 2.2);
+      const cur = target * ease;
+      let formatted;
+      if (decimals > 0) {
+        formatted = cur.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+      } else if (hasDots || target >= 1000) {
+        formatted = Math.round(cur).toLocaleString('pt-BR');
+      } else {
+        formatted = String(Math.round(cur));
+      }
+      el.textContent = prefix + formatted + suffix;
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = orig;
+    }
+    requestAnimationFrame(step);
+  }
+
+  function sweepLedsSequentially(items, stepMs, startDelayMs, onComplete) {
+    if (!items || !items.length) return 0;
+    items.forEach(el => el.classList.add('led-wait'));
+    const totalDuration = items.length * stepMs;
+    const t0 = performance.now() + (startDelayMs || 0);
+    let lastLit = -1;
+
+    function tick(now) {
+      if (!items[0] || !items[0].isConnected) return;
+      if (now < t0) {
+        requestAnimationFrame(tick);
+        return;
+      }
+      const elapsed = now - t0;
+      const targetIdx = Math.min(items.length - 1, Math.floor(elapsed / stepMs));
+      while (lastLit < targetIdx) {
+        lastLit++;
+        items[lastLit].classList.remove('led-wait');
+      }
+      if (lastLit < items.length - 1) {
+        requestAnimationFrame(tick);
+      } else if (onComplete) {
+        onComplete();
+      }
+    }
+    requestAnimationFrame(tick);
+    return (startDelayMs || 0) + totalDuration;
+  }
+
+  setInterval(() => {
+    if (!document.body.classList.contains('tv-mode')) return;
+    for (let g = activeTvRingGroups.length - 1; g >= 0; g--) {
+      const grp = activeTvRingGroups[g];
+      if (!grp.items[0] || !grp.items[0].isConnected) {
+        activeTvRingGroups.splice(g, 1);
+        continue;
+      }
+      if (grp.holeIdx >= 0 && grp.holeIdx < grp.items.length) {
+        grp.items[grp.holeIdx].classList.remove('led-hole-off');
+      }
+      grp.holeIdx = (grp.holeIdx + 1) % grp.items.length;
+      grp.items[grp.holeIdx].classList.add('led-hole-off');
+    }
+  }, 85);
+
+  function attachCurveComet(svg, pathEl) {
+    if (!svg || !pathEl || pathEl.dataset.cometAdded === '1') return;
+    pathEl.dataset.cometAdded = '1';
+    try {
+      const len = Math.ceil(pathEl.getTotalLength());
+      if (len < 40) return;
+      pathEl.style.setProperty('--clen', len);
+
+      const ns = 'http://www.w3.org/2000/svg';
+      const beam = document.createElementNS(ns, 'path');
+      beam.setAttribute('d', pathEl.getAttribute('d'));
+      beam.setAttribute('class', 'curve-comet-beam');
+      beam.style.setProperty('--clen', len);
+      pathEl.parentNode.insertBefore(beam, pathEl.nextSibling);
+
+      const dot = document.createElementNS(ns, 'circle');
+      dot.setAttribute('r', '4.5');
+      dot.setAttribute('fill', '#ffffff');
+      dot.setAttribute('stroke', '#ff1e42');
+      dot.setAttribute('stroke-width', '2.5');
+      dot.style.filter = 'drop-shadow(0 0 8px #ff1e42) drop-shadow(0 0 12px #1fd6c4)';
+      pathEl.parentNode.appendChild(dot);
+
+      const duration = 3400;
+      const tStart = performance.now();
+      function moveDot(now) {
+        if (!dot.isConnected) return;
+        const progress = ((now - tStart) % duration) / duration;
+        try {
+          const pt = pathEl.getPointAtLength(progress * len);
+          dot.setAttribute('cx', pt.x.toFixed(1));
+          dot.setAttribute('cy', pt.y.toFixed(1));
+        } catch (e) {}
+        requestAnimationFrame(moveDot);
+      }
+      requestAnimationFrame(moveDot);
+    } catch (e) {}
+  }
+
+  function igniteAutomotiveGauges(root, isTvMode) {
+    if (!root) return;
+    const RING_STEP_MS = 11;
+    const BAR_STEP_MS  = 14;
+
+    root.querySelectorAll('svg.rsv, svg.tv-ring-svg').forEach(svg => {
+      if (svg.dataset.ignited === '1') return;
+      svg.dataset.ignited = '1';
+
+      const litLines = [];
+      svg.querySelectorAll('line').forEach(ln => {
+        const st = (ln.getAttribute('stroke') || '').toLowerCase();
+        if (st && st !== '#193531' && st !== '#132c28') litLines.push(ln);
+      });
+
+      const dur = sweepLedsSequentially(litLines, RING_STEP_MS, 0, () => {
+        if (isTvMode && litLines.length >= 2) {
+          activeTvRingGroups.push({ items: litLines, holeIdx: -1 });
+        }
+      });
+
+      const txt = svg.querySelector('text');
+      if (txt && litLines.length > 0) animateCounterOnce(txt, Math.max(420, dur));
+    });
+
+    root.querySelectorAll('.sg, .sgb, .nyse-led').forEach(bar => {
+      if (bar.dataset.ignited === '1') return;
+      bar.dataset.ignited = '1';
+
+      const litCells = [];
+      bar.querySelectorAll('i').forEach(cell => {
+        const inlineBg = (cell.getAttribute('style') || '').toLowerCase();
+        if (inlineBg.includes('background') && !inlineBg.includes('#112926') && !inlineBg.includes('#102623') && !inlineBg.includes('#132c29')) {
+          litCells.push(cell);
+        }
+      });
+
+      const dur = sweepLedsSequentially(litCells, BAR_STEP_MS, 0, () => {
+        if (isTvMode && litCells.length > 0) {
+          const lastCell = litCells[litCells.length - 1];
+          const mCol = (lastCell.getAttribute('style') || '').match(/#[0-9a-f]{6}/i);
+          if (mCol) lastCell.style.setProperty('--orig-bg', mCol[0]);
+          lastCell.classList.add('bar-tip-red-active');
+        }
+      });
+
+      const sgr = bar.closest('.sgr');
+      if (sgr) {
+        const bEl = sgr.querySelector('.sgh b');
+        if (bEl && litCells.length > 0) animateCounterOnce(bEl, Math.max(420, dur));
+      }
+    });
+
+    root.querySelectorAll('.chx svg, svg.ars, .tv-chart-box svg').forEach(svg => {
+      if (svg.classList.contains('rsv') || svg.classList.contains('tv-ring-svg')) return;
+      if (svg.dataset.ignited === '1') return;
+      svg.dataset.ignited = '1';
+
+      if (svg.classList.contains('ars')) {
+        const vb = svg.getAttribute('viewBox');
+        if (vb === '0 0 640 236') svg.setAttribute('viewBox', '0 0 668 236');
+      }
+
+      const isHorizontalBar = !!svg.querySelector('rect[width="8"]');
+      const bricksGroup = {};
+
+      svg.querySelectorAll('rect').forEach(r => {
+        const fill = (r.getAttribute('fill') || '').toLowerCase();
+        if (!fill || fill === 'transparent' || fill === '#142e2a' || fill === '#102623' || fill === '#071513' || fill.startsWith('url(#nysebarg)') || fill.startsWith('url(#radarsubtlegrid)') || fill.startsWith('#ffffff') || fill.startsWith('#081715')) return;
+        const w = parseFloat(r.getAttribute('width') || 0), h = parseFloat(r.getAttribute('height') || 0);
+        if (h > 40 && w > 40) return;
+        const x = parseFloat(r.getAttribute('x') || 0), y = parseFloat(r.getAttribute('y') || 0);
+        const key = isHorizontalBar ? Math.round(y) : Math.round(x);
+        (bricksGroup[key] = bricksGroup[key] || []).push({ el: r, x: x, y: y, fill: fill });
+      });
+
+      Object.keys(bricksGroup).sort((a, b) => (+a) - (+b)).forEach((gKey, barIdx) => {
+        const sorted = bricksGroup[gKey].sort((a, b) => isHorizontalBar ? (a.x - b.x) : (b.y - a.y));
+        const els = sorted.map(item => item.el);
+        sweepLedsSequentially(els, 14, barIdx * 18, () => {
+          if (isTvMode && sorted.length > 0) {
+            const tip = sorted[sorted.length - 1];
+            tip.el.style.setProperty('--orig-fill', tip.fill);
+            tip.el.classList.add('bar-tip-red-active');
+          }
+        });
+      });
+
+      if (svg.classList.contains('ars')) {
+        svg.classList.add('curve-wipe-init');
+      }
+      svg.querySelectorAll('path').forEach(p => {
+        const fill = (p.getAttribute('fill') || 'none').toLowerCase();
+        const sw = parseFloat(p.getAttribute('stroke-width') || 0);
+        if (fill === 'none' && sw >= 2.2) {
+          p.classList.add('curve-wipe-init');
+          if (isTvMode) attachCurveComet(svg, p);
+        } else if (fill !== 'none') {
+          p.classList.add('curve-wipe-init');
+        }
+      });
+      if (isTvMode) {
+        svg.querySelectorAll('circle').forEach(c => c.classList.add('curve-marker-live'));
+      }
+    });
+
+    root.querySelectorAll('.stc .big, .dlg b, .wx-hero-temp').forEach(el => animateCounterOnce(el, 650));
+  }
+
+  const vMain = document.getElementById('v');
+  if (vMain) {
+    new MutationObserver(() => {
+      setTimeout(() => igniteAutomotiveGauges(vMain, false), 25);
+    }).observe(vMain, { childList: true, subtree: false });
+    setTimeout(() => igniteAutomotiveGauges(vMain, false), 120);
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest && e.target.closest('[data-s]')) {
+      setTimeout(() => igniteAutomotiveGauges(vMain, false), 25);
+    }
+    const flipCard = e.target.closest && e.target.closest('.wx-7d-flip-wrap');
+    if (flipCard) {
+      flipCard.classList.toggle('is-flipped');
+    }
+    const ackBtn = e.target.closest && e.target.closest('[data-wx-ack]');
+    if (ackBtn) {
+      WX_STATE.silencedAlerts.add(ackBtn.dataset.wxAck);
+      renderTvSlide(0);
+    }
+    const subBtn = e.target.closest && e.target.closest('[data-wx-sub]');
+    if (subBtn) {
+      WX_STATE.subView = +subBtn.dataset.wxSub;
+      restartWxSubTimer();
+      renderTvSlide(0);
+    }
+  });
+
+  /* ==========================================================================
+     9. GRÁFICO OUTBOUND COM ADAPTAÇÃO DINÂMICA AO ESPAÇO (RESIZEOBSERVER)
+     ========================================================================== */
+  let outboundResizeObs = null;
+
+  function svgOutboundPerformanceArea(daysList, customW, customH) {
+    const valid = daysList.filter(x => x.n > 0 || x.etq > 0);
+    if (valid.length < 2) return '<div class="note">Histórico insuficiente para o gráfico de performance.</div>';
+
+    /* Adapta as coordenadas internas exatamente à proporção quadrada/retangular real do container */
+    const W = Math.max(380, Math.round(customW || 620));
+    const H = Math.max(220, Math.round(customH || 360));
+    const L = 58, R = 52, T = 28, B = 30, pw = W - L - R, ph = H - T - B, n = valid.length;
+
+    const valArr = valid.map(x => x.val / 1000);
+    const nfArr  = valid.map(x => x.nf / 1000);
+    const pesoArr = valid.map(x => x.peso / 1000);
+
+    const maxV = Math.max(...valArr, ...nfArr, 1) * 1.12;
+    const maxP = Math.max(...pesoArr, 1) * 1.15;
+    const X = i => L + (i * pw) / (n - 1);
+    const Yv = v => T + ph * (1 - Math.max(0, v) / maxV);
+    const Yp = v => T + ph * (1 - Math.max(0, v) / maxP);
+
+    const stepsY = H >= 310 ? 5 : 4;
+    let grid = '';
+    for (let k = 0; k <= stepsY; k++) {
+      const yy = T + ph * (1 - k / stepsY);
+      const vLab = (maxV / stepsY) * k, pLab = (maxP / stepsY) * k;
+      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#15312d" stroke-dasharray="${k ? '3 4' : ''}"/>
+               <text x="${L - 8}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#1fd6c4" font-size="10" font-family="monospace">R$ ${n0(vLab)}k</text>
+               <text x="${W - R + 8}" y="${(yy + 3).toFixed(1)}" text-anchor="start" fill="#4ade80" font-size="10" font-family="monospace">${n0(pLab)} t</text>`;
+    }
+
+    const ptsVal = valArr.map((v, i) => [X(i), Yv(v)]);
+    const ptsPeso = pesoArr.map((v, i) => [X(i), Yp(v)]);
+    const dVal = smooth(ptsVal), dPeso = smooth(ptsPeso);
+    const y0 = Yv(0);
+    const areaVal = `${dVal} L${ptsVal[n - 1][0].toFixed(1)},${y0.toFixed(1)} L${ptsVal[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
+
+    const bw = Math.max(4, Math.min(20, (pw / n) * 0.54));
+    const volBars = pesoArr.map((p, i) => {
+      const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="url(#nyseBarG)" fill-opacity="0.38"/>`;
+    }).join('');
+
+    const base = valid.filter(x => x.d <= dia && x.val > 0);
+    let badges = '';
+    if (base.length >= 2) {
+      const mxObj = [...base].sort((a, b) => b.val - a.val)[0];
+      const mnObj = [...base].sort((a, b) => a.val - b.val)[0];
+      const drawPin = (obj, lb, col, up) => {
+        const idx = valid.findIndex(x => x.d === obj.d);
+        if (idx < 0) return '';
+        const px = X(idx), py = Yv(obj.val / 1000), by = up ? Math.max(15, py - 15) : Math.min(H - 36, py + 19);
+        const txt = `${lb} ${fd(obj.d)} · R$ ${(obj.val / 1e6).toFixed(2).replace('.', ',')}M`;
+        const tw = txt.length * 5.8 + 14;
+        const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
+        return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.55" stroke-dasharray="2 3"/>
+                <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#050f0d" stroke="${col}" stroke-width="2.5"/>
+                <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 11).toFixed(1)}" width="${tw.toFixed(1)}" height="17" rx="8.5" fill="#081715e6" stroke="${col}" stroke-width="1.2"/>
+                <text x="${bx.toFixed(1)}" y="${by.toFixed(1)}" text-anchor="middle" fill="#fff" font-size="10" font-weight="800" font-family="monospace">${txt}</text>`;
+      };
+      badges += drawPin(mxObj, '▲ PICO', '#4ade80', true);
+      if (mnObj.d !== mxObj.d) badges += drawPin(mnObj, '▼ VALE', '#E05252', false);
+    }
+
+    const stepX = n > 14 ? 2 : 1;
+    let lastDrawnX = -999;
+    const xLabs = valid.map((x, i) => {
+      const cx = X(i);
+      const isRef = x.d === dia;
+      if (!isRef && i % stepX !== 0 && i !== n - 1) return '';
+      if (cx - lastDrawnX < 30 && !isRef) return '';
+      lastDrawnX = cx;
+      return `<text x="${cx.toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${isRef ? '#F2C94C' : '#90bab4'}" font-weight="${isRef ? '800' : '400'}" font-size="10" font-family="monospace">${fd(x.d)}</text>`;
+    }).join('');
+
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%">
+      <defs>
+        <linearGradient id="nyseAreaG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1fd6c4" stop-opacity="0.45"/>
+          <stop offset="65%" stop-color="#14b8a6" stop-opacity="0.14"/>
+          <stop offset="100%" stop-color="#0f766e" stop-opacity="0.0"/>
+        </linearGradient>
+        <linearGradient id="nyseBarG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4ade80" stop-opacity="0.75"/>
+          <stop offset="100%" stop-color="#10b981" stop-opacity="0.1"/>
+        </linearGradient>
+      </defs>
+      ${grid}${volBars}
+      <path d="${areaVal}" fill="url(#nyseAreaG)"/>
+      <path d="${dPeso}" fill="none" stroke="#4ade80" stroke-width="2.2" stroke-dasharray="4 3"/>
+      <path d="${dVal}" fill="none" stroke="#1fd6c4" stroke-width="3.2"/>
+      ${badges}${xLabs}
+    </svg>`;
+  }
+
+  function bindDynamicOutboundChart(boxEl, daysList) {
+    if (!boxEl) return;
+    if (outboundResizeObs) {
+      outboundResizeObs.disconnect();
+      outboundResizeObs = null;
+    }
+    let lastW = 0, lastH = 0;
+    const renderFit = () => {
+      if (!boxEl.isConnected) return;
+      const w = Math.floor(boxEl.clientWidth || 620);
+      const h = Math.floor(boxEl.clientHeight || 340);
+      if (Math.abs(w - lastW) < 8 && Math.abs(h - lastH) < 8) return;
+      lastW = w; lastH = h;
+      boxEl.innerHTML = svgOutboundPerformanceArea(daysList, w, h);
+      igniteAutomotiveGauges(boxEl, true);
+    };
+    renderFit();
+    if (typeof ResizeObserver !== 'undefined') {
+      outboundResizeObs = new ResizeObserver(() => requestAnimationFrame(renderFit));
+      outboundResizeObs.observe(boxEl);
+    }
+  }
+
+  /* ==========================================================================
+     10. RENDERIZAÇÃO DAS 7 TELAS DO MODO TV
+     ========================================================================== */
+  const tvCanvas = document.getElementById('tv-canvas');
+  const tvTicker = document.getElementById('tv-ticker');
+  const tvSub = document.getElementById('tv-sub');
+  const tvClock = document.getElementById('tv-clock');
+  const tvDurSelect = document.getElementById('tv-dur');
+  const tvSndBtn = document.getElementById('tv-snd');
+  const DUR_KEY = 'torreTvDurMs_v1';
+  const TOTAL_SLIDES = 7;
+  let tvSlide = 0, tvTimer = null, tvClockTimer = null, tvScrollTimer = null, wxSubTimer = null, tvPaused = false;
+  let wxCycleDone = false, wxAdvancePending = false;   /* a tela 1 só avança após exibir por inteiro as 5 subguias */
+  let wakeLockSentinel = null;
+  let tvDurationMs = parseInt(localStorage.getItem(DUR_KEY) || '90000', 10) || 90000;
+  if (tvDurSelect) tvDurSelect.value = String(tvDurationMs);
+
+  async function requestTvWakeLock() {
+    if ('wakeLock' in navigator && document.body.classList.contains('tv-mode')) {
+      try { wakeLockSentinel = await navigator.wakeLock.request('screen'); } catch (e) {}
+    }
+  }
+  function releaseTvWakeLock() {
+    if (wakeLockSentinel) {
+      wakeLockSentinel.release().catch(() => {});
+      wakeLockSentinel = null;
+    }
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && document.body.classList.contains('tv-mode')) requestTvWakeLock();
+  });
+
+  if (tvSndBtn) {
+    tvSndBtn.textContent = WX_STATE.soundEnabled ? '🔊 Áudio' : '🔇 Mudo';
+    tvSndBtn.onclick = () => {
+      WX_STATE.soundEnabled = !WX_STATE.soundEnabled;
+      try { localStorage.setItem('torreWxSound_v1', WX_STATE.soundEnabled ? '1' : '0'); } catch (e) {}
+      tvSndBtn.textContent = WX_STATE.soundEnabled ? '🔊 Áudio' : '🔇 Mudo';
+    };
+  }
+
+  function restartWxSubTimer() {
+    clearInterval(wxSubTimer);
+    wxSubTimer = setInterval(() => {
+      if (!document.body.classList.contains('tv-mode') || tvSlide !== 0 || tvPaused) return;
+      WX_STATE.subView = (WX_STATE.subView + 1) % 5;
+      if (WX_STATE.subView === 0) {
+        /* voltou à 1ª subguia: a 5ª (Rodovias & SLA) já foi exibida por todo o seu tempo = ciclo completo */
+        wxCycleDone = true;
+        if (wxAdvancePending) { wxAdvancePending = false; goToSlide(1); restartSlideInterval(); return; }
+      }
+      renderTvSlide(0);
+    }, 14000);
+  }
+
+  const miniSpark = (ptsArr, color, w=72, h=20) => {
+    if (!ptsArr || ptsArr.length < 2) return '';
+    const mx = Math.max(...ptsArr), mn = Math.min(...ptsArr), r = mx - mn || 1;
+    const pts = ptsArr.map((v, i) => `${(i * ((w - 4) / (ptsArr.length - 1)) + 2).toFixed(1)},${(h - 2 - ((v - mn) / r) * (h - 4)).toFixed(1)}`).join(' ');
+    return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="overflow:visible"><polyline fill="none" stroke="${color}" stroke-width="2" points="${pts}"/></svg>`;
+  };
+
+  const kpiCard = (title, val, sub, color, icon, sparkPts) => {
+    return `<div class="tv-kpi" style="--c:${color}">
+      <div class="tv-kpi-hd"><span>${title}</span><span>${icon||''}</span></div>
+      <div class="tv-kpi-val">${val}</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:6px">
+        <div class="tv-kpi-sub">${sub||''}</div>${miniSpark(sparkPts, color, 96, 22)}
+      </div>
+    </div>`;
+  };
+
+  const neonRing = (pctVal, colors, mainTxt, label, sub) => {
+    const N = 48, on = pctVal == null ? 0 : Math.round(Math.min(100, Math.max(0, pctVal)) / 100 * N);
+    let lines = '';
+    for (let i = 0; i < N; i++) {
+      const a = (i / N) * 2 * Math.PI - Math.PI / 2, c = Math.cos(a), d = Math.sin(a);
+      const isOn = i < on;
+      const col = isOn ? lerpC(colors, i / (N - 1)) : '#132c28';
+      lines += `<line x1="${(50 + c * 35).toFixed(2)}" y1="${(50 + d * 35).toFixed(2)}" x2="${(50 + c * 45).toFixed(2)}" y2="${(50 + d * 45).toFixed(2)}" stroke="${col}" stroke-width="3" stroke-linecap="round"/>`;
+    }
+    return `<div class="tv-card" style="align-items:center;justify-content:center;text-align:center;padding:10px">
+      <svg class="tv-ring-svg" viewBox="0 0 100 100" style="width:115px;height:115px;overflow:visible">${lines}
+        <text x="50" y="54" text-anchor="middle" fill="#fff" font-size="19" font-weight="900">${mainTxt}</text>
+      </svg>
+      <div style="font-size:11px;font-weight:800;letter-spacing:.14em;color:#1fd6c4;text-transform:uppercase;margin-top:4px">${label}</div>
+      <div style="font-size:11px;color:#9bc5bf;margin-top:2px">${sub}</div>
+    </div>`;
+  };
+
+  const ledBar = (label, count, total, colors, extraRight) => {
+    const p = total ? (count / total) * 100 : 0, N = 36, on = Math.max(count > 0 ? 1 : 0, Math.round(Math.min(100, p) / 100 * N));
+    let segs = '';
+    for (let i = 0; i < N; i++) {
+      const col = lerpC(colors, i / (N - 1));
+      segs += i < on ? `<i style="background:${col}"></i>` : `<i style="background:#112926"></i>`;
+    }
+    return `<div class="sgr" style="margin:8px 0">
+      <div class="sgh" style="font-size:12px"><span style="color:#d8eeeb;font-weight:700">${label}</span><b style="color:#1fd6c4;font-size:13px">${extraRight || (n0(count) + ' · ' + pfx(p) + '%')}</b></div>
+      <div class="sg" style="gap:3px">${segs}</div>
+    </div>`;
+  };
+
+  const miniLed = (pctVal) => {
+    if (pctVal == null) return '<span style="color:#64748b">—</span>';
+    const N = 10, on = Math.round(Math.min(100, Math.max(0, pctVal)) / 100 * N);
+    const col = pctVal < CFG.lo ? '#E05252' : pctVal > CFG.hi ? '#F2994A' : '#22c55e';
+    let s = '';
+    for (let i = 0; i < N; i++) s += `<i style="${i < on ? `background:${col}` : 'background:#132c29'}"></i>`;
+    return `<span class="nyse-led">${s}</span><span style="color:${col};font-weight:700">${pctVal.toFixed(0)}%</span>`;
+  };
+
+  const svgWeatherWideArea = (hLabs, temps, probs, nowIdx) => {
+    if (!hLabs || hLabs.length < 2) return '<div class="note">Sincronizando telemetria meteorológica...</div>';
+    const W = 900, H = 265, L = 52, R = 50, T = 28, B = 32, pw = W - L - R, ph = H - T - B, n = hLabs.length;
+    const minT = Math.min(...temps) - 2, maxT = Math.max(...temps) + 2, rngT = Math.max(4, maxT - minT);
+    const X = i => L + (i * pw) / (n - 1);
+    const Yt = v => T + ph * (1 - (v - minT) / rngT);
+    const Yp = v => T + ph * (1 - Math.max(0, Math.min(100, v)) / 100);
+
+    let grid = '';
+    for (let k = 0; k <= 4; k++) {
+      const yy = T + ph * (1 - k / 4);
+      const tVal = minT + (rngT / 4) * k, pVal = 25 * k;
+      grid += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#15312d" stroke-dasharray="${k ? '3 4' : ''}"/>
+               <text x="${L - 8}" y="${(yy + 4).toFixed(1)}" text-anchor="end" fill="#1fd6c4" font-size="10.5" font-weight="700" font-family="monospace">${Math.round(tVal)}°C</text>
+               <text x="${W - R + 8}" y="${(yy + 4).toFixed(1)}" text-anchor="start" fill="#5eead4" font-size="10.5" font-weight="700" font-family="monospace">${pVal}%</text>`;
+    }
+
+    const ptsT = temps.map((v, i) => [X(i), Yt(v)]);
+    const ptsP = probs.map((v, i) => [X(i), Yp(v)]);
+    const dTemp = smooth(ptsT), dProb = smooth(ptsP);
+    const y0 = T + ph;
+    const areaTemp = `${dTemp} L${ptsT[n - 1][0].toFixed(1)},${y0.toFixed(1)} L${ptsT[0][0].toFixed(1)},${y0.toFixed(1)} Z`;
+
+    const bw = Math.max(8, Math.min(24, (pw / n) * 0.55));
+    const probBars = probs.map((p, i) => {
+      const x = X(i) - bw / 2, y = Yp(p), h = Math.max(2, y0 - y);
+      const bCol = p >= 60 ? '#E05252' : p >= 35 ? '#F2C94C' : '#5eead4';
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="2" fill="${bCol}" fill-opacity="0.34"/>`;
+    }).join('');
+
+    let mxI = 0, mnI = 0;
+    temps.forEach((v, i) => { if (v > temps[mxI]) mxI = i; if (v < temps[mnI]) mnI = i; });
+    const pin = (idx, lb, col, up) => {
+      const px = X(idx), py = Yt(temps[idx]), by = up ? Math.max(16, py - 15) : Math.min(H - 36, py + 20);
+      const txt = `${lb} ${hLabs[idx]} · ${temps[idx].toFixed(1).replace('.', ',')}°C`;
+      const tw = txt.length * 6.2 + 16;
+      const bx = Math.min(W - R - tw / 2, Math.max(L + tw / 2, px));
+      return `<line x1="${px.toFixed(1)}" x2="${px.toFixed(1)}" y1="${py.toFixed(1)}" y2="${y0.toFixed(1)}" stroke="${col}" stroke-opacity="0.6" stroke-dasharray="2 3"/>
+              <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="#050f0d" stroke="${col}" stroke-width="2.6"/>
+              <rect x="${(bx - tw / 2).toFixed(1)}" y="${(by - 12).toFixed(1)}" width="${tw.toFixed(1)}" height="18" rx="9" fill="#081715f0" stroke="${col}" stroke-width="1.3"/>
+              <text x="${bx.toFixed(1)}" y="${(by + 1).toFixed(1)}" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="800" font-family="monospace">${txt}</text>`;
+    };
+
+    const nowX = nowIdx != null && nowIdx >= 0 ? X(nowIdx) : X(Math.floor(n / 2));
+    const nowDivider = `<line x1="${nowX.toFixed(1)}" x2="${nowX.toFixed(1)}" y1="${T}" y2="${y0}" stroke="#F2C94C" stroke-width="1.8" stroke-dasharray="4 3"/>
+                        <text x="${(nowX - 8).toFixed(1)}" y="${T + 11}" text-anchor="end" fill="#a4c8c4" font-size="9.5" font-weight="700" font-family="monospace">◀ ÚLTIMAS 24H</text>
+                        <text x="${(nowX + 8).toFixed(1)}" y="${T + 11}" text-anchor="start" fill="#F2C94C" font-weight="800" font-size="9.5" font-family="monospace">PRÓXIMAS 24H ▶</text>`;
+
+    const xLabs = hLabs.map((l, i) => `<text x="${X(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" fill="${i === nowIdx ? '#F2C94C' : '#a4c8c4'}" font-weight="${i === nowIdx ? '800' : '500'}" font-size="10" font-family="monospace">${l}</text>`).join('');
+
+    return `<svg viewBox="0 0 ${W} ${H}">
+      <defs>
+        <linearGradient id="wxAreaG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1fd6c4" stop-opacity="0.52"/>
+          <stop offset="65%" stop-color="#14b8a6" stop-opacity="0.16"/>
+          <stop offset="100%" stop-color="#0f766e" stop-opacity="0.0"/>
+        </linearGradient>
+      </defs>
+      ${grid}${probBars}
+      <path d="${areaTemp}" fill="url(#wxAreaG)"/>
+      <path d="${dProb}" fill="none" stroke="#5eead4" stroke-width="2.2" stroke-dasharray="5 3"/>
+      <path d="${dTemp}" fill="none" stroke="#1fd6c4" stroke-width="3.2"/>
+      ${nowDivider}
+      ${pin(mxI, '▲ MÁX', '#F2994A', true)}
+      ${mnI !== mxI ? pin(mnI, '▼ MÍN', '#5eead4', false) : ''}
+      ${xLabs}
+    </svg>`;
+  };
+
+  const svgNeonCombo = (labelsArr, barData, barColors, lineData, lineColor, yFmt) => {
+    if (!labelsArr.length) return '<div class="note">Sem dados para o gráfico.</div>';
+    const W = 560, H = 225, L = 48, R = lineData ? 48 : 20, T = 18, B = 28, pw = W - L - R, ph = H - T - B, n = labelsArr.length;
+    const maxB = Math.max(...barData, 1) * 1.08, maxL = lineData ? Math.max(...lineData, 1) * 1.08 : 1;
+    const X = i => L + pw * (i + 0.5) / n, Yb = v => T + ph * (1 - v / maxB), Yl = v => T + ph * (1 - v / maxL);
+    const bw = Math.max(6, Math.min(28, (pw / n) * 0.62));
+
+    let g = '';
+    for (let k = 0; k <= 4; k++) {
+      const yy = T + ph * (1 - k / 4);
+      g += `<line x1="${L}" x2="${W - R}" y1="${yy.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#16322e" stroke-dasharray="3 4"/>
+            <text x="${L - 6}" y="${(yy + 3).toFixed(1)}" text-anchor="end" fill="#90bab4" font-size="9.5">${yFmt ? yFmt((maxB / 4) * k) : fv((maxB / 4) * k)}</text>` +
+            (lineData ? `<text x="${W - R + 6}" y="${(yy + 3).toFixed(1)}" fill="${lineColor}" font-size="9.5">${fv((maxL / 4) * k)}</text>` : '');
+    }
+
+    let bars = '', SB = 6, SG = 2, STP = SB + SG, KM = Math.max(1, Math.floor(ph / STP));
+    barData.forEach((v, i) => {
+      const col = Array.isArray(barColors) ? barColors[i % barColors.length] : barColors;
+      const x = X(i) - bw / 2, k1 = Math.min(KM, Math.max(v > 0 ? 1 : 0, Math.round((v / maxB) * KM)));
+      for (let k = 0; k < KM; k++) {
+        bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="#102623" fill-opacity="0.55"/>`;
+      }
+      for (let k = 0; k < k1; k++) {
+        const segCol = lerpC([shd(col, 0.3), col, lit(col, 0.35)], k1 > 1 ? k / (k1 - 1) : 1);
+        bars += `<rect x="${x.toFixed(1)}" y="${(T + ph - (k + 1) * STP + SG).toFixed(1)}" width="${bw.toFixed(1)}" height="${SB}" rx="1.5" fill="${segCol}"/>`;
+      }
+      if (n <= 12 || i % 2 === 0) {
+        bars += `<text x="${X(i).toFixed(1)}" y="${H - 7}" text-anchor="middle" fill="#a4c8c4" font-size="9.5">${trunc(labelsArr[i], 10)}</text>`;
+      }
+    });
+
+    let ln = '';
+    if (lineData && lineData.length >= 2) {
+      const P = lineData.map((v, i) => [X(i), Yl(v)]), d = smooth(P);
+      ln = `<path d="${d}" fill="none" stroke="${lineColor}" stroke-width="2.8"/>` +
+            P.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3.6" fill="#061311" stroke="${lineColor}" stroke-width="2.2"/>`).join('');
+    }
+    return `<svg viewBox="0 0 ${W} ${H}">${g}${bars}${ln}</svg>`;
+  };
+
+  const svgHorizNeon = (entries, colors) => {
+    if (!entries.length) return '<div class="note">Sem dados para exibir.</div>';
+    const maxV = Math.max(...entries.map(e => e[1]), 1);
+    return `<div style="width:100%;display:flex;flex-direction:column;gap:7px;justify-content:center">` +
+      entries.map(([lbl, val, rightTxt], idx) => {
+        const col = Array.isArray(colors) ? colors[idx % colors.length] : colors;
+        const p = Math.min(100, (val / maxV) * 100), N = 28, on = Math.max(val > 0 ? 1 : 0, Math.round((p / 100) * N));
+        let segs = '';
+        for (let i = 0; i < N; i++) {
+          segs += i < on ? `<i style="background:${col};height:14px"></i>` : `<i style="background:#102623;height:14px"></i>`;
+        }
+        return `<div class="sgr" style="margin:0;display:grid;grid-template-columns:145px 1fr 105px;align-items:center;gap:10px;font-size:11px">
+          <span style="color:#e8f5f4;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escH(lbl)}</span>
+          <div class="sg" style="gap:2.5px">${segs}</div>
+          <div class="sgh" style="margin:0"><b style="text-align:right;color:${col};font-family:ui-monospace,monospace;font-size:12px">${rightTxt || fv(val)}</b></div>
+        </div>`;
+      }).join('') + `</div>`;
+  };
+
+  const svgDonutNeon = (mapObj, colors) => {
+    const entries = Object.entries(mapObj).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]);
+    const tot = entries.reduce((a, b) => a + b[1], 0) || 1, N = 64;
+    let cum = 0, lines = '';
+    const bounds = entries.map(e => (cum += e[1]) / tot);
+    for (let i = 0; i < N; i++) {
+      const t = (i + 0.5) / N, k = Math.max(0, bounds.findIndex(b => t <= b + 1e-9));
+      const col = colors[k % colors.length], a = (i / N) * 2 * Math.PI - Math.PI / 2, c = Math.cos(a), s = Math.sin(a);
+      lines += `<line x1="${(50 + c * 35).toFixed(2)}" y1="${(50 + s * 35).toFixed(2)}" x2="${(50 + c * 46).toFixed(2)}" y2="${(50 + s * 46).toFixed(2)}" stroke="${col}" stroke-width="2.8" stroke-linecap="round"/>`;
+    }
+    return `<div style="display:flex;align-items:center;gap:22px;width:100%;justify-content:center">
+      <svg class="tv-ring-svg" viewBox="0 0 100 100" style="width:145px;height:145px;flex:none;overflow:visible">${lines}
+        <text x="50" y="51" text-anchor="middle" fill="#fff" font-size="16" font-weight="900">${n0(tot)}</text>
+        <text x="50" y="63" text-anchor="middle" fill="#a4c8c4" font-size="8" letter-spacing="1">TOTAL</text>
+      </svg>
+      <div class="dlg" style="flex:1;display:flex;flex-direction:column;gap:7px;max-width:300px">
+        ${entries.map(([k, v], i) => `<div style="display:flex;align-items:center;gap:8px;font-size:12px;border-bottom:1px solid #16322e;padding-bottom:4px">
+          <i style="width:10px;height:10px;border-radius:50%;background:${colors[i % colors.length]}"></i>
+          <span style="color:#d8eeeb;font-weight:600">${escH(trunc(k, 24))}</span>
+          <b style="margin-left:auto;color:#fff;font-family:ui-monospace,monospace">${n0(v)} · ${pfx((v / tot) * 100)}%</b>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  };
+
+  function updateTicker(S) {
+    const days = AGK().map(dst);
+    const totFat = days.reduce((a, x) => a + x.nf, 0);
+    const sepPct = S.D.length ? pct(S.D.filter(r => r[3] >= 2).length, S.D.length) : 0;
+    const fatPct = S.P.length ? pct(S.fat, S.P.length) : 0;
+    const cdg = WX_STATE.regions['CDG'];
+    const wxCur = cdg && cdg.current
+      ? `${Math.round(cdg.current.temperature_2m)}°C ${wmoInfo(cdg.current.weather_code).ic} ${wmoInfo(cdg.current.weather_code).tx} · ${Math.round(cdg.current.surface_pressure||1013)}hPa`
+      : `STATUS: ${WX_STATE.status}`;
+    const items = [
+      ['CDG GUARULHOS', wxCur, 'tv-nt', '●'],
+      ['DIA REF.', fdy(dia), 'tv-nt', '●'],
+      ['CARTEIRA ATIVA', `${n0(S.N)} PED · ${tn(S.K)}`, 'tv-up', '▲'],
+      ['VALOR LÍQUIDO CARTEIRA', RSc(S.V), 'tv-up', '▲'],
+      ['PROGRAMADO DIA (ZS34)', RS(S.val), 'tv-up', '▲'],
+      ['FATURADO DIA (ZS65)', `${RS(S.fatnf)} (${pfx(fatPct)}%)`, fatPct >= 80 ? 'tv-up' : 'tv-dn', fatPct >= 80 ? '▲' : '▼'],
+      ['HISTÓRICO ACUMULADO NF', RS(totFat), 'tv-up', '▲'],
+      ['SEPARAÇÃO ZW14', `${pfx(sepPct)}% (${n0(S.D.length)} ETQ)`, sepPct >= 85 ? 'tv-up' : 'tv-nt', '▲'],
+      ['OCUPAÇÃO CROSS', S.ocX == null ? '—' : pfx(S.ocX) + '%', 'tv-up', '▲']
+    ];
+    const html = items.concat(items).map(x => `<span class="tv-tick-item">${x[0]} <b>${x[1]}</b> <span class="${x[2]}">${x[3]}</span></span>`).join('');
+    if (tvTicker) tvTicker.innerHTML = html;
+  }
+
+  function renderTvSlide(idx) {
+    clearInterval(tvScrollTimer);
+    if (outboundResizeObs) { outboundResizeObs.disconnect(); outboundResizeObs = null; }
+    if (!document.body.classList.contains('tv-mode')) return;
+    const S = st(), C = S.C, P = S.P, D = S.D, days = AGK().map(dst);
+    updateTicker(S);
+
+    const titles = [
+      '1/6 · CENTRO DE INTELIGÊNCIA METEOROLÓGICA, PREVISÃO 6 DIAS E MONITORAMENTO RODOVIÁRIO',
+      '2/6 · VISÃO GERAL EXECUTIVA · MONITORAMENTO OPERACIONAL',
+      '',
+      '3/6 · CARTEIRA DE PEDIDOS · VOLUMETRIA, PRAZOS & RESTRIÇÕES',
+      '4/6 · AGENDAMENTO & FROTA · OCUPAÇÃO, DOCAS E CONVERSÃO',
+      '5/6 · STATUS OPERACIONAL ZW14 · SEPARAÇÃO POR PRÉDIO, ONDA E TRANSPORTADORA',
+      '6/6 · EXPEDIÇÃO & OUTBOUND · CURVA DE PERFORMANCE, HISTÓRICO & TENDÊNCIA DIÁRIA'
+    ];
+    if (tvSub) tvSub.textContent = titles[idx] + ' · REF. LOGÍSTICA ' + fdy(dia);
+
+    /* ==========================================================================
+       SLIDE 0: CLIMA, PREVISÃO 7 DIAS ROTATIVA E RODOVIAS & SLA EM MOVIMENTO
+       ========================================================================== */
+    if (idx === 0) {
+      const cdg = WX_STATE.regions['CDG'];
+      const cur = cdg && cdg.current ? cdg.current : null;
+      const hr  = cdg && cdg.hourly  ? cdg.hourly  : null;
+      const dl  = cdg && cdg.daily   ? cdg.daily   : null;
+      const wNow = cur ? wmoInfo(cur.weather_code) : { ic: '📡', tx: WX_STATE.status, rk: 'AGUARDANDO', col: '#1fd6c4', imp: 'Sincronizando telemetria...' };
+
+      const queryTimeStr = WX_STATE.lastQueryAt ? WX_STATE.lastQueryAt.toLocaleTimeString('pt-BR') : '—';
+      const updTimeStr   = WX_STATE.lastSuccessAt ? WX_STATE.lastSuccessAt.toLocaleTimeString('pt-BR') : '—';
+      const refTimeStr   = WX_STATE.refMeasurementAt ? WX_STATE.refMeasurementAt.slice(11, 16) + ' (' + WX_STATE.refMeasurementAt.slice(8, 10) + '/' + WX_STATE.refMeasurementAt.slice(5, 7) + ')' : '—';
+      const radStr       = WX_STATE.radarTime ? WX_STATE.radarTime.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}) : '—';
+
+      let hLabs = [], hTemps = [], hProbs = [], nowMarkerIdx = 8;
+      let maxProbNext24 = 0, maxCapeNext24 = 0, maxTemp24 = 0, minTemp24 = 99;
+      if (hr && hr.time) {
+        const nowIsoHr = new Date().toISOString().slice(0, 13);
+        let curIdx = hr.time.findIndex(t => t.slice(0, 13) >= nowIsoHr);
+        if (curIdx < 0) curIdx = 24;
+        const startIdx = Math.max(0, curIdx - 24);
+        for (let k = 0; k <= 48; k += 3) {
+          const i = Math.min(hr.time.length - 1, startIdx + k);
+          if (Math.abs(i - curIdx) <= 1) nowMarkerIdx = hLabs.length;
+          hLabs.push(hr.time[i].slice(11, 16));
+          const tmp = +hr.temperature_2m[i] || 0;
+          hTemps.push(tmp);
+          const prb = +hr.precipitation_probability[i] || 0;
+          hProbs.push(prb);
+          if (i >= curIdx && i <= curIdx + 24) {
+            if (prb > maxProbNext24) maxProbNext24 = prb;
+            if (tmp > maxTemp24) maxTemp24 = tmp;
+            if (tmp < minTemp24) minTemp24 = tmp;
+            const cp = +(hr.cape && hr.cape[i]) || 0;
+            if (cp > maxCapeNext24) maxCapeNext24 = cp;
+          }
+        }
+      }
+
+      const regComparisonRows = POLOS_OPERACIONAIS.map(p => {
+        const rData = WX_STATE.regions[p.id];
+        const rCur  = rData && rData.current ? rData.current : null;
+        const rDaily = rData && rData.daily ? rData.daily : null;
+        const rHr   = rData && rData.hourly ? rData.hourly : null;
+        const w = rCur ? wmoInfo(rCur.weather_code) : { ic: '—', tx: 'Sincronizando', rk: '—', col: '#64748b', imp: 'Aguardando' };
+        const probMax = rDaily && rDaily.precipitation_probability_max ? (+rDaily.precipitation_probability_max[1] || 0) : 0;
+        const mmSum   = rDaily && rDaily.precipitation_sum ? (+rDaily.precipitation_sum[1] || 0) : 0;
+        const tMax    = rDaily && rDaily.temperature_2m_max ? (+rDaily.temperature_2m_max[1] || 0) : 0;
+        const tMin    = rDaily && rDaily.temperature_2m_min ? (+rDaily.temperature_2m_min[1] || 0) : 0;
+        const capeMax = rHr && rHr.cape ? Math.max(...rHr.cape.slice(24, 48).map(v => +v || 0)) : 0;
+
+        const pedsReg = C.filter(o => p.munis.includes(String(o[3] || '').toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+        return {
+          polo: p, cur: rCur, w, probMax, mmSum, tMax, tMin, capeMax,
+          pedCount: pedsReg.length,
+          pesoKg: sm(pedsReg, 8),
+          valLiq: sm(pedsReg, 9)
+        };
+      });
+
+      const hwRows = CORREDORES_RODOVIARIOS.map(hw => calcHighwayTelemetry(hw, C));
+
+      const activeAlerts = [];
+      if (WX_STATE.status !== 'ONLINE') {
+        activeAlerts.push({ id: 'API_OFF', type: 'SISTEMA TORRE', sev: 'ATENÇÃO', col: '#F2C94C', reg: 'CDG Guarulhos', msg: `Estado da conexão: ${WX_STATE.status}. Última atualização efetiva às ${updTimeStr}.` });
+      }
+      if (maxProbNext24 >= 45 && (P.length > 0 || D.length > 0)) {
+        activeAlerts.push({
+          id: 'PATIO_RAIN_' + dia,
+          type: 'RISCO OPERACIONAL TORRE',
+          sev: maxProbNext24 >= 70 ? 'CRÍTICO' : 'ALERTA',
+          col: maxProbNext24 >= 70 ? '#E05252' : '#F2994A',
+          reg: 'Pátio & Docas CDG',
+          msg: `RISCO DE CHUVA DURANTE A EXPEDIÇÃO (${maxProbNext24}% previsto no CDG) — Verificar materiais expostos no pátio (${P.length} cargas / ${n0(D.length)} etiquetas ZW14).`
+        });
+      }
+      hwRows.forEach(h => {
+        if (h.delayMin >= 15 && h.pedsTotal > 0) {
+          activeAlerts.push({
+            id: 'HW_DELAY_' + h.hw.id,
+            type: 'IMPACTO RODOVIÁRIO & SLA',
+            sev: h.delayMin >= 25 ? 'CRÍTICO' : 'ALERTA',
+            col: h.col,
+            reg: h.hw.nome,
+            msg: `Retenção estimada de +${h.delayMin} min (${h.cause}) · Velocidade média ${h.vEst} km/h · Exposição: ${h.pedsTotal} pedidos na rota (${h.pedsUrg} D0/D+1).`
+          });
+        }
+      });
+      regComparisonRows.forEach(r => {
+        if (r.polo.id !== 'CDG' && (r.probMax >= 60 || r.mmSum >= 8) && r.pedCount > 0) {
+          activeAlerts.push({
+            id: 'EXP_REG_' + r.polo.id,
+            type: 'RISCO ROTA / VIAGEM',
+            sev: r.mmSum >= 20 ? 'CRÍTICO' : 'ALERTA',
+            col: r.mmSum >= 20 ? '#E05252' : '#F2994A',
+            reg: r.polo.nome,
+            msg: `Previsão de ${r.w.tx} (${r.probMax}% · ${r.mmSum.toFixed(1)}mm) com ${r.pedCount} pedidos programados na carteira (${fw(r.pesoKg)} · ${RSc(r.valLiq)}).`
+          });
+        }
+        if (r.capeMax >= 1200 || (r.cur && +r.cur.wind_gusts_10m >= 55) || r.mmSum >= 25) {
+          activeAlerts.push({
+            id: 'GOV_SEV_' + r.polo.id,
+            type: 'DEFESA CIVIL / INMET (LIMIAR SEVERO)',
+            sev: 'CRÍTICO',
+            col: '#E05252',
+            reg: r.polo.nome,
+            msg: `Condição atmosférica severa detectada na microrregião (CAPE ${Math.round(r.capeMax)} J/kg · Rajada máx ${r.cur ? Math.round(r.cur.wind_gusts_10m) : '—'} km/h · Acum. ${r.mmSum.toFixed(1)}mm).`
+          });
+        }
+      });
+
+      const unackCritWx = activeAlerts.filter(a => a.sev === 'CRÍTICO' && !WX_STATE.silencedAlerts.has(a.id));
+      if (unackCritWx.length > 0) playWxAlertTone(true);
+
+      const shiftDefs = [
+        ['🌙 MADRUGADA (00h–06h)', [24,25,26,27,28,29], '3º Turno · Pátio e Fechamento'],
+        ['☀️ 1º TURNO MANHÃ (06h–12h)', [30,31,32,33,34,35], 'Recebimento de Frota e Separação'],
+        ['🌤️ 2º TURNO TARDE (12h–18h)', [36,37,38,39,40,41], 'Carregamento e Corte das 16h'],
+        ['🌌 3º TURNO NOITE (18h–00h)', [42,43,44,45,46,47], 'Expedição de Viagens e Noturnas']
+      ];
+      const shiftCardsHtml = shiftDefs.map(([title, idxs, desc]) => {
+        let tAvg = null, pMax = 0, wCode = 0;
+        if (hr && hr.temperature_2m && hr.temperature_2m.length >= 48) {
+          const vt = idxs.map(i => +hr.temperature_2m[i] || 0);
+          const vp = idxs.map(i => +hr.precipitation_probability[i] || 0);
+          tAvg = vt.reduce((a, b) => a + b, 0) / vt.length;
+          pMax = Math.max(...vp);
+          wCode = hr.weather_code[idxs[3]] || 0;
+        }
+        const info = wmoInfo(wCode);
+        return `<div class="nyse-wk-card" style="border-top-color:${pMax >= 60 ? '#E05252' : pMax >= 35 ? '#F2C94C' : '#22c55e'}">
+          <div class="nyse-wk-hd"><span>${title}</span><span style="color:${info.col}">${pMax >= 50 ? '⚠️ RISCO PÁTIO' : '● DOCA SECA'}</span></div>
+          <div class="nyse-wk-val" style="color:${info.col}">${tAvg != null ? info.ic + ' ' + tAvg.toFixed(1).replace('.', ',') + '°C' : '—'} <small style="font-size:12px;color:#e8f5f4">· ☔ ${pMax}% chuva</small></div>
+          <div class="nyse-wk-meta">${desc}</div>
+          <div class="nyse-wk-nf"><b style="color:${info.col}">${pMax >= 50 ? 'Verificar materiais expostos no pátio' : info.imp}</b></div>
+        </div>`;
+      }).join('');
+
+      let rightWideHtml = '';
+
+      if (WX_STATE.subView === 0) {
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.35">
+            <div class="tv-card-title">
+              📈 TELEMETRIA CLIMÁTICA PANORÂMICA CDG · ÚLTIMAS 24H + PREVISÃO PRÓXIMAS 24H
+              <div class="tv-legend">
+                <span><i style="background:#1fd6c4"></i>Curva = Temperatura (°C)</span>
+                <span><i style="background:#5eead4"></i>Barras/Linha = Probabilidade de Chuva (%)</span>
+              </div>
+            </div>
+            <div class="tv-chart-box">${svgWeatherWideArea(hLabs, hTemps, hProbs, nowMarkerIdx)}</div>
+            <div class="nyse-hl-grid" style="grid-template-columns:repeat(4,1fr)">
+              <div class="nyse-hl-card">
+                <div class="hl-metric">🌡️ EXTREMOS 24H (CDG)</div>
+                <div class="nyse-hl-row"><span class="tv-up">▲ MÁXIMA</span><b style="color:#F2994A">${maxTemp24 ? maxTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">▼ MÍNIMA</span><b style="color:#5eead4">${minTemp24 < 90 ? minTemp24.toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+              </div>
+              <div class="nyse-hl-card">
+                <div class="hl-metric">☔ PROBABILIDADE DE CHUVA</div>
+                <div class="nyse-hl-row"><span class="tv-dn">▲ PICO 24H</span><b style="color:${maxProbNext24 >= 50 ? '#E05252' : '#1fd6c4'}">${maxProbNext24}%</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">PRECIP. AGORA</span><b style="color:#e8f5f4">${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'}</b></div>
+              </div>
+              <div class="nyse-hl-card">
+                <div class="hl-metric">⚡ ENERGIA TEMPESTADE (CAPE)</div>
+                <div class="nyse-hl-row"><span class="tv-up">▲ PICO 24H</span><b style="color:${maxCapeNext24 >= 1200 ? '#E05252' : '#4ade80'}">${Math.round(maxCapeNext24)} J/kg</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">PRESSÃO SUP.</span><b style="color:#e8f5f4">${cur ? Math.round(cur.surface_pressure) + ' hPa' : '—'}</b></div>
+              </div>
+              <div class="nyse-hl-card">
+                <div class="hl-metric">🚛 EXPOSIÇÃO EXPEDIÇÃO HOJE</div>
+                <div class="nyse-hl-row"><span class="tv-up">PROGRAMADO</span><b style="color:#F2C94C">${n0(P.length)} cargas (${fw(S.pk)})</b></div>
+                <div class="nyse-hl-row"><span class="tv-nt">VALOR ZS34</span><b style="color:#4ade80">${RS(S.val)}</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      } else if (WX_STATE.subView === 1) {
+        /* SUB-ABA 1: PREVISÃO DOS 7 DIAS COM CARTÕES ROTATIVOS (FACE 1: CLIMA / FACE 2: DICA & CALENDÁRIO) */
+        const dTimes = (dl && dl.time) ? dl.time.slice(1, 7) : [];
+        const sevenCards = dTimes.map((dStr, k) => {
+          const i = k + 1;
+          const w = wmoInfo(dl.weather_code[i]);
+          const tmax = +dl.temperature_2m_max[i] || 0;
+          const tmin = +dl.temperature_2m_min[i] || 0;
+          const apMax = dl.apparent_temperature_max ? (+dl.apparent_temperature_max[i] || tmax) : tmax;
+          const prob = +(dl.precipitation_probability_max && dl.precipitation_probability_max[i]) || 0;
+          const mm = +(dl.precipitation_sum && dl.precipitation_sum[i]) || 0;
+          const wSpd = +(dl.wind_speed_10m_max && dl.wind_speed_10m_max[i]) || 0;
+          const wGst = +(dl.wind_gusts_10m_max && dl.wind_gusts_10m_max[i]) || wSpd;
+          const agDay = AG[dStr] ? dst(dStr) : null;
+          const pedsCart = C.filter(o => o[7] === dStr);
+          const opSummary = agDay && agDay.n > 0
+            ? `🚛 ${agDay.n} carg (${fw(agDay.peso)})`
+            : pedsCart.length > 0
+            ? `📦 ${pedsCart.length} ped (${fw(sm(pedsCart, 8))})`
+            : `Sem prog. na data`;
+          const alertBadge = (prob >= 70 || mm >= 20)
+            ? `<span class="wx-badge wx-b-gov">⚠️ CHUVA FORTE</span>`
+            : (prob >= 45 || wGst >= 50)
+            ? `<span class="wx-badge wx-b-torre">ATENÇÃO PÁTIO</span>`
+            : `<span class="wx-badge wx-b-ok">NORMAL</span>`;
+
+          const tip = getCardBackTip(k, dStr);
+
+          return `<div class="wx-7d-flip-wrap" data-card-idx="${k}" title="Clique para alternar entre Previsão e Dica/Curiosidade">
+            <!-- FACE 1: PREVISÃO DO TEMPO PRINCIPAL -->
+            <div class="wx-7d-face ${k === 0 ? 'is-today' : ''}" style="--dc:${w.col}">
+              <div>
+                <div class="wx-7d-day">${k === 0 ? 'HOJE · ' : ''}${WD[wdOf(dStr)].toUpperCase()}</div>
+                <div class="wx-7d-date">${fdy(dStr)}</div>
+              </div>
+              <div>
+                <div class="wx-7d-ico">${w.ic}</div>
+                <div class="wx-7d-cond">${w.tx}</div>
+                <div class="wx-7d-temps"><span style="color:#fff">${Math.round(tmax)}°</span> <span style="color:#64748b">/</span> <span style="color:#5eead4">${Math.round(tmin)}°C</span></div>
+                ${alertBadge}
+              </div>
+              <div class="wx-7d-stats">
+                <div>🌡️ Sensação: <b style="color:#fff">${Math.round(apMax)}°C</b></div>
+                <div>☔ Prob. chuva: <b style="color:${prob >= 50 ? '#E05252' : '#1fd6c4'}">${prob}%</b></div>
+                <div>🌧️ Volume: <b style="color:#fff">${mm.toFixed(1)} mm</b></div>
+                <div>💨 Vento: <b style="color:#fff">${Math.round(wSpd)}/${Math.round(wGst)} km/h</b></div>
+              </div>
+              <div class="wx-7d-op">${opSummary}</div>
+            </div>
+            <!-- FACE 2: DICA OU CURIOSIDADE LOGÍSTICA / HISTÓRICA / CALENDÁRIO -->
+            <div class="wx-7d-face wx-7d-back">
+              <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
+                <span class="wx-tip-cat">${escH(tip.cat)}</span>
+                <span style="font-size:9.5px;color:#a4c8c4;font-family:monospace">${fd(dStr)}</span>
+              </div>
+              <div class="wx-tip-body">${escH(tip.txt)}</div>
+              <div class="wx-tip-foot">
+                <span>${escH(tip.foot)}</span>
+                <b style="color:#1fd6c4">↻ Face 2/2</b>
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.45;justify-content:space-between">
+            <div class="tv-card-title">
+              📅 PREVISÃO DOS PRÓXIMOS SEIS DIAS · CARTÕES INTERATIVOS COM DICAS E CURIOSIDADES
+              <span>Rotação automática sincronizada (Face 1: Previsão Meteorológica · Face 2: Curiosidade &amp; Calendário)</span>
+            </div>
+            <div class="wx-7d-grid">${sevenCards || '<div class="note">Sincronizando previsão de 6 dias...</div>'}</div>
+          </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      } else if (WX_STATE.subView === 2) {
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.45">
+            <div class="tv-card-title">
+              🚨 CENTRAL DE ALERTAS PREVENTIVOS, RISCO DE PÁTIO E PARÂMETROS DEFESA CIVIL (${activeAlerts.length})
+              <div style="display:flex;gap:6px">
+                <span class="wx-badge wx-b-prev">PREVISÃO MODELO</span>
+                <span class="wx-badge wx-b-torre">RISCO CALCULADO TORRE</span>
+                <span class="wx-badge wx-b-gov">LIMIAR SEVERO / DEFESA CIVIL</span>
+              </div>
+            </div>
+            <div class="wx-alert-wide-list">
+              ${activeAlerts.length ? activeAlerts.map(a => {
+                const isAck = WX_STATE.silencedAlerts.has(a.id);
+                return `<div class="wx-alert-card" style="--ac:${a.col};opacity:${isAck ? 0.55 : 1}">
+                  <div class="wx-alert-card-hd">
+                    <span class="wx-badge" style="background:${a.col}">${a.type} · ${a.sev}</span>
+                    <b style="color:#1fd6c4;font-size:11.5px;font-family:monospace">📍 ${escH(a.reg)}</b>
+                  </div>
+                  <div class="wx-alert-card-msg">${escH(a.msg)}</div>
+                  <div class="wx-alert-card-ft">
+                    <span>Ref: ${refTimeStr} · Monitoramento ativo</span>
+                    <button class="wx-ack-btn" data-wx-ack="${a.id}">${isAck ? '🔇 Alerta Silenciado' : '✔ Reconhecer / Silenciar'}</button>
+                  </div>
+                </div>`;
+              }).join('') : `<div class="wx-alert-card" style="--ac:#22c55e;grid-column:1/-1">
+                <div class="wx-alert-card-hd"><span class="wx-badge wx-b-ok">OPERAÇÃO NORMAL</span></div>
+                <div class="wx-alert-card-msg">Nenhum alerta meteorológico severo ou risco iminente de pátio/expedição identificado nas 8 regiões monitoradas.</div>
+              </div>`}
+            </div>
+          </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      } else if (WX_STATE.subView === 3) {
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1;justify-content:space-between">
+            <div class="tv-card-title">
+              🗺️ MONITORAMENTO REGIONAL DE VIAGENS × EXPOSIÇÃO DA CARTEIRA (8 POLOS OPERACIONAIS)
+              <span>Cruzamento em tempo real entre clima regional e pedidos ativos por município</span>
+            </div>
+            <div class="wx-reg-grid">
+              ${regComparisonRows.map(r => {
+                const isBase = r.polo.id === 'CDG';
+                const tNow = r.cur ? (+r.cur.temperature_2m).toFixed(1).replace('.', ',') + '°C' : '—';
+                const sens = r.cur ? (+r.cur.apparent_temperature).toFixed(1).replace('.', ',') + '°C' : '—';
+                const umid = r.cur ? r.cur.relative_humidity_2m + '%' : '—';
+                const wind = r.cur ? `${Math.round(r.cur.wind_speed_10m)}/${Math.round(r.cur.wind_gusts_10m)}km/h ${degToCard(r.cur.wind_direction_10m)}` : '—';
+                return `<div class="wx-reg-card ${isBase ? 'is-base' : ''}" style="--rc:${r.w.col}">
+                  <div class="wx-reg-hd">
+                    <div>
+                      <div class="wx-reg-name">${isBase ? '🏭 ' : '📍 '}${r.polo.nome}</div>
+                      <small style="color:${r.w.col};font-weight:700;font-size:10.5px">${r.w.ic} ${r.w.tx}</small>
+                    </div>
+                    <span class="wx-badge" style="background:${r.probMax >= 60 ? '#E05252' : r.probMax >= 35 ? '#F2C94C' : '#1e293b'}">☔ ${r.probMax}%</span>
+                  </div>
+                  <div class="wx-reg-big">
+                    <div class="wx-reg-temp">${tNow}</div>
+                    <div style="text-align:right;font-size:10.5px;color:#a4c8c4;font-family:monospace">
+                      <div>Máx <b style="color:#ffffff">${Math.round(r.tMax)}°</b> / Mín <b style="color:#5eead4">${Math.round(r.tMin)}°</b></div>
+                      <div>Sensação: <b>${sens}</b></div>
+                    </div>
+                  </div>
+                  <div class="wx-reg-meta">
+                    <span>💧 Umid: <b style="color:#fff">${umid}</b></span>
+                    <span>🌧️ Acum: <b style="color:#fff">${r.mmSum.toFixed(1)}mm</b></span>
+                    <span style="grid-column:1/-1">💨 Vento/Raj: <b style="color:#fff">${wind}</b></span>
+                  </div>
+                  <div class="wx-reg-cart">
+                    ${isBase
+                      ? `<span>Expedição CDG:</span><b style="color:#F2C94C">${n0(P.length)} cargas · ${fw(S.pk)}</b>`
+                      : `<span>Carteira Região:</span><b style="color:${r.pedCount > 0 ? '#5eead4' : '#64748b'}">${n0(r.pedCount)} ped · ${fw(r.pesoKg)}</b>`
+                    }
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>`;
+      } else {
+        /* SUB-ABA 4: RODOVIAS E SLA COM FLUXO DINÂMICO ANIMADO E PERFIL DE VELOCIDADE 24H */
+        rightWideHtml = `
+          <div class="tv-card" style="flex:1.45;justify-content:space-between">
+            <div class="tv-card-title">
+              🛣️ CENTRAL DE MONITORAMENTO RODOVIÁRIO, FLUXO DINÂMICO E RELAÇÃO COM SLA
+              <span>${window.TORRE_TOMTOM_KEY ? '🟢 FONTE: TomTom Traffic API Ao Vivo (Ref. ' + updTimeStr + ')' : '📐 REPRESENTAÇÃO ILUSTRATIVA DE FLUXO (Modelo Físico HCM + Clima Real Open-Meteo · Ref. ' + refTimeStr + ')'}</span>
+            </div>
+            <div class="wx-hw-grid"${hwRows.length > 6 ? ' style="grid-template-columns:repeat(4,minmax(0,1fr))"' : ''}>
+              ${hwRows.map(h => {
+                return `<div class="wx-hw-card" style="--hwc:${h.col}">
+                  <div class="wx-hw-hd">
+                    <div>
+                      <div class="wx-hw-title">🛣️ ${h.hw.nome}</div>
+                      <div class="wx-hw-sub">${h.hw.trecho} · Extensão ref. ${h.hw.km} km</div>
+                    </div>
+                    <span class="wx-badge" style="background:${h.col}">${h.delayMin >= 20 ? 'RETENÇÃO SEVERA' : h.delayMin >= 10 ? 'ATENÇÃO FLUXO' : 'FLUXO LIVRE'}</span>
+                  </div>
+                  <div class="wx-hw-speed-row">
+                    <div class="wx-hw-spd">${h.vEst} <small style="font-size:11px;color:#a4c8c4">km/h (${h.fluidezPct}% fluidez)</small></div>
+                    <div class="wx-hw-eta" style="color:${h.delayMin > 0 ? '#F2C94C' : '#4ade80'}">${h.delayMin > 0 ? '⏱️ +' + h.delayMin + ' min s/ livre' : '⏱️ Tempo normal (' + h.tFreeMin + 'm)'}</div>
+                  </div>
+                  <!-- Pista Vetorial com Movimento Contínuo Proporcional à Velocidade -->
+                  <div class="wx-hw-lane-box" title="Representação visual de fluidez proporcional à velocidade média">${svgAnimatedHighwayLane(h)}</div>
+                  <!-- Curva Horária de Velocidade 24h -->
+                  <div class="wx-hw-profile-box" title="Curva horária de fluidez ao longo do dia">${svgHighwaySpeedCurve24h(h.hourlyCurve, h.hw.vFree, h.col)}</div>
+                  <!-- Diferenciação Clara: Condição da Via vs. Exposição da Carteira vs. Risco Potencial ao SLA -->
+                  <div class="wx-hw-sla-tags">
+                    <div class="wx-hw-sla-cell">
+                      <small>1. CONDIÇÃO DA VIA</small>
+                      <b style="color:${h.wHw.col}" title="${escH(h.cause)}">${h.wHw.ic} ${escH(trunc(h.cause, 20))}</b>
+                    </div>
+                    <div class="wx-hw-sla-cell">
+                      <small>2. EXPOSIÇÃO ROTA</small>
+                      <b style="color:#5eead4">${n0(h.pedsTotal)} ped (${fw(h.pesoRota)})</b>
+                    </div>
+                    <div class="wx-hw-sla-cell">
+                      <small>3. RELAÇÃO COM SLA</small>
+                      <b style="color:${h.pedsUrg > 0 && h.delayMin >= 15 ? '#E05252' : '#4ade80'}" title="${escH(h.slaStatus)}">${escH(h.slaStatus)}</b>
+                    </div>
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>
+          <div class="nyse-wk-strip">${shiftCardsHtml}</div>`;
+      }
+
+      tvCanvas.innerHTML = `
+        <div class="wx-top-bar">
+          <div class="wx-meta-info">
+            <span class="wx-badge ${WX_STATE.status === 'ONLINE' ? 'wx-b-ok' : 'wx-b-torre'}">● ${WX_STATE.status}</span>
+            <span><b>FONTE:</b> ${WX_STATE.source} (Ciclo 15m)</span>
+            <span>· <b>CONSULTA:</b> ${queryTimeStr}</span>
+            <span>· <b>ATUALIZAÇÃO EFETIVA:</b> ${updTimeStr}</span>
+            <span>· <b>REF. MEDIÇÃO:</b> ${refTimeStr}</span>
+          </div>
+          <div class="wx-sub-tabs">
+            <button class="wx-sub-btn ${WX_STATE.subView === 0 ? 'on' : ''}" data-wx-sub="0">📈 1. Telemetria 48h</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 1 ? 'on' : ''}" data-wx-sub="1">📅 2. Previsão 6 Dias (Rotativa)</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 2 ? 'on' : ''}" data-wx-sub="2">🚨 3. Defesa Civil (${activeAlerts.length})</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 3 ? 'on' : ''}" data-wx-sub="3">🗺️ 4. Microrregiões (8)</button>
+            <button class="wx-sub-btn ${WX_STATE.subView === 4 ? 'on' : ''}" data-wx-sub="4">🛣️ 5. Rodovias &amp; SLA</button>
+          </div>
+        </div>
+
+        <div class="tv-row" style="grid-template-columns: 380px 1fr; flex: 1; min-height: 0">
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+            <div class="tv-card" style="flex-shrink:0">
+              <div class="tv-card-title">🌡️ CLIMA ATUAL · CDG GUARULHOS <span>CEP 07030-071</span></div>
+              <div class="wx-hero-box ${wxIsDay() ? 'is-day' : 'is-night'}" style="--hc:${wNow.col}">
+                <div>
+                  <div class="wx-hero-temp">${cur ? (+cur.temperature_2m).toFixed(1).replace('.', ',') + '°C' : '—'}</div>
+                  <div class="wx-hero-cond">${wNow.ic} ${wNow.tx}</div>
+                  <div class="wx-hero-sub">Sensação térmica: <b>${cur ? (+cur.apparent_temperature).toFixed(1).replace('.', ',') + '°C' : '—'}</b></div>
+                </div>
+                <div style="text-align:right;font-family:ui-monospace,monospace;font-size:12px;color:#a4c8c4;display:flex;flex-direction:column;gap:4px">
+                  <div>Máx <b style="color:#F2994A">${maxTemp24 ? Math.round(maxTemp24) + '°C' : '—'}</b></div>
+                  <div>Mín <b style="color:#5eead4">${minTemp24 < 90 ? Math.round(minTemp24) + '°C' : '—'}</b></div>
+                  <div>Umid <b style="color:#1fd6c4">${cur ? cur.relative_humidity_2m + '%' : '—'}</b></div>
+                </div>
+              </div>
+              ${wxAstroHtml()}
+              <div class="nyse-idx-grid">
+                <div class="nyse-idx-box" style="--ic:#5eead4">
+                  <small>PRECIPITAÇÃO &amp; CHUVA 24H</small>
+                  <b>☔ ${cur ? (+cur.precipitation).toFixed(1).replace('.', ',') + ' mm' : '—'} (${maxProbNext24}%)</b>
+                  <span>${wNow.imp}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#14b8a6">
+                  <small>VENTO &amp; RAJADAS</small>
+                  <b>💨 ${cur ? Math.round(cur.wind_speed_10m) + ' km/h ' + degToCard(cur.wind_direction_10m) : '—'}</b>
+                  <span>Rajadas até <b>${cur ? Math.round(cur.wind_gusts_10m) + ' km/h' : '—'}</b> · ${cur ? Math.round(cur.surface_pressure) + ' hPa' : ''}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tv-card" style="flex:1;align-items:center;justify-content:space-between">
+              <div class="tv-card-title" style="width:100%">📡 RADAR DOPPLER · REGIÕES SP <span>${WX_STATE.radarStatus} · ${radStr}</span></div>
+              <div class="tv-chart-box">${svgDopplerRadarSquare()}</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+            ${rightWideHtml}
+          </div>
+        </div>`;
+
+      igniteAutomotiveGauges(tvCanvas, true);
+      return;
+    }
+
+    /* SLIDE 1: VISÃO GERAL */
+    if (idx === 1) {
+      const sep = D.length ? pct(D.filter(r => r[3] >= 2).length, D.length) : null;
+      const fatP = P.length ? pct(S.fat, P.length) : null;
+      const cs = [0, 1, 2, 3].map(k => C.filter(o => cat(o[7]) == k)), w = antw();
+      const st4 = [D.filter(r => r[3] == 0).length, D.filter(r => r[3] == 1).length, D.filter(r => r[3] == 2).length, D.filter(r => r[3] >= 3).length];
+      const carg = P.filter(g => String(g[21] || '').startsWith('4')).length;
+      const base = days.filter(x => x.d <= dia && x.n > 0), mks = [];
+      if (base.length >= 2) {
+        const mxd = [...base].sort((a, b) => b.etq - a.etq)[0], mnd = [...base].sort((a, b) => a.etq - b.etq)[0], ix = d => days.findIndex(x => x.d == d.d);
+        mks.push({ i: ix(mxd), lb: 'Maior ' + fd(mxd.d), c: '#1fd6c4' });
+        if (mnd.d != mxd.d) mks.push({ i: ix(mnd), lb: 'Menor ' + fd(mnd.d), c: '#99f6e4' });
+        const hj = days.findIndex(x => x.d == dia);
+        if (hj >= 0 && !mks.some(m => m.i == hj)) mks.push({ i: hj, lb: 'Dia ' + fd(dia), c: '#F2C94C' });
+      }
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('PEDIDOS CARTEIRA', n0(S.N), uq(C, o => o[0]) + ' clientes únicos', '#14b8a6', '📦', days.slice(-10).map(x => x.ent))}
+          ${kpiCard('PESO CARTEIRA', tn(S.K), (S.N ? n0(S.K / S.N) : 0) + ' kg/pedido', '#5eead4', '⚖️', days.slice(-10).map(x => x.peso))}
+          ${kpiCard('VALOR LÍQUIDO', RSc(S.V), 'Frete cli: ' + RS(sm(C, 10)), '#22c55e', '💰', days.slice(-10).map(x => x.val))}
+          ${kpiCard('CARGAS DO DIA', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#F2C94C', '🚛', days.slice(-10).map(x => x.n))}
+          ${kpiCard('ENTREGAS (ZS34)', n0(S.ent), fw(S.pk) + ' programados', '#a7f3d0', '📍')}
+          ${kpiCard('ETIQUETAS (ZW14)', n0(D.length), (sep ? pfx(sep) : 0) + '% separadas', '#14b8a6', '🏷️', days.slice(-10).map(x => x.etq))}
+          ${kpiCard('FATURADO (ZS65)', RS(S.fatnf), S.fat + ' de ' + P.length + ' cargas', '#4ade80', '✅', days.slice(-10).map(x => x.nf))}
+        </div>
+        <div class="tv-row" style="grid-template-columns: repeat(4, 1fr) 1.55fr; flex: 0.95">
+          ${neonRing(sep, ['#1fd6c4', '#2dd4bf', '#67e8f9'], sep == null ? '—' : pfx(sep) + '%', 'Etiquetas Separadas', D.length ? D.filter(r => r[3] >= 2).length + ' de ' + n0(D.length) : 'sem ZW14')}
+          ${neonRing(fatP, ['#4ade80', '#a3e635', '#F2C94C'], fatP == null ? '—' : pfx(fatP) + '%', 'Cargas Faturadas', P.length ? S.fat + ' de ' + P.length + ' cargas' : 'sem agenda')}
+          ${neonRing(S.ocD, ['#67e8f9', '#99f6e4', '#F2994A'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Ocupação Diretos', S.dr.length + ' veículos diretos')}
+          ${neonRing(S.ocX, ['#1fd6c4', '#34d399', '#F2C94C'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Ocupação Cross', S.car + ' carretas · ' + fw(sm(S.cx, 16)))}
+          <div class="tv-card">
+            <div class="tv-card-title">PRAZO DA CARTEIRA · PEDIDOS <span>Distribuição de vencimentos</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${ledBar('🔴 Atrasado (≤ corte)', cs[0].length, S.N, ['#E05252', '#F2994A'])}
+              ${ledBar('🟠 Vencimento D+1', cs[1].length, S.N, ['#F2994A', '#F2C94C'])}
+              ${ledBar('🟡 Antecipação (' + fd(w.first) + ' a ' + fd(w.last) + ')', cs[2].length, S.N, ['#F2C94C', '#4ade80'])}
+              ${ledBar('🔵 Após a janela', cs[3].length, S.N, ['#1fd6c4', '#67e8f9'])}
+            </div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.55fr 1fr; flex: 1.15">
+          <div class="tv-card">
+            <div class="tv-card-title">CURVA DE EXPEDIÇÃO · ETIQUETAS POR DATA <span>Histórico e picos operacionais</span></div>
+            <div class="tv-chart-box">${areaSvg(days.map(x => ({ l: fd(x.d), v: x.etq })), mks)}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">FLUXO OPERACIONAL DO DIA <span>Pipeline de execução em tempo real</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:space-around;flex:1">
+              <div class="tl" style="padding-top:2px">
+                ${tnode(D.length ? pct(D.filter(r => r[3] >= 1).length, D.length) : null, 'Atribuída')}
+                ${tnode(sep, 'Separada')}
+                ${tnode(D.length ? pct(st4[3], D.length) : null, 'Conferida')}
+                ${tnode(P.length ? pct(carg, P.length) : null, 'Carregada')}
+                ${tnode(fatP, 'Faturada')}
+              </div>
+              <div style="border-top:1px solid #183531;padding-top:8px">
+                ${ledBar('Conferidas na doca (ZW14)', st4[3], D.length || 1, ['#F2994A', '#F2C94C'])}
+              </div>
+            </div>
+          </div>
+        </div>`;
+      igniteAutomotiveGauges(tvCanvas, true);
+      return;
+    }
+
+    /* SLIDE 3: CARTEIRA */
+    if (idx === 3) {
+      const vol = C.filter(o => attc(o) === 'Volumetria'), not = C.filter(o => attc(o) === 'Nortuna'), peq = C.filter(o => attc(o) === 'Carro pequeno');
+      const vRst = C.filter(o => o[13] === 'Via restrita' || o[13] === 'Residência limitada');
+      const B = byD(C, 14), gByD = B.keys.map(x => C.filter(o => B.k(o) == x));
+      const rstMap = grp(C, o => o[13] || 'Não informado', o => 1);
+      const topPra = topn(grp(C, o => o[4], o => o[8]), 7).map(x => [x[0], x[1] / 1000, fw(x[1])]);
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('TOTAL DE PEDIDOS', n0(S.N), uq(C, o => o[19]) + ' clientes ativos', '#14b8a6', '📦')}
+          ${kpiCard('PESO TOTAL CARTEIRA', tn(S.K), 'Média ' + (S.N ? n0(S.K / S.N) : 0) + ' kg/ped', '#5eead4', '⚖️')}
+          ${kpiCard('VALOR LÍQUIDO (AB)', RSc(S.V), 'Carteira ativa', '#22c55e', '💰')}
+          ${kpiCard('FRETE DO CLIENTE', RS(sm(C, 10)), S.V ? pfx(pct(sm(C, 10), S.V)) + '% s/ valor líq.' : '—', '#1fd6c4', '🧾')}
+          ${kpiCard('VOLUMETRIA (CALC)', n0(vol.length) + ' ped', tn(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)), '#14b8a6', '📐')}
+          ${kpiCard('ENTREGA NOTURNA', n0(not.length) + ' ped', tn(sm(not, 8)) + ' · ' + RSc(sm(not, 9)), '#0d9488', '🌙')}
+          ${kpiCard('ÁREAS RESTRITAS', n0(vRst.length) + ' ped', pfx(pct(vRst.length, S.N)) + '% da carteira · ' + tn(sm(vRst, 8)), '#F2994A', '🚧')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.35fr 1fr; flex: 1">
+          <div class="tv-card">
+            <div class="tv-card-title">PEDIDOS × PESO (T) POR DATA DE ENTREGA <span><i style="color:#22c55e">■</i> Barras = Pedidos (cor prazo) · <i style="color:#1fd6c4">●</i> Linha = Peso (t)</span></div>
+            <div class="tv-chart-box">${svgNeonCombo(B.labels, gByD.map(l => l.length), B.keys.map(x => x == 'Depois' ? '#14b8a6' : CATC[cat(x)]), gByD.map(l => Math.round(sm(l, 8) / 1000)), '#1fd6c4')}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">PEDIDOS POR ÁREA RESTRITA <span>Mapeamento de restrições de acesso</span></div>
+            <div class="tv-chart-box">${svgDonutNeon(rstMap, ['#99f6e4', '#F2994A', '#1fd6c4', '#F2C94C', '#67e8f9'])}</div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 0.95">
+          <div class="tv-card">
+            <div class="tv-card-title">PERFIL DE ATENÇÃO ESPECIAL · VOLUMETRIA, NOTURNA E VEÍCULO PEQUENO <span>Participação em Peso e Valor</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${ledBar('📐 Volumetria (' + vol.length + ' pedidos)', sm(vol, 8), S.K || 1, ['#14b8a6', '#a7f3d0'], fw(sm(vol, 8)) + ' · ' + RSc(sm(vol, 9)))}
+              ${ledBar('🌙 Entrega Noturna (' + not.length + ' pedidos)', sm(not, 8), S.K || 1, ['#14b8a6', '#1fd6c4'], fw(sm(not, 8)) + ' · ' + RSc(sm(not, 9)))}
+              ${ledBar('🚗 Carro Pequeno (' + peq.length + ' pedidos)', sm(peq, 8), S.K || 1, ['#F2994A', '#F2C94C'], fw(sm(peq, 8)) + ' · ' + RSc(sm(peq, 9)))}
+              ${ledBar('🚧 Via Restrita (' + C.filter(o => o[13] === 'Via restrita').length + ' pedidos)', sm(C.filter(o => o[13] === 'Via restrita'), 8), S.K || 1, ['#E05252', '#F2994A'], fw(sm(C.filter(o => o[13] === 'Via restrita'), 8)))}
+            </div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">TOP PRAÇAS POR PESO NA CARTEIRA <span>Concentração de carga (t)</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(topPra, ['#1fd6c4', '#5eead4', '#0d9488', '#67e8f9', '#99f6e4', '#F2994A', '#F2C94C'])}</div>
+          </div>
+        </div>`;
+      igniteAutomotiveGauges(tvCanvas, true);
+      return;
+    }
+
+    /* SLIDE 4: AGENDAMENTO */
+    if (idx === 4) {
+      const livres = Math.max(0, S.G_.length - P.length);
+      const topTr = topn(grp(P, g => g[4] || '(sem transp.)', g => g[16] || 0), 7).map(x => [x[0], x[1] / 1000, fw(x[1])]);
+      const tu = Object.entries(P.reduce((m, g) => { const a = m[g[0] || '—'] = m[g[0] || '—'] || []; a.push(g); return m; }, {})).sort();
+      const veicEntries = topn(grp(P, g => vn(g[15]), g => 1), 6).map(x => [x[0], x[1], x[1] + ' cargas']);
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('CARGAS AGENDADAS', n0(P.length), S.cx.length + ' Cross · ' + S.dr.length + ' Diretas', '#F2C94C', '🚛')}
+          ${kpiCard('PESO REAL (ZS34)', tn(S.pk), S.car + ' carretas Cross estimadas', '#5eead4', '⚖️')}
+          ${kpiCard('QTDE DE ENTREGAS', n0(S.ent), n0(S.pedA) + ' pedidos na ZS34', '#a7f3d0', '📍')}
+          ${kpiCard('OCUPAÇÃO DIRETOS', S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Cross: ' + (S.ocX == null ? '—' : pfx(S.ocX) + '%'), '#14b8a6', '📈')}
+          ${kpiCard('DOCAS LIVRES', n0(livres), 'de ' + n0(S.G_.length) + ' janelas na grade', '#1fd6c4', '🅿️')}
+          ${kpiCard('VALOR PROGRAMADO', RS(S.val), 'Total ZS34 do dia', '#10b981', '💰')}
+          ${kpiCard('VALOR FATURADO (ZS65)', RS(S.fatnf), S.fat + '/' + P.length + ' cargas (' + (P.length ? pfx(pct(S.fat, P.length)) : 0) + '%)', '#4ade80', '✅')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.2fr 1fr 1fr; flex: 1.05">
+          <div class="tv-card">
+            <div class="tv-card-title">PESO REAL POR TRANSPORTADORA (TOP 7) <span>Volume alocado no dia</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(topTr, ['#F2C94C', '#F2994A', '#F2C94C', '#4ade80', '#1fd6c4', '#0d9488', '#99f6e4'])}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">CHEGADA POR TURNO · CARGAS × PESO (T) <span>Ritmo de recebimento de frota</span></div>
+            <div class="tv-chart-box">${svgNeonCombo(tu.map(x => x[0]), tu.map(x => x[1].length), ['#14b8a6', '#F2C94C', '#0e7490'], tu.map(x => Math.round(sm(x[1], 16) / 1000)), '#E05252')}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">MIX DE FROTA AGENDADA <span>Cargas por tipologia de veículo</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(veicEntries, ['#1fd6c4', '#67e8f9', '#99f6e4', '#F2994A', '#4ade80', '#F2C94C'])}</div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1fr 1fr 1.2fr; flex: 0.9">
+          ${neonRing(S.ocD, ['#1fd6c4', '#0d9488', '#99f6e4'], S.ocD == null ? '—' : pfx(S.ocD) + '%', 'Taxa Ocupação Diretos', S.dr.length + ' veículos dedicados')}
+          ${neonRing(S.ocX, ['#4ade80', '#1fd6c4', '#14b8a6'], S.ocX == null ? '—' : pfx(S.ocX) + '%', 'Taxa Ocupação Cross', S.cx.length + ' cargas em ' + S.car + ' carretas')}
+          <div class="tv-card">
+            <div class="tv-card-title">CONVERSÃO FINANCEIRA DO AGENDAMENTO <span>Programado (ZS34) × Faturado (ZS65)</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${ledBar('💰 Valor Programado (ZS34)', S.val, S.val || 1, ['#14b8a6', '#1fd6c4'], RS(S.val))}
+              ${ledBar('✅ Valor Faturado NF (ZS65)', S.fatnf, Math.max(S.val, S.fatnf, 1), ['#22c55e', '#4ade80'], RS(S.fatnf))}
+              ${ledBar('⏳ Pendente de Faturamento', S.pendv, S.val || 1, ['#F2994A', '#F2C94C'], RS(S.pendv) + ' (' + (P.length - S.fat) + ' cargas)')}
+            </div>
+          </div>
+        </div>`;
+      igniteAutomotiveGauges(tvCanvas, true);
+      return;
+    }
+
+    /* SLIDE 5: STATUS OPERACIONAL */
+    if (idx === 5) {
+      const N = D.length, c6 = [0, 1, 2, 3, 4, 5].map(k => D.filter(r => stg(r) == k));
+      const sep = c6[3].length + c6[4].length;
+      const pf = r => GM[r[5]] ? GM[r[5]][2] : 'S/ Agend.', cf = r => GM[r[5]] ? (GM[r[5]][11] || '—') : 'S/ Agend.';
+      const predios = [...new Set(D.map(pf))].sort();
+      const cores = [...new Set(D.map(cf))].sort((a, b) => D.filter(r => cf(r) == b).length - D.filter(r => cf(r) == a).length).slice(0, 6);
+      const topTranspEtq = topn(grp(D, r => CAR[r[5]] || 'Fora da agenda', r => 1), 7).map(([trName, totalEtq]) => {
+        const sepCount = D.filter(r => (CAR[r[5]] || 'Fora da agenda') === trName && stg(r) >= 3 && stg(r) < 5).length;
+        return [trName, totalEtq, `${n0(sepCount)}/${n0(totalEtq)} (${pfx(pct(sepCount, totalEtq))}%)`];
+      });
+      const hs = [...Array(24).keys()].filter(h => D.some(r => r[9] == h || r[10] == h));
+
+      tvCanvas.innerHTML = `
+        <div class="tv-kpis">
+          ${kpiCard('TOTAL ETIQUETAS (ZW14)', n0(N), uq(D, r => r[5]) + ' transportes ativos', '#14b8a6', '🏷️')}
+          ${kpiCard('SEPARADAS + CONFERIDAS', n0(sep), (N ? pfx(pct(sep, N)) : 0) + '% concluído · ' + fw(sepk(D)), '#22c55e', '🟢')}
+          ${kpiCard('CONFERIDAS NA DOCA', n0(c6[4].length), (N ? pfx(pct(c6[4].length, N)) : 0) + '% das etiquetas', '#14b8a6', '☑️')}
+          ${kpiCard('ATRIBUÍDAS (EM SEP.)', n0(c6[2].length), (N ? pfx(pct(c6[2].length, N)) : 0) + '% em andamento', '#F2C94C', '🟡')}
+          ${kpiCard('IMPRESSAS + REIMPR.', n0(c6[0].length + c6[1].length), c6[1].length + ' reimpressas', '#94a3b8', '🖨️')}
+          ${kpiCard('ATRIB. ELIMINADA', n0(c6[5].length), fw(c6[5].reduce((x, r) => x + r[7], 0)), c6[5].length ? '#E05252' : '#64748b', '🔴')}
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1fr 1fr; flex: 1">
+          <div class="tv-card">
+            <div class="tv-card-title">STATUS POR PRÉDIO · PROGRESSO DE SEPARAÇÃO <span>Etiquetas separadas vs total do prédio</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${predios.length ? predios.map(p => {
+                const l = D.filter(r => pf(r) == p), sCount = l.filter(r => stg(r) >= 3 && stg(r) < 5).length;
+                return ledBar('🏢 Prédio ' + p, sCount, l.length || 1, ['#1fd6c4', '#4ade80'], `${n0(sCount)} / ${n0(l.length)} (${pfx(pct(sCount, l.length))}%)`);
+              }).join('') : '<div class="note">Sem etiquetas ZW14 no dia.</div>'}
+            </div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">STATUS POR COR DA ONDA · ZW14 <span>Volume e avanço por cor de etiqueta</span></div>
+            <div style="display:flex;flex-direction:column;justify-content:center;flex:1">
+              ${cores.length ? cores.map(c => {
+                const l = D.filter(r => cf(r) == c), sCount = l.filter(r => stg(r) >= 3 && stg(r) < 5).length;
+                const hex = OC[c] || '#67e8f9';
+                return ledBar('🎨 Onda ' + c, sCount, l.length || 1, [hex, '#1fd6c4'], `${n0(sCount)} / ${n0(l.length)} (${pfx(pct(sCount, l.length))}%)`);
+              }).join('') : '<div class="note">Sem ondas registradas.</div>'}
+            </div>
+          </div>
+        </div>
+        <div class="tv-row" style="grid-template-columns: 1.15fr 1fr; flex: 1">
+          <div class="tv-card">
+            <div class="tv-card-title">TOP TRANSPORTADORAS · ETIQUETAS E SEPARAÇÃO <span>Volume de OTs e percentual separado</span></div>
+            <div class="tv-chart-box">${svgHorizNeon(topTranspEtq, ['#4ade80', '#1fd6c4', '#5eead4', '#0d9488', '#67e8f9', '#99f6e4', '#F2994A'])}</div>
+          </div>
+          <div class="tv-card">
+            <div class="tv-card-title">RITMO HORÁRIO DE PRODUTIVIDADE <span><i style="color:#10b981">■</i> Separadas/h · <i style="color:#F2C94C">●</i> Atribuídas/h</span></div>
+            <div class="tv-chart-box">${hs.length ? svgNeonCombo(hs.map(h => h + 'h'), hs.map(h => D.filter(r => r[9] == h).length), '#10b981', hs.map(h => D.filter(r => r[10] == h).length), '#F2C94C') : '<div class="note">Sem horários registrados na ZW14 para hoje.</div>'}</div>
+          </div>
+        </div>`;
+      igniteAutomotiveGauges(tvCanvas, true);
+      return;
+    }
+
+    /* ==========================================================================
+       SLIDE 6: EXPEDIÇÃO & OUTBOUND (COM ADAPTAÇÃO DINÂMICA AO CONTAINER QUADRADO/RETANGULAR)
+       ========================================================================== */
+    if (idx === 6) {
+      const ws = wk(dia), s = (l, k) => l.reduce((a, x) => a + x[k], 0);
+      const scWk = days.filter(x => wk(x.d) == ws);
+      const allDays = days.filter(x => x.n > 0 || x.etq > 0);
+      const base = days.filter(x => x.d <= dia && x.n > 0);
+      const wks = [...new Set(days.map(x => wk(x.d)))].sort((a, b) => a - b);
+
+      const lastD = base[base.length - 1], prevD = base[base.length - 2];
+      const dvStr = (k) => {
+        if (!lastD || !prevD || !prevD[k]) return '';
+        const d = ((lastD[k] - prevD[k]) / prevD[k]) * 100;
+        return `<span class="${d >= 0 ? 'tv-up' : 'tv-dn'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(d).toFixed(0)}% vs dia ant.</span>`;
+      };
+
+      const hlMetrics = [
+        ['etq', 'ETIQUETAS PROCESSADAS', v => n0(v)],
+        ['ent', 'ENTREGAS (ZS34)', v => n0(v)],
+        ['peso', 'PESO EXPEDIDO', v => fw(v)],
+        ['val', 'VALOR EXPEDIDO (R$)', v => RS(v)]
+      ];
+      const hlHtml = base.length >= 2 ? `<div class="nyse-hl-grid">${hlMetrics.map(([k, lb, fmt]) => {
+        const sorted = [...base].sort((a, b) => b[k] - a[k]);
+        const mx = sorted[0], mn = sorted[sorted.length - 1], avg = s(base, k) / base.length;
+        const pMx = avg ? ((mx[k] - avg) / avg) * 100 : 0, pMn = avg ? ((mn[k] - avg) / avg) * 100 : 0;
+        return `<div class="nyse-hl-card">
+          <div class="hl-metric">🏆 ${lb}</div>
+          <div class="nyse-hl-row"><span class="tv-up">▲ MÁX · ${fd(mx.d)} (${WD[wdOf(mx.d)]})</span><b style="color:#4ade80">${fmt(mx[k])} (+${pMx.toFixed(0)}%)</b></div>
+          <div class="nyse-hl-row"><span class="tv-dn">▼ MÍN · ${fd(mn.d)} (${WD[wdOf(mn.d)]})</span><b style="color:#E05252">${fmt(mn[k])} (${pMn.toFixed(0)}%)</b></div>
+        </div>`;
+      }).join('')}</div>` : '';
+
+      const dayRowsWithDelta = days.map((x, i) => Object.assign({}, x, {
+        dv: i > 0 && days[i - 1].etq ? ((x.etq - days[i - 1].etq) / days[i - 1].etq) * 100 : null,
+        ctx: holCtx(x.d).join(' · ')
+      })).reverse();
+
+      tvCanvas.innerHTML = `
+        <div class="tv-row" style="grid-template-columns: 0.98fr 1.68fr 1.34fr; flex: 1; min-height: 0">
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+            <div class="tv-card" style="flex:1">
+              <div class="tv-card-title">📊 SEMANA ATUAL · SEMANA ${ws} <span>${scWk.length} dia(s) · ${s(scWk, 'n')} cargas</span></div>
+              <div class="nyse-idx-grid">
+                <div class="nyse-idx-box" style="--ic:#14b8a6">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ETIQUETAS</small>${miniSpark(scWk.map(x=>x.etq), '#14b8a6', 54, 15)}</div>
+                  <b>${n0(s(scWk, 'etq'))}</b>
+                  <span>méd/dia ${n0(scWk.length ? s(scWk, 'etq') / scWk.length : 0)} · ${dvStr('etq')}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#a7f3d0">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS (ZS34)</small>${miniSpark(scWk.map(x=>x.ent), '#a7f3d0', 54, 15)}</div>
+                  <b>${n0(s(scWk, 'ent'))}</b>
+                  <span>méd/dia ${n0(scWk.length ? s(scWk, 'ent') / scWk.length : 0)} · ${dvStr('ent')}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#5eead4">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>PESO SEMANA</small>${miniSpark(scWk.map(x=>x.peso), '#5eead4', 54, 15)}</div>
+                  <b>${fw(s(scWk, 'peso'))}</b>
+                  <span>méd/dia ${fw(scWk.length ? s(scWk, 'peso') / scWk.length : 0)}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#22c55e">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>VALOR PROGRAMADO</small>${miniSpark(scWk.map(x=>x.val), '#22c55e', 54, 15)}</div>
+                  <b>${RS(s(scWk, 'val'))}</b>
+                  <span>méd/dia ${RS(scWk.length ? s(scWk, 'val') / scWk.length : 0)}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#4ade80">
+                  <small>FATURADO · NF (ZS65)</small>
+                  <b>${RS(s(scWk, 'nf'))}</b>
+                  <span>${s(scWk, 'fat')} / ${s(scWk, 'n')} cargas (${s(scWk, 'n') ? pfx(pct(s(scWk, 'fat'), s(scWk, 'n'))) : 0}%)</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#F2994A">
+                  <small>PENDENTE FATURAMENTO</small>
+                  <b>${RS(Math.max(0, s(scWk, 'val') - s(scWk, 'vfat')))}</b>
+                  <span>${s(scWk, 'n') - s(scWk, 'fat')} carga(s) na semana</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="tv-card" style="flex:1">
+              <div class="tv-card-title">🏛️ TODO O HISTÓRICO ACUMULADO <span>${allDays.length} dia(s) · ${n0(s(days, 'n'))} cargas</span></div>
+              <div class="nyse-idx-grid">
+                <div class="nyse-idx-box" style="--ic:#0d9488">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ETIQUETAS TOTAIS</small>${miniSpark(days.map(x=>x.etq), '#0d9488', 54, 15)}</div>
+                  <b>${n0(s(days, 'etq'))}</b>
+                  <span>méd/dia ${n0(allDays.length ? s(days, 'etq') / allDays.length : 0)}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#99f6e4">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>ENTREGAS TOTAIS</small>${miniSpark(days.map(x=>x.ent), '#99f6e4', 54, 15)}</div>
+                  <b>${n0(s(days, 'ent'))}</b>
+                  <span>méd/dia ${n0(allDays.length ? s(days, 'ent') / allDays.length : 0)}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#1fd6c4">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>PESO ACUMULADO</small>${miniSpark(days.map(x=>x.peso), '#1fd6c4', 54, 15)}</div>
+                  <b>${fw(s(days, 'peso'))}</b>
+                  <span>méd/dia ${fw(allDays.length ? s(days, 'peso') / allDays.length : 0)}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#10b981">
+                  <div style="display:flex;justify-content:space-between;align-items:center"><small>VALOR PROGRAMADO</small>${miniSpark(days.map(x=>x.val), '#10b981', 54, 15)}</div>
+                  <b>${RS(s(days, 'val'))}</b>
+                  <span>méd/dia ${RS(allDays.length ? s(days, 'val') / allDays.length : 0)}</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#4ade80">
+                  <small>FATURADO ACUMULADO (ZS65)</small>
+                  <b>${RS(s(days, 'nf'))}</b>
+                  <span>${n0(s(days, 'fat'))} / ${n0(s(days, 'n'))} cargas (${s(days, 'n') ? pfx(pct(s(days, 'fat'), s(days, 'n'))) : 0}%)</span>
+                </div>
+                <div class="nyse-idx-box" style="--ic:#F2994A">
+                  <small>PENDENTE ACUMULADO</small>
+                  <b>${RS(Math.max(0, s(days, 'val') - s(days, 'vfat')))}</b>
+                  <span>${n0(s(days, 'n') - s(days, 'fat'))} carga(s) no histórico</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tv-card">
+            <div class="tv-card-title">
+              📈 CURVA DE PERFORMANCE OUTBOUND · VALOR EXPEDIDO (R$) × PESO (T)
+              <div class="tv-legend">
+                <span><i style="background:#1fd6c4;color:#1fd6c4"></i>Curva = Valor (R$ mil)</span>
+                <span><i style="background:#4ade80;color:#4ade80"></i>Linha/Barras = Peso Expedido (t)</span>
+              </div>
+            </div>
+            <div class="tv-chart-box" id="ob-dyn-chart-box"></div>
+            ${hlHtml}
+          </div>
+
+          <div class="tv-card">
+            <div class="tv-card-title">📋 HISTÓRICO DIA A DIA · ACUMULADO &amp; TENDÊNCIA <span>Evolução diária por data de expedição</span></div>
+            <div class="nyse-board-wrap" id="nyse-board">
+              <table class="nyse-table">
+                <thead>
+                  <tr>
+                    <th>DATA</th>
+                    <th>SEM</th>
+                    <th>CARG</th>
+                    <th>ETIQ &amp; TEND.</th>
+                    <th>PESO</th>
+                    <th>VALOR</th>
+                    <th>FAT.</th>
+                    <th>DIRETOS</th>
+                    <th>CROSS</th>
+                    <th style="text-align:left">CALENDÁRIO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${dayRowsWithDelta.map(x => {
+                    const isCur = x.d === dia;
+                    const tArrow = x.dv == null ? '' : x.dv >= 0
+                      ? `<span class="tv-up">▲${x.dv.toFixed(0)}%</span>`
+                      : `<span class="tv-dn">▼${Math.abs(x.dv).toFixed(0)}%</span>`;
+                    return `<tr class="${isCur ? 'cur-day' : ''}">
+                      <td>${fd(x.d)} <small style="color:#a4c8c4">${WD[wdOf(x.d)]}</small>${isCur ? ' ◀' : ''}</td>
+                      <td style="color:#1fd6c4;font-weight:700">${wk(x.d)}</td>
+                      <td>${x.n}</td>
+                      <td><b>${n0(x.etq)}</b> ${tArrow}</td>
+                      <td style="color:#5eead4">${fw(x.peso)}</td>
+                      <td style="color:#4ade80;font-weight:700">${RS(x.val)}</td>
+                      <td>${x.fat}/${x.n}</td>
+                      <td>${miniLed(x.ocD)}</td>
+                      <td>${miniLed(x.ocX)}</td>
+                      <td style="text-align:left;color:#a4c8c4;max-width:140px;overflow:hidden;text-overflow:ellipsis" title="${escH(x.ctx || '')}">${escH(trunc(x.ctx || '—', 22))}</td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="nyse-wk-strip">
+          ${wks.map(w => {
+            const l = days.filter(x => wk(x.d) == w);
+            const pendVal = Math.max(0, s(l, 'val') - s(l, 'vfat'));
+            return `<div class="nyse-wk-card ${w === ws ? 'active-wk' : ''}">
+              <div class="nyse-wk-hd"><span>📅 SEMANA ${w} · ${l.length} DIA(S)</span><span>${w === ws ? '● ATUAL' : 'FECHADO'}</span></div>
+              <div class="nyse-wk-val">${RS(s(l, 'val'))}</div>
+              <div class="nyse-wk-meta">${n0(s(l, 'etq'))} etiquetas · ${n0(s(l, 'ent'))} entregas · ${s(l, 'n')} cargas · <b>${fw(s(l, 'peso'))}</b></div>
+              <div class="nyse-wk-nf">NF <b style="color:#4ade80">${RS(s(l, 'nf'))}</b> · pendente <b style="color:${pendVal > 0 ? '#F2994A' : '#9bc5bf'}">${RS(pendVal)}</b></div>
+            </div>`;
+          }).join('')}
+        </div>`;
+
+      igniteAutomotiveGauges(tvCanvas, true);
+      bindDynamicOutboundChart(document.getElementById('ob-dyn-chart-box'), days);
+
+      const board = document.getElementById('nyse-board');
+      if (board && board.scrollHeight > board.clientHeight) {
+        let dir = 1;
+        tvScrollTimer = setInterval(() => {
+          if (!document.body.classList.contains('tv-mode') || tvSlide !== 6) return;
+          board.scrollTop += dir * 1;
+          if (board.scrollTop + board.clientHeight >= board.scrollHeight - 2) dir = -1;
+          else if (board.scrollTop <= 0) dir = 1;
+        }, 55);
+      }
+      return;
+    }
+  }
+
+  /* 11. Controle do Carrossel Configurável (7 Telas) e Relógio */
+  const btnTv = document.getElementById('icTv');
+  const btnExit = document.getElementById('tv-exit');
+  const btnPause = document.getElementById('tv-pause');
+  const tvTabs = document.querySelectorAll('.tv-tab');
+
+  function syncTabs() {
+    tvTabs.forEach(b => b.classList.toggle('on', +b.dataset.tv === tvSlide));
+  }
+
+  function goToSlide(idx) {
+    const prevSlide = tvSlide;
+    tvSlide = (idx + TOTAL_SLIDES) % TOTAL_SLIDES;
+    /* indice 2 = antiga tela de Pendências (removida): mantido reservado para nao renumerar as demais telas */
+    if (tvSlide === 2) tvSlide = prevSlide > 2 ? 1 : 3;
+    if (tvSlide === 0 && prevSlide !== 0) { WX_STATE.subView = 0; wxCycleDone = false; wxAdvancePending = false; restartWxSubTimer(); }
+    if (tvSlide !== 0) wxAdvancePending = false;
+    syncTabs();
+    renderTvSlide(tvSlide);
+  }
+
+  function restartSlideInterval() {
+    clearInterval(tvTimer);
+    tvTimer = setInterval(() => {
+      if (tvPaused) return;
+      if (tvSlide === 0 && !wxCycleDone) { wxAdvancePending = true; return; }   /* aguarda o fim do ciclo de subguias */
+      goToSlide(tvSlide + 1);
+    }, tvDurationMs);
+  }
+
+  function startTvTimers() {
+    clearInterval(tvClockTimer);
+    const tickClock = () => {
+      if (tvClock) tvClock.textContent = new Date().toLocaleTimeString('pt-BR');
+    };
+    tickClock();
+    tvClockTimer = setInterval(tickClock, 1000);
+    restartSlideInterval();
+    restartWxSubTimer();
+  }
+
+  if (tvDurSelect) {
+    tvDurSelect.addEventListener('change', () => {
+      tvDurationMs = parseInt(tvDurSelect.value, 10) || 90000;
+      try { localStorage.setItem(DUR_KEY, String(tvDurationMs)); } catch (e) {}
+      if (document.body.classList.contains('tv-mode')) restartSlideInterval();
+    });
+  }
+
+  function toggleTvMode() {
+    const active = document.body.classList.toggle('tv-mode');
+    if (active) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+      requestTvWakeLock();
+      tvPaused = false;
+      WX_STATE.subView = 0; wxCycleDone = false; wxAdvancePending = false;
+      if (btnPause) btnPause.innerHTML = '⏸️ Pausar';
+      fetchMultiRegionTelemetry();
+      goToSlide(0);
+      startTvTimers();
+    } else {
+      releaseTvWakeLock();
+      if (outboundResizeObs) { outboundResizeObs.disconnect(); outboundResizeObs = null; }
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+      clearInterval(tvTimer); clearInterval(tvClockTimer); clearInterval(tvScrollTimer); clearInterval(wxSubTimer);
+      if (typeof draw === 'function') draw();
+    }
+  }
+
+  if (btnTv) btnTv.addEventListener('click', toggleTvMode);
+  if (btnExit) btnExit.addEventListener('click', () => { if (document.body.classList.contains('tv-mode')) toggleTvMode(); });
+  if (btnPause) btnPause.addEventListener('click', () => {
+    tvPaused = !tvPaused;
+    btnPause.innerHTML = tvPaused ? '▶️ Retomar' : '⏸️ Pausar';
+  });
+  tvTabs.forEach(b => b.addEventListener('click', () => {
+    goToSlide(+b.dataset.tv);
+    restartSlideInterval();
+  }));
+
+
+  /* ==========================================================================
+     SINCRONIZAÇÃO 24/7: o upload_servidor.js avisa (eventos) quando há versão nova ou mudança de estado;
+     a TV só re-renderiza a tela atual (sem trocar de tela, sem recarregar a página).
+     ========================================================================== */
+  document.addEventListener('torre:status', e => {
+    const d = e.detail || {}, el = document.getElementById('tv-sync'); if (!el) return;
+    el.dataset.s = d.nivel || ''; const sp = el.querySelector('span'); if (sp) sp.textContent = d.texto || '';
+  });
+  document.addEventListener('torre:dados', () => {
+    if (document.body.classList.contains('tv-mode') && tvSlide !== 0) renderTvSlide(tvSlide);
+  });
+  /* ==========================================================================
+     ICONES DE LINHA FINA: troca emojis por SVG (traço currentColor) em toda a aplicação.
+     Camada aditiva: observa o DOM e converte apenas nós de texto; não altera dados nem motores.
+     ========================================================================== */
+  (function () {
+    const LIB = {"truck": "<path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/>", "package": "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><path d=\"m3.3 7 8.7 5 8.7-5\"/><path d=\"m7.5 4.27 9 5.15\"/>", "check-circle": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m8.5 12.5 2.5 2.5 4.5-5\"/>", "check": "<path d=\"m5 12.5 4.5 4.5L19 7\"/>", "x": "<path d=\"M6 6l12 12M18 6 6 18\"/>", "pin": "<path d=\"M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/>", "scale": "<path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z\"/><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z\"/><path d=\"M7 21h10\"/><path d=\"M12 3v18\"/><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"/>", "alert": "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>", "coin": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M15 9.5c-.5-1-1.7-1.5-3-1.5-1.7 0-3 .9-3 2.2 0 3 6 1.6 6 4.6 0 1.3-1.3 2.2-3 2.2-1.4 0-2.6-.6-3.1-1.6M12 6v2m0 8v2\"/>", "calendar": "<path d=\"M8 2v4M16 2v4\"/><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 10h18\"/>", "hourglass": "<path d=\"M5 22h14M5 2h14\"/><path d=\"M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22\"/><path d=\"M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2\"/>", "tag": "<path d=\"M12.59 2.59A2 2 0 0 0 11.17 2H4a2 2 0 0 0-2 2v7.17a2 2 0 0 0 .59 1.42l8.7 8.7a2.43 2.43 0 0 0 3.42 0l6.58-6.58a2.43 2.43 0 0 0 0-3.42z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\".6\"/>", "clipboard": "<rect x=\"8\" y=\"2\" width=\"8\" height=\"4\" rx=\"1\"/><path d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"/><path d=\"M9 12h6M9 16h4\"/>", "search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m21 21-4.3-4.3\"/>", "clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "stopwatch": "<circle cx=\"12\" cy=\"13\" r=\"8\"/><path d=\"M12 9v4l2 2M9 2h6\"/>", "zap": "<path d=\"M13 2 4 14h7l-1 8 9-12h-7z\"/>", "trend": "<path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M15 7h6v6\"/>", "chart": "<path d=\"M4 20V10M10 20V4M16 20v-8M22 20H2\"/>", "road": "<path d=\"M4 20 8 4M20 20 16 4M12 5v3m0 4v3m0 4v1\"/>", "cone": "<path d=\"M5 21h14M8 21l2.2-13h3.6L16 21M9 15h6M9.7 11h4.6\"/><path d=\"M12 3v2\"/>", "volume": "<path d=\"M11 5 6 9H2v6h4l5 4z\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14\"/>", "mute": "<path d=\"M11 5 6 9H2v6h4l5 4z\"/><path d=\"m22 9-6 6m0-6 6 6\"/>", "refresh": "<path d=\"M21 12a9 9 0 0 0-15-6.7L3 8\"/><path d=\"M3 3v5h5\"/><path d=\"M3 12a9 9 0 0 0 15 6.7L21 16\"/><path d=\"M16 16h5v5\"/>", "moon": "<path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z\"/>", "thermo": "<path d=\"M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z\"/>", "wind": "<path d=\"M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2\"/><path d=\"M9.6 4.6A2 2 0 1 1 11 8H2\"/><path d=\"M12.6 19.4A2 2 0 1 0 14 16H2\"/>", "umbrella": "<path d=\"M22 12a10 10 0 0 0-20 0z\"/><path d=\"M12 12v7a2 2 0 0 0 4 0\"/><path d=\"M12 2v1\"/>", "drop": "<path d=\"M12 22a7 7 0 0 0 7-7c0-4-7-13-7-13S5 11 5 15a7 7 0 0 0 7 7z\"/>", "sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4\"/>", "cloud": "<path d=\"M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z\"/>", "cloud-sun": "<path d=\"M12 2v2\"/><path d=\"m4.93 4.93 1.41 1.41\"/><path d=\"M20 12h2\"/><path d=\"m19.07 4.93-1.41 1.41\"/><path d=\"M15.95 12.65a4 4 0 0 0-5.93-4.13\"/><path d=\"M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6z\"/>", "rain": "<path d=\"M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24\"/><path d=\"M16 14v6M8 14v6M12 16v6\"/>", "drizzle": "<path d=\"M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24\"/><path d=\"M8 19v1M8 14v1M16 19v1M16 14v1M12 21v1M12 16v1\"/>", "storm": "<path d=\"M6 16.33A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.97\"/><path d=\"m13 12-3 5h4l-3 5\"/>", "fog": "<path d=\"M4 14.9A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.24\"/><path d=\"M16 17H7M17 21H9\"/>", "radar": "<path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"/><path d=\"M4 6h.01\"/><path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"/><path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"/><path d=\"M12 18h.01\"/><path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"m13.41 10.59 5.66-5.66\"/>", "signal": "<circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"M16.2 7.8a6 6 0 0 1 0 8.4M7.8 16.2a6 6 0 0 1 0-8.4M19.1 4.9a10 10 0 0 1 0 14.2M4.9 19.1a10 10 0 0 1 0-14.2\"/>", "map": "<path d=\"m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z\"/><path d=\"M9 3v15M15 6v15\"/>", "factory": "<path d=\"M2 20V8l6 4V8l6 4V4h4v16z\"/><path d=\"M2 20h20\"/>", "building": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1\"/><path d=\"M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2\"/>", "landmark": "<path d=\"M3 21h18M5 21V10M9 21V10M15 21V10M19 21V10M2 10l10-6 10 6z\"/>", "receipt": "<path d=\"M4 2v20l3-2 3 2 3-2 3 2 3-2V2l-3 2-3-2-3 2-3-2z\"/><path d=\"M8 8h8M8 12h8M8 16h5\"/>", "printer": "<path d=\"M6 9V2h12v7\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\"/><path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/>", "palette": "<circle cx=\"13.5\" cy=\"6.5\" r=\".6\"/><circle cx=\"17.5\" cy=\"10.5\" r=\".6\"/><circle cx=\"8.5\" cy=\"7.5\" r=\".6\"/><circle cx=\"6.5\" cy=\"12.5\" r=\".6\"/><path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.5-.7 1.5-1.5 0-.4-.2-.7-.4-1-.3-.3-.4-.6-.4-1 0-.8.7-1.5 1.5-1.5H16c3.3 0 6-2.7 6-6 0-4.9-4.5-9-10-9z\"/>", "trophy": "<path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0 0 12 0z\"/>", "flame": "<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z\"/>", "cog": "<circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z\"/>", "plug": "<path d=\"M12 22v-5M9 8V2M15 8V2M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8z\"/>", "shield": "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/>", "target": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/>", "compass": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"m16 8-2 6-6 2 2-6z\"/>", "bulb": "<path d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5M9 18h6M10 22h4\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "monitor": "<rect x=\"2\" y=\"3\" width=\"20\" height=\"14\" rx=\"2\"/><path d=\"M8 21h8M12 17v4\"/>", "phone": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2\"/><path d=\"M12 18h.01\"/>", "trash": "<path d=\"M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6\"/>", "pencil": "<path d=\"M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z\"/>", "ruler": "<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.4 2.4 0 0 1 0-3.4l2.6-2.6a2.4 2.4 0 0 1 3.4 0z\"/><path d=\"m14.5 12.5 2-2M11.5 9.5l2-2M8.5 6.5l2-2M17.5 15.5l2-2\"/>", "calc": "<rect x=\"4\" y=\"2\" width=\"16\" height=\"20\" rx=\"2\"/><path d=\"M8 6h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h4\"/>", "plus": "<path d=\"M12 5v14M5 12h14\"/>", "minus": "<path d=\"M5 12h14\"/>", "help": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4.5M12 17.5h.01\"/>", "pause": "<path d=\"M8 5v14M16 5v14\"/>", "play": "<path d=\"M7 4v16l13-8z\"/>", "siren": "<path d=\"M7 18v-6a5 5 0 0 1 10 0v6M5 21h14M12 2v2M3 8l1.5 1M21 8l-1.5 1\"/>", "arrow-up": "<path d=\"M12 19V5M5 12l7-7 7 7\"/>", "arrow-down": "<path d=\"M12 5v14M19 12l-7 7-7-7\"/>", "square": "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"2\"/>"};
+    const MAP = {"🚛": "truck", "🚚": "truck", "🚐": "truck", "🛻": "truck", "🚙": "truck", "🚗": "truck", "📦": "package", "✅": "check-circle", "☑": "check-circle", "✔": "check", "✓": "check", "❌": "x", "✕": "x", "✗": "x", "📍": "pin", "⚖": "scale", "⚠": "alert", "💰": "coin", "💲": "coin", "📅": "calendar", "🗓": "calendar", "⏳": "hourglass", "🏷": "tag", "📋": "clipboard", "📝": "clipboard", "🔎": "search", "🔍": "search", "⏰": "clock", "🕓": "clock", "🕑": "clock", "⏱": "stopwatch", "⚡": "zap", "📈": "trend", "📊": "chart", "🛣": "road", "🚧": "cone", "🔊": "volume", "🔇": "mute", "🔄": "refresh", "🔁": "refresh", "🔀": "refresh", "↻": "refresh", "🌙": "moon", "🌑": "moon", "🌒": "moon", "🌓": "moon", "🌔": "moon", "🌕": "moon", "🌖": "moon", "🌗": "moon", "🌘": "moon", "🌌": "moon", "🌡": "thermo", "💨": "wind", "☔": "umbrella", "💧": "drop", "☀": "sun", "🌞": "sun", "☁": "cloud", "⛅": "cloud-sun", "🌤": "cloud-sun", "🌧": "rain", "🌦": "drizzle", "⛈": "storm", "🌩": "storm", "🌫": "fog", "📡": "radar", "🛰": "signal", "🗺": "map", "🏭": "factory", "🏢": "building", "🏛": "landmark", "🧾": "receipt", "🖨": "printer", "🎨": "palette", "🏆": "trophy", "🔥": "flame", "⚙": "cog", "🔌": "plug", "🛡": "shield", "🎯": "target", "🧭": "compass", "💡": "bulb", "👤": "user", "🖥": "monitor", "📱": "phone", "🗑": "trash", "✏": "pencil", "📏": "ruler", "📐": "ruler", "🧮": "calc", "➕": "plus", "➖": "minus", "❓": "help", "⏸": "pause", "🚨": "siren", "🔺": "arrow-up", "🔻": "arrow-down"};
+    const VS16 = {"▶": "play", "▫": "square"};
+    const DOTS = {"🔴": "#E05252", "🟠": "#F2994A", "🟡": "#F2C94C", "🟢": "#2dd4bf", "🔵": "#5eead4", "⚪": "#cbd5e1"};
+    LIB.parking = '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9.5 17V7h3.2a3 3 0 0 1 0 6H9.5"/>'; MAP['🅿'] = 'parking';
+    const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const alts = Object.keys(MAP).concat(Object.keys(DOTS)).sort((a, b) => b.length - a.length).map(esc);
+    Object.keys(VS16).forEach(k => alts.unshift(esc(k) + '\\uFE0F'));
+    const RE = new RegExp('(?:' + alts.join('|') + ')\\uFE0F?', 'g');
+    const TEST = new RegExp(RE.source);
+    const SKIP = 'svg,script,style,textarea,select,option,title,noscript,[data-noicon]';
+    const CACHE = {};
+    function uri(inner, sw) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="' + sw +
+        '" stroke-linecap="round" stroke-linejoin="round">' + inner.replace(/currentColor/g, '#000') + '</svg>';
+      return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+    }
+    function vars(inner) {
+      const k = inner; if (!CACHE[k]) CACHE[k] = [uri(inner, 1.6), uri(inner, 1.15)];
+      return CACHE[k];
+    }
+    /* O icone e um <i> com mascara CSS (nao um <svg>): nenhuma regra generica "svg" do app consegue redimensiona-lo. */
+    function iconEl(inner) {
+      const i = document.createElement('i'), v = vars(inner);
+      i.className = 'ic'; i.setAttribute('aria-hidden', 'true');
+      i.style.setProperty('--m', v[0]); i.style.setProperty('--mt', v[1]);
+      return i;
+    }
+    window.torreIconHtml = inner => { const v = vars(inner); return '<i class="ic" aria-hidden="true" style="--m:' + v[0].replace(/"/g, '&quot;') + ';--mt:' + v[1].replace(/"/g, '&quot;') + '"></i>'; };
+    function node(ch) {
+      const k = ch.replace(/\uFE0F/g, '');
+      let name = MAP[k];
+      if (!name && ch.indexOf('\uFE0F') >= 0 && VS16[k]) name = VS16[k];
+      if (DOTS[k]) { const i = document.createElement('i'); i.className = 'dot-ic'; i.style.setProperty('--dc', DOTS[k]); return i; }
+      if (!name || !LIB[name]) return document.createTextNode(ch);
+      return iconEl(LIB[name]);
+    }
+    function convertText(t) {
+      const p = t.parentElement;
+      if (!p || p.closest(SKIP) || !TEST.test(t.nodeValue)) return;
+      const txt = t.nodeValue, frag = document.createDocumentFragment();
+      let last = 0, m; RE.lastIndex = 0;
+      while ((m = RE.exec(txt))) {
+        if (m.index > last) frag.appendChild(document.createTextNode(txt.slice(last, m.index)));
+        frag.appendChild(node(m[0])); last = m.index + m[0].length;
+      }
+      if (last < txt.length) frag.appendChild(document.createTextNode(txt.slice(last)));
+      t.parentNode.replaceChild(frag, t);
+    }
+    function scan(root) {
+      if (!root) return;
+      if (root.nodeType === 3) { convertText(root); return; }
+      if (root.nodeType !== 1 || root.closest(SKIP)) return;
+      const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+        acceptNode: n => n.parentElement && !n.parentElement.closest(SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+      });
+      const list = []; let n; while ((n = w.nextNode())) list.push(n);
+      list.forEach(convertText);
+    }
+    let queued = new Set(), raf = 0;
+    const flush = () => { raf = 0; const q = queued; queued = new Set(); q.forEach(scan); };
+    new MutationObserver(muts => {
+      muts.forEach(m => m.addedNodes.forEach(n => { if (n.nodeType === 3 || (n.nodeType === 1 && n.tagName !== 'svg')) queued.add(n); }));
+      if (!raf && queued.size) raf = requestAnimationFrame(flush);
+    }).observe(document.body, { childList: true, subtree: true });
+    scan(document.body);
+    window.torreIconify = scan;
+  })();
+})();
+</script>
+</body></html>
