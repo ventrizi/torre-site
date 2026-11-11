@@ -28,7 +28,9 @@
     opc = opc || {};
     if (!api()) throw new ErroApi("Informe o endereço do servidor (Render).", 0);
     if (!token()) throw new ErroApi("Informe a chave de acesso.", 401);
-    const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), opc.timeout || 90000);   // o plano gratuito pode levar ~1 min para acordar
+    // Timeout estendido para 5 minutos (300000ms) para suportar grandes planilhas no plano gratuito do Render
+    const timeoutMs = opc.timeout || 300000;
+    const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), timeoutMs);
     try {
       const r = await fetch(api() + caminho, { method: opc.method || "GET", body: opc.body, signal: ctl.signal, headers: { "X-Torre-Token": token(), ...(opc.headers || {}) } });
       const j = await r.json().catch(() => ({}));
@@ -36,7 +38,7 @@
       return j;
     } catch (e) {
       if (e instanceof ErroApi) throw e;
-      throw new ErroApi(e.name === "AbortError" ? "O servidor demorou demais para responder (pode estar acordando; tente novamente em 1 minuto)." : "Não consegui falar com o servidor (endereço errado, servidor iniciando ou bloqueio de CORS).", 0);
+      throw new ErroApi(e.name === "AbortError" ? "O servidor demorou demais para responder (o plano gratuito pode estar acordando ou processando um arquivo grande; aguarde um momento)." : "Não consegui falar com o servidor (endereço errado, servidor iniciando ou bloqueio de CORS).", 0);
     } finally { clearTimeout(tm); }
   }
 
@@ -110,7 +112,6 @@
     return mudou;
   }
   async function carregarAlertas() {
-    // migração única: o histórico que este navegador já tinha (validado) vai para o servidor e a cópia local deixa de ser a fonte
     const locais = Object.values(LOG).filter((e) => e && e.k);
     if (locais.length && !sessionStorage.getItem("torreLogMigrado")) {
       await req("/api/v2/alertas", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ entradas: locais.map((e) => ({ k: e.k, t: e.t, l: e.l, c: e.c, inc: e.inc, ctx: e.ctx, det: e.det, ack: e.ack, res: e.res })) }) }).catch(() => {});
@@ -123,7 +124,7 @@
     if (window.TORRE_HISTORICO) return;
     const lat = ctxLatest(), ent = [];
     for (const e of Object.values(LOG)) {
-      if (e.ctx !== lat && !SRVK.has(e.k)) continue;       // consulta a um dia antigo não cria ocorrência nova no histórico compartilhado
+      if (e.ctx !== lat && !SRVK.has(e.k)) continue;
       const s = assin(e); if (ENV[e.k] === s) continue;
       ent.push({ k: e.k, t: e.t, l: e.l, c: e.c, inc: e.inc, ctx: e.ctx, det: e.det, ack: e.ack, res: e.res, ausente: !!e.ns && !e.res }); ENV[e.k] = s;
     }
@@ -154,7 +155,7 @@
   $$("fsv").value = localStorage.getItem("torreApi") || window.TORRE_API || "";
   $$("ftk").value = sessionStorage.getItem("torreToken") || "";
   $$("fsv").addEventListener("change", () => { localStorage.setItem("torreApi", $$("fsv").value.trim()); });
-  let TOKEN_OK = null;   // evita recarregar tudo de novo quando o campo dispara "change" ao perder o foco com a mesma chave já validada
+  let TOKEN_OK = null;
   $$("ftk").addEventListener("change", () => { const v = $$("ftk").value.trim(); sessionStorage.setItem("torreToken", v); if (ESTADO && v === TOKEN_OK) return; entrar(false); });
   function inferirCorte(nome) {
     const m = nome.match(/(\d{2})-(\d{2})[_ -]?(AM|PM)/i) || nome.match(/(\d{2})(\d{2})[_ -]?(AM|PM)/i);
@@ -192,9 +193,9 @@
     if (fc) { fd.append("carteira", fc); fd.append("corte", $$("fcd").value); fd.append("turno", $$("fct").value); }
     if (fa) fd.append("agendamento", fa);
     if (ff) fd.append("frete", ff);
-    btn.disabled = true; msg("⏳ Enviando e validando… se algo falhar, o último estado válido do servidor é mantido.");
+    btn.disabled = true; msg("⏳ Enviando e validando planilhas… (timeout estendido para 5 minutos para processamento completo no Render).");
     try {
-      const j = await req("/api/v2/atualizar", { method: "POST", body: fd, timeout: 180000 });
+      const j = await req("/api/v2/atualizar", { method: "POST", body: fd, timeout: 300000 });
       const r = j.resumo || {}, partes = [];
       if (r.carteira) partes.push(`carteira ${fdy(r.carteira.chave.slice(0, 10))} ${r.carteira.chave.endsWith("AM") ? "manhã" : "tarde"}: ${r.carteira.remessas.toLocaleString("pt-BR")} remessas`);
       if (r.agenda) partes.push(`agendamento: ${r.agenda.dias.length} dia(s), ${r.agenda.cargas.toLocaleString("pt-BR")} cargas`);
@@ -224,7 +225,7 @@
       <div class="admbt"><button type="submit" id="aok" disabled>Apagar definitivamente</button><button type="button" data-x>Cancelar</button></div></form>`;
     document.body.appendChild(d);
     const q = (s) => d.querySelector(s), escopo = () => (q("#aesc").value === "corte" ? "corte:" + q("#ac").value : q("#aesc").value);
-    let seqPrevia = 0;     // respostas fora de ordem NUNCA podem mostrar a prévia de outra seleção (a operação é irreversível)
+    let seqPrevia = 0;
     const atualizar = async () => {
       q("#acw").style.display = q("#aesc").value === "corte" ? "" : "none";
       const e = escopo(), meu = ++seqPrevia; q("#afr").textContent = "APAGAR " + e; q("#acf").value = ""; q("#aok").disabled = true; q("#aprev").textContent = "Calculando o que seria apagado em " + e + "…";
